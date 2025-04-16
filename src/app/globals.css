@@ -1,0 +1,246 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --background: 0 0% 10%; /* Black */
+    --foreground: 210 25% 96%; /* Light gray */
+    --card: 0 0% 15%; /* Darker gray for cards */
+    --card-foreground: 210 25% 96%; /* Light gray for text in cards */
+    --popover: 0 0% 15%;
+    --popover-foreground: 210 25% 96%;
+    --primary: 220 90% 56%; /* Bright blue for primary elements */
+    --primary-foreground: 0 0% 10%; /* Black for text on primary buttons */
+    --secondary: 220 60% 70%; /* Soft blue for accents */
+    --secondary-foreground: 0 0% 10%; /* Black for text on secondary buttons */
+    --muted: 220 20% 20%; /* Muted gray */
+    --muted-foreground: 210 25% 96%; /* Light gray for muted text */
+    --accent: 220 70% 50%; /* Accent blue */
+    --accent-foreground: 0 0% 10%; /* Black for text on accents */
+    --destructive: 0 84.2% 60.2%; /* Red for destructive actions */
+    --destructive-foreground: 210 40% 98%; /* Light text for destructive buttons */
+    --border: 0 0% 25%; /* Subtle border color */
+    --input: 0 0% 25%; /* Input background */
+    --ring: 220 90% 56%; /* Focus rings in blue */
+    --radius: 0.5rem;
+    --detail-medium-contrast: rgb(234, 234, 234);
+    --text-high-contrast-rgb-value: 49, 49, 49;
+    --text-body: rgb(54, 49, 61);
+    --text-low-contrast: rgb(116, 109, 118);
+    --detail-high-contrast: rgb(192, 192, 192);
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    @apply font-bold leading-tight tracking-tighter;
+  }
+
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl mb-6; }
+  h2 { @apply text-3xl md:text-4xl lg:text-5xl mb-5; }
+  h3 { @apply text-2xl md:text-3xl lg:text-4xl mb-4 tracking-normal; }
+  h4 { @apply text-xl md:text-2xl lg:text-3xl mb-3; }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed mb-4 text-gray-700;
+  }
+
+  a {
+    @apply text-inherit no-underline transition-colors duration-300 hover:underline;
+  }
+
+  span { @apply text-base; }
+}
+
+/* sidebar */
+@layer base {
+  :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+a , button{ 
+  text-decoration: none !important;
+
+}
+ .responsive-appbar-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-transform: capitalize;
+  color: var(--primary-color) ;
+
+}
+.responsive-appbar-button::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 5%;
+  bottom: 0;
+  left: -100%;
+  /* background: linear-gradient(to right, #ECC94B 10%, #432F28); */
+  background: linear-gradient(to right, #2D2D2D 10%, #54728C);
+  z-index: 0;
+  transition: left 0.3s ease;
+}
+.responsive-appbar-button:hover::after {
+  left: 0;
+}
+.responsive-appbar-button span {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ** Product Slider */
+/* .embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  flex: 0 0 25%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+} */
+
+.embla {
+  /* max-width: 48rem; */
+  margin: auto;
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 50%;
+  position: relative;
+}
+.embla__viewport {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  gap: 20px;
+  /* margin: 0 20px; */
+  /* touch-action: pan-y pinch-zoom; */
+  /* margin-left: calc(var(--slide-spacing) * -1); */
+}
+/* .embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+} */
+.embla__slide {
+  flex: 0 0 25%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* .embla__controls {
+}
+.embla__buttons {
+} */
+.embla__button {
+  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0px 0px 2px 0.1rem var(--color-primary-dark);
+  width: 2rem;
+  height: 2rem;
+  z-index: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 40%;
+  background: var(--color-primary);
+}
+.embla__slide__img {
+  margin: 0 auto;
+}
+.embla__button:disabled {
+  color: var(--detail-high-contrast);
+  opacity: .6;
+}
+.embla__button__svg {
+  width: 45%;
+  height: 45%;
+}
+.embla__selected-snap-display {
+  justify-self: flex-end;
+  align-self: center;
+  color: var(--text-low-contrast);
+  font-weight: 600;
+}
+.embla__button.embla__button--next {
+  right: -14px;
+}
+.embla__button.embla__button--prev {
+  left: -14px;
+}
+
+/* Tablet Landscape (≥768px & <1024px) - 3 items per row */
+@media (max-width: 1024px) {
+  .embla__slide {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+/* Tablet Portrait & Mobile Landscape (≥480px & <768px) - 2 items per row */
+@media (max-width: 768px) {
+  .embla__slide {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* Mobile (<480px) - 1 item per row */
+@media (max-width: 480px) {
+  .embla__slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    display: block;
+  }
+
+  .embla__slide img {
+    width: 100%;
+    height: auto;
+  }
+}
