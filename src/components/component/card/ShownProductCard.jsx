@@ -20,6 +20,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function ApartmentCard({ apartment }) {
   const [isLiked, setIsLiked] = useState(false);
@@ -78,8 +79,8 @@ export default function ApartmentCard({ apartment }) {
       className="
         w-full bg-white 
         border border-gray-100 
-        rounded-xl 
-        shadow-sm 
+        rounded-lg 
+        shadow-lg 
         overflow-hidden 
         hover:shadow-md 
         transition-shadow 
@@ -89,7 +90,7 @@ export default function ApartmentCard({ apartment }) {
     >
       <div className="flex flex-col lg:flex-row">
         {/* IMAGE SLIDER SECTION */}
-        <div className="relative w-full lg:w-1/2 h-72 sm:h-80 md:h-96 lg:h-[500px]">
+        <div className="relative w-full lg:w-1/3 h-72  lg:h-[350px]">
           <div className="embla h-full overflow-hidden" ref={emblaRef}>
             <div className="embla__container flex h-full">
               {images.map((image, idx) => (
@@ -181,7 +182,7 @@ export default function ApartmentCard({ apartment }) {
         </div>
 
         {/* DETAILS SECTION */}
-        <div className="w-full lg:w-1/2 p-4 lg:p-6 flex flex-col justify-between">
+        <div className=" w-full lg:w-2/3 p-4 lg:p-6 flex flex-col justify-between">
           {/* Title & Address */}
           <div>
             <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1">
@@ -200,7 +201,7 @@ export default function ApartmentCard({ apartment }) {
           </div>
 
           {/* Parameters Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
+          <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
               <Building className="w-4 h-4 text-primary-default shrink-0 "  />
               {apartment.apartmentParameters?.apartmentType || "Apartment"}
@@ -248,7 +249,7 @@ export default function ApartmentCard({ apartment }) {
                 )}
               </div>
               {/* Normal button (removed Framer Motion) */}
-              <button
+              <Link href={`/city=${apartment.city}/${apartment.id}`}
                 className="
                   bg-primary-default
                   hover: hover:bg-primary-dark shadow-primary-default/20
@@ -260,7 +261,7 @@ export default function ApartmentCard({ apartment }) {
                 "
               >
                 View Details
-              </button>
+              </Link>
             </div>
 
             {/* Contact Owner */}
@@ -295,7 +296,7 @@ export default function ApartmentCard({ apartment }) {
                   >
                     <ChevronDown className="w-4 h-4" />
                     <span>{contactInfo.hiddenPhone}</span>
-                    <span className="text-primary-dark ml-2">Show number</span>
+                    <span className="text-primary-dark text-sm ml-2">Show number</span>
                   </button>
                 )}
               </div>

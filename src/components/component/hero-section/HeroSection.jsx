@@ -38,34 +38,35 @@ const HeroSection = () => {
     emblaApi.on("select", onSelect);
   }, [emblaApi, onSelect]);
 
-  // Auto-play every 8 seconds (8000 ms)
-  useEffect(() => {
-    if (!emblaApi) return;
+  // // Auto-play every 8 seconds (8000 ms)
+  // useEffect(() => {
+  //   if (!emblaApi) return;
 
-    // Clear existing timer (if any) to avoid duplication
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current);
-    }
+  //   // Clear existing timer (if any) to avoid duplication
+  //   if (autoplayRef.current) {
+  //     clearInterval(autoplayRef.current);
+  //   }
 
-    autoplayRef.current = setInterval(() => {
-      // Scroll to next slide
-      emblaApi.scrollNext();
-      setProgress(0);
-    }, 8000);
+  //   autoplayRef.current = setInterval(() => {
+  //     // Scroll to next slide
+  //     emblaApi.scrollNext();
+  //     setProgress(0);
+  //   }, 8000);
 
-    return () => {
-      if (autoplayRef.current) clearInterval(autoplayRef.current);
-    };
-  }, [emblaApi, currentIndex]);
+  //   return () => {
+  //     if (autoplayRef.current) clearInterval(autoplayRef.current);
+  //   };
+  // }, [emblaApi, currentIndex]);
 
-  // Progress bar logic: Increase ~1.25% every 100ms -> 8s total
-  useEffect(() => {
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => Math.min(prev + 100 / 80, 100)); // +1.25 each 100ms
-    }, 100);
+  // // Progress bar logic: Increase ~1.25% every 100ms -> 8s total
+  // useEffect(() => {
+  //   const progressInterval = setInterval(() => {
+  //     setProgress((prev) => Math.min(prev + 100 / 80, 100)); // +1.25 each 100ms
+  //   }, 100);
 
-    return () => clearInterval(progressInterval);
-  }, [currentIndex]);
+  //   return () => clearInterval(progressInterval);
+  // }, [currentIndex]);
+
 
   // City selection
   const handleCitySelect = (cityKey) => {
@@ -101,7 +102,7 @@ const HeroSection = () => {
                 {index === currentIndex && (
                   <div className="max-w-4xl w-full space-y-8">
                     {/* Title & Subtitle */}
-                    <h1 className="text-2xl md:text-5xl font-bold text-white drop-shadow-xl">
+                    <h1 className=" text-white drop-shadow-xl">
                       {slide.title}
                     </h1>
                     <p className="mt-4 md:mt-6 text-lg md:text-lg text-gray-100 max-w-2xl mx-auto leading-relaxed">

@@ -1,7 +1,16 @@
 import ShownProductCard from '@/components/component/card/ShownProductCard';
 import Link from 'next/link';
 import { products } from '@/constants/data';
-
+import { Sidebar } from './SlideBar';
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { ChevronDown } from 'lucide-react';
 // Constants
 const ITEMS_PER_PAGE = 6;
 
@@ -53,18 +62,33 @@ export default function CityPage({ params }) {
   // Helper functions
   const getPagePath = (page) => 
     `/${encodeCityParam(currentCity)}/page/${page}`;
-
   return (
-    <div className="container mx-auto p-4 lg:p-8">
-      <header className="mb-8 lg:mb-12">
-        <h1 className="text-3xl lg:text-4xl font-bold text-primary-dark">
+    <div className='flex'>
+    <Sidebar />
+    <div className="w-full mx-auto px-4">
+      <div className='flex items-center justify-between gap-4 flex-wrap'>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink  href='/'> Главная </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>
+            <ChevronDown className="w-4 h-4 rotate-90" />
+          </BreadcrumbSeparator>
+          <BreadcrumbItem>
+          <BreadcrumbPage className="text-sm"> {currentCity} </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className='flex items-center justify-between gap-4'>
+      <h4 className=" text-primary-dark">
           Properties in {currentCity}
-        </h1>
+        </h4>
         <p className="text-gray-600 mt-2">
           Page {currentPage} of {totalPages}
         </p>
-      </header>
-
+      </div>
+      </div>
       {paginatedProducts.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-1 g:grid-cols-1 gap-6 lg:gap-8">
@@ -117,6 +141,8 @@ export default function CityPage({ params }) {
         </div>
       )}
     </div>
+    </div>
+  
   );
 }
 

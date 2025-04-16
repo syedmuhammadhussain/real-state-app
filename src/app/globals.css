@@ -34,10 +34,10 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
+/* leading-tight tracking-tighter */
 @layer base {
   h1, h2, h3, h4 {
-    @apply font-bold leading-tight tracking-tighter;
+    @apply font-bold ;
   }
 
   h1 { @apply text-4xl md:text-5xl lg:text-6xl mb-6; }
