@@ -19,10 +19,13 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Pen,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-export default function ApartmentCard({ apartment }) {
+export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonEdit = false }) {
   const [isLiked, setIsLiked] = useState(false);
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -88,6 +91,25 @@ export default function ApartmentCard({ apartment }) {
         relative
       "
     >
+  {  showButtonEdit ?  
+        <div className="absolute top-2 right-2 flex gap-2">
+          <Button variant="outline" size="icon" onClick={onEdit}>
+            <Pen className="h-4 w-4" />
+          </Button>
+          <Button variant="destructive" size="icon" onClick={onDelete}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div> 
+        : <button
+        onClick={() => setIsLiked((prev) => !prev)}
+        className="absolute top-2 right-2 p-2 bg-white/90 rounded-full shadow hover:bg-white transition-colors"
+      >
+        <Heart
+          className={`w-6 h-6 ${
+            isLiked ? "text-red-500 fill-current" : "text-gray-600"
+          }`}
+        />
+      </button> }
       <div className="flex flex-col lg:flex-row">
         {/* IMAGE SLIDER SECTION */}
         <div className="relative w-full lg:w-1/3 h-72  lg:h-[350px]">
@@ -167,18 +189,6 @@ export default function ApartmentCard({ apartment }) {
               ))}
             </div>
           )}
-
-          {/* LIKE BUTTON (top-right) */}
-          <button
-            onClick={() => setIsLiked((prev) => !prev)}
-            className="absolute top-2 right-2 p-2 bg-white/90 rounded-full shadow hover:bg-white transition-colors"
-          >
-            <Heart
-              className={`w-6 h-6 ${
-                isLiked ? "text-red-500 fill-current" : "text-gray-600"
-              }`}
-            />
-          </button>
         </div>
 
         {/* DETAILS SECTION */}

@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/layout/footer/Footer";
 import Navbar from "@/layout/header/NavBar";
 import SocialLinks from "@/components/component/social-links/SocialLinks";
-// import NavigationMenuDemo from "@/components/component/header/NavigationMenuDemo";
+import { AuthProvider } from "../../context/AuthContext";
 
 const roboto = Poppins({
   subsets: ["latin"],
@@ -22,11 +22,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={roboto.className}>
       {/* <NavigationMenuDemo/> */}
+    <AuthProvider>
         <Navbar/>
           <main>{children}</main>
         <Toaster/>
         <SocialLinks/>
         <Footer />
+    </AuthProvider>
+
       </body>
     </html>
   );

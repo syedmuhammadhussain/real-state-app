@@ -30,7 +30,8 @@ export const slides = [
 export  const links = [
   { name: 'About', link: '/about' },
   { name: 'Contact', link: '/contact' },
-  { name: 'Support', link: '/support' },
+  // { name: 'Support', link: '/support' },
+  { name: 'Premium', link: '/premium' },
 ];
 
 export const subLinks = ['Shirts', 'Jeans', 'Hoodies',   'Trendy' , 'Arrival'];

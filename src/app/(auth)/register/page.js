@@ -3,41 +3,49 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { validateEmail, validateFirstName, validateLastName, validatePassword, validateTelephone } from '@/constants/utils';
 import Input from '@/components/ui/input';
+import { useAuth } from '../../../../context/AuthContext';
+import { Button } from '@/components/ui/button';
 
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [telephone, setTelephone] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({email : '' , password :'', firstName : '' , lastName :'' , telephone:''})
+  const [errors, setErrors] = useState({ 
+    email: '', 
+    password: '', 
+    firstName: '', 
+    lastName: ''
+  });
+  
+  const { register, error: authError, loading, success } = useAuth();
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = {
+      firstName: validateFirstName(firstName),
+      lastName: validateLastName(lastName),
+      email: validateEmail(email),
+      password: validatePassword(password)
+    };
 
-    const firstNameError = validateFirstName(firstName);
-    const lastNameError = validateLastName(lastName);
-    const telephoneError = validateTelephone(telephone);
-    const emailError = validateEmail(email);
-    const passwordError = validatePassword(password);
-
-
-    if (firstNameError || lastNameError || telephoneError  || emailError || passwordError) {
-      setErrors({ email: emailError, password: passwordError });
-      return;
-    }
-
-    // Clear errors and proceed with login
-    setErrors({});
-    console.log('Login attempt:', { email, password ,firstNameError,lastNameError, telephoneError, });
-    // Add your registration logic here (e.g., API call to create a new user)
+    // if (Object.values(validationErrors).some(error => error !== '')) {
+    //   setErrors(validationErrors);
+    //   return;
+    // }
+    await register(firstName, lastName, email, password);
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Register</h1>
+        {success && (
+          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
+            Registration successful! Please check your email to verify your account.
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             label='First Name'
@@ -47,7 +55,7 @@ export default function RegisterPage() {
             onChange={(e) => setFirstName(e.target.value)}
             onBlur={() => setErrors({ ...errors, firstName: validateFirstName(firstName) })}
             error={errors.firstName}
-            placeholder="Enter your email"
+            placeholder="Enter your first name"
             required
           />
           <Input
@@ -58,7 +66,7 @@ export default function RegisterPage() {
             onChange={(e) => setLastName(e.target.value)}
             onBlur={() => setErrors({ ...errors, lastName: validateLastName(lastName) })}
             error={errors.lastName}
-            placeholder="Enter your email"
+            placeholder="Enter your last name"
             required
           />
           <Input
@@ -72,17 +80,7 @@ export default function RegisterPage() {
             placeholder="Enter your email"
             required
           />
-          <Input 
-              label='Telephone'
-              type="tel"
-              id="telephone"
-              value={telephone}
-              onChange={(e) => setTelephone(e.target.value)}
-              onBlur={() => setErrors({ ...errors, telephone: validateTelephone(telephone) })}
-              placeholder="Enter your password"
-              required
-              error={errors.telephone}
-            />
+          
           <Input 
               label='Password'
               type="password"
@@ -95,18 +93,20 @@ export default function RegisterPage() {
               error={errors.password}
             />
           <div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Register
-            </button>
+            <Button
+              type="submit" 
+              size='md'
+              variant="primary"
+              disabled={loading}
+            >  
+             {loading ? 'Processing...' : 'Register'}
+            </Button>
           </div>
         </form>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{' '}
-            <Link href="/login" className="text-blue-500 hover:text-blue-600">
+            <Link href="/login" className="text-primary-default hover:text-primary-dark">
               Login here
             </Link>
           </p>

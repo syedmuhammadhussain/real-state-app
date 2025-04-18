@@ -1,24 +1,23 @@
 'use client';
-
 import { useState, useEffect, useRef } from 'react';
-import { Menu, ChevronDown, ChevronUp, User, LogOut, FileText, Star, UserRound } from 'lucide-react';
+import { Menu, ChevronDown, User, LogOut, FileText, Star, UserRound } from 'lucide-react';
 import Image from 'next/image';
 import MenuOpen from './MenuOpen';
 import SearchProduct from './SearchProduct';
 import { usePathname } from 'next/navigation';
 import NextLink from '@/components/ui/NextLink';
 import { links, subLinks } from '@/constants/data';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '../../../context/AuthContext';
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSubLinksVisible, setIsSubLinksVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const avatarRef = useRef(null);
+  const pathname = usePathname(); 
+  const { logout , user ,success} = useAuth()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -26,7 +25,6 @@ export default function Navbar() {
         setIsAvatarMenuOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -41,11 +39,8 @@ export default function Navbar() {
     setIsSearchOpen(false);
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const pathname = usePathname(); // Get the current route
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const handleLogout =  async () => await logout()
 
   // Hide Navbar on auth and checkout pages
   if (
@@ -56,18 +51,6 @@ export default function Navbar() {
   ) {
     return null;
   }
-
-
-// Inside your component
-// const router = useRouter();
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setIsAvatarMenuOpen(false);
-    // router.push('/login');
-    
-    // Add actual logout logic here
-  };
-  
 
   return (
     <header className="fixed top-0 left-0 w-full bg-background-default opacity-90 shadow-md z-50">
@@ -83,7 +66,6 @@ export default function Navbar() {
                 height={50}
                 className="object-cover transform hover:scale-105 transition-transform duration-300"
                 priority
-                onClick={()=>{setIsLoggedIn(prev => !prev)}}
               />
             </NextLink>
           </div>
@@ -115,7 +97,6 @@ export default function Navbar() {
           {/* Right side - Search and Avatar */}
           <div className="flex items-center gap-4">
             <SearchProduct
-            isLoggedIn={isLoggedIn}
               isSearchOpen={isSearchOpen}
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
@@ -123,7 +104,7 @@ export default function Navbar() {
               toggleCart={toggleCart}
             />
 
-            {isLoggedIn ? (
+            { success ? (
               <div className="relative" ref={avatarRef}>
                 <button
                   onClick={() => setIsAvatarMenuOpen(!isAvatarMenuOpen)}
@@ -158,8 +139,8 @@ export default function Navbar() {
                 >
                   <div className="bg-white rounded-xl shadow-xl ring-1 ring-black/5 py-2">
                     <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-900">John Doe</p>
-                      <p className="text-xs text-gray-500 truncate">john@example.com</p>
+                      <p className="text-sm font-medium text-gray-900">{user?.userInfo?.username}</p>
+                      <p className="text-xs text-gray-500 truncate">{user?.userInfo?.email}</p>
                     </div>
 
                     <div className="space-y-1">
@@ -217,8 +198,6 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <MenuOpen
-            // isLoggedIn={isLoggedIn}
-            isSubLinksVisible={isSubLinksVisible}
             links={links}
             subLinks={subLinks}
             setIsMenuOpen={setIsMenuOpen}

@@ -56,6 +56,10 @@ body {
   span { @apply text-base; }
 }
 
+a,button, svg{ 
+  cursor:pointer;
+
+}
 /* sidebar */
 @layer base {
   :root {

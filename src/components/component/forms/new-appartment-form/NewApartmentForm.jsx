@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
-import RightSide from './RightSide';
 
 // Child form steps
 import BasicInfoForm from './_steps/BasicInfoForm';
@@ -105,8 +104,8 @@ export default function ApartmentForm() {
   };
 
   return (
-    <div className="container mt-20 min-h-[90vh] mx-auto p-4 md:p-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="container mx-auto">
+      <div className=" gap-8">
         {/* Left: Forms */}
         <div className="md:col-span-2">
           <h1 className="text-3xl font-bold mb-6">Post a New Apartment</h1>
@@ -188,7 +187,7 @@ export default function ApartmentForm() {
         </div>
 
         {/* Right Side (Summary or tips) */}
-        <RightSide apartment={apartment} />
+        {/* <RightSide apartment={apartment} /> */}
       </div>
     </div>
   );
