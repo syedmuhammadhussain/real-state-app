@@ -1,19 +1,21 @@
 'use client';
-import { useRouter } from 'next/navigation'; 
-import { Search, X, UserRound } from 'lucide-react';
+import { useRouter, useSearchParams } from 'next/navigation'; 
+import { Search, X } from 'lucide-react';
 import Input from '@/components/ui/input';
 
 const SearchProduct = ({ searchQuery, setSearchQuery, toggleSearch, isSearchOpen  }) => {
   
   const router = useRouter(); 
+  const searchParams = useSearchParams();
 
+  console.log('searchParams',searchParams)
   // Handle search submission
   const handleSearchProp = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       
       // Redirect to the search results page with the search query
-      router.push(`/products/?query=${encodeURIComponent(searchQuery)}`);
+      router.push(`/cities/?query=${encodeURIComponent(searchQuery)}`);
     }
     toggleSearch(); // Close the search bar
     setSearchQuery(''); // Clear the search input
@@ -36,7 +38,6 @@ const SearchProduct = ({ searchQuery, setSearchQuery, toggleSearch, isSearchOpen
         >
           <form onSubmit={handleSearchProp} className=" flex items-center">
           <Input
-            // label='Email'
             type="text"
             id="search"
             value={searchQuery}

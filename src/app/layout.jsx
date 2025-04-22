@@ -13,7 +13,7 @@ const roboto = Poppins({
 });
 
 export const metadata = {
-  title: "Clothes Store",
+  title: "x real state ",
   description: "Your one-stop shop for the latest fashion trends.",
 };
 
@@ -21,11 +21,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-      {/* <NavigationMenuDemo/> */}
-    <AuthProvider>
+      <Toaster/>
+      <AuthProvider>
         <Navbar/>
           <main>{children}</main>
-        <Toaster/>
         <SocialLinks/>
         <Footer />
     </AuthProvider>

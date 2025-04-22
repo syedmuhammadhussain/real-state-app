@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonEdit = false }) {
   const [isLiked, setIsLiked] = useState(false);
@@ -31,6 +32,7 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const isMobile = useIsMobile()
   // Contact info fallback
   const contactInfo = {
     phone: apartment.contactInfo?.phone || "+7 (XXX) XXX-XX-XX",
@@ -195,12 +197,12 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
         <div className=" w-full lg:w-2/3 p-4 lg:p-6 flex flex-col justify-between">
           {/* Title & Address */}
           <div>
-            <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1">
+            <h2 className="text-base md:text-lg font-semibold text-primary-dark mb-1">
               {apartment.title}
             </h2>
             <div className="flex items-center text-sm text-primary-default gap-1.5 flex-wrap">
               <MapPin className="w-4 h-4  " />
-              <span>{apartment.mapInfo?.address}</span>
+              <span className="text-sm md:text-base ">{apartment.mapInfo?.address}</span>
               {apartment.mapInfo?.district && (
                 <>
                   <span className="text-gray-400">•</span>
@@ -211,76 +213,65 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
           </div>
 
           {/* Parameters Grid */}
-          <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
-            <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-              <Building className="w-4 h-4 text-primary-default shrink-0 "  />
-              {apartment.apartmentParameters?.apartmentType || "Apartment"}
-            </div>
-            <div className="flex items-center gap-1 text-xs sm:text-smtext-primary-default">
-              <Users className="w-4 h-4 text-primary-default  shrink-0" />
-              Up to {apartment.apartmentParameters?.maxGuests || 1} guests
-            </div>
-            <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-              <BedDouble className="w-4 h-4 text-primary-default  shrink-0" />
-              {apartment.apartmentParameters?.doubleBeds || 0} double beds
-            </div>
-            <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-              <span className="text-primary-default  shrink-0">🛏</span>
-              {apartment.apartmentParameters?.singleBeds || 0} single beds
-            </div>
-            <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-              <span className="text-primary-default  shrink-0">📏</span>
-              {apartment.apartmentParameters?.area?.total || 0} m²
-            </div>
-            <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-              <span className="text-primary-default  shrink-0">🏗</span>
-              {apartment.apartmentParameters?.buildingType || "Modern"}
-            </div>
-          </div>
+
+          {!isMobile &&
+             <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
+             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+               <Building className="w-4 h-4 text-primary-default shrink-0 "  />
+               {apartment.apartmentParameters?.apartmentType || "Apartment"}
+             </div>
+             <div className="flex items-center gap-1 text-xs sm:text-smtext-primary-default">
+               <Users className="w-4 h-4 text-primary-default  shrink-0" />
+               Up to {apartment.apartmentParameters?.maxGuests || 1} guests
+             </div>
+             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+               <BedDouble className="w-4 h-4 text-primary-default  shrink-0" />
+               {apartment.apartmentParameters?.doubleBeds || 0} double beds
+             </div>
+             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+               <span className="text-primary-default  shrink-0">🛏</span>
+               {apartment.apartmentParameters?.singleBeds || 0} single beds
+             </div>
+             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+               <span className="text-primary-default  shrink-0">📏</span>
+               {apartment.apartmentParameters?.area?.total || 0} m²
+             </div>
+             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+               <span className="text-primary-default  shrink-0">🏗</span>
+               {apartment.apartmentParameters?.buildingType || "Modern"}
+             </div>
+           </div>}
+       
 
           {/* Short Description */}
-          {apartment.descriptionShort && (
+          {/* {apartment.descriptionShort && (
             <p className="text-sm text-primary-default line-clamp-2">
               {apartment.descriptionShort}
             </p>
-          )}
+          )} */}
 
           {/* Price & Contact */}
-          <div className="mt-4 border-t border-gray-100 pt-4 space-y-4">
-            {/* Price and CTA */}
+          <div className=" border-t border-gray-100 pt-4 space-y-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div>
                 <div className="text-xl md:text-2xl font-bold text-primary-default">
-                  {/* Example price (replace with real data as needed) */}
-                  1,000 ₽<span className="text-base font-normal text-primary-dark"> / сутки</span>
+                  {apartment?.price} <span className="text-base font-normal text-primary-dark"> / сутки</span>
                 </div>
                 {apartment.checkInConditions?.prepaymentRequired && (
                   <p className="text-sm text-primary-default mt-1">Prepayment required</p>
                 )}
               </div>
-              {/* Normal button (removed Framer Motion) */}
-              <Link href={`/city=${apartment.city}/${apartment.id}`}
-                className="
-                  bg-primary-default
-                  hover: hover:bg-primary-dark shadow-primary-default/20
-                  text-white 
-                  px-6 py-3 
-                  rounded-lg 
-                  font-medium 
-                  transition-colors
-                "
-              >
-                View Details
+              <Link href={`/${apartment.city}/${apartment.id}`} 
+              className=" bg-primary-default hover: hover:bg-primary-dark shadow-primary-default/20 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+               Подробнее..
               </Link>
             </div>
 
             {/* Contact Owner */}
             <div className="border-t border-gray-100 pt-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-primary-dark">Contact owner:</span>
-
+                <span className="text-sm font-medium text-primary-dark">Связаться с владельцем:</span>
                 {showPhoneNumber ? (
-                  /* If phone is shown */
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => copyToClipboard(contactInfo.phone)}
@@ -306,7 +297,7 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
                   >
                     <ChevronDown className="w-4 h-4" />
                     <span>{contactInfo.hiddenPhone}</span>
-                    <span className="text-primary-dark text-sm ml-2">Show number</span>
+                    <span className="text-primary-dark text-sm ml-2">Показать номер</span>
                   </button>
                 )}
               </div>

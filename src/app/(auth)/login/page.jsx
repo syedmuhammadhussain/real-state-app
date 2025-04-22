@@ -62,7 +62,7 @@ export default function LoginPage() {
               variant="primary"
               disabled={loading}
             >  
-              { 'Login'}
+            {loading ?  'Processing...'  : 'Login'}
             </Button>
           </div>
         </form>
