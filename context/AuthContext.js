@@ -21,18 +21,18 @@ export function AuthProvider({ children }) {
 
  console.log('usercontext' , user)
   // initialize
-  // const initializeAuth = async () => {
-  //   if (token) {
-  //     try {
-  //       // Verify token validity with backend
-  //       const { data } = await api.get('/users/me');
-  //       setUser({ ...data, jwt: token });
-  //     } catch (err) {
-  //       localStorage.removeItem('authToken');
-  //     }
-  //   }
-  //   setLoading(false);
-  // };
+  const initializeAuth = async () => {
+    if (token) {
+      try {
+        // Verify token validity with backend
+        const { data } = await api.get('/users/me');
+        setUser({ ...data, jwt: token });
+      } catch (err) {
+        localStorage.removeItem('authToken');
+      }
+    }
+    setLoading(false);
+  };
   
   // initialize authentication 
   // useEffect(() => { initializeAuth() } ,[]);
@@ -138,7 +138,7 @@ export function AuthProvider({ children }) {
   }
   
   // registration
-   const resetPassword = async ( password, passwordConfirmation) => {
+   const resetPassword = async ( password, passwordConfirmation, code) => {
     setLoading(true);
     setError(null);
     if (password !== passwordConfirmation ) return 
@@ -146,7 +146,7 @@ export function AuthProvider({ children }) {
       const { data } = await api.post('/auth/local/register', {
         password,
         passwordConfirmation,
-        // code: token
+        code
       });
       localStorage.setItem('authToken', data.jwt);
       // api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
@@ -170,6 +170,8 @@ export function AuthProvider({ children }) {
       });
     } finally {
       setLoading(false);
+      router.push('/');
+
     }
   };
 

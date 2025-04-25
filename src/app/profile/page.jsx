@@ -3,15 +3,15 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PlusCircle, User, Settings, Home } from 'lucide-react';
-// import ApartmentCard from '@/components/ApartmentCard';
 import ProfileInfo from './ProfileInfo';
 import AddApartmentModal from './AddApartmentModal';
 
 import { products } from '@/constants/data';
-import ApartmentCard from '@/components/component/card/ShownProductCard';
 import { Button } from '@/components/ui/button';
+import ApartmentCard from '@/components/component/card/ApartmentCard';
 
 export default function ProfilePage() {
+  
   const [apartments, setApartments] = useState(products);
   const [selectedTab, setSelectedTab] = useState('properties');
   const [isModalOpen, setIsModalOpen] = useState(false);

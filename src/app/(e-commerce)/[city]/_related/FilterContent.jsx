@@ -42,6 +42,8 @@ const AMENITIES = [
   ]
 
 export function FilterContent({
+    metro,
+    district,
     priceRange,
     selectedRooms,
     selectedBeds,
@@ -53,7 +55,7 @@ export function FilterContent({
     onBedSelect,
     onMetroSelect,
     onAmenityToggle,
-    onCottageToggle,
+    onCottageToggle,selectedDistict, setSelectedDistict
   }) {
     return (
       <div className="space-y-6 p-4">
@@ -125,20 +127,47 @@ export function FilterContent({
         </div>
   
         {/* Metro */}
-        <div className="space-y-2">
-          <Label className="text-sm font-semibold">Метро</Label>
+        {metro.length >  0 && 
+             <div className="space-y-2">
+             <Label className="text-sm font-semibold">Метро</Label>
+             <select
+               value={selectedMetro}
+               onChange={e => onMetroSelect(e.target.value)}
+               className={cn(
+                 "flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background",
+                 "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+               )}
+             >
+               <option value="">Выберите станцию</option>
+               {metro.map((m,idx)=>{
+                 return(
+                   <option key={idx} value={m}>{m}</option>
+                 )
+               })}
+               {/* <option value="Заречная">Заречная</option>
+               <option value="Восточная">Восточная</option> */}
+             </select>
+           </div> 
+           }
+   
+         {/* district  */}
+         <div className="space-y-2">
+          <Label className="text-sm font-semibold">Округ</Label>
           <select
-            value={selectedMetro}
-            onChange={e => onMetroSelect(e.target.value)}
+            value={selectedDistict}
+            onChange={e => setSelectedDistict(e.target.value)}
             className={cn(
               "flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background",
               "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             )}
           >
             <option value="">Выберите станцию</option>
-            <option value="Центральная">Центральная</option>
-            <option value="Заречная">Заречная</option>
-            <option value="Восточная">Восточная</option>
+            {district.map((d,idx)=>{
+              return(
+                <option key={idx} value={d}>{d}</option>
+              )
+            })}
+      
           </select>
         </div>
   

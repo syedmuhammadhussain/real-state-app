@@ -1,12 +1,14 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import ShownProductCard from "@/components/component/card/ShownProductCard";
 import { Sidebar } from "./_related/SideBar";
-import { cityOptions, products } from "@/constants/data";
+import { cityOptions, data, products } from "@/constants/data";
 import NextLink from "@/components/ui/NextLink";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { api } from "@/lib/api";
+import ApartmentCard from "@/components/component/card/ApartmentCard";
+import PageLink from "./_related/PageLink";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -25,15 +27,46 @@ export default function CityPage({ params }) {
   const cityParam = decodeCityParam(citySlug);
   const currentPage = parseInt(searchParams.get("page") || params.page || "1", 10);
 
+  // not nessary 
   const cityRussian = cityOptions.find(city => {
     const cleanKey = city.key.toString().trim().toLowerCase();
     const cleanParam = decodeURIComponent(cityParam).toString().trim().toLowerCase(); 
-    return cleanKey === cleanParam;
-  }) || { 
+    return cleanKey === cleanParam;   // we founded neeeded 
+  }) 
+  || { 
     key: cityParam, 
     name: `Unknown City (${cityParam})` 
   };
+
   /* -------------------- read filters from query string ------------------- */
+
+  // get end points .
+
+
+  // Get Poperties
+  const fetchProperties = async (cityRussian) => {
+    setLoading(true);
+    try {
+      const encodedCity = encodeURIComponent(cityRussian);
+      const { data } = await api.get(`https://api.example.com/cities/${encodedCity}/properties`);
+      // setData(data)
+      return data;
+    } catch (error) {
+      console.error('Failed to fetch properties:', error.message);
+      throw new Error('Unable to retrieve property data. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  // let's suppose iam getting by end and iam going to pass search parameters
+  // i will get data in this data properties and metro and district i have already implemented it 
+
+  // let list = fetchProperties(cityParam)
+  let list  = data.moscow.properties  // data comes formm data.js  hard coding
+  const metro = data.moscow.metro
+  const district = data.moscow.districts
 
   const filters = {
     rooms: searchParams.get("rooms"),
@@ -43,12 +76,13 @@ export default function CityPage({ params }) {
     metro: searchParams.get("metro"),
     amenities: searchParams.get("amenities")?.split(',') || [], // تحويل إلى مصفوفة
     cottage: searchParams.get("cottage"),
+    district:searchParams.get("district"),
   };
 
   /* ---------------------------- filter + page ---------------------------- */
+
     // Filter products based on search query
     const query = searchParams.get("query") || '';
-
     const filteredProducts = products.filter((product) => {
     return (
     product.title?.toLowerCase().trim().includes(query?.toLowerCase().trim() || '')||
@@ -61,10 +95,14 @@ export default function CityPage({ params }) {
     );
     const factApartment = query.length === 0  ? products : filteredProducts
   
-  const { paginated, totalPages } = useMemo(() => {
-    // debugger
-    let list = factApartment.filter(
-      p => p.city.toLowerCase() === cityParam.toLowerCase()) || 'cities';
+   
+    
+    const { paginated, totalPages } = useMemo(() => {
+    // to show syed how is work
+    // let list  factApartment.filter(
+    // p => p.city.toLowerCase() === cityParam.toLowerCase()) || 'cities';
+
+    // in real production let list data.propereties which came form end point 
     if (filters?.rooms)     list = list.filter(p => p?.apartmentParameters?.apartmentType === filters.rooms);
     if (filters?.beds)      list = list.filter(p => p.apartmentParameters.singleBeds  === filters.beds);
     if (filters?.priceMin)  list = list.filter(p => +p.price >= +filters.priceMin);
@@ -75,7 +113,7 @@ export default function CityPage({ params }) {
     // if (filters.cottage)   list = list.filter(p => p.isCottage); // يتوقع وجود هذا الحقل
 
     const totalPages = Math.max(1, Math.ceil(list.length / ITEMS_PER_PAGE));
-    const start      = (currentPage - 1) * ITEMS_PER_PAGE;
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
     return { paginated: list.slice(start, start + ITEMS_PER_PAGE), totalPages };
   }, [cityParam, currentPage, filters]);
 
@@ -96,6 +134,8 @@ export default function CityPage({ params }) {
           Object.entries(vals).forEach(([k, v]) => v && q.set(k, v));
           router.push(`/${citySlug}?${q.toString()}`);
         }}
+        metro={metro}
+        district={district}
       />
 
       <div className="mx-auto w-full px-4">
@@ -121,12 +161,11 @@ export default function CityPage({ params }) {
           {/* md:grid-cols-2 lg:grid-cols-3  lg:gap-8 */}
             <div className="grid grid-cols-1 gap-3 ">  
               {paginated.map(item => (
-                <ShownProductCard key={item.id} apartment={item} city={citySlug} />
+                <ApartmentCard key={item.id} apartment={item} city={citySlug} />
               ))}
             </div>
-
             {/* pagination */}
-            <nav className="mt-12 flex items-center justify-center gap-2">
+            <nav className="mt-12 flex items-center  justify-center gap-2">
               <PageLink href={buildLink(currentPage - 1)} disabled={currentPage === 1}>
                 Prev
               </PageLink>
@@ -135,16 +174,17 @@ export default function CityPage({ params }) {
                   {i + 1}
                 </PageLink>
               ))}
-              <PageLink href={buildLink(currentPage + 1)} disabled={currentPage === totalPages}>
+              <PageLink href={buildLink(currentPage + 1)} disabled={currentPage === totalPages}
+               onClick={(e) => currentPage === totalPages && e.preventDefault()} >
                 Next
               </PageLink>
             </nav>
           </>
         ) : (
           <div className="py-20 text-center">
-            <h2 className="text-2xl text-gray-600">Nothing found</h2>
-            <Link href={`/${citySlug}`} className="mt-4 inline-block text-primary hover:text-primary-dark">
-              Browse all cities
+            <h2 className="text-2xl text-gray-600">Ничего не найдено</h2>
+            <Link href={`/${citySlug}`} className="mt-4 inline-block text-primary-dark hover:text-primary-light">
+               Просмотреть все объекты недвижимости
             </Link>
           </div>
         )}
@@ -153,25 +193,7 @@ export default function CityPage({ params }) {
   );
 }
 
-/* --------------------------- Pagination link --------------------------- */
-function PageLink({ href, children, disabled, active }) {
-  return (
-    <NextLink
-      href={href}
-      className={`rounded-lg px-4 py-2 transition-all ${
-        active
-          ? "pointer-events-none bg-primary text-white"
-          : disabled
-          ? "cursor-not-allowed bg-gray-100 text-gray-400"
-          : "border bg-white text-gray-700 hover:bg-primary-light hover:text-primary"
-      }`}
-      aria-disabled={disabled}
-      tabIndex={disabled ? -1 : undefined}
-    >
-      {children}
-    </NextLink>
-  );
-}
+
 
 /* ------------------------------ utils ------------------------------ */
 function decodeCityParam(p = "") {

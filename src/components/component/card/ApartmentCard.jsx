@@ -3,24 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import {
-  Wifi,
-  Wind,
-  WashingMachine,
-  Heart,
-  BedDouble,
-  Users,
-  MapPin,
-  Building,
-  Bath,
-  Car,
-  Phone,
-  MessageCircle,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Pen,
-  Trash2,
+import { Wifi, Wind, WashingMachine, Heart, BedDouble, Users, MapPin, Building, Bath, Car, Phone, MessageCircle, ChevronDown, ChevronLeft, ChevronRight, Pen, Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

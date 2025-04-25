@@ -22,6 +22,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = {
       firstName: validateFirstName(firstName),
       lastName: validateLastName(lastName),
@@ -29,10 +30,10 @@ export default function RegisterPage() {
       password: validatePassword(password)
     };
 
-    // if (Object.values(validationErrors).some(error => error !== '')) {
-    //   setErrors(validationErrors);
-    //   return;
-    // }
+    if (Object.values(validationErrors).some(error => error !== '')) {
+      setErrors(validationErrors);
+      return;
+    }
     await register(firstName, lastName, email, password);
   };
 

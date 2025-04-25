@@ -3,6 +3,7 @@ import EmblaCarousel from '@/components/component/product-slider/EmblaCarousel';
 import HeroSection from '@/components/component/hero-section/HeroSection';
 import Categories from '@/components/component/categories/Categories';
 import NextLink from '@/components/ui/NextLink';
+import RentalSection from '@/components/component/rental-section/RentalSection';
 
 // Метаданные для SEO
 export const metadata = {
@@ -47,8 +48,13 @@ export default function ProductPage() {
         <meta property="og:image:height" content={metadata.openGraph.images[0].height} />
         <meta property="og:image:alt" content={metadata.openGraph.images[0].alt} />
       </Head>
-        <HeroSection/>
+      <HeroSection/>
+      {/* На Spiti можно снять жилье посуточно без посредников. Арендовать на сутки: квартиру в центре города, загородный дом либо недорогой хостел. Выберите город, куда вы отправитесь! */}
+      <div className = "px-3 lg:px-4">
         <Categories/>
+        <RentalSection/>
+      </div>
+       
 
         {/* Animated Products Section */}
         {/* <div className="mt-5 p-6">

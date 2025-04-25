@@ -169,6 +169,9 @@ export const cityOptions = [
 ];  
 
 
+
+
+
 export const products = Array.from({ length: 20 }, (_, i) => ({
   id: 100 + i,
   title: [
@@ -333,3 +336,42 @@ export const products = Array.from({ length: 20 }, (_, i) => ({
     url: `/images/apt${100 + i}/image${imgIndex + 1}.jpg`
   }))
 }));
+
+
+// key is citites
+export const data = {
+  moscow: {
+    properties :products,
+    districts:['districts1','districts2','districts3','districts4'],
+    metro:['metro1','metro2','metro3','metro4'],
+    stations:['station1','station1','station1','station1']
+  },
+  saint_petersburg :{
+    properties :products,
+    districts:['districts1','districts2','districts3','districts4'],
+    metro:['metro1','metro2','metro3','metro4'],
+    stations:['station1','station1','station1','station1']
+  },
+  tyumen  : {
+    properties :products,
+    districts:['districts1','districts2','districts3','districts4'],
+    metro:['metro1','metro2','metro3','metro4'],
+    stations:['station1','station1','station1','station1']
+  },
+  city1 :{
+    properties :products,
+    districts:['','','',''],
+    metro:['','','',''],
+  },
+  city2: {
+    properties :[{},{},{},{}],
+    districts:['','','',''],
+    metro:['','','',''],
+  },
+  city3 :{
+    properties :[{},{},{},{}],
+    districts:['','','',''],
+    metro:['','','',''],
+  },
+
+}

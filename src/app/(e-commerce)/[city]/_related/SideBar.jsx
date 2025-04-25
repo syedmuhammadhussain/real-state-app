@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { FilterContent } from "./FilterContent";
 
-export function Sidebar({ defaultValues = {}, onApply }) {
+export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
   const [isOpen, setIsOpen] = useState(false);
   const [priceRange, setPriceRange] = useState([
     +defaultValues.priceMin || 10,
@@ -15,6 +15,8 @@ export function Sidebar({ defaultValues = {}, onApply }) {
   const [selectedRooms, setSelectedRooms] = useState(defaultValues.rooms || "");
   const [selectedBeds,  setSelectedBeds]  = useState(defaultValues.beds  || "");
   const [selectedMetro, setSelectedMetro] = useState(defaultValues.metro || "");
+  const [selectedDistict, setSelectedDistict] = useState(defaultValues.district || "");
+
   const [selectedAmenities, setSelectedAmenities] = useState(defaultValues.amenities || []);
   const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
 
@@ -59,7 +61,8 @@ export function Sidebar({ defaultValues = {}, onApply }) {
   };
 
   const filterProps = {
-    priceRange,
+    priceRange,metro, district,
+    selectedDistict, setSelectedDistict,
     selectedRooms,
     selectedBeds,
     selectedMetro,

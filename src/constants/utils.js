@@ -9,11 +9,23 @@ import { Star, StarHalf, StarOff } from "lucide-react";
     };
 
     export const validatePassword = (password) => {
-    if (!password) return 'Password is required';
-    if (password.length < 8) return 'Password must be at least 8 characters';
-    return '';
+      if (!password) return 'Password is required';
+      if (password.length < 8) return 'Password must contain at least 8 characters';
+      return '';
     };
-
+    
+    /**
+     * Validates that the password confirmation matches the original password.
+     * @param {string} originalPassword - The original password to match against.
+     * @param {string} confirmationPassword - The confirmation password to validate.
+     * @returns {string} Empty string if valid, otherwise an error message.
+     */
+    export const validateConfirmationPassword = (originalPassword, confirmationPassword) => {
+      if (originalPassword !== confirmationPassword) {
+        return 'Passwords do not match';
+      }
+      return '';
+    };
 
     export const validateFirstName = (name) => {
     return name.trim().length > 0 ? null : 'First name is required';
