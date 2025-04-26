@@ -1,13 +1,6 @@
 // components/ui/Breadcrumbs.tsx
 "use client";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator} from "@/components/ui/breadcrumb";
 import { ChevronDown } from "lucide-react";
 
 export const Breadcrumbs = ({ items }) => {

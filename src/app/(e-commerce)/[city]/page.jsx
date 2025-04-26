@@ -78,6 +78,9 @@ export default function CityPage({ params }) {
     cottage: searchParams.get("cottage"),
     district:searchParams.get("district"),
   };
+  console.log('filter room ', encodeURIComponent(filters?.rooms))
+  console.log('filter room ', typeof(filters?.rooms))
+
 
   /* ---------------------------- filter + page ---------------------------- */
 
@@ -95,21 +98,22 @@ export default function CityPage({ params }) {
     );
     const factApartment = query.length === 0  ? products : filteredProducts
   
+
    
     
     const { paginated, totalPages } = useMemo(() => {
+
     // to show syed how is work
     // let list  factApartment.filter(
     // p => p.city.toLowerCase() === cityParam.toLowerCase()) || 'cities';
-
     // in real production let list data.propereties which came form end point 
-    if (filters?.rooms)     list = list.filter(p => p?.apartmentParameters?.apartmentType === filters.rooms);
+    if (filters?.rooms)     list = list.filter(p => p.apartmentParameters.apartmentType === filters.rooms);
+    if (filters?.rooms == "3%2B" )     list = list.filter(p => +p.apartmentParameters.apartmentType >=  "3+");
     if (filters?.beds)      list = list.filter(p => p.apartmentParameters.singleBeds  === filters.beds);
     if (filters?.priceMin)  list = list.filter(p => +p.price >= +filters.priceMin);
     if (filters?.priceMax)  list = list.filter(p => +p.price <= +filters.priceMax);
     // if (filters?.metro)     list = list.filter(p => p.metro === filters.metro);
-    if (filters?.amenities?.length)
-      list = list?.filter(p => filters?.amenities.every(a => p?.amenities?.includes(a)));
+    // if (filters?.amenities?.length > 1) list = list?.filter(p => filters?.amenities.every(a => p?.amenities?.includes(a)));
     // if (filters.cottage)   list = list.filter(p => p.isCottage); // يتوقع وجود هذا الحقل
 
     const totalPages = Math.max(1, Math.ceil(list.length / ITEMS_PER_PAGE));

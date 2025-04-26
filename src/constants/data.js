@@ -213,7 +213,7 @@ export const products = Array.from({ length: 20 }, (_, i) => ({
   apartmentParameters: {
     apartmentType: ["1", "2", "3+"][i % 5],
     maxGuests: [2, 4, 3, 6, 2, 4, 5, 2, 6, 3][i],
-    singleBeds: ["2", "3", "4"][i % 5],
+    singleBeds: ["1", "2", "3+"][i % 5],
     doubleBeds: [1, 2, 1, 2, 1, 2, 2, 1, 2, 1][i],
     floorAndTotalFloors: `${i + 2}/${[5, 9, 12, 25, 3, 7, 16, 24, 2, 6][i]}`,
     area: {
@@ -333,7 +333,7 @@ export const products = Array.from({ length: 20 }, (_, i) => ({
       ["Дневной свет", "Ночной вид", "Планировка", "Удобства", "Карта"],
       ["Экстерьер", "Холл", "Инфраструктура", "Парковка", "Охрана"]
     ][i % 5][imgIndex],
-    url: `/images/apt${100 + i}/image${imgIndex + 1}.jpg`
+    url: `/images/bag.png`
   }))
 }));
 

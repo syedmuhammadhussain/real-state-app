@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Phone, User, Search } from "lucide-react";
+import { Eye, EyeOff, Mail, Phone, User, Search, EyeClosed } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Input = ({ label = "", type, id, value, onChange, onBlur, error, placeholder, required }) => {
@@ -62,7 +62,7 @@ const Input = ({ label = "", type, id, value, onChange, onBlur, error, placehold
               transition={{ type: "spring", stiffness: 150 }}
               className="transition-transform duration-300 ease-in-out transform scale-100 hover:scale-110"
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <EyeClosed size={20} /> : <Eye size={20} />}
             </motion.span>
           </motion.button>
         )}

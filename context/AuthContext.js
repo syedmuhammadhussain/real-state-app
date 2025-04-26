@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -16,10 +15,7 @@ export function AuthProvider({ children }) {
   
   const router = useRouter();
   // const token = localStorage.getItem('authToken');
-// toast 
-
-
- console.log('usercontext' , user)
+  
   // initialize
   const initializeAuth = async () => {
     if (token) {

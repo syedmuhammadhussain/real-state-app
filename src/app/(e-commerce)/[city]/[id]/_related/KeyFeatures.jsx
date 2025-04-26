@@ -1,13 +1,15 @@
 import { Home, Users, BedDouble, Ruler } from 'lucide-react'
 
 const FeatureItem = ({ icon: Icon, label, value }) => (
-  <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-    <Icon className="w-5 h-5" />
-    <div>
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="font-medium">{value}</p>
+  <>
+  <div className="flex gap-1 bg-muted rounded-md">
+    <Icon className="w-5 h-5 text-primary-default" />
+      <div className='flex flex-col'>
+        <p className="text-sm  text-primary-dark">{label}</p>
+        <p className=" text-primary-dark">({value})</p>
     </div>
   </div>
+  </>
 )
 
 export const KeyFeatures = ({ params }) => (

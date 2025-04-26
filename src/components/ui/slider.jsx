@@ -36,7 +36,7 @@ const Slider = React.forwardRef(
       >
         <SliderPrimitive.Range
           className={cn(
-            "absolute h-full bg-secondary-default",
+            "absolute h-full bg-green-700",
             "group-hover:bg-secondary-hover transition-colors duration-300",
             rangeClassName
           )}

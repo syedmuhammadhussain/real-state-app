@@ -16,7 +16,6 @@ export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
   const [selectedBeds,  setSelectedBeds]  = useState(defaultValues.beds  || "");
   const [selectedMetro, setSelectedMetro] = useState(defaultValues.metro || "");
   const [selectedDistict, setSelectedDistict] = useState(defaultValues.district || "");
-
   const [selectedAmenities, setSelectedAmenities] = useState(defaultValues.amenities || []);
   const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
 
@@ -43,7 +42,7 @@ export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
       rooms: selectedRooms,
       beds: selectedBeds,
       // metro: selectedMetro,
-      amenities: selectedAmenities,
+      // amenities: selectedAmenities,
       // cottage: isCottage,
     };
     console.log('vals', vals)
@@ -79,13 +78,10 @@ export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
   return (
     <>
       {/* Desktop sidebar */}
-
-      {/* Mobile trigger */}
-      {/* isMobile && lg:hidden */}
       { (
-        <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 ">
-          <Button onClick={() => setIsOpen(true)} className=" flex  group rounded-lg   px-6  shadow-2xl gap-4 lg:min-w-[250px] lg:text-lg lg:py-6 ">
-            <SlidersHorizontal className="h-5 w-5 group-hover:animate-bounce" />  Фильтры
+        <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2">
+          <Button  variant='primary' onClick={() => setIsOpen(true)} className=" flex  group rounded-lg px-6 shadow-2xl gap-4 lg:min-w-[200px] lg:text-lg lg:py-6 ">
+            Фильтры <SlidersHorizontal className="h-5 w-5 group-hover:text-green-500 " />  
           </Button>
         </div>
       )}
@@ -93,8 +89,9 @@ export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
       {/* Mobile sheet */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetContent side="bottom" className="flex h-[85vh] flex-col rounded-t-lg bg-slate-50">
-          <SheetHeader className="border-b">
-            <SheetTitle className="text-lg">Фильтры</SheetTitle>
+          <SheetHeader className="border-b ">
+            <SheetTitle className="text-lg text-primary-dark flex gap-2 items-center"> 
+               <SlidersHorizontal className="h-5 w-5 text-primary-dark" />Фильтры </SheetTitle>
           </SheetHeader>
           <div className="flex-1 overflow-y-auto">
             <FilterContent {...filterProps} />

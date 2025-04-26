@@ -1,10 +1,10 @@
 import { Building2, Bath, Home, CalendarDays, Dog } from 'lucide-react'
 
 export const DescriptionTab = ({ description, params, conditions }) => (
-  <div className="space-y-6">
-    <p className="text-lg leading-relaxed">{description}</p>
+  <div className="space-y-6  flex flex-col justify-center h-auto">
+    <p className="text-lg mx-auto">{description}</p>
     
-    <div className="grid grid-cols-2 gap-6">
+    <div className="w-full mx-auto grid grid-cols-2 gap-6">
       <div className="space-y-4">
         <h3 className="text-xl font-semibold">Особенности</h3>
         <div className="grid grid-cols-2 gap-4">

@@ -35,13 +35,13 @@ export const ImageGallery = ({ images }) => {
   }, [emblaApi, onInit, onSelect]);
 
   return (
-    <div className="relative group">
-      <div className="overflow-hidden rounded-xl shadow-xl" ref={emblaRef}>
+    <div className="relative group w-1/3 ">
+      <div className="overflow-hidden rounded-md shadow-xl " ref={emblaRef}>
         <div className="flex">
           {images.map((image, index) => (
             <div
               key={index}
-              className="relative flex-[0_0_100%] min-w-0 h-[500px]"
+              className="relative flex-[0_0_100%] min-w-0 aspect-square"
             >
               <Image
                 src={image.url}

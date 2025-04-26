@@ -1,6 +1,6 @@
 "use client";
 
-import {  Check } from "lucide-react";
+import {  Check, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
@@ -61,7 +61,7 @@ export function FilterContent({
       <div className="space-y-6 p-4">
         {/* Price */}
         <div className="space-y-4">
-          <Label className="text-sm font-semibold">Цена за сутки (₽)</Label>
+          <Label className="text-sm font-semibold  text-primary-dark">Цена за сутки (₽)</Label>
           <div className="flex items-center gap-3">
             <Input
               type="number"
@@ -85,7 +85,7 @@ export function FilterContent({
         {/* Rooms & Beds */}
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <Label className="text-sm font-semibold">Комнаты</Label>
+            <Label className="text-sm font-semibold  text-primary-dark">Комнаты</Label>
             <div className="flex flex-wrap gap-2">
               {["1", "2", "3+"].map(r => (
                 <Button
@@ -93,9 +93,9 @@ export function FilterContent({
                   size="sm"
                   variant={selectedRooms === r ? "default" : "outline"}
                   onClick={() => onRoomSelect(r)}
-                  className="gap-1"
+                  className={`gap-1 text-primary-dark ${selectedRooms === r && 'bg-primary-default text-white' }`}
                 >
-                  {selectedRooms === r && <Check className="h-4 w-4" />} {r}
+                  {selectedRooms === r && <CheckCircle className="h-5  w-5 text-green-500" />} {r}
                 </Button>
               ))}
             </div>
@@ -103,15 +103,15 @@ export function FilterContent({
           <div className="space-y-2">
             <Label className="text-sm font-semibold">Спальные места</Label>
             <div className="flex flex-wrap gap-2">
-              {["2", "3", "4", "5+"].map(b => (
+              {["1", "2", "3+"].map(b => (
                 <Button
                   key={b}
                   size="sm"
                   variant={selectedBeds === b ? "default" : "outline"}
                   onClick={() => onBedSelect(b)}
-                  className="gap-1"
+                  className={`gap-1 text-primary-dark ${selectedBeds === b && 'bg-primary-default text-white' }`}
                 >
-                  {selectedBeds === b && <Check className="h-4 w-4" />} {b}
+                  {selectedBeds === b && <CheckCircle className="h-5  w-5 text-green-400" />} {b}
                 </Button>
               ))}
             </div>
@@ -120,7 +120,7 @@ export function FilterContent({
   
         {/* Cottage */}
         <div className="space-y-2">
-          <Label className="text-sm font-semibold">Тип жилья</Label>
+          <Label className="text-sm font-semibold  text-primary-dark">Тип жилья</Label>
           <label className="flex cursor-pointer items-center gap-3 text-sm">
             <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} /> Коттедж
           </label>
@@ -129,13 +129,13 @@ export function FilterContent({
         {/* Metro */}
         {metro.length >  0 && 
              <div className="space-y-2">
-             <Label className="text-sm font-semibold">Метро</Label>
+             <Label className="text-sm font-semibold  text-primary-dark ">Метро</Label>
              <select
                value={selectedMetro}
                onChange={e => onMetroSelect(e.target.value)}
                className={cn(
-                 "flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background",
-                 "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                 "flex h-10 w-full px-2  text-primary-dark  rounded-md border py-3 text-sm ring-offset-background",
+                 "focus:outline-primary-light "
                )}
              >
                <option value="">Выберите станцию</option>
@@ -152,7 +152,7 @@ export function FilterContent({
    
          {/* district  */}
          <div className="space-y-2">
-          <Label className="text-sm font-semibold">Округ</Label>
+          <Label className="text-sm font-semibold text-primary-dark  ">Округ</Label>
           <select
             value={selectedDistict}
             onChange={e => setSelectedDistict(e.target.value)}
@@ -172,17 +172,25 @@ export function FilterContent({
         </div>
   
         {/* Amenities */}
-        <div className="space-y-2">
-          <Label className="text-sm font-semibold">Удобства</Label>
-          <div className="flex flex-col gap-2">
-            {AMENITIES.map(a => (
-              <label key={a} className="flex cursor-pointer items-center gap-3 text-sm">
-                <Checkbox checked={selectedAmenities.includes(a)} onCheckedChange={() => onAmenityToggle(a)} />
-                {a}
+
+        <div className="">
+          <Label className="text-sm font-semibold text-primary-dark ">Удобства</Label>
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            {AMENITIES.map((amenity) => (
+              <label
+                key={amenity}
+                className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
+              >
+                <Checkbox
+                  checked={selectedAmenities.includes(amenity)}
+                  onCheckedChange={() => onAmenityToggle(amenity)}
+                />
+                {amenity}
               </label>
             ))}
           </div>
         </div>
+      
       </div>
     );
   }

@@ -15,7 +15,7 @@ export const LocationTab = ({ address, infrastructure }) => (
         <h3 className="text-lg font-semibold">Рядом есть</h3>
         <div className="flex flex-wrap gap-2">
           {infrastructure.map((item, idx) => (
-            <Badge key={idx} variant="outline" className="gap-1">
+            <Badge key={idx} variant="secondary" className="gap-1">
               <MapPin className="w-4 h-4" />
               {item}
             </Badge>
