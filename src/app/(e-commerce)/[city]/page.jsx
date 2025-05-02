@@ -16,6 +16,7 @@ export default function CityPage({ params }) {
   
   /* --------------------- Safe access to dynamic slug -------------------- */
     const { city: citySlug = "", page: pageSlug  } = React.use(params);
+    
     console.log('citySlug',citySlug)
 
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function CityPage({ params }) {
   // If slug is still missing, show loader / fallback
   if (!citySlug) return <p className="p-10 text-center">Loading…</p>;
 
-  const cityParam = decodeCityParam(citySlug);
+  const cityParam = citySlug;
   const currentPage = parseInt(searchParams.get("page") || params.page || "1", 10);
 
   // not nessary 
@@ -39,8 +40,6 @@ export default function CityPage({ params }) {
   };
 
   /* -------------------- read filters from query string ------------------- */
-
-  // get end points .
 
 
   // Get Poperties
@@ -96,11 +95,9 @@ export default function CityPage({ params }) {
       )
     }
     );
+
     const factApartment = query.length === 0  ? products : filteredProducts
   
-
-   
-    
     const { paginated, totalPages } = useMemo(() => {
 
     // to show syed how is work
@@ -199,7 +196,7 @@ export default function CityPage({ params }) {
 
 
 
-/* ------------------------------ utils ------------------------------ */
-function decodeCityParam(p = "") {
-  return p.replace("city%3D", "").replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-}
+// /* ------------------------------ utils ------------------------------ */
+// function decodeCityParam(p = "") {
+//   return p.replace("city%3D", "").replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+// }

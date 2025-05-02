@@ -65,84 +65,87 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
           }`}
         />
       </Button> }
-      <div className="flex flex-col lg:flex-row">
-        
+      <div className="w-full grid grid-cols-1 lg:grid-cols-3">
         {/* IMAGE SLIDER SECTION */}
-        <ImageCarousel images = {images} mainAmenities={mainAmenities} apartment = {apartment} />
-
-        {/* DETAILS SECTION */}
-        <div className=" w-full lg:w-2/3 p-4 lg:p-6 flex flex-col justify-between">
-          {/* Title & Address */}
-          <div>
-            <h2 className="text-base md:text-lg font-semibold text-primary-dark mb-1">
-              {apartment.title}
-            </h2>
-            <div className="flex items-center text-sm text-primary-default gap-1.5 flex-wrap">
-              <MapPin className="w-4 h-4  " />
-              <span className="text-sm md:text-base ">{apartment.mapInfo?.address}</span>
-              {apartment.mapInfo?.district && (
-                <>
-                  <span className="text-gray-400">•</span>
-                  <span>{apartment.mapInfo.district} District</span>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Parameters Grid  need to optimize  */}
-          {!isMobile &&
-             <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
-             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-               <Building className="w-4 h-4 text-primary-default shrink-0 "  />
-               {apartment.apartmentParameters?.apartmentType || "Apartment"}
-             </div>
-             <div className="flex items-center gap-1 text-xs sm:text-smtext-primary-default">
-               <Users className="w-4 h-4 text-primary-default  shrink-0" />
-               Up to {apartment.apartmentParameters?.maxGuests || 1} guests
-             </div>
-             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-               <BedDouble className="w-4 h-4 text-primary-default  shrink-0" />
-               {apartment.apartmentParameters?.doubleBeds || 0} double beds
-             </div>
-             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-               <span className="text-primary-default  shrink-0">🛏</span>
-               {apartment.apartmentParameters?.singleBeds || 0} single beds
-             </div>
-             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-               <span className="text-primary-default  shrink-0">📏</span>
-               {apartment.apartmentParameters?.area?.total || 0} m²
-             </div>
-             <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-               <span className="text-primary-default  shrink-0">🏗</span>
-               {apartment.apartmentParameters?.buildingType || "Modern"}
-             </div>
-           </div>
-           }
-
-          {/* Price & Contact */}
-          <div className=" border-t border-gray-100 pt-4 space-y-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-              <div>
-                <div className="text-xl md:text-2xl font-bold text-primary-default">
-                  {apartment?.price} <span className="text-base font-normal text-primary-dark"> / сутки</span>
-                </div>
-                {apartment.checkInConditions?.prepaymentRequired && (
-                  <p className="text-sm text-primary-default mt-1">Prepayment required</p>
+        <div className="lg:col-span-1">
+          <ImageCarousel images = {images} mainAmenities={mainAmenities} apartment = {apartment} />
+        </div>
+        <div className="lg:col-span-2">
+            {/* DETAILS SECTION */}
+            <div className=" w-full  p-4 lg:p-6 flex flex-col justify-between">
+            {/* Title & Address */}
+            <div>
+              <h2 className="text-base md:text-lg font-semibold text-primary-dark mb-1">
+                {apartment.title}
+              </h2>
+              <div className="flex items-center text-sm text-primary-default gap-1.5 flex-wrap">
+                <MapPin className="w-4 h-4  " />
+                <span className="text-sm md:text-base ">{apartment.mapInfo?.address}</span>
+                {apartment.mapInfo?.district && (
+                  <>
+                    <span className="text-gray-400">•</span>
+                    <span>{apartment.mapInfo.district} District</span>
+                  </>
                 )}
               </div>
-
-              <NextLink href={`/${apartment.city}/${apartment.id}`} 
-              className="group flex gap-1  bg-primary-default hover: hover:bg-primary-dark shadow-primary-default/20 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300">
-               Подробнее..
-               <Info className="h-5 w-5 group-hover:text-green-500"/>
-              </NextLink>
             </div>
 
-            {/* Contact Owner */}
-            <ContactInfo  contact = {contactInfo}   initialOpen={false}/>
-          </div>
+            {/* Parameters Grid  need to optimize  */}
+            {!isMobile &&
+              <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
+              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+                <Building className="w-4 h-4 text-primary-default shrink-0 "  />
+                {apartment.apartmentParameters?.apartmentType || "Apartment"}
+              </div>
+              <div className="flex items-center gap-1 text-xs sm:text-smtext-primary-default">
+                <Users className="w-4 h-4 text-primary-default  shrink-0" />
+                Up to {apartment.apartmentParameters?.maxGuests || 1} guests
+              </div>
+              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+                <BedDouble className="w-4 h-4 text-primary-default  shrink-0" />
+                {apartment.apartmentParameters?.doubleBeds || 0} double beds
+              </div>
+              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+                <span className="text-primary-default  shrink-0">🛏</span>
+                {apartment.apartmentParameters?.singleBeds || 0} single beds
+              </div>
+              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+                <span className="text-primary-default  shrink-0">📏</span>
+                {apartment.apartmentParameters?.area?.total || 0} m²
+              </div>
+              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
+                <span className="text-primary-default  shrink-0">🏗</span>
+                {apartment.apartmentParameters?.buildingType || "Modern"}
+              </div>
+            </div>
+            }
 
+            {/* Price & Contact */}
+            <div className=" border-t border-gray-100 pt-4 space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                <div>
+                  <div className="text-xl md:text-2xl font-bold text-primary-default">
+                    {apartment?.price} <span className="text-base font-normal text-primary-dark"> / сутки</span>
+                  </div>
+                  {apartment.checkInConditions?.prepaymentRequired && (
+                    <p className="text-sm text-primary-default mt-1">Prepayment required</p>
+                  )}
+                </div>
+
+                <NextLink href={`/${apartment.city}/${apartment.id}`} 
+                className="group flex gap-1  bg-primary-default hover: hover:bg-primary-dark shadow-primary-default/20 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300">
+                Подробнее..
+                <Info className="h-5 w-5 group-hover:text-green-500"/>
+                </NextLink>
+              </div>
+
+              {/* Contact Owner */}
+              <ContactInfo  contact = {contactInfo}   initialOpen={false}/>
+            </div>
+
+            </div>
         </div>
+     
       </div>
     </div>
   );

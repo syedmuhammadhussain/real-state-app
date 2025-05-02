@@ -35,6 +35,7 @@ export default function ApartmentPage({ params }) {
                   className="h-full"
                 />
               </div>
+
               {/* Apartment Header - Takes full width on mobile, 1/3 on desktop */}
               <div className="lg:col-span-2">
                 <ApartmentHeader 

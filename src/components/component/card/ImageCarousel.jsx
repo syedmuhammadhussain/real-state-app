@@ -52,7 +52,7 @@ const ImageCarousel = ({images , apartment = null, mainAmenities = null , auto =
         <div className="embla__container flex h-full">
           {images.map((image, idx) => (
             // embla__slide 
-            <div key={idx} className={`relative ${auto ?'min-h-[400px] lg:h-[600px]  ':'min-h-[350px] lg:h-auto '} flex-[0_0_100%] overflow-hidden`}>
+            <div key={idx} className={`relative ${auto ?'min-h-[400px] lg:h-[600px]':'min-h-[350px] lg:h-auto '} flex-[0_0_100%] overflow-hidden`}>
               <Image
                 // src={image.url}
                 src="/images/bag.png" 
