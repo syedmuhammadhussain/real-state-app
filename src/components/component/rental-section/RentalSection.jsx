@@ -50,23 +50,21 @@ export default function RentalSection() {
         {/* Hero Section */}
         <div className="">
           <h1 className="text-2xl lg:text-3xl font-bold text-primary-dark "> Аренда жилья посуточно</h1>
-          <p className="">
+          {/* <p className="">
             Сайт «X-real-state» открывает большие возможности для посуточной аренды жилья в России и других странах. 
             На сегодняшний день каталог сайта содержит более 40 тысяч объявлений от арендодателей.
-          </p>
+          </p> */}
         </div>
 
         <EmblaCarousel categories = {false} slides={data} />
 
-        {/* Features Grid */}
+        {/* Features Grid
         <NextLink
            href={'/checkout'}
-           className="flex items-center max-h-[47px] justify-center gap-3 px-8 py-4 bg-primary-default hover:bg-primary-dark text-white font-semibold rounded-md shadow-lg shadow-primary-default/20 transition-all transform active:scale-95"
-         >
+           className="flex items-center max-h-[47px] justify-center gap-3 px-8 py-4 bg-primary-default hover:bg-primary-dark text-white font-semibold rounded-md shadow-lg shadow-primary-default/20 transition-all transform active:scale-95" >
            <Home className="w-5 h-5" />
            Сдать жильё
-
-         </NextLink>
+        </NextLink> */}
 
        
       </div>

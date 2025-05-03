@@ -78,7 +78,7 @@ export default function ParametersForm({ apartment, setApartment, handleSubmit }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 px-1 overflow-auto">
       <h2 className="text-xl font-bold mb-4 flex items-center">
         <Package className="w-5 h-5 mr-2 text-primary-default" />
         Apartment Parameters

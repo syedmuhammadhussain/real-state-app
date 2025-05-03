@@ -11,12 +11,16 @@ import MediaLocationForm from './_steps/MediaLocationForm';
 // Example button component – adapt to your own if needed
 import { Button } from '@/components/ui/button';
 
-export default function ApartmentForm() {
+export default function ApartmentForm({ initialData }) {
+  
   // Track current step in the multi-step process (1, 2, or 3)
   const [step, setStep] = useState(1);
 
   // A single apartment state object, split into sub-sections
-  const [apartment, setApartment] = useState({
+  const [apartment, setApartment] = useState( 
+    // initialData 
+    // ? initialData :
+     {
     basic: {
       title: '',
       descriptionShort: '',
@@ -104,12 +108,10 @@ export default function ApartmentForm() {
   };
 
   return (
-    <div className="container mx-auto overflow-auto">
+    <div className="h-full overflow-auto">
       <div className=" gap-8">
         {/* Left: Forms */}
         <div className="md:col-span-2">
-          <h1 className="text-3xl font-bold mb-6">Post a New Apartment</h1>
-
           {/* Step Navigation */}
           <div className="mb-6 flex space-x-4 text-sm md:text-lg font-semibold">
             <span
@@ -176,18 +178,8 @@ export default function ApartmentForm() {
                 Back
               </Button>
             )}
-            {/* For reference, if you wanted next button here: 
-                {step < 3 && (
-                  <Button variant="primary" onClick={() => setStep(step + 1)}>
-                    Next
-                  </Button>
-                )}
-            */}
           </div>
         </div>
-
-        {/* Right Side (Summary or tips) */}
-        {/* <RightSide apartment={apartment} /> */}
       </div>
     </div>
   );

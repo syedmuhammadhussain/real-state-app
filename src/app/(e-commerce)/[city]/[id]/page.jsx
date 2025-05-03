@@ -3,7 +3,6 @@ import { products } from '@/constants/data'
 import { ApartmentHeader } from './_related/ApartmentHeader'
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import ImageCarousel from '@/components/component/card/ImageCarousel'
-import { BookingCard } from './_related/BookingCard'
 import { ApartmentTabs } from './_related/ApartmentTabs'
 
 export async function generateStaticParams() {
@@ -15,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export default function ApartmentPage({ params }) {
-  const product = products.find(p => p.id.toString() === params.id)
+  
+  const product = products.find(p => p.id.toString() === params?.id)
   if (!product) return notFound()
 
   return (
@@ -44,6 +44,7 @@ export default function ApartmentPage({ params }) {
                 />
               </div>
             </div>
+
 
           <ApartmentTabs
             product={product}

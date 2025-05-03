@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Sidebar } from "./_related/SideBar";
@@ -12,11 +12,12 @@ import PageLink from "./_related/PageLink";
 
 const ITEMS_PER_PAGE = 5;
 
+
+
 export default function CityPage({ params }) {
   
   /* --------------------- Safe access to dynamic slug -------------------- */
     const { city: citySlug = "", page: pageSlug  } = React.use(params);
-    
     console.log('citySlug',citySlug)
 
   const router = useRouter();
@@ -41,7 +42,6 @@ export default function CityPage({ params }) {
 
   /* -------------------- read filters from query string ------------------- */
 
-
   // Get Poperties
   const fetchProperties = async (cityRussian) => {
     setLoading(true);
@@ -58,10 +58,8 @@ export default function CityPage({ params }) {
     }
   };
 
-
   // let's suppose iam getting by end and iam going to pass search parameters
   // i will get data in this data properties and metro and district i have already implemented it 
-
   // let list = fetchProperties(cityParam)
   let list  = data.moscow.properties  // data comes formm data.js  hard coding
   const metro = data.moscow.metro
@@ -97,9 +95,7 @@ export default function CityPage({ params }) {
     );
 
     const factApartment = query.length === 0  ? products : filteredProducts
-  
     const { paginated, totalPages } = useMemo(() => {
-
     // to show syed how is work
     // let list  factApartment.filter(
     // p => p.city.toLowerCase() === cityParam.toLowerCase()) || 'cities';
@@ -143,9 +139,10 @@ export default function CityPage({ params }) {
         {/* header */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <Breadcrumbs
-        items={[
+          items={[
           { label: "Главная", href: "/" },
-          { label: cityRussian?.ru || "Все города" }]}/>
+          { label: cityRussian?.ru || "Все города" }]}
+          />
 
           {/* QUERY */}
           {query &&  <div>SEARCH OF  {query} </div> }
@@ -193,8 +190,6 @@ export default function CityPage({ params }) {
     </div>
   );
 }
-
-
 
 // /* ------------------------------ utils ------------------------------ */
 // function decodeCityParam(p = "") {

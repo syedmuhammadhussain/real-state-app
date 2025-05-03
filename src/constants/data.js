@@ -28,10 +28,9 @@ export const slides = [
 ];
 
 export  const links = [
-  { name: 'About', link: '/about' },
-  { name: 'Contact', link: '/contact' },
-  // { name: 'Support', link: '/support' },
-  { name: 'Premium', link: '/premium' },
+  { name: 'О нас', link: '/about' },
+  { name: 'Контакт', link: '/contact' },
+  { name: 'Премиум', link: '/premium' },
 ];
 
 export const subLinks = ['Shirts', 'Jeans', 'Hoodies',   'Trendy' , 'Arrival'];

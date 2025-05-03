@@ -14,25 +14,28 @@ export function AuthProvider({ children }) {
   const [success , setSuccess]= useState(false)
   
   const router = useRouter();
-  // const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('authToken');
   
-  // initialize
-  const initializeAuth = async () => {
-    if (token) {
-      try {
-        // Verify token validity with backend
-        const { data } = await api.get('/users/me');
-        setUser({ ...data, jwt: token });
-      } catch (err) {
-        localStorage.removeItem('authToken');
-      }
+// initialize
+const initializeAuth = async () => {
+  const token = localStorage.getItem('authToken'); // Assuming token is retrieved here
+  if (token) {
+    try {
+      const { data } = await api.get('/users/me', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setUser({ ...data, jwt: token });
+    } catch (err) {
+      localStorage.removeItem('authToken');
     }
-    setLoading(false);
-  };
-  
-  // initialize authentication 
-  // useEffect(() => { initializeAuth() } ,[]);
+  }
+  setLoading(false);
+};
 
+// initialize authentication 
+useEffect(() => { initializeAuth() }, []);
   // login
   const login = async (email, password) => {
     setLoading(true);

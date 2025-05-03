@@ -10,6 +10,7 @@ import { links, subLinks } from '@/constants/data';
 import { useAuth } from '../../../context/AuthContext';
 
 export default function Navbar() {
+  
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -17,6 +18,8 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const avatarRef = useRef(null);
   const pathname = usePathname(); 
+
+  // get user  and logout and success
   const { logout , user ,success} = useAuth()
 
   useEffect(() => {

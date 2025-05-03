@@ -4,8 +4,10 @@ import { LocationTab } from './LocationTab'
 import { AmenitiesTab } from './AmenitiesTab'
 
 export const ApartmentTabs = ({ product, description, amenities, infrastructure }) => (
+
+
   <Tabs defaultValue="description">
-    <TabsList className="w-full ">
+    <TabsList className="grid grid-cols-4 w-full mb-8">
       <TabsTrigger value="description">Описание</TabsTrigger>
       <TabsTrigger value="amenities">Удобства</TabsTrigger>
       <TabsTrigger value="location">Локация</TabsTrigger>
@@ -29,6 +31,9 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
         address={product.mapInfo.address} 
         infrastructure={infrastructure}
       />
+    </TabsContent>
+    <TabsContent value="reviews" className="pt-6">
+      <h1>Review</h1>
     </TabsContent>
   </Tabs>
 )

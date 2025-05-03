@@ -54,8 +54,8 @@ export default function ProductPage() {
         <Categories/>
         <RentalSection/>
       </div>
-       
-
+      <div> 
+      </div>
         {/* Animated Products Section */}
         {/* <div className="mt-5 p-6">
           <h2 className="text-3xl text-primary-dark mb-6 font-bold text-left">
