@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { validateEmail, validatePassword } from '@/constants/utils';
@@ -26,57 +27,60 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Вход</h1>
+
         {errors.server && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
             {errors.server}
           </div>
         )}
+
         <form onSubmit={handleSubmit} className="space-y-6 max-w-92">
           <Input
-            label='Email'
+            label="Электронная почта"
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onBlur={() => setErrors({ ...errors, email: validateEmail(email) })}
             error={errors.email}
-            placeholder="Enter your email"
+            placeholder="Введите ваш email"
             required
           />
-          <Input 
-            label='Password'
+          <Input
+            label="Пароль"
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onBlur={() => setErrors({ ...errors, password: validatePassword(password) })}
-            placeholder="Enter your password"
+            placeholder="Введите пароль"
             required
             error={errors.password}
           />
           <div>
-            <Button 
-              type="submit" 
-              size='md'
+            <Button
+              type="submit"
+              size="md"
               variant="primary"
               disabled={loading}
-            >  
-            {loading ?  'Processing...'  : 'Login'}
+            >
+              {loading ? 'Обработка...' : 'Войти'}
             </Button>
           </div>
         </form>
+
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Do not have an account?{' '}
+            Нет аккаунта?{' '}
             <Link href="/register" className="text-primary-default hover:text-primary-dark">
-              Register here
+              Зарегистрироваться
             </Link>
           </p>
           <p className="text-sm text-gray-600 mt-2">
-            Forgot your password?{' '}
+            Забыли пароль?{' '}
             <Link href="/forgot-password" className="text-primary-default hover:text-primary-dark">
-              Reset it here
+              Восстановить
             </Link>
           </p>
         </div>

@@ -1,73 +1,88 @@
-// components/ProfileInfo.tsx
 'use client';
 
+import { useState, FormEvent, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function ProfileInfo() {
-  const [formData, setFormData] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '+7 999 999 99 99',
-    bio: 'Professional real estate agent with 10+ years experience',
-  });
+  const { user, editUser } = useAuth();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const [lastName, setLastName] = useState(user?.username ?? '');
+  const [email, setEmail] = useState(user?.email ?? '');
+  const [telephone, setTelephone] = useState(user?.phone ?? '');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const data  = {
+        username: lastName,
+        phone: telephone,
+      }
+      await editUser(data);
+
+      // Успешно обновлено (опционально: показать toast)
+      console.log("Данные профиля успешно обновлены.");
+    } catch (error) {
+      // Ошибка обновления (опционально: показать toast)
+      console.error("Ошибка при обновлении профиля:", error);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Updated profile:', formData);
-    // Add your update logic here
+  const handleTelephoneChange = (e) => {
+    setTelephone(e.target.value);
+  };
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value);
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-6">Profile Information</h2>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
-        <div className="space-y-2">
-          <Label>Full Name</Label>
+    <div className="bg-white rounded-xl shadow-md p-8 max-w-3xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6">Информация профиля</h2>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <Label htmlFor="lastName">ФИО</Label>
           <Input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
+            id="lastName"
+            name="lastName"
+            placeholder="Введите полное имя"
+            value={lastName}
+            onChange={handleLastNameChange}
+            required
           />
         </div>
-        <div className="space-y-2">
-          <Label>Email</Label>
+        <div>
+          <Label htmlFor="email">Электронная почта</Label>
           <Input
+            id="email"
             type="email"
             name="email"
-            value={formData.email}
-            onChange={handleChange}
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(email)}
+            readOnly
+            disabled // предполагаем, что email не редактируется
           />
         </div>
-        <div className="space-y-2">
-          <Label>Phone</Label>
+        <div>
+          <Label htmlFor="telephone">Телефон</Label>
           <Input
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
+            id="telephone"
+            name="telephone"
+            placeholder="+7 (999) 123-45-67"
+            value={telephone}
+            onChange={handleTelephoneChange}
+            required
           />
         </div>
-        <div className="space-y-2">
-          <Label>Bio</Label>
-          <textarea
-            name="bio"
-            value={formData.bio}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md"
-            rows={4}
-          />
+        <div className="pt-4">
+          <Button type="submit" className="w-full md:w-auto">
+            Сохранить изменения
+          </Button>
         </div>
-        <Button type="submit">Update Profile</Button>
       </form>
     </div>
   );

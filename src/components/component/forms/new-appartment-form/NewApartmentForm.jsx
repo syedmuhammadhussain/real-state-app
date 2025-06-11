@@ -108,7 +108,7 @@ export default function ApartmentForm({ initialData }) {
   };
 
   return (
-    <div className="h-full overflow-auto">
+    <div className="">
       <div className=" gap-8">
         {/* Left: Forms */}
         <div className="md:col-span-2">

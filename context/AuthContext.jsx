@@ -15,39 +15,41 @@ export function AuthProvider({ children }) {
   
   const router = useRouter();
   const token = localStorage.getItem('authToken');
-  
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 // initialize
 const initializeAuth = async () => {
   const token = localStorage.getItem('authToken'); // Assuming token is retrieved here
   if (token) {
     try {
-      const { data } = await api.get('/users/me', {}, {
+      const { data } = await api.get(`${apiUrl}/users/me?populate=*`,{
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
       setUser({ ...data, jwt: token });
+      setSuccess(true)
     } catch (err) {
-      localStorage.removeItem('authToken');
+      setSuccess(false)
     }
   }
   setLoading(false);
 };
 
-// initialize authentication 
-useEffect(() => { initializeAuth() }, []);
+  // initialize authentication 
+  useEffect(() => { initializeAuth() }, []);
+
+
   // login
   const login = async (email, password) => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await api.post('/auth/local', { identifier: email, password });
+      const { data } = await api.post(`${apiUrl}/auth/local`, 
+        { identifier: email, password },
+     );
       localStorage.setItem('authToken', data.jwt);
-      // api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
-      setUser({
-        userInfo : data.user,
-        jwt:data.jwt
-      });
+      initializeAuth()
       setSuccess(true)
       router.push('/');
       toast({
@@ -80,17 +82,15 @@ useEffect(() => { initializeAuth() }, []);
     setLoading(true);
     setError(null);
     try {
-      const { data } = await api.post('/auth/local/register', {
+      const { data } = await api.post(`${apiUrl}/auth/local/register`, {
         username: `${firstName}_${lastName}`,
         email,
-        password
+        password,
+        "roleName": "agency"
       });
       localStorage.setItem('authToken', data.jwt);
       // api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
-      setUser({
-        userInfo : data.user,
-        jwt:data.jwt
-      });
+      initializeAuth()
       setSuccess(true)
       router.push('/');
       toast({
@@ -116,7 +116,7 @@ useEffect(() => { initializeAuth() }, []);
   // forget password 
   const forgetPassword = async (email) => {
     try {
-      await api.post('/auth/forgot-password', { email });
+      await api.post(`${apiUrl}/auth/forgot-password`, { email });
       setSuccess(true);
       toast({
         variant: 'success',
@@ -142,17 +142,13 @@ useEffect(() => { initializeAuth() }, []);
     setError(null);
     if (password !== passwordConfirmation ) return 
     try {
-      const { data } = await api.post('/auth/local/register', {
+      const { data } = await api.post(`${apiUrl}/auth/reset-password`, {
         password,
         passwordConfirmation,
         code
       });
       localStorage.setItem('authToken', data.jwt);
-      // api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
-      setUser({
-        userInfo : data.user,
-        jwt:data.jwt
-      });
+      initializeAuth()
       setSuccess(true)
       router.push('/');
       toast({
@@ -187,8 +183,44 @@ useEffect(() => { initializeAuth() }, []);
     });
   };
 
+
+    // editUser editUser 
+    const editUser = async (data) => {
+      try {
+        await api.put(
+          `${apiUrl}/user/me`,
+            data,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+        );
+        setSuccess(true);
+      initializeAuth()
+
+        toast({
+          variant: 'success',
+          title: 'Профиль обновлён',
+          description: 'Ваши данные были успешно сохранены'
+        });
+      } catch (error) {
+        setError(prev => ({
+          ...prev,
+          server: error.response?.data?.message || 'Не удалось обновить данные. Пожалуйста, попробуйте снова.'
+        }));
+        toast({
+          variant: 'destructive',
+          title: 'Ошибка обновления',
+          description: 'Не удалось сохранить изменения профиля'
+        });
+      }
+    };
+    
+    
+     
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, register , resetPassword, logout, forgetPassword, success }}>
+    <AuthContext.Provider value={{ user, loading, error, login, register , resetPassword, logout, forgetPassword, success, editUser }}>
       <ToastProvider>
       {children}
 

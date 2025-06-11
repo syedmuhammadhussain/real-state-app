@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { validateConfirmationPassword, validateEmail, validatePassword } from '@/constants/utils';
@@ -9,12 +10,10 @@ import { Button } from '@/components/ui/button';
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [errors, setErrors] = useState({ email: '' });
-
-  // AFTER TRUE
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
-  const {  forgetPassword, resetPassword, error: authError, loading, success } = useAuth();
+  const { forgetPassword, resetPassword, error: authError, loading, success } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,7 +22,7 @@ export default function ForgotPasswordPage() {
       setErrors({ email: emailError });
       return;
     }
-    await forgetPassword(email)    
+    await forgetPassword(email);
   };
 
   const handleSubmitNewPassword = async (e) => {
@@ -37,106 +36,107 @@ export default function ForgotPasswordPage() {
     //   setErrors(validationErrors);
     //   return;
     // }
-    await resetPassword(password,passwordConfirmation,code);
-  }
+
+    await resetPassword(password, passwordConfirmation, code);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      {!success ?   
+      {!success ? (
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Forgot Password</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <Input
-              label='Email'
+          <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Забыли пароль</h1>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Input
+              label="Электронная почта"
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={() => setErrors({ ...errors, email: validateEmail(email) })}
               error={errors.email}
-              placeholder="Enter your email"
+              placeholder="Введите ваш email"
               required
             />
-          <div>
-          <Button
-              type="submit" 
-              size='md'
-              variant="primary"
-              disabled={loading}
-            >  
-            {loading ? 'Processing...' : 'Reset Password'}
-            </Button>
+            <div>
+              <Button
+                type="submit"
+                size="md"
+                variant="primary"
+                disabled={loading}
+              >
+                {loading ? 'Обработка...' : 'Сбросить пароль'}
+              </Button>
+            </div>
+          </form>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Вспомнили пароль?{' '}
+              <Link href="/login" className="text-primary-default hover:text-primary-dark">
+                Войти
+              </Link>
+            </p>
           </div>
-        </form>
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            Remember your password?{' '}
-            <Link href="/login" className="text-primary-default hover:text-primary-dark">
-              Login here
-            </Link>
-          </p>
         </div>
-        </div>
-      :
+      ) : (
         <div className="w-full flex items-center justify-center bg-gray-100">
           <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-            {/* <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Enter your code which you get in your email </h1> */}
             <form onSubmit={handleSubmitNewPassword} className="space-y-6">
               <Input
-                label='Code'
+                label="Код"
                 type="text"
                 id="code"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                // onBlur={() => setErrors({ ...errors, email: validate(code) })}
-                error={errors.email}
-                placeholder="Enter Your Code"
+                placeholder="Введите код из email"
                 required
               />
-              <Input 
-                  label='Password'
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  onBlur={() => setErrors({ ...errors, password: validatePassword(password) })}
-                  placeholder="Enter your password"
-                  required
-                  error={errors.password}
-                />
-            <Input 
-                label='Comfirmation Password'
+              <Input
+                label="Новый пароль"
                 type="password"
                 id="password"
-                value={passwordConfirmation}
-                onChange={(e) => setPasswordConfirmation(e.target.value)}
-                onBlur={() => setErrors({ ...errors, password: validateConfirmationPassword(passwordConfirmation,password) })}
-                placeholder="Rewrite the same password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onBlur={() => setErrors({ ...errors, password: validatePassword(password) })}
+                placeholder="Введите новый пароль"
                 required
                 error={errors.password}
-                />
+              />
+              <Input
+                label="Подтверждение пароля"
+                type="password"
+                id="passwordConfirmation"
+                value={passwordConfirmation}
+                onChange={(e) => setPasswordConfirmation(e.target.value)}
+                onBlur={() => setErrors({
+                  ...errors,
+                  passwordConfirmation: validateConfirmationPassword(passwordConfirmation, password)
+                })}
+                placeholder="Повторите пароль"
+                required
+                error={errors.password}
+              />
               <div>
                 <Button
-                  type="submit" 
-                  size='md'
+                  type="submit"
+                  size="md"
                   variant="primary"
                   disabled={loading}
-                >  
-                {loading ? 'Processing...' : 'Reset Password'}
+                >
+                  {loading ? 'Обработка...' : 'Сменить пароль'}
                 </Button>
               </div>
             </form>
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Remember password my account?{' '}
+                Вспомнили пароль?{' '}
                 <Link href="/login" className="text-primary-default hover:text-primary-dark">
-                  Login here
+                  Войти
                 </Link>
               </p>
             </div>
           </div>
         </div>
-      }
+      )}
     </div>
   );
 }
