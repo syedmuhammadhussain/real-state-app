@@ -4,15 +4,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Sidebar } from "./_related/SideBar";
 import { cityOptions, data, products } from "@/constants/data";
-import NextLink from "@/components/ui/NextLink";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { api } from "@/lib/api";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
 import PageLink from "./_related/PageLink";
 
 const ITEMS_PER_PAGE = 5;
-
-
 
 export default function CityPage({ params }) {
   

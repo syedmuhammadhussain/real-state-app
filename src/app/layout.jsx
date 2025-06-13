@@ -23,15 +23,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={roboto.className}>
       <Toaster/>
-      <AuthProvider>
-        <ApartmentProvider>
-        
-        <Navbar/>
-          <main>{children}</main>
-        <SocialLinks/>
-        <Footer />
-        </ApartmentProvider>
-    </AuthProvider>
+        <AuthProvider>
+          <ApartmentProvider>
+          
+          <Navbar/>
+            <main>{children}</main>
+          <SocialLinks/>
+          <Footer />
+          </ApartmentProvider>
+        </AuthProvider>
 
       </body>
     </html>

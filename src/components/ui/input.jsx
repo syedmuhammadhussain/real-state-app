@@ -11,7 +11,7 @@ const Input = ({ label = "", type, id, value, onChange, onBlur, error, placehold
       {/* Label */}
       <label
         htmlFor={id}
-        className={`${label === "" && "hidden"} block text-sm mb-2 font-medium text-labelColor-default`}
+        className={`${label === "" && "hidden"} block text-sm mb-2 font-medium text-primary-dark`}
       >
         {label} 
         {required && <span className="absolute text-sm text-errorColor-default pl-1 mt-1">*</span>}

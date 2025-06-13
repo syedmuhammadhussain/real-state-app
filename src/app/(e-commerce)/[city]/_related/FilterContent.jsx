@@ -7,39 +7,40 @@ import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import Input from "@/components/ui/input";
+import { useApartment } from "../../../../../context/ApartmentContext";
 
-const AMENITIES = [
-    "Wi-Fi",
-    "Смарт-ТВ",
-    "Кондиционер",
-    "Стиральная машина",
-    "Кабельное ТВ",
-    "Посудомоечная машина",
-    "Сушилка",
-    "Микроволновка",
-    "Кофеварка",
-    "Игровая приставка",
-    "Детская кроватка",
-    "Высокий стул",
-    "Рабочий стол",
-    "Принтер",
-    "Сканер",
-    "Аудиосистема",
-    "Проигрыватель пластинок",
-    "Арт-коллекция",
-    "Умный дом",
-    "Робот-пылесос",
-    "Светомузыка",
-    "Домашний кинотеатр",
-    "Джакузи",
-    "Сауна",
-    "Оборудование для барбекю",
-    "Уличная мебель",
-    "Место для костра",
-    "Винтажная мебель",
-    "Библиотека",
-    "Камин"
-  ]
+// const AMENITIES = [
+//     "Wi-Fi",
+//     "Смарт-ТВ",
+//     "Кондиционер",
+//     "Стиральная машина",
+//     "Кабельное ТВ",
+//     "Посудомоечная машина",
+//     "Сушилка",
+//     "Микроволновка",
+//     "Кофеварка",
+//     "Игровая приставка",
+//     "Детская кроватка",
+//     "Высокий стул",
+//     "Рабочий стол",
+//     "Принтер",
+//     "Сканер",
+//     "Аудиосистема",
+//     "Проигрыватель пластинок",
+//     "Арт-коллекция",
+//     "Умный дом",
+//     "Робот-пылесос",
+//     "Светомузыка",
+//     "Домашний кинотеатр",
+//     "Джакузи",
+//     "Сауна",
+//     "Оборудование для барбекю",
+//     "Уличная мебель",
+//     "Место для костра",
+//     "Винтажная мебель",
+//     "Библиотека",
+//     "Камин"
+//   ]
 
 export function FilterContent({
     metro,
@@ -55,10 +56,16 @@ export function FilterContent({
     onBedSelect,
     onMetroSelect,
     onAmenityToggle,
-    onCottageToggle,selectedDistict, setSelectedDistict
+    onCottageToggle,
+    selectedDistict,
+    setSelectedDistict
   }) {
+
+    const { amenities, features, infrastructures, kitchens, cities } = useApartment()
+
     return (
       <div className="space-y-6 p-4">
+        
         {/* Price */}
         <div className="space-y-4">
           <Label className="text-sm font-semibold  text-primary-dark">Цена за сутки (₽)</Label>
@@ -124,6 +131,10 @@ export function FilterContent({
           <label className="flex cursor-pointer items-center gap-3 text-sm">
             <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} /> Коттедж
           </label>
+
+           <label className="flex cursor-pointer items-center gap-3 text-sm">
+            <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} /> квартира
+          </label>
         </div>
   
         {/* Metro */}
@@ -172,20 +183,43 @@ export function FilterContent({
         </div>
   
         {/* Amenities */}
-
         <div className="">
           <Label className="text-sm font-semibold text-primary-dark ">Удобства</Label>
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-            {AMENITIES.map((amenity) => (
+            {amenities.map((amenity) => (
               <label
-                key={amenity}
+                key={amenity.id}
                 className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
               >
                 <Checkbox
                   checked={selectedAmenities.includes(amenity)}
                   onCheckedChange={() => onAmenityToggle(amenity)}
                 />
-                {amenity}
+                {amenity.name}
+              </label>
+            ))}
+            {features.map((amenity) => (
+              <label
+                key={amenity.id}
+                className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
+              >
+                <Checkbox
+                  checked={selectedAmenities.includes(amenity)}
+                  onCheckedChange={() => onAmenityToggle(amenity)}
+                />
+                {amenity.name}
+              </label>
+            ))}
+            {kitchens.map((amenity) => (
+              <label
+                key={amenity.id}
+                className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
+              >
+                <Checkbox
+                  checked={selectedAmenities.includes(amenity)}
+                  onCheckedChange={() => onAmenityToggle(amenity)}
+                />
+                {amenity.name}
               </label>
             ))}
           </div>

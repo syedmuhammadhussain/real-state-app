@@ -56,7 +56,7 @@ export default function Navbar() {
   }
 
 
-  console.log('user', user)
+  // console.log('user', user)
   return (
     <header className="fixed top-0 left-0 w-full bg-background-default opacity-90 shadow-md z-50">
       <div className="px-4">

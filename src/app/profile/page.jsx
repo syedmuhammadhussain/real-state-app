@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PlusCircle, User, Settings, Home } from 'lucide-react';
 import ProfileInfo from './ProfileInfo';
-import AddApartmentModal from './AddApartmentModal';
+import { useRouter } from 'next/navigation';
 
 import { products } from '@/constants/data';
 import { Button } from '@/components/ui/button';
@@ -18,13 +18,14 @@ export default function ProfilePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedApartment, setSelectedApartment] = useState(null);
 
-  const { logout, user, success } = useAuth();
+  const {  user } = useAuth();
+  const router = useRouter();
+
   const {
     deleteApartment,
     updateApartment,
     createApartment,
     setApartmentForEdit,
-    setCurrentApartment,
   } = useApartment();
 
   const handleDelete = async (id) => {
@@ -38,7 +39,6 @@ export default function ProfilePage() {
   const handleEdit = (apartment) => {
     setApartmentForEdit(apartment);
     setSelectedApartment(apartment);
-    setIsModalOpen(true);
   };
 
   const handleSubmit = async (formData) => {
@@ -70,13 +70,10 @@ export default function ProfilePage() {
             <div>
               <h1 className="text-2xl font-bold">{user ? user?.username : 'неизвестно'}</h1>
               <p className="text-gray-600">{user ? user?.role.name : 'неизвестно'}</p>
-              <p className="text-gray-600">{user ? user?.email : 'неизвестно'}</p>
+              {/* <p className="text-gray-600">{user ? user?.email : 'неизвестно'}</p> */}
             </div>
           </div>
-          <Button onClick={() => setIsModalOpen(true)} className="w-1/3">
-            <PlusCircle className="w-4 h-4 mr-2" />
-            Добавить новую недвижимость
-          </Button>
+     
         </div>
 
         <Tabs value={selectedTab} onValueChange={setSelectedTab}>
@@ -89,15 +86,15 @@ export default function ProfilePage() {
               <User className="w-4 h-4 mr-2" />
               Профиль
             </TabsTrigger>
-            {/* <TabsTrigger value="settings">
-              <Settings className="w-4 h-4 mr-2" />
-              Настройки
-            </TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="properties">
             <div className="flex justify-between items-center mb-2 mt-2">
               <h3 className="w-2/4 font-semibold">Мои объявления</h3>
+              <Button onClick={() => router.push('/add-edit-apartment')} className="w-1/3">
+                <PlusCircle className="w-4 h-4 mr-2" />
+                Добавить новую недвижимость
+              </Button>
             </div>
 
             <div>
@@ -124,15 +121,7 @@ export default function ProfilePage() {
           </TabsContent> */}
         </Tabs>
 
-        <AddApartmentModal
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false);
-            setSelectedApartment(null);
-          }}
-          onSubmit={handleSubmit}
-          initialData={selectedApartment}
-        />
+       
       </div>
     </div>
   );
