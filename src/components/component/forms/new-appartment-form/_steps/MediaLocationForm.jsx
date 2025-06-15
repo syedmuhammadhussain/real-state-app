@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ImagePlus, MapPin } from 'lucide-react';
+import { ImagePlus, Loader2, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useApartment } from '../../../../../../context/ApartmentContext';
 
 /**
  * Форма загрузки медиа‑файлов и ввода адреса (русская локализация)
@@ -16,6 +17,7 @@ import { Button } from '@/components/ui/button';
 export default function MediaLocationForm({ apartment, setApartment, handleSubmit }) {
   const [previewUrls, setPreviewUrls] = useState([]);
 
+  const {loading} = useApartment()
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
     setApartment({ ...apartment, images: files });
@@ -24,9 +26,8 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Загрузка изображений */}
-      <h2 className="text-xl font-bold mb-4 flex items-center">
-        <ImagePlus className="w-5 h-5 mr-2 text-primary-dark" /> Загрузить фотографии
+      <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
+        <ImagePlus className="w-7 h-7 mr-2 text-primary-dark" /> Загрузить фотографии
       </h2>
       <input type="file" multiple accept="image/*" onChange={handleImageChange} />
 
@@ -39,9 +40,17 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
           ))}
         </div>
       )}
-
-      <Button type="submit" variant="primary" size="md" className="mt-4 w-full sm:w-auto">
-        Сохранить и продолжить
+        <Button
+        type="submit"
+        variant="primary"
+        size="md"
+        className="mt-4 w-full sm:w-auto"
+        disabled={loading}
+      >
+        {loading &&
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />  
+        }
+        {loading ? "Сохранение..." : "Сохранить и продолжить"}
       </Button>
     </form>
   );

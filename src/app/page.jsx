@@ -4,6 +4,7 @@ import HeroSection from '@/components/component/hero-section/HeroSection';
 import Categories from '@/components/component/categories/Categories';
 import NextLink from '@/components/ui/NextLink';
 import RentalSection from '@/components/component/rental-section/RentalSection';
+import CityIndex from '@/components/component/city-index/CityIndex';
 
 // Метаданные для SEO
 export const metadata = {
@@ -54,6 +55,7 @@ export default function ProductPage() {
         <Categories/>
         <RentalSection/>
       </div>
+      <CityIndex/>
       <div> 
       </div>
         {/* Animated Products Section */}

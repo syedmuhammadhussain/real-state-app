@@ -14,25 +14,25 @@ export const metadata = {
 
 export default function ContactUs() {
   return (
-    <div className=" ">
+    <>
       {/* Заголовок */}
 
        {/* Hero Section */}
-       <div className="relative h-96 md:h-[500px]">
+       <section className="h-screen relative ">
         <Image
-          src="/images/about-hero.jpg"
+          src="/images/contactUs.jpg"
           alt="Недвижимость премиум-класса"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="font-bold text-white text-center px-4">
-            <span className="text-primary-default">XRAL State</span> — 
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+          <h1 className="font-bold text-white text-center text-3xl px-4">
+            <span className="text-primary-dark text-5xl">XRAL State</span> — 
             Нужна консультация по недвижимости? Наши эксперты готовы помочь 
           </h1>
         </div>
-      </div>
+      </section>
      
       {/* Введение */}
      
@@ -133,21 +133,6 @@ export default function ContactUs() {
           </button>
         </form>
       </section>
-
-      {/* Офис и контакты */}
-      <section className="text-center">
-        <h2 className="text-2xl font-bold mb-6 text-textColor-dark flex items-center justify-center">
-          <MapPin className="w-6 h-6 mr-2 text-primary-dark" /> Наш офис
-        </h2>
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto mb-8">
-          <p className="text-textColor-muted mb-4">
-            <strong>📍 Адрес:</strong> Москва, Пресненская наб., 12, офис 234
-          </p>
-          <p className="text-textColor-muted mb-4">
-            <strong>📞 Телефон:</strong> +7 (495) 123-45-67
-          </p>
-        </div>
-      </section>
-    </div>
+    </>
   );
 }

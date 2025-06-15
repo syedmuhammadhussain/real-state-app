@@ -1,7 +1,5 @@
-'use client';
 import { Button } from '@/components/ui/button';
-import { motion } from 'framer-motion';
-import { Check, Crown, Home, Shield, Star, Camera, BoxSelect } from 'lucide-react'; // Fixed i
+import { Check, Crown, Home, Shield, Star, BoxSelect } from 'lucide-react'; // Fixed i
 
 const PremiumPage = () => {
   const plans = [
@@ -24,13 +22,13 @@ const PremiumPage = () => {
       <div className="pt-24 mx-auto px-4 py-16">
         {/* Заголовок */}
         <div className="text-center mb-16">
-          <motion.h1 
+          <h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className=" font-bold text-white mb-6"
           >
             Премиум Подписка для Недвижимости
-          </motion.h1>
+          </h1>
           <div className="flex items-center justify-center gap-4 mb-8">
             <div className="flex items-center gap-2 text-amber-400">
               <Star className="w-6 h-6" />
@@ -47,7 +45,7 @@ const PremiumPage = () => {
         {/* Карточка тарифа */}
         <div className="grid grid-cols-1 md:grid-cols-1 gap-8 max-w-2xl mx-auto">
           {plans.map((plan, index) => (
-            <motion.div
+            <div
               key={plan.name}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -78,12 +76,16 @@ const PremiumPage = () => {
                 ))}
               </ul>
               <Button
+              // onClick ={ (()=>{
+              //   // if(user) 1 -registragtion if use not exist  
+
+              // })}
               size='lg'
               variant="primary"
               className="font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-all">  
                Подключить Тариф
             </Button>
-            </motion.div>
+            </div>
           ))}
         </div>
 

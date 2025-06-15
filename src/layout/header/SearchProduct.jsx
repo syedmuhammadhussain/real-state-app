@@ -8,7 +8,7 @@ const SearchProduct = ({ searchQuery, setSearchQuery, toggleSearch, isSearchOpen
   const router = useRouter(); 
   const searchParams = useSearchParams();
 
-  console.log('searchParams',searchParams)
+  // console.log('searchParams',searchParams)
   // Handle search submission
   const handleSearchProp = (e) => {
     e.preventDefault();

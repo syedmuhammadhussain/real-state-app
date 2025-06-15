@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function CommerceLayout({ children }) {
   return (
-      <div className="mx-auto mt-10 py-12">
+      <div className="mx-auto mt-10 py-6">
           <main>
             {children}
           </main>

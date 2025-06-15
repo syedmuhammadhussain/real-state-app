@@ -4,7 +4,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from 'react'
-import Autoplay from 'embla-carousel-autoplay';
 
 const ImageCarousel = ({images , apartment = null, mainAmenities = null , auto = false}) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }); //, [Autoplay()]
@@ -56,7 +55,7 @@ const ImageCarousel = ({images , apartment = null, mainAmenities = null , auto =
               <Image
                 // src={image.url}
                 src="/images/bag.png" 
-                alt={image.caption}
+                alt={'asd'}
                 // width={10000}
                 // height={10000}
                 fill

@@ -5,6 +5,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 // import { useRouter } from 'next/router';
 import { api } from '@/lib/api';
 import { toast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 const ApartmentContext = createContext();
 
@@ -19,9 +20,11 @@ export const ApartmentProvider = ({ children }) => {
   const [currentApartment, setCurrentApartment] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedApartment, setSelectedApartment] = useState(null);
+  // const [loader, setLoader] = useState(false)
 
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+  const router = useRouter();
     const initialApartmentData = {
       title: '',
       price: 0,
@@ -39,14 +42,14 @@ export const ApartmentProvider = ({ children }) => {
       owner: null
     };
 
-    useEffect(()=>{
-      fetchFeature()
-      fetchAmenities()
-      fetchInfrastructures()
-      fetchKitchen()
-      fetchApartments()
-      fetchCities()
-    },[])
+    // useEffect(()=>{
+    //   fetchFeature()
+    //   fetchAmenities()
+    //   fetchInfrastructures()
+    //   fetchKitchen()
+    //   // fetchApartments()
+    //   fetchCities()
+    // },[])
 
     // Получить все FEATURE
     const fetchFeature = async () => {
@@ -177,11 +180,11 @@ export const ApartmentProvider = ({ children }) => {
     };
 
     // Получить квартиры по ID города
-    const fetchApartmentsByCity = async (cityId) => {
+    const fetchApartmentsByOwner = async (userId) => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/apartments?filters[city][id]=${cityId}`);
-        const data = await response.json();
+        const response = await api.get(`${apiUrl}/products?filters[owner][id][$eq]=${userId}&populate=owner&populate=images&populate=city&populate=location&populate=features&populate=kitchens&populate=amenities&populate=infrastructures&fields=title&fields=bathrooms&fields=bedrooms&fields=description&fields=propertyType&fields=size&fields=price&pagination[page]=1&pagination[pageSize]=10`);
+        const data = await response.data.data;
         setApartments(data);
         setError(null);
       } catch (err) {
@@ -219,49 +222,11 @@ export const ApartmentProvider = ({ children }) => {
       }
     };
 
-    // create new
-    const createApartment = async (apartmentData) => {
-      setLoading(true);
-      try {
-        const response = await api.post(`${apiUrl}/apartments`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-          },
-          body: JSON.stringify({ data: apartmentData })
-        });
-
-        if (!response.ok) throw new Error('Не удалось создать квартиру');
-
-        const newApartment = await response.json();
-        setApartments(prev => [...prev, newApartment]);
-
-        toast({
-          variant: 'success',
-          title: 'Квартира создана',
-          description: 'Новая квартира успешно добавлена.'
-        });
-
-      //   router.push('/apartments');
-        return newApartment;
-      } catch (err) {
-        console.error('Ошибка создания:', err);
-        setError(err.message || 'Ошибка при создании квартиры');
-        toast({
-          variant: 'destructive',
-          title: 'Ошибка создания',
-          description: err.message || 'Не удалось создать квартиру.'
-        });
-        throw err;
-      } finally {
-        setLoading(false);
-      }
-    };
-
     // edit apartment
     const updateApartment = async (id, apartmentData) => {
       setLoading(true);
       try {
-        const response = await api.put(`${process.env.NEXT_PUBLIC_API_URL}/apartments/${id}`, {
+        const response = await api.put(`${apiUrl}/apartments/${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
           },
@@ -304,7 +269,7 @@ export const ApartmentProvider = ({ children }) => {
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
           }
         });
-        if (!response.ok) throw new Error('Не удалось удалить квартиру');
+        // if (!response.ok) throw new Error('Не удалось удалить квартиру');
         setApartments(prev => prev.filter(apt => apt.id !== id));
         toast({
           variant: 'success',
@@ -331,8 +296,90 @@ export const ApartmentProvider = ({ children }) => {
       setCurrentApartment(apartment);
     };
 
-  const clearCurrentApartment = () => {
-    setCurrentApartment(null);
+    const clearCurrentApartment = () => {
+      setCurrentApartment(null);
+    };
+
+    // handle uploading image
+    const uploadImages = async (images) => {
+    if (!images || images.length === 0) return [];
+
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("images", image); // Use the correct key expected by your backend
+    });
+
+    try {
+      const response =  await api.post(`${apiUrl}/products/upload-images`, 
+        formData,
+        {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          // Optionally show progress
+          console.log(`Upload progress: ${(progressEvent.loaded / progressEvent.total) * 100}%`);
+        },
+      });
+
+      console.log("Uploaded media:", response.data.files);
+      return response.data.files; // Adapt this based on your backend response structure
+    } catch (error) {
+      console.error("Upload failed:", error);
+      throw new Error("Image upload failed.");
+    }
+  };
+
+  // create new
+  const createApartment = async (apartmentData, toUpload = []) => {
+    setLoading(true);
+    try {
+      // Step 1: Upload images if any
+      let uploadedImages = [];
+      if (toUpload.length > 0) {
+        uploadedImages = await uploadImages(toUpload);
+      }
+
+      console.log('uploadedImages', uploadedImages)
+      // Step 2: Integrate uploaded image info into apartmentData
+      const preparedData = {
+        ...apartmentData,
+        images:  uploadedImages.map((img) => img), // adapt based on your backend structure
+      };
+
+      // Step 3: Send create request
+      const response = await fetch(`${apiUrl}/products`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: preparedData }),
+      });
+
+      if (!response.ok) throw new Error('Не удалось создать квартиру');
+
+      const newApartment = await response.json();
+      setApartments((prev) => [...prev, newApartment]);
+
+      toast({
+        variant: 'success',
+        title: 'Квартира создана',
+        description: 'Новая квартира успешно добавлена.'
+      });
+
+      router.push('/profile')
+      return newApartment;
+    } catch (err) {
+      console.error('Ошибка создания:', err);
+      setError(err.message || 'Ошибка при создании квартиры');
+      toast({
+        variant: 'destructive',
+        title: 'Ошибка создания',
+        description: err.message || 'Не удалось создать квартиру.'
+      });
+      throw err;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -348,8 +395,9 @@ export const ApartmentProvider = ({ children }) => {
         infrastructures,
         kitchens,
         cities,
+        selectedApartment, setSelectedApartment,
         fetchApartments,
-        fetchApartmentsByCity,
+        fetchApartmentsByOwner,
         fetchApartmentById,
         createApartment,
         updateApartment,
@@ -360,7 +408,9 @@ export const ApartmentProvider = ({ children }) => {
         fetchAmenities,
         fetchInfrastructures,
         fetchKitchen,
-        fetchCities
+        fetchCities,
+        uploadImages,
+        createApartment,
       }}
     >
       {children}

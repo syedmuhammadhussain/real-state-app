@@ -14,25 +14,25 @@ export default function AboutUs() {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className="relative h-96 md:h-[500px]">
+      <section className="h-screen relative ">
         <Image
-          src="/images/about-hero.jpg"
+          src="/images/aboutUs.jpg"
           alt="Недвижимость премиум-класса"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="font-bold text-white text-center px-4">
-            <span className="text-primary-default">XRAL State</span> — 
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+          <h1 className="font-bold text-white text-center px-4 text-3xl">
+            <span className="text-primary-dark text-5xl">XRAL State</span> — 
             Ваш эксперт в мире элитной недвижимости
           </h1>
         </div>
-      </div>
+      </section>
 
       <div className="mx-auto px-4 py-16">
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {[
             { number: '13+', label: 'Лет на рынке' },
             { number: '50K+', label: 'Успешных сделок' },
@@ -46,22 +46,22 @@ export default function AboutUs() {
               <div className="text-textColor-muted">{stat.label}</div>
             </div>
           ))}
-        </div>
+        </section>
 
         {/* Values Section */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            <BadgeCheck className="inline-block mr-3 text-primary-default" />
+          <h2 className="text-3xl font-bold text-center mb-12 text-primary-dark">
+            <BadgeCheck className="w-12 h-12 inline-block mr-3 text-primary-default" />
             Наши принципы работы
           </h2>
           
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="relative h-96 rounded-lg overflow-hidden">
-              <Image
-                src="/images/bag.png"
+            <div className="relative aspect-square rounded-lg overflow-hidden">
+              <video
+                src="/images/vv.mp4"
+                autoPlay
                 alt="Наши ценности"
-                fill
-                className="object-cover"
+                className="object-contain "
               />
             </div>
 
@@ -80,7 +80,7 @@ export default function AboutUs() {
                   <div className="flex items-start gap-4">
                     <div className="text-primary-default">{value.icon}</div>
                     <div>
-                      <h3 className="text-xl font-bold mb-2">{value.title}</h3>
+                      <h3 className="text-xl font-bold mb-2 text-primary-dark">{value.title}</h3>
                       <p className="text-textColor-muted">{value.text}</p>
                     </div>
                   </div>
@@ -92,8 +92,8 @@ export default function AboutUs() {
 
         {/* Team Section */}
         <section className="mb-20">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            <Users className="inline-block mr-3 text-primary-default" />
+          <h2 className="text-3xl font-bold text-center mb-12 text-primary-dark">
+            <Users className=" w-12 h-12  inline-block mr-3 text-primary-default" />
             Наша команда
           </h2>
 

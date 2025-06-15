@@ -1,4 +1,3 @@
-// ============================= ApartmentForm.jsx =============================
 'use client';
 
 import { useState } from 'react';
@@ -10,6 +9,8 @@ import ParametersForm from './_steps/ParametersForm';
 import MediaLocationForm from './_steps/MediaLocationForm';
 
 import { Button } from '@/components/ui/button';
+import { useAuth } from '../../../../../context/AuthContext';
+import { useApartment } from '../../../../../context/ApartmentContext';
 
 // Начальные данные для квартиры (доступны на всех шагах)
 export const initialApartmentData = {
@@ -21,8 +22,11 @@ export const initialApartmentData = {
   size: 0,
   propertyType: 'APARTMENT',
   images: [],
-  location: { address: '', district: '' },
+  rooms: 0,
   features: [],
+  address:'',
+  district:'',
+  matro_station:'',
   city: '',
   amenities: [],
   infrastructures: [],
@@ -30,16 +34,20 @@ export const initialApartmentData = {
   owner: ''
 };
 
-export default function ApartmentForm({ initialData }) {
+export default function NewApartmentForm() {
   // Текущий шаг (1‑3)
   const [step, setStep] = useState(1);
 
+  const {user} = useAuth()
+  const {  selectedApartment, createApartment } = useApartment()
+  console.log('selectedApartment',selectedApartment,)
+
   // Единый стейт для всей информации о квартире
-  const [apartment, setApartment] = useState(initialData ?? initialApartmentData);
+  const [apartment, setApartment] = useState(selectedApartment ? selectedApartment  : initialApartmentData);
 
   // Контейнер для ошибок валидации
   const [errors, setErrors] = useState({});
-
+  
   // ------------ Обработчики шагов ------------
   const handleBasicSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +55,6 @@ export default function ApartmentForm({ initialData }) {
     if (!apartment.title.trim()) newErrors.title = 'Пожалуйста, укажите заголовок.';
     if (!apartment.price || apartment.price <= 0)
       newErrors.price = 'Цена должна быть больше 0.';
-
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
       return;
@@ -67,14 +74,10 @@ export default function ApartmentForm({ initialData }) {
 
   const handleMediaLocationSubmit = (e) => {
     e.preventDefault();
-    if (!apartment.location.address.trim()) {
-      alert('Пожалуйста, укажите адрес.');
-      return;
-    }
-
     // 👉 Здесь можно вызвать API для сохранения
-    console.log('Отправка объекта квартиры →', apartment);
-    alert('Объявление успешно опубликовано!');
+    console.log('Отправка объекта квартиры →', {...apartment, owner:user.id});
+    let payload  = {...apartment, owner:user.id}
+    createApartment(payload, apartment.images )
   };
 
   // ------------ UI ------------
@@ -82,7 +85,7 @@ export default function ApartmentForm({ initialData }) {
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex flex-col gap-8">
         {/* Навигация по шагам */}
-        <div className="mb-6 flex space-x-4 text-sm md:text-lg font-semibold">
+        <div className="mb-6 flex space-x-4 text-sm md:text-lg font-semibold text-primary-dark">
           {['Основная информация', 'Параметры', 'Медиа и адрес'].map((label, i) => {
             const current = i + 1;
             const reached = step >= current;

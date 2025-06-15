@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Mail } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import { useApartment } from '../../../../../../context/ApartmentContext';
@@ -34,30 +33,26 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
     return { key: idx, label: String(item) };
   };
 
-  const selectedCity = cities.find((c) => c.name === apartment.city);
+  const selectedCity = cities?.find((c) => c.id == apartment.city);
   const districtOptions = (selectedCity?.districts ?? []).map(normalise);
   const metroOptions = (selectedCity?.matro_stations ?? []).map(normalise);
 
   const onChange = (field) => (e) => {
-    const value = field === 'price' ? +e.target.value : e.target.value;
+    const value =  field === 'rooms'  || field === 'district' || field === 'matro_station'  || field === 'price' ? +e.target.value : e.target.value;
     setApartment({ ...apartment, [field]: value });
+    console.log('value',value)
   };
 
   const handleCityChange = (e) => {
-    const city = e.target.value;
-    setApartment({ ...apartment, city, district: '', metro: '' });
-  };
-  const handleChange = (field, value) => {
-    setApartment({
-      ...apartment,
-      location: { ...apartment.location, [field]: value },
-    });
+    const city = +e.target.value;
+    setApartment({ ...apartment, city});
+    
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-2xl p-6">
-      <h2 className="text-xl font-semibold flex items-center gap-2">
-        <Mail className="w-5 h-5 text-primary-default" />
+      <h2 className="text-xl font-semibold flex items-center gap-2 text-primary-dark">
+        <Mail className="w-7 h-7 text-primary-dark" />
         Основная информация
       </h2>
 
@@ -100,6 +95,17 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
         required
         error={errors.price}
       />
+       <Input
+        label="rooms"
+        type="number"
+        id="rooms"
+        min="0"
+        value={apartment.rooms || ''}
+        onChange={onChange('rooms')}
+        placeholder="1"
+        required
+        error={errors.room}
+      />
 
       {/* Тип недвижимости */}
       <div>
@@ -121,11 +127,11 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
       <Input
         label="Адрес"
         id="title"
-        value={apartment.location.address ?? ''}
-        onChange={(e) => handleChange('address', e.target.value)}
+        value={apartment.address ?? ''}
+        onChange={onChange('address')}
         placeholder="ул. Ленина 15, Москва"
       />
-        
+
       {/* Город */}
       <div>
         <label htmlFor="city" className="block text-sm text-primary-dark mb-1">
@@ -142,7 +148,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
             Выберите город
           </option>
           {cities.map((c, idx) => (
-            <option key={c.name || idx} value={c.name}>
+            <option key={c.name || idx} value={c.id}>
               {c.name}
             </option>
           ))}
@@ -166,8 +172,8 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
             <option value="" disabled>
               Выберите район
             </option>
-            {districtOptions.map(({ key, label }) => (
-              <option key={key} value={label}>
+            {districtOptions.map(({ key, label, id }) => (
+              <option key={key} value={key}>
                 {label}
               </option>
             ))}
@@ -179,21 +185,21 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
       {/* Метро */}
       {metroOptions.length > 0 && (
         <div>
-          <label htmlFor="metro" className="block text-sm text-primary-dark mb-1">
+          <label htmlFor="matro_station" className="block text-sm text-primary-dark mb-1">
             Станция метро
           </label>
           <select
-            id="metro"
+            id="matro_station"
              className=" w-full p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-            value={apartment.metro || ''}
-            onChange={onChange('metro')}
+            value={apartment.matro_station || ''}
+            onChange={onChange('matro_station')}
             required
           >
             <option value="" disabled>
               Выберите станцию метро
             </option>
             {metroOptions.map(({ key, label }) => (
-              <option key={key} value={label}>
+              <option key={key} value={key}>
                 {label}
               </option>
             ))}

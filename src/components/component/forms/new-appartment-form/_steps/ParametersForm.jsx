@@ -16,9 +16,7 @@ import { useApartment } from "../../../../../../context/ApartmentContext";
  * }} props
  */
 export default function ParametersForm({ apartment, setApartment, handleSubmit }) {
-  // ────────────────────────────────────────────────────────────────────────────
-  // helpers
-  // ────────────────────────────────────────────────────────────────────────────
+
   const toggleItem = (field, id) => {
     const selected = apartment[field] ?? [];
     const next = selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id];
@@ -27,9 +25,6 @@ export default function ParametersForm({ apartment, setApartment, handleSubmit }
 
   const handleChange = (field, value) => setApartment({ ...apartment, [field]: value });
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // options from context
-  // ────────────────────────────────────────────────────────────────────────────
   const {
     amenities = [],
     features = [],
@@ -55,13 +50,10 @@ export default function ParametersForm({ apartment, setApartment, handleSubmit }
     </div>
   );
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // JSX
-  // ────────────────────────────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-bold mb-4 flex items-center">
-        <Package className="w-5 h-5 mr-2 text-primary-default" /> Параметры квартиры
+      <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
+        <Package className="w-7 h-7 mr-2 text-primary-dark" /> Параметры квартиры
       </h2>
 
       {/* numeric details */}

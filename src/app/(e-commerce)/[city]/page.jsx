@@ -1,185 +1,234 @@
-"use client";
-import React, { useMemo } from "react";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Sidebar } from "./_related/SideBar";
-import { cityOptions, data, products } from "@/constants/data";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { api } from "@/lib/api";
-import ApartmentCard from "@/components/component/card/ApartmentCard";
-import PageLink from "./_related/PageLink";
+/* ------------------------------------------------------------------
+ * CityPage – Next 15.x compliant (async params), Strapi fetch, filters
+ * -----------------------------------------------------------------*/
+'use client';
 
-const ITEMS_PER_PAGE = 5;
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Sidebar } from './_related/SideBar';
+import { cityOptions } from '@/constants/data';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { api } from '@/lib/api';
+import ApartmentCard from '@/components/component/card/ApartmentCard';
+import PageLink from './_related/PageLink';
+import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
+const ITEMS_PER_PAGE = 10; // == pagination[pageSize]
+
+/* ------------------------------------------------------------------ */
 export default function CityPage({ params }) {
-  
-  /* --------------------- Safe access to dynamic slug -------------------- */
-    const { city: citySlug = "", page: pageSlug  } = React.use(params);
-    console.log('citySlug',citySlug)
+  /* ---------------------------------------------------------------
+   * 1️⃣  UNWRAP ASYNC PARAMS (React.use)
+   * ------------------------------------------------------------- */
+  const { city: citySlug = '' } = React.use(params);
 
+  // console.log('citySlug',citySlug)
   const router = useRouter();
   const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
 
-  // If slug is still missing, show loader / fallback
   if (!citySlug) return <p className="p-10 text-center">Loading…</p>;
 
-  const cityParam = citySlug;
-  const currentPage = parseInt(searchParams.get("page") || params.page || "1", 10);
+  /* ---------------------------------------------------------------
+   * Human-friendly city label
+   * ------------------------------------------------------------- */
+  const cityRussian =
+    cityOptions.find(
+      (c) =>
+        c.key.toLowerCase() === decodeURIComponent(citySlug).toLowerCase(),
+    ) ?? { key: citySlug, name: `Unknown City (${citySlug})` };
 
-  // not nessary 
-  const cityRussian = cityOptions.find(city => {
-    const cleanKey = city.key.toString().trim().toLowerCase();
-    const cleanParam = decodeURIComponent(cityParam).toString().trim().toLowerCase(); 
-    return cleanKey === cleanParam;   // we founded neeeded 
-  }) 
-  || { 
-    key: cityParam, 
-    name: `Unknown City (${cityParam})` 
-  };
+  /* ---------------------------------------------------------------
+   * Local state
+   * ------------------------------------------------------------- */
+  const [apartments, setApartments] = useState([]);
+  const [meta, setMeta] = useState({ pagination: { pageCount: 1 } });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  /* -------------------- read filters from query string ------------------- */
-
-  // Get Poperties
-  const fetchProperties = async (cityRussian) => {
-    setLoading(true);
-    try {
-      const encodedCity = encodeURIComponent(cityRussian);
-      const { data } = await api.get(`https://api.example.com/cities/${encodedCity}/properties`);
-      // setData(data)
-      return data;
-    } catch (error) {
-      console.error('Failed to fetch properties:', error.message);
-      throw new Error('Unable to retrieve property data. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // let's suppose iam getting by end and iam going to pass search parameters
-  // i will get data in this data properties and metro and district i have already implemented it 
-  // let list = fetchProperties(cityParam)
-  let list  = data.moscow.properties  // data comes formm data.js  hard coding
-  const metro = data.moscow.metro
-  const district = data.moscow.districts
-
+  /* ---------------------------------------------------------------
+   * Sidebar & URL filters
+   * ------------------------------------------------------------- */
   const filters = {
-    rooms: searchParams.get("rooms"),
-    priceMin: searchParams.get("priceMin"),
-    priceMax: searchParams.get("priceMax"),
-    beds: searchParams.get("beds"),
-    metro: searchParams.get("metro"),
-    amenities: searchParams.get("amenities")?.split(',') || [], // تحويل إلى مصفوفة
-    cottage: searchParams.get("cottage"),
-    district:searchParams.get("district"),
+    rooms: searchParams.get('rooms'),
+    priceMin: searchParams.get('priceMin'),
+    priceMax: searchParams.get('priceMax'),
+    beds: searchParams.get('beds'),
+    metro: searchParams.get('metro'),
+    amenities: searchParams.get('amenities')?.split(',') || [],
+    cottage: searchParams.get('cottage'),
+    district: searchParams.get('district'),
   };
-  console.log('filter room ', encodeURIComponent(filters?.rooms))
-  console.log('filter room ', typeof(filters?.rooms))
 
+  /* ---------------------------------------------------------------
+   * Build Strapi query string
+   * ------------------------------------------------------------- */
+  const buildApiUrl = () => {
+    const q = new URLSearchParams();
 
-  /* ---------------------------- filter + page ---------------------------- */
-
-    // Filter products based on search query
-    const query = searchParams.get("query") || '';
-    const filteredProducts = products.filter((product) => {
-    return (
-    product.title?.toLowerCase().trim().includes(query?.toLowerCase().trim() || '')||
-    product.city?.toLowerCase().trim().includes(query?.toLowerCase().trim() || '')||
-    product.descriptionShort?.toLowerCase().trim().includes(query?.toLowerCase().trim() || '')||
-    product.mapInfo.address?.toLowerCase().trim().includes(query?.toLowerCase().trim() || '')||
-    product.mapInfo.district?.toLowerCase().trim().includes(query?.toLowerCase().trim() || '')
-      )
-    }
+    q.set('filters[city][name][$eq]', citySlug);
+    ['images', 'features', 'kitchens', 'amenities', 'infrastructures'].forEach(
+      (p) => q.append('populate', p),
     );
+    ['title', 'bathrooms', 'bedrooms', 'description', 'propertyType', 'size', 'price'].forEach(
+      (f) => q.append('fields', f),
+    );
+    q.set('pagination[page]', currentPage.toString());
+    q.set('pagination[pageSize]', ITEMS_PER_PAGE.toString());
 
-    const factApartment = query.length === 0  ? products : filteredProducts
-    const { paginated, totalPages } = useMemo(() => {
-    // to show syed how is work
-    // let list  factApartment.filter(
-    // p => p.city.toLowerCase() === cityParam.toLowerCase()) || 'cities';
-    // in real production let list data.propereties which came form end point 
-    if (filters?.rooms)     list = list.filter(p => p.apartmentParameters.apartmentType === filters.rooms);
-    if (filters?.rooms == "3%2B" )     list = list.filter(p => +p.apartmentParameters.apartmentType >=  "3+");
-    if (filters?.beds)      list = list.filter(p => p.apartmentParameters.singleBeds  === filters.beds);
-    if (filters?.priceMin)  list = list.filter(p => +p.price >= +filters.priceMin);
-    if (filters?.priceMax)  list = list.filter(p => +p.price <= +filters.priceMax);
-    // if (filters?.metro)     list = list.filter(p => p.metro === filters.metro);
-    // if (filters?.amenities?.length > 1) list = list?.filter(p => filters?.amenities.every(a => p?.amenities?.includes(a)));
-    // if (filters.cottage)   list = list.filter(p => p.isCottage); // يتوقع وجود هذا الحقل
+    /* dynamic filters */
+    if (filters.rooms)
+      q.set('filters[apartmentParameters][apartmentType][$eq]', filters.rooms);
+    if (filters.beds)
+      q.set('filters[apartmentParameters][singleBeds][$eq]', filters.beds);
+    if (filters.priceMin) q.set('filters[price][$gte]', filters.priceMin);
+    if (filters.priceMax) q.set('filters[price][$lte]', filters.priceMax);
+    if (filters.metro) q.set('filters[metro][$eq]', filters.metro);
+    if (filters.district) q.set('filters[district][$eq]', filters.district);
+    if (filters.amenities.length)
+      q.set('filters[amenities][name][$in]', filters.amenities.join(','));
 
-    const totalPages = Math.max(1, Math.ceil(list.length / ITEMS_PER_PAGE));
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return { paginated: list.slice(start, start + ITEMS_PER_PAGE), totalPages };
-  }, [cityParam, currentPage, filters]);
+    return `/products?${q.toString()}`;
+  };
 
-  /* ----------------------- build link with params ------------------------ */
-  const buildLink = page => {
+  /* ---------------------------------------------------------------
+   * Fetch on slug / page / filters change
+   * ------------------------------------------------------------- */
+  useEffect(() => {
+    const fetchProperties = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const url = buildApiUrl();
+        const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+        // const { data } = await api.get(`${apiUrl}/products/?filters[city][name][$eq]=${citySlug}&populate=images&populate=features&populate=kitchens&populate=amenities&populate=infrastructures&fields=title&fields=bathrooms&fields=bedrooms&fields=description&fields=propertyType&fields=size&fields=price&pagination[page]=1&pagination[pageSize]=10`); 
+        const { data } = await api.get(url); 
+        console.log('data', data.data)
+        setApartments(data?.data || []);
+        setMeta(data?.meta || { pagination: { pageCount: 1 } });
+      } catch (err) {
+        console.error(err);
+        setError('Не удалось загрузить данные. Попробуйте позже.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [citySlug, currentPage, searchParams.toString()]);
+
+  /* ---------------------------------------------------------------
+   * Pagination helpers
+   * ------------------------------------------------------------- */
+  const totalPages = meta.pagination.pageCount ?? 1;
+  const buildLink = (page) => {
     const q = new URLSearchParams(searchParams.toString());
-    page === 1 ? q.delete("page") : q.set("page", page);
+    page === 1 ? q.delete('page') : q.set('page', page);
     return `/${citySlug}?${q.toString()}`;
   };
 
-  /* -------------------------- render component --------------------------- */
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <Sidebar
         defaultValues={filters}
-        onApply={vals => {
+        onApply={(vals) => {
           const q = new URLSearchParams();
           Object.entries(vals).forEach(([k, v]) => v && q.set(k, v));
           router.push(`/${citySlug}?${q.toString()}`);
         }}
-        metro={metro}
-        district={district}
+        /* TODO: supply real metro & district arrays once you fetch them */
+        metro={[]}
+        district={[]}
       />
 
-      <div className="mx-auto w-full px-4">
-        {/* header */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <Breadcrumbs
-          items={[
-          { label: "Главная", href: "/" },
-          { label: cityRussian?.ru || "Все города" }]}
+      <div className="w-full px-4">
+        <section className=" hidden md:block mb-6 max-h-[200px] h-screen relative ">
+          <Image
+            src="/images/aboutUs.jpg"
+            alt="Недвижимость премиум-класса"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-primary-dark/80 flex flex-col items-center justify-center">
+            <h1 className="font-bold text-white text-center px-4 text-3xl">
+              {/* <span className="text-primary-dark text-5xl">XRAL State</span> —  */}
+              Квартиры посуточно в  {cityRussian.ru}
+            </h1>
+            <p className='text-white max-w-7xl text-center'>
+            На нашем сайте вы можете найти подходящий вариант посуточной аренды квартиры в городе {cityRussian.ru}. Мы публикуем объявления от собственников, что позволяет выбрать нужную вам квартиру по выгодной цене.
+            </p>
+          </div>
+        </section>
+
+        {/* Header */}
+        <div className="mb-6 flex flex-wrap items-start  justify-between gap-4">
+          <Breadcrumbs
+            items={[
+              { key: 'home', label: 'Главная', href: '/' },   // 🔑 add unique keys
+              { key: 'city', label: cityRussian.ru },
+            ]}
           />
 
-          {/* QUERY */}
-          {query &&  <div>SEARCH OF  {query} </div> }
-          <div className="flex items-center gap-4">
-            <h4 className="text-primary-dark">  Квартиры в {cityRussian?.ru ? cityRussian?.ru : 'России'}</h4>
-            <p className="mt-1 text-gray-600">
-              Page {currentPage} of {totalPages}
+          <div className="flex flex-col items-end">
+            <h4 className="text-primary-dark text-2xl">
+              Квартиры в {cityRussian.ru}
+            </h4>
+            <p className="text-primary-default text-md">
+              Страница  <span className='text-primary-dark'>{currentPage} из {totalPages}</span> 
             </p>
           </div>
         </div>
 
-        {paginated.length ? (
+        {/* Content */}
+        {loading &&
+         <div className="flex items-center justify-center py-10 gap-4">
+          {/* Загрузка… */}
+         <Loader2 className="h-10 w-10 animate-spin text-primary-hover" /> 
+       </div>
+       }
+        {error && <p className="py-20 text-center text-primary-hover">{error}</p>}
+
+        {!loading && !error && apartments.length > 0 && (
           <>
-          {/* md:grid-cols-2 lg:grid-cols-3  lg:gap-8 */}
-            <div className="grid grid-cols-1 gap-3 ">  
-              {paginated.map(item => (
-                <ApartmentCard key={item.id} apartment={item} city={citySlug} />
+            <div className="grid grid-cols-1 gap-3">
+              {apartments.map(({ id, attributes }) => (
+                <ApartmentCard key={id} apartment={{ id, ...attributes }} city={citySlug} />
               ))}
             </div>
-            {/* pagination */}
-            <nav className="mt-12 flex items-center  justify-center gap-2">
+
+            {/* Pagination */}
+            <nav className="mt-12 flex items-center justify-center gap-2">
               <PageLink href={buildLink(currentPage - 1)} disabled={currentPage === 1}>
                 Prev
               </PageLink>
               {Array.from({ length: totalPages }, (_, i) => (
-                <PageLink key={i} href={buildLink(i + 1)} active={currentPage === i + 1}>
+                <PageLink
+                  key={i}
+                  href={buildLink(i + 1)}
+                  active={currentPage === i + 1}
+                >
                   {i + 1}
                 </PageLink>
               ))}
-              <PageLink href={buildLink(currentPage + 1)} disabled={currentPage === totalPages}
-               onClick={(e) => currentPage === totalPages && e.preventDefault()} >
+              <PageLink href={buildLink(currentPage + 1)} disabled={currentPage === totalPages}>
                 Next
               </PageLink>
             </nav>
           </>
-        ) : (
+        )}
+
+        {!loading && !error && apartments.length === 0 && (
           <div className="py-20 text-center">
             <h2 className="text-2xl text-gray-600">Ничего не найдено</h2>
-            <Link href={`/${citySlug}`} className="mt-4 inline-block text-primary-dark hover:text-primary-light">
-               Просмотреть все объекты недвижимости
+            <Link
+              href={`/${citySlug}`}
+              className="mt-4 inline-block text-primary-dark hover:text-primary-light"
+            >
+              Просмотреть все объекты недвижимости
             </Link>
           </div>
         )}
@@ -187,8 +236,3 @@ export default function CityPage({ params }) {
     </div>
   );
 }
-
-// /* ------------------------------ utils ------------------------------ */
-// function decodeCityParam(p = "") {
-//   return p.replace("city%3D", "").replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
-// }

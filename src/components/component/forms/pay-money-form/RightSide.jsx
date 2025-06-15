@@ -1,4 +1,4 @@
-import ProductCart from '@/components/component/cartProduct/ProductCart';
+// import ProductCart from '@/components/component/cartProduct/ProductCart';
 
 const RightSide = () => {
 
@@ -9,7 +9,7 @@ const RightSide = () => {
       <h2 className=" font-bold text-textColor-dark mb-4">Order Summary</h2>
 
       {/* Cart Items */}
-      <div className="max-h-80 overflow-y-auto no-scrollbar space-y-4 p-2">
+      {/* <div className="max-h-80 overflow-y-auto no-scrollbar space-y-4 p-2">
         {[].length > 0 ? (
           [].map((item) => (
             <ProductCart key={item.id} item={item} editable={false} />
@@ -17,7 +17,7 @@ const RightSide = () => {
         ) : (
           <p className="text-gray-500 text-center">Your cart is empty.</p>
         )}
-      </div>
+      </div> */}
 
       {/* Order Total */}
       <div className="border-t border-gray-300 mt-4 pt-4">

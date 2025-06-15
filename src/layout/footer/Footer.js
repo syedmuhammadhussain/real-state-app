@@ -1,53 +1,74 @@
+'use client';
 
 import Link from "next/link";
 import Image from "next/image";
-import { Bell, Facebook, Twitter, Instagram, Linkedin, Youtube } from "lucide-react";
+import { Bell, Send, Instagram, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Input from "@/components/ui/input";
+
+const VKIcon = ({ className }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M12.374 17.943h1.606c.485 0 .654-.348.9-.715.252-.373.63-.883 1.265-.883h1.209c.475 0 .701-.09.845-.444.13-.323.018-.588-.248-.904l-.464-.55a10.922 10.922 0 0 1-1.028-1.419c-.214-.38-.016-.557.328-.557h.987c.387 0 .533-.124.592-.435.064-.328-.047-.573-.271-.888l-.452-.604c-.598-.788-1.221-1.603-2.022-1.603h-1.156c-.364 0-.529.174-.634.452-.204.537-.47 1.09-.72 1.559-.11.21-.227.418-.36.613-.134.196-.282.386-.472.375-.19-.01-.294-.201-.369-.383a8.414 8.414 0 0 1-.506-1.574c-.093-.392-.24-.508-.658-.508H9.209c-.331 0-.538.154-.538.452 0 .421.622 3.44 2.909 5.441.398.337.79.489.794.785.004.24-.185.282-.44.282h-.727c-.411 0-.723-.048-1.067-.17-.345-.123-.465-.12-.605.207-.136.317-.503 1.046-.702 1.466-.215.451-.048.735.457.735h2.09z" />
+  </svg>
+);
 
 export default function Footer() {
   const links = [
-    { name: "Home", href: "/" },
-    { name: "Shop", href: "/shop" },
-    { name: "About Us", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "FAQ", href: "/faq" },
+    { name: "Главная", href: "/" },
+    { name: "О нас", href: "/about" },
+    { name: "Контакты", href: "/contact" },
+    { name: "Премиум", href: "/premium" },
+    { name: "Частые вопросы", href: "/faq" },
   ];
 
   const customerSupport = [
-    { name: "Shipping Information", href: "/shipping" },
-    { name: "Returns & Exchanges", href: "/returns" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Политика конфиденциальности", href: "/privacy" },
+    { name: "Условия использования", href: "/terms" },
+    { name: "Доставка и возврат", href: "/shipping" },
+    { name: "Поддержка клиентов", href: "/support" },
   ];
 
   const socialMedia = [
-    { icon: <Facebook size={20} />, href: "https://facebook.com" },
-    { icon: <Twitter size={20} />, href: "https://twitter.com" },
-    { icon: <Instagram size={20} />, href: "https://instagram.com" },
-    { icon: <Linkedin size={20} />, href: "https://linkedin.com" },
-    { icon: <Youtube size={20} />, href: "https://youtube.com" },
+    {
+      icon: <MessageCircle size={20} />,
+      href: "https://wa.me/79091818242",
+    },
+    {
+      icon: <Send size={20} />,
+      href: "https://t.me/your_telegram_username",
+    },
+    {
+      icon: <Instagram size={20} />,
+      href: "https://instagram.com/your_profile",
+    },
+    {
+      icon: <VKIcon className="w-5 h-5" />,
+      href: "https://vk.com/id1024184393",
+    },
   ];
 
   return (
     <footer className="bg-background-dark text-white py-10">
       <div className="container mx-auto px-6 lg:px-8">
-        {/* Top Section: Logo & Brief Info */}
+        {/* Top Section */}
         <div className="flex flex-col md:flex-row items-center justify-between border-b border-gray-700 pb-8">
           <div className="text-center md:text-left">
-          <Link href="/" aria-label="Home page" title="Go to Home page">
-                  <Image
-                    src={'/images/logo-icon.svg'}
-                    alt={'Brand Logo'}
-                    width={50}
-                    height={50}
-                    // fill
-                    className="object-cover transform hover:scale-105 transition-transform duration-300 mb-6"
-                  // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  // priority={isPriority}
-                  />
-                </Link>
+            <Link href="/" aria-label="Главная страница">
+              <Image
+                src="/images/logo-icon.svg"
+                alt="X Real Estate"
+                width={50}
+                height={50}
+                className="object-cover mb-4 hover:scale-105 transition-transform duration-300"
+              />
+            </Link>
             <p className="text-gray-400 text-sm max-w-sm">
-              Discover the best deals on high-quality fashion & accessories. Shop confidently with fast shipping and secure checkout.
+              X Real Estate — платформа для аренды недвижимости в России. Посуточно, напрямую, без посредников.
             </p>
           </div>
 
@@ -67,11 +88,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Middle Section: Links */}
+        {/* Middle Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left mt-8">
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-textColor-default">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">Навигация</h3>
             <ul className="space-y-2">
               {links.map((link, index) => (
                 <li key={index}>
@@ -86,9 +107,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Customer Support */}
+          {/* Support */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-textColor-default">Customer Support</h3>
+            <h3 className="text-lg font-semibold mb-4">Поддержка</h3>
             <ul className="space-y-2">
               {customerSupport.map((support, index) => (
                 <li key={index}>
@@ -103,40 +124,34 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter Subscription */}
+          {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-textColor-default">Stay Updated</h3>
+            <h3 className="text-lg font-semibold  rounded-md mb-4">Подпишитесь</h3>
             <p className="text-sm text-gray-400 mb-4">
-              Subscribe to our newsletter for the latest updates and exclusive offers.
+              Получайте новости, предложения и советы напрямую на почту.
             </p>
-            <form className="flex">
-              {/* <Input
+            <form className="flex  mx-auto md:mx-0">
+              <Input
                 type="email"
-                id="search"
-                // value={searchQuery}
-                // onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Enter your email"/> */}
-              {/* <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-2 rounded-l-lg text-textColor-dark bg-background-light focus:outline-none border border-gray-300"
-              /> */}
+                placeholder="Ваш e-mail"
+                className="w-full "
+              />
               <Button
-              size='md'
-              variant='primary'
                 type="submit"
-                className="bg-primary-default px-4 py-2 rounded-r-lg hover:bg-primary-hover transition-all duration-300"
+                size="md"
+                variant="primary"
+                className="group !max-w-[200px] rounded-l-md bg-primary-default hover:bg-primary-hover transition"
               >
-               <Bell size={20}/> Subscribe
+                <Bell size={20} className="mr-1 group-hover:animate-pulse" /> Подписаться
               </Button>
             </form>
           </div>
         </div>
 
-        {/* Bottom Section: Copyright */}
+        {/* Bottom */}
         <div className="border-t border-gray-700 mt-8 pt-6 text-center">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} Waggle. All rights reserved.
+            &copy; {new Date().getFullYear()} X Real Estate. Все права защищены.
           </p>
         </div>
       </div>

@@ -7,27 +7,26 @@ import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
-import NextLink from "@/components/ui/NextLink";
 
 export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonEdit = false }) {
   const [isLiked, setIsLiked] = useState(false);
-
   const isMobile = useIsMobile()
- // Main amenities to display as icons (only shown if "condition" is true)
- const mainAmenities = [
-  { icon: Wifi, condition: apartment.amenities?.includes("Wi-Fi") },
-  { icon: Wind, condition: apartment.checkInConditions?.airConditioning },
-  {
-    icon: WashingMachine,
-    condition: apartment.amenities?.includes("Washing machine"),
-  },
-  {
-    icon: Bath,
-    condition: apartment.apartmentParameters?.bathroom === "Separate",
-  },
-  { icon: Car, condition: apartment.apartmentParameters?.parkingAvailable },
-].filter((a) => a.condition);
-// apartment
+ 
+  // Main amenities to display as icons (only shown if "condition" is true)
+  const mainAmenities = [
+    { icon: Wifi, condition: apartment.amenities?.includes("Wi-Fi") },
+    { icon: Wind, condition: apartment.checkInConditions?.airConditioning },
+    {
+      icon: WashingMachine,
+      condition: apartment.amenities?.includes("Washing machine"),
+    },
+    {
+      icon: Bath,
+      condition: apartment.apartmentParameters?.bathroom === "Separate",
+    },
+    { icon: Car, condition: apartment.apartmentParameters?.parkingAvailable },
+  ].filter((a) => a.condition);
+
   // Contact info fallback
   const contactInfo = {
     phone: apartment.contactInfo?.phone || "+7 (XXX) XXX-XX-XX",
@@ -65,6 +64,8 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
           }`}
         />
       </Button> }
+
+
       <div className="w-full grid grid-cols-1 lg:grid-cols-3">
         {/* IMAGE SLIDER SECTION */}
         <div className="lg:col-span-1">
@@ -131,12 +132,12 @@ export default function ApartmentCard({ apartment, onEdit, onDelete, showButtonE
                     <p className="text-sm text-primary-default mt-1">Prepayment required</p>
                   )}
                 </div>
-
+{/* 
                 <NextLink href={`/${apartment.city}/${apartment.id}`} 
                 className="group flex gap-1  bg-primary-default hover: hover:bg-primary-dark shadow-primary-default/20 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-300">
                 Подробнее..
                 <Info className="h-5 w-5 group-hover:text-green-500"/>
-                </NextLink>
+                </NextLink> */}
               </div>
 
               {/* Contact Owner */}

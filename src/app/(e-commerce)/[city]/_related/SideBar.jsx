@@ -5,6 +5,7 @@ import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { FilterContent } from "./FilterContent";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,8 @@ export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
   const [selectedDistict, setSelectedDistict] = useState(defaultValues.district || "");
   const [selectedAmenities, setSelectedAmenities] = useState(defaultValues.amenities || []);
   const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
-
+  const isMobile = useIsMobile()
+  
   useEffect(() => {
     setPriceRange([
       defaultValues.priceMin ? +defaultValues.priceMin : 900,
@@ -78,13 +80,11 @@ export function Sidebar({ defaultValues = {}, onApply, metro, district }) {
   return (
     <>
       {/* Desktop sidebar */}
-      { (
         <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2">
           <Button  variant='primary' onClick={() => setIsOpen(true)} className=" flex  group rounded-lg px-6 shadow-2xl gap-4 lg:min-w-[200px] lg:text-lg lg:py-6 ">
             Фильтры <SlidersHorizontal className="h-5 w-5 group-hover:text-green-500 " />  
           </Button>
         </div>
-      )}
 
       {/* Mobile sheet */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
