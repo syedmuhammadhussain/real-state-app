@@ -4,7 +4,7 @@ import Input from '@/components/ui/input';
 import { validateEmail, validateFirstName, validateLastName, validateTelephone } from '@/constants/utils';
 import { Mail, Package } from 'lucide-react';
 
-const ContactForm = ({ handleContactSubmit, contact, setContact, setStep, errors, setErrors }) => {
+const ContactForm = ({ handleContactSubmit, contact, setContact, errors, setErrors }) => {
   return (
     <form onSubmit={handleContactSubmit} className="bg-background-light p-6 rounded-lg shadow-md">
       

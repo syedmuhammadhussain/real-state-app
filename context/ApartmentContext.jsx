@@ -13,6 +13,7 @@ export const ApartmentProvider = ({ children }) => {
 
   const [cities, setCities] = useState([]);
   const [apartments, setApartments] = useState([]);
+  const [singleApartments, setSingleApartments] = useState([]);
   const [features, setFeature] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [infrastructures, setInfrastructures] = useState([]); 
@@ -42,14 +43,14 @@ export const ApartmentProvider = ({ children }) => {
       owner: null
     };
 
-    // useEffect(()=>{
-    //   fetchFeature()
-    //   fetchAmenities()
-    //   fetchInfrastructures()
-    //   fetchKitchen()
-    //   // fetchApartments()
-    //   fetchCities()
-    // },[])
+    useEffect(()=>{
+      fetchFeature()
+      fetchAmenities()
+      fetchInfrastructures()
+      fetchKitchen()
+      // fetchApartments()
+      fetchCities()
+    },[])
 
     // Получить все FEATURE
     const fetchFeature = async () => {
@@ -204,8 +205,8 @@ export const ApartmentProvider = ({ children }) => {
     const fetchApartmentById = async (id) => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/apartments/${id}`);
-        const apartment = await response.json();
+        const response = await api.get(`${apiUrl}/products/${id}?populate=owner&populate=images&populate=city&populate=location&populate=features&populate=kitchens&populate=amenities&populate=infrastructures&fields=title&fields=bathrooms&fields=bedrooms&fields=description&fields=propertyType&fields=size&fields=price`);
+        const apartment = await response.data.data;
         setCurrentApartment(apartment);
         return apartment;
       } catch (err) {
@@ -355,7 +356,7 @@ export const ApartmentProvider = ({ children }) => {
         body: JSON.stringify({ data: preparedData }),
       });
 
-      if (!response.ok) throw new Error('Не удалось создать квартиру');
+      // if (!response.ok) throw new Error('Не удалось создать квартиру');
 
       const newApartment = await response.json();
       setApartments((prev) => [...prev, newApartment]);
@@ -381,11 +382,13 @@ export const ApartmentProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  // console.log('apartment',apartments)
 
   return (
     <ApartmentContext.Provider
       value={{
         apartments,
+        setApartments,
         currentApartment,
         initialApartmentData,
         loading,

@@ -45,7 +45,7 @@ export const ImageGallery = ({ images }) => {
             >
               <Image
                 src={image.url}
-                alt={image.caption}
+                alt={image.url}
                 fill
                 className="object-cover"
                 priority={index === 0}
@@ -97,7 +97,7 @@ export const ImageGallery = ({ images }) => {
             >
               <Image
                 src={image.url}
-                alt={image.caption}
+                alt={image.url}
                 fill
                 className="object-cover rounded-sm"
               />

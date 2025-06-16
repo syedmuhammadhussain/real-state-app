@@ -1,7 +1,8 @@
 import axios from 'axios';
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const api = axios.create({
-  baseURL: 'https://enduring-art-a494539659.strapiapp.com/api',
+  baseURL: apiUrl,
   headers: {
     'Content-Type': 'application/json'
   }

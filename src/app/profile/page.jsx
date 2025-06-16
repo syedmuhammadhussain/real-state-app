@@ -1,151 +1,169 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PlusCircle, User, Settings, Home, Loader2 } from 'lucide-react';
-import ProfileInfo from './ProfileInfo';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  PlusCircle,
+  User,
+  Home,
+  Loader2,
+  AlertTriangle,
+} from "lucide-react";
+import ProfileInfo from "./ProfileInfo";
+import { Button } from "@/components/ui/button";
+import ApartmentCard from "@/components/component/card/ApartmentCard";
+import { useAuth } from "../../../context/AuthContext";
+import { useApartment } from "../../../context/ApartmentContext";
 
-// import { products } from '@/constants/data';
-import { Button } from '@/components/ui/button';
-import ApartmentCard from '@/components/component/card/ApartmentCard';
-import { useAuth } from '../../../context/AuthContext';
-import { useApartment } from '../../../context/ApartmentContext';
+/**
+ * ProfilePage – страница профиля владельца объявлений
+ * --------------------------------------------------
+ * • Корректно обрабатывает состояния: загрузка, ошибка, пустой список
+ * • Уникальные key‑props для элементов списка
+ * • Нет дублирующихся key‑props на разных уровнях дерева
+ */
 
 export default function ProfilePage() {
-  const [selectedTab, setSelectedTab] = useState('properties');
-  const {  user } = useAuth();
+  const [selectedTab, setSelectedTab] = useState("properties");
+  const { user } = useAuth();
   const router = useRouter();
+
   const {
-    deleteApartment,apartments,setApartments,
-    updateApartment,loading,
-    createApartment,fetchApartmentsByOwner,
+    apartments,
+    loading,
+    error,
+    deleteApartment,
+    fetchApartmentsByOwner,
     setApartmentForEdit,
-    selectedApartment, setSelectedApartment 
   } = useApartment();
 
-
-
-  useEffect(()=>{ if(user) fetchApartmentsByOwner(user?.id) },[user])
-  //   console.log('apartments',apartments)
-  // console.log(' user?.products', user?.products) 
+  /**
+   * Получаем объявления пользователя при загрузке компонента
+   */
   
+  useEffect(() => {
+    if (user?.id) fetchApartmentsByOwner(user.id);
+    // eslint‑disable‑next‑line react-hooks/exhaustive-deps
+  }, [user?.id]);
+
+  // =====================
+  // Handlers
+  // =====================
+  const handleEdit = (apartment) => {
+    setApartmentForEdit(apartment);
+    router.push("/add-edit-apartment");
+  };
+
   const handleDelete = async (id) => {
     try {
       await deleteApartment(id);
-
     } catch (err) {
-      console.error('Ошибка при удалении квартиры:', err);
+      /* eslint-disable no-console */
+      console.error("Ошибка при удалении квартиры:", err);
+      /* eslint-enable no-console */
     }
   };
 
-  // handle edit
-  const handleEdit = (apartment) => {
-    setApartmentForEdit(apartment);
-    setSelectedApartment(apartment);
-  };
+  // =====================
+  // UI helpers
+  // =====================
+  const EmptyState = () => (
+    <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
+      <Home className="h-12 w-12 text-muted-foreground" />
+      <p className="text-lg font-medium text-muted-foreground">
+        У вас пока нет объявлений
+      </p>
+    </div>
+  );
 
-  console.log('selected apartment', selectedApartment)
+  const ErrorState = ({ message }) => (
+    <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
+      <AlertTriangle className="h-12 w-12 text-destructive" />
+      <p className="text-lg font-medium text-destructive">{message}</p>
+    </div>
+  );
 
-  const handleSubmit = async (formData) => {
-    try {
-      if (selectedApartment) {
-        const updated = await updateApartment(selectedApartment.documentId, formData);
-        setApartments((prev) => prev.map((apt) => apt.id === updated.id ? updated : apt));
-      } else {
-        const created = await createApartment(formData);
-        setApartments((prev) => [...prev, created]);
-      }
+  const LoadingState = () => (
+    <div className="flex items-center justify-center py-20">
+      <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
+    </div>
+  );
 
-      setSelectedApartment(null);
-    } catch (err) {
-      console.error('Ошибка при сохранении данных:', err);
-    }
-  };
-
-
+  // =====================
+  // Render
+  // =====================
   return (
-    <div className="pt-10 min-h-screen bg-gray-50">
-      <div className="w-full mx-auto px-4 py-8">
-        
-        {/* Заголовок профиля */}
-        <div className="w-full bg-white flex justify-between items-end flex-wrap rounded-lg shadow p-6 mb-8">
+    <div className="min-h-screen bg-gray-50 pt-10">
+      <div className="mx-auto w-full  px-4 py-8">
+        {/* Header */}
+        <div className="mb-8 flex flex-wrap items-end justify-between rounded-lg bg-white p-6 shadow">
           <div className="flex items-center gap-6">
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
-              <User className="w-12 h-12 text-gray-400" />
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
+              <User className="h-12 w-12 text-gray-400" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-primary-dark">{user ? user?.username : 'неизвестно'}</h1>
-              <p className="text-muted-primary ">{user ? user?.role.name : 'неизвестно'}</p>
-              {/* <p className="text-gray-600">{user ? user?.email : 'неизвестно'}</p> */}
+              <h1 className="text-2xl font-bold text-primary-dark">
+                {user?.username ?? "Неизвестно"}
+              </h1>
+              <p className="text-muted-primary">{user?.role?.name ?? "Неизвестно"}</p>
             </div>
           </div>
-     
         </div>
 
+        {/* Tabs */}
         <Tabs value={selectedTab} onValueChange={setSelectedTab}>
-          <TabsList className="grid grid-cols-2 w-full mb-8">
+          <TabsList className="mb-8 grid w-full grid-cols-2">
             <TabsTrigger value="properties">
-              <Home className="w-4 h-4 mr-2" />
-              Объекты
+              <Home className="mr-2 h-4 w-4" /> Объекты
             </TabsTrigger>
             <TabsTrigger value="profile">
-              <User className="w-4 h-4 mr-2" />
-              Профиль
+              <User className="mr-2 h-4 w-4" /> Профиль
             </TabsTrigger>
           </TabsList>
 
+          {/* Объекты */}
           <TabsContent value="properties">
-            <div className="flex justify-between items-center mb-2 mt-2">
+            <div className="mb-4 flex items-center justify-between">
               <h3 className="w-2/4 font-semibold text-primary-dark">Мои объявления</h3>
-              <Button onClick={() => {
-                setSelectedApartment(null)
-                router.push('/add-edit-apartment')}
-                  
-                } className="w-1/3">
-                <PlusCircle className="w-4 h-4 mr-2" />
-                Добавить новую недвижимость
+              <Button
+                className="w-1/3"
+                onClick={() => router.push("/add-edit-apartment")}
+              >
+                <PlusCircle className="mr-2 h-4 w-4" /> Добавить новую недвижимость
               </Button>
             </div>
 
-            <div>
-              {loading && <div className="flex items-center justify-center py-10">
-              <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
-            </div>
-                   
-            }
+            {/* Состояния данных */}
+            {loading && <LoadingState />}
+            {error && !loading && <ErrorState message={error} />}
+            {!loading && !error && apartments.length === 0 && <EmptyState />}
 
-            {/* {apartments.length=== 0  && 
-              <div className="flex items-center justify-center py-10">
-               <h2>нет записи</h2> </div>
-               } */}
-              {apartments.map((apartment) => (
-                <div key={apartment.id} className="mb-4">
+            {/* Список объявлений */}
+            <div className="mt-4 grid gap-4">
+              {!loading &&
+                !error &&
+                apartments.map((apartment, index) => (
                   <ApartmentCard
-                    key={apartment.id}
-                    apartment={apartment}
-                    onEdit={() =>{ 
-                      handleEdit(apartment)
-                      router.push('/add-edit-apartment')
-                    }}
-                    onDelete={() => handleDelete(apartment.documentId)}
-                    showButtonEdit={true}
+                    /**
+                     * apartment.id гарантирует уникальный ключ;
+                     * fallback на index, если id отсутствует (не рекомендуется, но безопасно)
+                     */
+                    key={apartment.id ?? `apt-${index}`}
+                    data={apartment}
+                    onEdit={() => handleEdit(apartment)}
+                    onDelete={() => handleDelete(apartment.id)}
+                    showButtonEdit
                   />
-                </div>
-              ))}
+                ))}
             </div>
           </TabsContent>
 
+          {/* Профиль */}
           <TabsContent value="profile">
             <ProfileInfo />
           </TabsContent>
-
-          {/* <TabsContent value="settings">
-            <p className="text-gray-600">Раздел "Настройки" в разработке.</p>
-          </TabsContent> */}
         </Tabs>
-
-       
       </div>
     </div>
   );

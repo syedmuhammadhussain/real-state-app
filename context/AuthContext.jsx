@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   const [success , setSuccess]= useState(false)
   
   const router = useRouter();
-  const token = localStorage.getItem('authToken');
+  // const token = localStorage.getItem('authToken');
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // initialize

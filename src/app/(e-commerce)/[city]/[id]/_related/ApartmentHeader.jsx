@@ -7,9 +7,9 @@ import { Home, Users, BedDouble, Ruler, Building, BedDoubleIcon } from 'lucide-r
 
 export const ApartmentHeader = ({ product }) =>{
   const contactInfo = {
-    phone: product.contactInfo?.phone || "+7 (XXX) XXX-XX-XX",
-    whatsapp: product.contactInfo?.whatsapp || "79123456789",
-    hiddenPhone: product.contactInfo?.hiddenPhone || "+7••• •••••••",
+    phone: product.owner?.phone || "+7 (XXX) XXX-XX-XX",
+    whatsapp: product.owner?.whatsapp || "79123456789",
+    hiddenPhone: product.owner?.hiddenPhone || "+7••• •••••••",
   };
    
   return (
@@ -17,7 +17,7 @@ export const ApartmentHeader = ({ product }) =>{
     <div className="">
       <div className='mb-11'>
         <h1 className="text-2xl text-primary-dark">{product.title}</h1>
-        <p className="text-base text-primary-default w-[80%]">{product.descriptionShort}</p>
+        <p className="text-base text-primary-default w-[80%]">{product.description}</p>
       </div>
       {/* <div className="">
         <button variant="ghost" size="lg">
@@ -31,7 +31,7 @@ export const ApartmentHeader = ({ product }) =>{
       <div className="flex items-center gap-4 mb-6">
         <div className="flex items-center gap-1 text-primary-default">
           <MapPin className="w-5 h-5 text-primary-light " />
-          <span>{product.mapInfo.district}, {product.mapInfo.address} </span>
+          <span>{product?.district ?? ''}, {product?.address  ?? ''} </span>
         </div>
         <div className="flex items-center gap-1">
           <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
@@ -52,45 +52,21 @@ export const ApartmentHeader = ({ product }) =>{
               </div>
               <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
                 <BedDoubleIcon className="w-4 h-4 text-primary-default  shrink-0" />
-                {product.apartmentParameters?.doubleBeds || 0} double beds
+                {product?.doubleBeds || 0} double beds
               </div>
               <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
                 <span className="text-primary-default  shrink-0">🛏</span>
-                {product.apartmentParameters?.singleBeds || 0} single beds
+                {product?.bedrooms || 0} single beds
               </div>
               <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
                 <span className="text-primary-default  shrink-0">📏</span>
-                {product.apartmentParameters?.area?.total || 0} m²
+                {product?.sizes || 0} m²
               </div>
               <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
                 <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
+                {product?.protoType || "Modern"}
               </div>
-              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-                <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
-              </div>
-                  <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-                <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
-              </div>
-              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-                <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
-              </div>
-              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-                <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
-              </div>
-              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-                <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
-              </div>
-                  <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default">
-                <span className="text-primary-default  shrink-0">🏗</span>
-                {product.apartmentParameters?.buildingType || "Modern"}
-              </div>
-          
+           
               
       </div>
       {/* Contact Owner */}

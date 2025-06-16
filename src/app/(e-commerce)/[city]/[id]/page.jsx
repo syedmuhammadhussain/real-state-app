@@ -1,57 +1,66 @@
-import { notFound } from 'next/navigation'
-import { products } from '@/constants/data'
-import { ApartmentHeader } from './_related/ApartmentHeader'
-import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
-import ImageCarousel from '@/components/component/card/ImageCarousel'
-import { ApartmentTabs } from './_related/ApartmentTabs'
+"use client";
 
-export async function generateStaticParams() {
-  
-  return products.map(product => ({
-    city: product.city,
-    id: product.id.toString()
-  }))
-}
+import React, { useEffect, useState, use as usePromise } from "react";
+import { notFound } from "next/navigation";
+import { Loader2 } from "lucide-react";
+
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import ImageCarousel from "@/components/component/card/ImageCarousel";
+import { ApartmentHeader } from "./_related/ApartmentHeader";
+import { ApartmentTabs } from "./_related/ApartmentTabs";
+import { useApartment } from "../../../../../context/ApartmentContext";
 
 export default function ApartmentPage({ params }) {
-  
-  const product = products.find(p => p.id.toString() === params?.id)
-  if (!product) return notFound()
+  /* Unwrap the params promise once */
+  const { id } = usePromise(params);
 
-  return (
-    <div className="w-full mx-auto px-4 space-y-10">
+  const { fetchApartmentById, currentApartment, loading } = useApartment();
+
+  const [error, setError] = useState(false);
+
+  /* Fetch data when the ID changes */
+  useEffect(() => {
+    if (id) fetchApartmentById(id).catch(() => setError(true)) }, []);
+
+  /* Loading spinner */
+  if (loading)
+    return (
+      <div className="flex items-center justify-center py-10 gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
+      </div>
+    );
+
+    console.log('currentApartment',currentApartment)
+
+
+  /* Page content */
+  if (currentApartment !== null ) return (
+    <div className=" mt-5 w-full mx-auto px-4 space-y-10">
+
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/" },
-          { label: product?.city , href: `/${product?.city}` },
-          // //${product?.mapInfo?.district}
-          { label: `${product?.mapInfo?.address  }`}]}/> 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              {/* Image Carousel - Takes full width on mobile, 2/3 on desktop */}
-              <div className="lg:col-span-2">
-                <ImageCarousel 
-                  images={product.images} 
-                  auto={true}
-                  className="h-full"
-                />
-              </div>
+          { label: currentApartment?.city?.name, href: `/${currentApartment.city?.slug}` },
+          { label: currentApartment?.address || currentApartment.title },
+        ]}
+      />
 
-              {/* Apartment Header - Takes full width on mobile, 1/3 on desktop */}
-              <div className="lg:col-span-2">
-                <ApartmentHeader 
-                  product={product}
-                  className="lg:sticky lg:top-6" // Optional sticky positioning
-                />
-              </div>
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-2">
+          <ImageCarousel images={currentApartment.images ?? []} auto className="h-full" />
+        </div>
+        <div className="lg:col-span-2">
+          <ApartmentHeader product={currentApartment} className="lg:sticky lg:top-6" />
+        </div>
+      </div>
 
-
-          <ApartmentTabs
-            product={product}
-            description={product.descriptionShort}
-            amenities={product.amenities}
-            infrastructure={product.infrastructure}
-          />
+      <ApartmentTabs
+        product={currentApartment}
+        description={currentApartment.description}
+        amenities={currentApartment.amenities}
+        infrastructure={currentApartment.infrastructures}
+      />
     </div>
-  )
+  );
 }
+

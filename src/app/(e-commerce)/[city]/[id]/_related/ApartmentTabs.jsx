@@ -17,8 +17,8 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
     <TabsContent value="description" className="w-full pt-6 mx-auto">
       <DescriptionTab 
         description={description} 
-        params={product.apartmentParameters}
-        conditions={product.checkInConditions}
+        params={product.apartmentParameters ?? []}
+        conditions={product.checkInConditions ?? []}
       />
     </TabsContent>
 
@@ -28,7 +28,7 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
 
     <TabsContent value="location" className="pt-6">
       <LocationTab 
-        address={product.mapInfo.address} 
+        address={product?.address} 
         infrastructure={infrastructure}
       />
     </TabsContent>

@@ -52,17 +52,17 @@ const ImageCarousel = ({images , apartment = null, mainAmenities = null , auto =
           {images.map((image, idx) => (
             // embla__slide 
             <div key={idx} className={`relative ${auto ?'min-h-[400px] lg:h-[600px]':'min-h-[350px] lg:h-auto '} flex-[0_0_100%] overflow-hidden`}>
-              <Image
+              {/* <Image
                 // src={image.url}
-                src="/images/bag.png" 
-                alt={'asd'}
+                src={image.name}
+                alt={image.name}
                 // width={10000}
                 // height={10000}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, (max-width: 1400px) 40vw, 33vw"
                 priority={idx === 0}
-              />
+              /> */}
             </div>
           ))}
         </div>
@@ -136,7 +136,7 @@ const ImageCarousel = ({images , apartment = null, mainAmenities = null , auto =
             >
               <Image
                 src={image.url}
-                alt={image.caption}
+                alt={image.url}
                 fill
                 className="object-cover rounded-sm"
               />
