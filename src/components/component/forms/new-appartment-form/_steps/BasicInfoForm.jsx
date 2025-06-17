@@ -165,7 +165,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
           <select
             id="district"
             className=" w-full  p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-            value={apartment.district || ''}
+            value={apartment.district ?? null}
             onChange={onChange('district')}
             required
           >
@@ -191,7 +191,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
           <select
             id="matro_station"
              className=" w-full p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-            value={apartment.matro_station || ''}
+            value={apartment.matro_station ?? null}
             onChange={onChange('matro_station')}
             required
           >

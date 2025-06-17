@@ -185,7 +185,7 @@ export function FilterContent({
         {/* Amenities */}
         <div className="">
           <Label className="text-sm font-semibold text-primary-dark ">Удобства</Label>
-          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
             {amenities.map((amenity) => (
               <label
                 key={amenity.id}

@@ -14,31 +14,31 @@ export function AuthProvider({ children }) {
   const [success , setSuccess]= useState(false)
   
   const router = useRouter();
-  // const token = localStorage.getItem('authToken');
+
+  // const token = localStorage.getItem('authToken') ?? '' 
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// initialize
-const initializeAuth = async () => {
-  const token = localStorage.getItem('authToken'); // Assuming token is retrieved here
-  if (token) {
-    try {
-      const { data } = await api.get(`${apiUrl}/users/me?populate=*`,{
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setUser({ ...data, jwt: token });
-      setSuccess(true)
-    } catch (err) {
-      setSuccess(false)
+  // initialize
+  const initializeAuth = async () => {
+    const token = localStorage.getItem('authToken'); // Assuming token is retrieved here
+    if (token) {
+      try {
+        const { data } = await api.get(`${apiUrl}/users/me?populate=*`,{
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUser({ ...data, jwt: token });
+        setSuccess(true)
+      } catch (err) {
+        setSuccess(false)
+      }
     }
-  }
-  setLoading(false);
-};
+    setLoading(false);
+  };
 
   // initialize authentication 
   useEffect(() => { initializeAuth() }, []);
-
 
   // login
   const login = async (email, password) => {
@@ -183,9 +183,8 @@ const initializeAuth = async () => {
     });
   };
 
-
-    // editUser editUser 
-    const editUser = async (data) => {
+  // editUser editUser 
+  const editUser = async (data) => {
       try {
         await api.put(
           `${apiUrl}/user/me`,
@@ -215,10 +214,8 @@ const initializeAuth = async () => {
           description: 'Не удалось сохранить изменения профиля'
         });
       }
-    };
+  };
     
-    
-     
   return (
     <AuthContext.Provider value={{ user, loading, error, login, register , resetPassword, logout, forgetPassword, success, editUser }}>
       <ToastProvider>

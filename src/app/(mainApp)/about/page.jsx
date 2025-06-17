@@ -22,11 +22,16 @@ export default function AboutUs() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/20 flex  flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center px-4 text-3xl">
             <span className="text-primary-dark text-5xl">XRAL State</span> — 
             Ваш эксперт в мире элитной недвижимости
           </h1>
+          <p className="text-white text-center px-4 text-xl max-w-6xl">
+         
+          test test test testesttestt test test test test test test test test test test test test test test test test 
+          test test test testesttestt test test test test test test test test test test test test test test test test 
+          </p>
         </div>
       </section>
 

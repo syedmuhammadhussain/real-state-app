@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { Wifi, Wind, Heart, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /**
  * Renders an apartment card that accepts the raw backend JSON directly.
@@ -161,7 +161,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
             )}
 
             {/* Features / Kitchen list */}
-            {apartment.extras.length > 0 && (
+            {!isMobile &&  apartment.extras.length > 0 && (
               <ul className="flex flex-wrap gap-2 text-xs mt-2">
                 {apartment.extras.slice(0, 8).map((item, idx) => {
                   const IconCmp = getExtraIcon(item);

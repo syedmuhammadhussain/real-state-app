@@ -31,6 +31,10 @@ export default function ContactUs() {
             <span className="text-primary-dark text-5xl">XRAL State</span> — 
             Нужна консультация по недвижимости? Наши эксперты готовы помочь 
           </h1>
+          <p className="text-white text-center px-4 text-xl max-w-6xl">
+          test test test testesttestt test test test test test test test test test test test test test test test test 
+          test test test testesttestt test test test test test test test test test test test test test test test test 
+          </p>
         </div>
       </section>
      

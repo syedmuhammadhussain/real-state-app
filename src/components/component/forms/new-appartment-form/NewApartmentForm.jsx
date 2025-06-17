@@ -25,8 +25,8 @@ export const initialApartmentData = {
   rooms: 0,
   features: [],
   address:'',
-  district:'',
-  matro_station:'',
+  district:null,
+  matro_station:null,
   city: '',
   amenities: [],
   infrastructures: [],
@@ -39,11 +39,13 @@ export default function NewApartmentForm() {
   const [step, setStep] = useState(1);
 
   const {user} = useAuth()
-  const {  selectedApartment, createApartment } = useApartment()
-  console.log('selectedApartment',selectedApartment,)
+
+  const {  currentApartment, createApartment , editMode, updateApartment } = useApartment()
+
+  // console.log('currentApartment',currentApartment,)
 
   // Единый стейт для всей информации о квартире
-  const [apartment, setApartment] = useState(selectedApartment ? selectedApartment  : initialApartmentData);
+  const [apartment, setApartment] = useState(currentApartment ? currentApartment  : initialApartmentData);
 
   // Контейнер для ошибок валидации
   const [errors, setErrors] = useState({});
@@ -72,12 +74,14 @@ export default function NewApartmentForm() {
     setStep(3);
   };
 
+  // console.log('editmode', editMode)
   const handleMediaLocationSubmit = (e) => {
     e.preventDefault();
     // 👉 Здесь можно вызвать API для сохранения
-    console.log('Отправка объекта квартиры →', {...apartment, owner:user.id});
+    // console.log('Отправка объекта квартиры →', {...apartment, owner:user.id});
     let payload  = {...apartment, owner:user.id}
-    createApartment(payload, apartment.images )
+    if (editMode) updateApartment(payload, apartment.images )
+    if (!editMode) createApartment(payload, apartment.images )
   };
 
   // ------------ UI ------------
