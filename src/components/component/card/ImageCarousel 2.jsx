@@ -42,14 +42,14 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
                 "relative w-full h-full",
                 auto ? "aspect-video" : "aspect-square "
               )}>
-                {/* <Image
+                <Image
                   src={`${domain}${image.url}`}
                   alt={image.alt || "Property image"}
                   fill
                   className="object-contain"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   priority={idx === 0}
-                /> */}
+                />
               </div>
             </div>
           ))}
@@ -130,7 +130,7 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
               className="relative aspect-square cursor-pointer"
               onClick={() => scrollTo(index)}
             >
-              {/* <Image
+              <Image
                 src={`${domain}${image.url}`}
                 alt={`Preview ${index + 1}`}
                 fill
@@ -138,7 +138,7 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
                   "object-cover rounded-sm transition-transform hover:scale-105",
                   index === selectedIndex ? "ring-2 ring-white" : ""
                 )}
-              /> */}
+              />
               {index === 3 && images.length > 4 && (
                 <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-white text-xs font-bold rounded-sm">
                   +{images.length - 4}

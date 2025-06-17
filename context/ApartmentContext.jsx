@@ -333,11 +333,19 @@ export const ApartmentProvider = ({ children }) => {
             // Step 2: Integrate uploaded image info into apartmentData
             const preparedData = {
               ...apartmentData,
-              images:  uploadedImages.map((img) => img), // adapt based on your backend structure
+              amenities: apartmentData.amenities.map((amenity) => amenity.id),
+              city: apartmentData.city.id,
+              features: apartmentData.features.map((feature) => feature.id),
+              kitchens: apartmentData.kitchens.map((kitchen) => kitchen.id),
+              infrastructures: apartmentData.infrastructures.map((infrastructure) => infrastructure.id),
+              images:  uploadedImages.map((img) => img),
             };
-      
+            
+            delete preparedData.id
+            delete preparedData.documentId
+
             // Step 3: Send create request
-            const response = await fetch(`${apiUrl}/apartments/${apartmentData.documentId}`, {
+            const response = await fetch(`${apiUrl}/products/${apartmentData.documentId}`, {
               method: 'PUT',
               headers: {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,

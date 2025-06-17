@@ -1,4 +1,4 @@
-import { Building2, Bath, Home, CalendarDays, Dog } from 'lucide-react'
+import { Building2, Bath, Home, CalendarDays, Dog, Bed } from 'lucide-react'
 
 export const DescriptionTab = ({ description, params, conditions }) => (
   <div className="space-y-6  flex flex-col justify-center h-auto">
@@ -6,28 +6,35 @@ export const DescriptionTab = ({ description, params, conditions }) => (
     
     <div className="w-full mx-auto grid grid-cols-2 gap-6">
       <div className="space-y-4">
-        <h3 className="text-xl font-semibold">Особенности</h3>
+        <h3 className="text-xl font-semibold text-primary-dark ">Особенности</h3>
+
+        {/* bathroom
+bedrooms
+propertyType */}
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center gap-2">
-            <Building2 className="w-5 h-5" />
-            <span>{params.buildingType}</span>
+            <Building2 className="w-5 h-5 text-primary-dark " />
+            <span className=' text-primary-dark'>{params.propertyType}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Bath className="w-5 h-5" />
-            <span>{params.bathroom}</span>
+          <div className="flex items-center gap-2 text-primary-dark">
+            <Bath className="w-5 h-5  text-primary-dark"  />
+            <span className=' text-primary-dark'>{params.bathroom}</span>
           </div>
-          {params.balconyType !== 'Нет' && (
+          {params.bedrooms  && (
             <div className="flex items-center gap-2">
-              <Home className="w-5 h-5" />
-              <span>{params.balconyType}</span>
+              <Bed className="w-5 h-5  text-primary-dark" />
+              <span className=' text-primary-dark'>{params.bedrooms}</span>
             </div>
           )}
         </div>
       </div>
 
+{/* Правила */}
       <div className="space-y-4">
         <h3 className="text-xl font-semibold">Правила</h3>
-        <div className="space-y-2">
+
+        sooon
+        {/* <div className="space-y-2">
           <div className="flex items-center gap-2">
             <CalendarDays className="w-5 h-5" />
             <span>Заезд после {conditions.checkOutTime}</span>
@@ -38,7 +45,7 @@ export const DescriptionTab = ({ description, params, conditions }) => (
               <span>Можно с питомцами</span>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   </div>

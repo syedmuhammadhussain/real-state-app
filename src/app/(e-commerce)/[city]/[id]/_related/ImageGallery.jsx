@@ -43,14 +43,14 @@ export const ImageGallery = ({ images }) => {
               key={index}
               className="relative flex-[0_0_100%] min-w-0 aspect-square"
             >
-              <Image
+              {/* <Image
                 src={image.url}
                 alt={image.url}
                 fill
                 className="object-cover"
                 priority={index === 0}
                 sizes="(max-width: 768px) 100vw, 80vw"
-              />
+              /> */}
               {index === images.length - 1 && images.length > 5 && (
                 <Button
                   variant="secondary"
@@ -95,12 +95,12 @@ export const ImageGallery = ({ images }) => {
               className="relative cursor-pointer"
               onClick={() => scrollTo(index)}
             >
-              <Image
+              {/* <Image
                 src={image.url}
                 alt={image.url}
                 fill
                 className="object-cover rounded-sm"
-              />
+              /> */}
               {index === 3 && images.length > 4 && (
                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-xs font-medium rounded-sm">
                   +{images.length - 4}

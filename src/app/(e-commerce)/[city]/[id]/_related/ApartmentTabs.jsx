@@ -17,19 +17,24 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
     <TabsContent value="description" className="w-full pt-6 mx-auto">
       <DescriptionTab 
         description={description} 
-        params={product.apartmentParameters ?? []}
-        conditions={product.checkInConditions ?? []}
+        params={{ 
+          bathroom :  product.bathrooms,
+          bedrooms :  product.bedrooms,
+          propertyType : product.propertyType
+         }
+        }
+        conditions={true}
       />
     </TabsContent>
 
     <TabsContent value="amenities" className="pt-6">
-      <AmenitiesTab amenities={amenities} />
+      <AmenitiesTab amenities={product.amenities ?? []} />
     </TabsContent>
 
     <TabsContent value="location" className="pt-6">
       <LocationTab 
-        address={product?.address} 
-        infrastructure={infrastructure}
+        address={product.city} 
+        infrastructure={product.amenities ?? []}
       />
     </TabsContent>
     <TabsContent value="reviews" className="pt-6">

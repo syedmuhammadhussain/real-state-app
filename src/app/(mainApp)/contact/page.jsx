@@ -26,7 +26,7 @@ export default function ContactUs() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center text-3xl px-4">
             <span className="text-primary-dark text-5xl">XRAL State</span> — 
             Нужна консультация по недвижимости? Наши эксперты готовы помочь 

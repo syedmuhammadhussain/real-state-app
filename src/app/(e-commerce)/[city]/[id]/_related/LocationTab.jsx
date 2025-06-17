@@ -9,7 +9,7 @@ export const LocationTab = ({ address, infrastructure }) => (
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Адрес</h3>
-        <p>{address}</p>
+        <p>{address.name}</p>
       </div>
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">Рядом есть</h3>
