@@ -10,11 +10,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"; 
 import { FilterContent } from "./FilterContent";
 
 /* Helper: safely copy params (ignores Symbol keys) */
@@ -186,16 +186,16 @@ export function Sidebar({
             </Button>
           </div>
 
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetContent
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogContent
               side="bottom"
               className="flex h-[85vh] flex-col rounded-t-lg bg-slate-50"
             >
-              <SheetHeader className="border-b">
-                <SheetTitle className="flex items-center gap-2 text-lg text-primary-dark">
+              <DialogHeader className="border-b">
+                <DialogTitle className="flex items-center gap-2 text-lg text-primary-dark">
                   <SlidersHorizontal className="h-5 w-5" /> Фильтры
-                </SheetTitle>
-              </SheetHeader>
+                </DialogTitle>
+              </DialogHeader>
 
               <div className="flex-1 overflow-y-auto p-4">
                 <FilterContent {...filterProps} />
@@ -224,8 +224,8 @@ export function Sidebar({
                   </Button>
                 </div>
               </div>
-            </SheetContent>
-          </Sheet>
+            </DialogContent>
+          </Dialog>
         </>
       )}
     </>

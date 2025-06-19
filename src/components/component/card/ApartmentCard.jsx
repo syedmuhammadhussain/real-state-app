@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Wifi, Wind, Heart, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake} from "lucide-react";
+import { Wifi, Wind, Heart, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, AlignEndVertical, HighlighterIcon} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
 import { useIsMobile } from "@/hooks/use-mobile";
+import ReklamaPaymentDialog from "./ReklamaPaymentDialog";
 
 /**
  * Renders an apartment card that accepts the raw backend JSON directly.
@@ -17,6 +18,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
  */
 export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit = false , city=''}) {
   const [isLiked, setIsLiked] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const isMobile = useIsMobile();
 
   /* ----------------------------- TRANSFORM DATA ----------------------------- */
@@ -101,13 +104,20 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
     <div className="relative w-full bg-white border border-primary-light/50 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300">
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
-        <div className="absolute top-2 right-2 flex gap-2">
-          <Button variant="outline" size="icon" onClick={onEdit} className="p-2">
+        <div className="absolute top-2 right-2 ">
+          <div className="w-full flex gap-2 center">
+          <Button variant="ghost" size="md"  className="p-2">
+            <span className="text-primary-dark"  onClick={() => setIsOpen(true)}>  Рекламировать </span>
+            <HighlighterIcon className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="iconicon" onClick={onEdit} className="p-2">
             <Pen className="h-4 w-4" />
           </Button>
           <Button variant="destructive" size="icon" onClick={onDelete} className="p-2">
             <Trash2 className="h-4 w-4" />
           </Button>
+         
+         </div>
         </div>
       ) : (
         <Button
@@ -203,6 +213,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
           </div>
         </div>
       </div>
+      <ReklamaPaymentDialog isOpen={isOpen} setIsOpen={setIsOpen}/>
     </div>
   );
 }

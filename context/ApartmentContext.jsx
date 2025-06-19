@@ -358,8 +358,10 @@ export const ApartmentProvider = ({ children }) => {
 
             if (!response.ok) throw new Error('Не удалось обновить квартиру');
             const updatedApartment = await response.json();
+           
             setApartments(prev => prev.map(apt => apt.documentId === apartmentData.documentId ? updatedApartment : apt));
             // setCurrentApartment(updatedApartment);
+            router.push('/profile')
             toast({
               variant: 'success',
               title: 'Квартира обновлена',

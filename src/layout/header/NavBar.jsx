@@ -155,26 +155,26 @@ export default function Navbar() {
                         onClick={() => setIsAvatarMenuOpen(false)}
                       >
                         <User className="w-5 h-5 mr-3 text-gray-400 group-hover:text-primary-dark" />
-                        Profile
+                        Профиль
                       </NextLink>
 
-                      <NextLink
+                      {/* <NextLink
                         href="/posts"
                         className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
                         onClick={() => setIsAvatarMenuOpen(false)}
                       >
                         <FileText className="w-5 h-5 mr-3 text-gray-400 group-hover:text-primary-dark" />
                         My Posts
-                      </NextLink>
+                      </NextLink> */}
 
                       <NextLink
                         href="/premium"
                         className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
                         onClick={() => setIsAvatarMenuOpen(false)}
                       >
-                        <Star className="w-5 h-5 mr-3 text-yellow-500 group-hover:text-yellow-600" />
-                        <span className="flex items-center gap-2">
-                          Go Premium
+                        <Star className="w-5 h-5 mr-3  text-yellow-500 group-hover:text-yellow-600" />
+                        <span className="flex items-center text-sm gap-2">
+                         Премиум
                           <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
                             PRO
                           </span>
@@ -186,7 +186,7 @@ export default function Navbar() {
                         className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-gray-50 group border-t border-gray-100"
                       >
                         <LogOut className="w-5 h-5 mr-3 text-red-500 group-hover:text-red-600" />
-                        Logout
+                        Выйти
                       </button>
                     </div>
                   </div>

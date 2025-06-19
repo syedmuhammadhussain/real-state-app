@@ -20,8 +20,26 @@ export default function ProfilePage() {
 
   const { apartments, loading, setLoading, error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit,currentApartment ,setCurrentApartment } = useApartment();
   
+   
+  const notifications = [
+    {
+      id: 2,
+      apartment: "Апартаменты №456",
+      message: "Запрос на обслуживание: Протечка кухонной раковины",
+      date: "2023-10-14T09:15:00Z",
+      read: true
+    },
+    {
+      id: 3,
+      apartment: "Апартаменты №789",
+      message: "Получена оплата за аренду в октябре",
+      date: "2023-10-13T16:45:00Z",
+      read: true
+    }
+  ]
 
-  console.log('currentApartment',currentApartment)
+  // console.log('currentApartment',currentApartment)
+
   useEffect(() => {
     if (user?.id) fetchApartmentsByOwner(user.id);
   }, [user?.id]);
@@ -72,43 +90,9 @@ export default function ProfilePage() {
       </p>
     </div>
   );
-  
-  const [notifications, setNotifications] = useState([
-    {
-      id: 2,
-      apartment: "Апартаменты №456",
-      message: "Запрос на обслуживание: Протечка кухонной раковины",
-      date: "2023-10-14T09:15:00Z",
-      read: true
-    },
-    {
-      id: 3,
-      apartment: "Апартаменты №789",
-      message: "Получена оплата за аренду в октябре",
-      date: "2023-10-13T16:45:00Z",
-      read: true
-    }
-  ]);
+ 
 
 
-  // const handleAction = (id, action) => {
-  //   setNotifications(notifications.map(notif => 
-  //     notif.id === id ? { ...notif, read: true } : notif
-  //   ));
-    
-  //   console.log(`${action} action for notification ${id}`);
-  //   // Add your API call or state update logic here
-  // };
-
-  // const formatDate = (dateString) => {
-  //   const date = new Date(dateString);
-  //   return date.toLocaleDateString('en-US', { 
-  //     month: 'short', 
-  //     day: 'numeric',
-  //     hour: '2-digit',
-  //     minute: '2-digit'
-  //   });
-  // };
   return (
     <div className="min-h-screen bg-gray-50 pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
@@ -131,15 +115,17 @@ export default function ProfilePage() {
         <Tabs value={selectedTab} onValueChange={setSelectedTab}>
           <TabsList className="mb-8 grid w-full grid-cols-3">
             <TabsTrigger value="properties">
-              <Home className="mr-2 h-4 w-4" /> Объекты
+              <Home className="mr-2 h-4 w-4" /> 
+              <span className="hidden md:block text-sm">Объекты</span>
             </TabsTrigger>
             <TabsTrigger value="profile">
-              <User className="mr-2 h-4 w-4" /> Профиль
+              <User className="mr-2 h-4 w-4" />
+              <span className="hidden md:block text-sm">Профиль</span> 
             </TabsTrigger>
             <TabsTrigger value="notification">
-              <NotebookIcon className="mr-2 h-4 w-4" /> Уведомление
-            
-            </TabsTrigger>
+              <NotebookIcon className="mr-2 h-4 w-4" /> 
+              <span className="hidden md:block text-sm">Уведомление</span> 
+            </TabsTrigger> 
           </TabsList>
 
           {/* Объекты */}
@@ -184,7 +170,7 @@ export default function ProfilePage() {
             <ProfileInfo />
           </TabsContent>
 
-
+          {/*  notification */}
           <TabsContent value="notification" className="space-y-4">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold flex text-primary-dark items-center">
@@ -222,33 +208,13 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">{notification.message}</p>
-              
-              {/* {notification.apartment === "Apartment #123" && !notification.read && (
-                <div className="flex space-x-3">
-                  <Button 
-                    size="sm" 
-                    className="flex-1 bg-green-600 hover:bg-green-700"
-                    onClick={() => handleAction(notification.id, 'accept')}
-                  >
-                    <CheckCircle2 className="w-4 h-4 mr-2" />
-                    Accept
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="destructive"
-                    className="flex-1"
-                    onClick={() => handleAction(notification.id, 'reject')}
-                  >
-                    <XCircle className="w-4 h-4 mr-2" />
-                    Reject
-                  </Button>
-                </div>
-              )} */}
             </CardContent>
           </Card>
         ))}
       </div>
-    </TabsContent>
+          </TabsContent>
+
+
         </Tabs>
       </div>
     </div>

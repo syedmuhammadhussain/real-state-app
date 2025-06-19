@@ -9,39 +9,6 @@ import { Slider } from "@/components/ui/slider";
 import Input from "@/components/ui/input";
 import { useApartment } from "../../../../../context/ApartmentContext";
 
-// const AMENITIES = [
-//     "Wi-Fi",
-//     "Смарт-ТВ",
-//     "Кондиционер",
-//     "Стиральная машина",
-//     "Кабельное ТВ",
-//     "Посудомоечная машина",
-//     "Сушилка",
-//     "Микроволновка",
-//     "Кофеварка",
-//     "Игровая приставка",
-//     "Детская кроватка",
-//     "Высокий стул",
-//     "Рабочий стол",
-//     "Принтер",
-//     "Сканер",
-//     "Аудиосистема",
-//     "Проигрыватель пластинок",
-//     "Арт-коллекция",
-//     "Умный дом",
-//     "Робот-пылесос",
-//     "Светомузыка",
-//     "Домашний кинотеатр",
-//     "Джакузи",
-//     "Сауна",
-//     "Оборудование для барбекю",
-//     "Уличная мебель",
-//     "Место для костра",
-//     "Винтажная мебель",
-//     "Библиотека",
-//     "Камин"
-//   ]
-
 export function FilterContent({
     metro,
     district,
@@ -100,7 +67,7 @@ export function FilterContent({
                   size="sm"
                   variant={selectedRooms === r ? "default" : "outline"}
                   onClick={() => onRoomSelect(r)}
-                  className={`gap-1 text-primary-dark ${selectedRooms === r && 'bg-primary-default text-white' }`}
+                  className={`gap-1 text-primary-dark ${selectedRooms === r && ' text-white' }`}
                 >
                   {selectedRooms === r && <CheckCircle className="h-5  w-5 text-green-500" />} {r}
                 </Button>
@@ -108,7 +75,7 @@ export function FilterContent({
             </div>
           </div>
           <div className="space-y-2">
-            <Label className="text-sm font-semibold">Спальные места</Label>
+            <Label className="text-sm font-semibold text-primary-dark">Спальные места</Label>
             <div className="flex flex-wrap gap-2">
               {["1", "2", "3+"].map(b => (
                 <Button
@@ -127,12 +94,12 @@ export function FilterContent({
   
         {/* Cottage */}
         <div className="space-y-2">
-          <Label className="text-sm font-semibold  text-primary-dark">Тип жилья</Label>
-          <label className="flex cursor-pointer items-center gap-3 text-sm">
+          <Label className=" font-semibold  text-primary-dark">Тип жилья</Label>
+          <label className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark">
             <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} /> Коттедж
           </label>
 
-           <label className="flex cursor-pointer items-center gap-3 text-sm">
+           <label className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark">
             <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} /> квартира
           </label>
         </div>

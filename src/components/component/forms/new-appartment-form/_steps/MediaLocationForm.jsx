@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { useApartment } from '../../../../../../context/ApartmentContext';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-// import { useToast } from '@/components/ui/use-toast';
 
 export default function MediaLocationForm({ apartment, setApartment, handleSubmit }) {
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -15,21 +14,41 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
   const { toast } = useToast();
   const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
-  // Initialize preview URLs from apartment images
+  // Convert existing URLs to Blob Files on edit
   useEffect(() => {
-    if (apartment.images?.length > 0) {
-      const urls = apartment.images.map(img => 
-        typeof img === 'object' ? img.url : img
+    async function convertExistingImagesToBlobs() {
+      if (!apartment.images?.length) return;
+
+      const updatedImages = await Promise.all(
+        apartment.images.map(async (img) => {
+          if (typeof img === 'object' && img instanceof File) return img;
+
+          const url = typeof img === 'string' ? img : img.url;
+          try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const name = url.split('/').pop()?.split('?')[0] || 'image.jpg';
+            return new File([blob], name, { type: blob.type });
+          } catch (error) {
+            console.error('Error converting image URL to Blob:', error);
+            return null;
+          }
+        })
       );
+
+      const validImages = updatedImages.filter(Boolean);
+      const urls = validImages.map(file => URL.createObjectURL(file));
+      setApartment(prev => ({ ...prev, images: validImages }));
       setPreviewUrls(urls);
     }
-  }, [apartment.images]);
+
+    convertExistingImagesToBlobs();
+  }, []);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
-    // Validate file size
     const oversizedFiles = files.filter(file => file.size > MAX_FILE_SIZE);
     if (oversizedFiles.length > 0) {
       setError(`Некоторые файлы превышают 20МБ: ${oversizedFiles.map(f => f.name).join(', ')}`);
@@ -45,12 +64,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
 
     try {
       const newPreviewUrls = files.map(file => URL.createObjectURL(file));
-      
-      const updatedImages = [
-        ...(apartment.images || []),
-        ...files
-      ];
-      
+      const updatedImages = [...(apartment.images || []), ...files];
       setApartment({ ...apartment, images: updatedImages });
       setPreviewUrls(prev => [...prev, ...newPreviewUrls]);
     } catch (err) {
@@ -59,42 +73,34 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
     }
   };
 
-    
-  console.log('previewUrls',previewUrls)
-
   const handleRemoveImage = (index) => {
-    const isExistingImage = typeof apartment.images[index] === 'string' || 
-                            (typeof apartment.images[index] === 'object' && 'url' in apartment.images[index]);
+    const fileToRemove = apartment.images[index];
     setApartment(prev => {
       const updatedImages = [...prev.images];
       updatedImages.splice(index, 1);
       return { ...prev, images: updatedImages };
     });
 
-
     setPreviewUrls(prev => {
       const updatedPreviews = [...prev];
-      
-      // Revoke object URL if it's a new image
-      if (!isExistingImage) {
+      if (updatedPreviews[index]?.startsWith('blob:')) {
         URL.revokeObjectURL(updatedPreviews[index]);
       }
-      
       updatedPreviews.splice(index, 1);
       return updatedPreviews;
     });
   };
 
-  // Clean up object URLs
-  // useEffect(() => {
-  //   return () => {
-  //     previewUrls.forEach(url => {
-  //       if (url.startsWith('blob:')) {
-  //         URL.revokeObjectURL(url);
-  //       }
-  //     });
-  //   };
-  // }, [previewUrls]);
+  // Cleanup blob URLs on unmount
+  useEffect(() => {
+    return () => {
+      previewUrls.forEach(url => {
+        if (url.startsWith('blob:')) {
+          URL.revokeObjectURL(url);
+        }
+      });
+    };
+  }, [previewUrls]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -102,7 +108,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
         <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
           <ImagePlus className="w-6 h-6 mr-2 text-primary-dark" /> Загрузка фотографий
         </h2>
-        
+
         <div className="flex flex-col gap-4">
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors hover:border-primary-light ">
             <label className="cursor-pointer">
@@ -117,7 +123,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
               <div className="flex flex-col items-center justify-center gap-2">
                 <ImagePlus className="w-10 h-10 text-primary-dark" />
                 <p className="text-primary-dark font-medium">
-                  <span className="text-primary-dark font-semibold">Нажмите для загрузки</span> или перетащите файлы
+                  <span className="text-primary-dark font-bold">Нажмите для загрузки</span> или перетащите файлы
                 </p>
                 <p className="text-sm text-primary-default">
                   Поддерживаются JPG, PNG, WEBP. Макс. размер: 20МБ
@@ -135,8 +141,8 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
           {previewUrls.length > 0 && (
             <div className="mt-4">
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-lg font-semibold">Предпросмотр</h3>
-                <span className="text-sm text-gray-500">
+                <h3 className="text-lg text-primary-dark font-bold">Предпросмотр</h3>
+                <span className="text-sm text-primary-dark">
                   {previewUrls.length} изображений
                 </span>
               </div>
@@ -149,7 +155,6 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
                     <img
                       src={url}
                       alt={`Превью ${index + 1}`}
-                      // fill
                       className="object-cover"
                       sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
                     />
@@ -169,9 +174,8 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
               </div>
             </div>
           )}
-          
         </div>
-        
+
         <Button
           type="submit"
           variant="primary"

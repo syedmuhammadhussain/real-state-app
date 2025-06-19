@@ -7,14 +7,14 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
 
 
   <Tabs defaultValue="description">
-    <TabsList className="grid grid-cols-4 w-full mb-8">
+    <TabsList className="grid grid-cols-4 w-full ">
       <TabsTrigger value="description">Описание</TabsTrigger>
       <TabsTrigger value="amenities">Удобства</TabsTrigger>
       <TabsTrigger value="location">Локация</TabsTrigger>
       <TabsTrigger value="reviews">Отзывы</TabsTrigger>
     </TabsList>
 
-    <TabsContent value="description" className="w-full pt-6 mx-auto">
+    <TabsContent value="description" className="w-full  mx-auto">
       <DescriptionTab 
         description={description} 
         params={{ 
@@ -34,7 +34,7 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
     <TabsContent value="location" className="pt-6">
       <LocationTab 
         address={product.city} 
-        infrastructure={product.amenities ?? []}
+        infrastructure={product.infrastructures ?? []}
       />
     </TabsContent>
     <TabsContent value="reviews" className="pt-6">

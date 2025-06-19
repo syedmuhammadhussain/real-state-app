@@ -27,9 +27,7 @@ export default function ApartmentPage({ params }) {
         <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
       </div>
     );
-
     console.log('currentApartment',currentApartment)
-
 
   /* Page content */
   if (currentApartment !== null ) return (
