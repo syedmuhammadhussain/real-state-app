@@ -45,7 +45,7 @@ export default function NewApartmentForm() {
   // console.log('currentApartment',currentApartment,)
 
   // Единый стейт для всей информации о квартире
-  const [apartment, setApartment] = useState(currentApartment ? currentApartment  : initialApartmentData);
+  const [apartment, setApartment] = useState( currentApartment ? currentApartment  : initialApartmentData);
 
   // Контейнер для ошибок валидации
   const [errors, setErrors] = useState({});
@@ -119,6 +119,7 @@ export default function NewApartmentForm() {
           )}
           {step === 2 && (
             <ParametersForm
+              editMode= {editMode}
               apartment={apartment}
               setApartment={setApartment}
               handleSubmit={handleParametersSubmit}

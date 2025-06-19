@@ -1,210 +1,192 @@
-// 'use client';
-// import { useState, useEffect, useCallback } from 'react';
-// import { ImagePlus, Loader2, MapPin, X } from 'lucide-react';
-// import { Button } from '@/components/ui/button';
-// import { useApartment } from '../../../../../../context/ApartmentContext';
-// import Image from 'next/image';
-
-// export default function MediaLocationForm({ apartment, setApartment, handleSubmit }) {
-//   const [previewUrls, setPreviewUrls] = useState([]);
-//   const [existingImages, setExistingImages] = useState([]);
-//   const { loading } = useApartment();
-//   const domain = process.env.NEXT_PUBLIC_STRAPI_URL;
-//   // Initialize existing images on component mount
-//   useEffect(() => {
-//     if (apartment.images && apartment.images.length > 0) {
-//       const validImages = apartment.images.filter(img => img?.url);
-//       setExistingImages(validImages);
-//     }
-//   }, [apartment.images]);
-
-//   const handleImageChange = (e) => {
-//     const files = Array.from(e.target.files || []);
-    
-//     // Create preview URLs for new files
-//     const newPreviews = files.map(file => ({
-//       file,
-//       url: URL.createObjectURL(file)
-//     }));
-    
-//     setPreviewUrls(prev => [...prev, ...newPreviews]);
-//   };
-
-//   const removeImage = useCallback((index, isPreview) => {
-//     if (isPreview) {
-//       // Remove preview image
-//       setPreviewUrls(prev => {
-//         const updated = [...prev];
-//         URL.revokeObjectURL(updated[index].url);
-//         updated.splice(index, 1);
-//         return updated;
-//       });
-//     } else {
-//       // Remove existing image
-//       setExistingImages(prev => {
-//         const updated = [...prev];
-//         updated.splice(index, 1);
-//         return updated;
-//       });
-      
-//       // Update apartment state
-//       setApartment(prev => ({
-//         ...prev,
-//         images: prev.images.filter((_, i) => i !== index)
-//       }));
-//     }
-//   }, [setApartment]);
-
-//   // Cleanup object URLs on unmount
-//   useEffect(() => {
-//     return () => {
-//       previewUrls.forEach(preview => URL.revokeObjectURL(preview.url));
-//     };
-//   }, [previewUrls]);
-
-//   return (
-//     <form onSubmit={handleSubmit} className="space-y-6">
-//       <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
-//         <ImagePlus className="w-7 h-7 mr-2 text-primary-dark" /> Загрузить фотографии
-//       </h2>
-      
-//       {/* File input with custom styling */}
-//       <div className="flex flex-col gap-4">
-//         <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-//           <div className="flex flex-col items-center justify-center pt-5 pb-6">
-//             <ImagePlus className="w-8 h-8 mb-2 text-gray-500" />
-//             <p className="text-sm text-gray-500">
-//               <span className="font-semibold">Нажмите для загрузки</span> или перетащите фотографии
-//             </p>
-//           </div>
-//           <input 
-//             type="file" 
-//             multiple 
-//             accept="image/*" 
-//             onChange={handleImageChange}
-//             className="hidden"
-//           />
-//         </label>
-//       </div>
-      
-//       {/* Image preview grid */}
-//       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
-//         {/* Existing images */}
-//         {existingImages.map((image, index) => (
-//           <div key={image.id || index} className="relative aspect-square border rounded-md overflow-hidden group">
-//             <Image
-//              src={`${domain}${image.url}`}
-//               alt={`Existing image ${index + 1}`}
-//               fill
-//               className="object-cover"
-//               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-//             />
-//             <button
-//               type="button"
-//               onClick={() => removeImage(index, false)}
-//               className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-//               aria-label="Удалить изображение"
-//             >
-//               <X size={16} />
-//             </button>
-//           </div>
-//         ))}
-        
-//         {/* New image previews */}
-//         {previewUrls.map((preview, index) => (
-//           <div key={preview.url} className="relative aspect-square border rounded-md overflow-hidden group">
-//             <img
-//               src={preview.url}
-//               alt={`Превью ${index + 1}`}
-//               className="object-cover w-full h-full"
-//             />
-//             <button
-//               type="button"
-//               onClick={() => removeImage(index, true)}
-//               className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-//               aria-label="Удалить изображение"
-//             >
-//               <X size={16} />
-//             </button>
-//           </div>
-//         ))}
-//       </div>
-      
-//       <Button
-//         type="submit"
-//         variant="primary"
-//         size="md"
-//         className="mt-4 w-full sm:w-auto"
-//         disabled={loading}
-//       >
-//         {loading ? (
-//           <>
-//             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-//             Сохранение...
-//           </>
-//         ) : "Сохранить и продолжить"}
-//       </Button>
-//     </form>
-//   );
-// }
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { ImagePlus, Loader2, MapPin, X } from 'lucide-react';
+import { ImagePlus, Loader2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useApartment } from '../../../../../../context/ApartmentContext';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
+// import { useToast } from '@/components/ui/use-toast';
 
-/**
- * Форма загрузки медиа‑файлов и ввода адреса (русская локализация)
- *
- * @param {{
- *   apartment: Record<string, any>,
- *   setApartment: (apartment: any) => void,
- *   handleSubmit: (e: React.FormEvent) => void,
- * }} props
- */
 export default function MediaLocationForm({ apartment, setApartment, handleSubmit }) {
   const [previewUrls, setPreviewUrls] = useState([]);
+  const [error, setError] = useState('');
+  const { loading } = useApartment();
+  const { toast } = useToast();
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
-  const {loading} = useApartment()
+  // Initialize preview URLs from apartment images
+  useEffect(() => {
+    if (apartment.images?.length > 0) {
+      const urls = apartment.images.map(img => 
+        typeof img === 'object' ? img.url : img
+      );
+      setPreviewUrls(urls);
+    }
+  }, [apartment.images]);
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
-    setApartment({ ...apartment, images: files });
-    setPreviewUrls(files.map((f) => URL.createObjectURL(f)));
+    if (!files.length) return;
+
+    // Validate file size
+    const oversizedFiles = files.filter(file => file.size > MAX_FILE_SIZE);
+    if (oversizedFiles.length > 0) {
+      setError(`Некоторые файлы превышают 20МБ: ${oversizedFiles.map(f => f.name).join(', ')}`);
+      toast({
+        title: "Ошибка загрузки",
+        description: `Максимальный размер файла: 20МБ`,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setError('');
+
+    try {
+      const newPreviewUrls = files.map(file => URL.createObjectURL(file));
+      
+      const updatedImages = [
+        ...(apartment.images || []),
+        ...files
+      ];
+      
+      setApartment({ ...apartment, images: updatedImages });
+      setPreviewUrls(prev => [...prev, ...newPreviewUrls]);
+    } catch (err) {
+      setError('Ошибка обработки файлов');
+      console.error('File processing error:', err);
+    }
   };
+
+    
+  console.log('previewUrls',previewUrls)
+
+  const handleRemoveImage = (index) => {
+    const isExistingImage = typeof apartment.images[index] === 'string' || 
+                            (typeof apartment.images[index] === 'object' && 'url' in apartment.images[index]);
+    setApartment(prev => {
+      const updatedImages = [...prev.images];
+      updatedImages.splice(index, 1);
+      return { ...prev, images: updatedImages };
+    });
+
+
+    setPreviewUrls(prev => {
+      const updatedPreviews = [...prev];
+      
+      // Revoke object URL if it's a new image
+      if (!isExistingImage) {
+        URL.revokeObjectURL(updatedPreviews[index]);
+      }
+      
+      updatedPreviews.splice(index, 1);
+      return updatedPreviews;
+    });
+  };
+
+  // Clean up object URLs
+  // useEffect(() => {
+  //   return () => {
+  //     previewUrls.forEach(url => {
+  //       if (url.startsWith('blob:')) {
+  //         URL.revokeObjectURL(url);
+  //       }
+  //     });
+  //   };
+  // }, [previewUrls]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
-        <ImagePlus className="w-7 h-7 mr-2 text-primary-dark" /> Загрузить фотографии
-      </h2>
-      <input type="file" multiple accept="image/*" onChange={handleImageChange} />
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
+          <ImagePlus className="w-6 h-6 mr-2 text-primary-dark" /> Загрузка фотографий
+        </h2>
+        
+        <div className="flex flex-col gap-4">
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors hover:border-primary-light ">
+            <label className="cursor-pointer">
+              <input 
+                type="file" 
+                multiple 
+                accept="image/*" 
+                onChange={handleImageChange}
+                className="hidden"
+                aria-label="Загрузка изображений"
+              />
+              <div className="flex flex-col items-center justify-center gap-2">
+                <ImagePlus className="w-10 h-10 text-primary-dark" />
+                <p className="text-primary-dark font-medium">
+                  <span className="text-primary-dark font-semibold">Нажмите для загрузки</span> или перетащите файлы
+                </p>
+                <p className="text-sm text-primary-default">
+                  Поддерживаются JPG, PNG, WEBP. Макс. размер: 20МБ
+                </p>
+              </div>
+            </label>
+          </div>
 
-      {previewUrls.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-4">
-          {previewUrls.map((url, idx) => (
-            <div key={idx} className="w-32 h-32 border rounded overflow-hidden">
-              <img src={url} alt={`Превью ${idx + 1}`} className="object-cover w-full h-full" />
+          {error && (
+            <div className="mt-2 text-red-500 text-sm font-medium bg-red-50 p-2 rounded-md">
+              {error}
             </div>
-          ))}
+          )}
+          
+          {previewUrls.length > 0 && (
+            <div className="mt-4">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-semibold">Предпросмотр</h3>
+                <span className="text-sm text-gray-500">
+                  {previewUrls.length} изображений
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {previewUrls.map((url, index) => (
+                  <div 
+                    key={index} 
+                    className="relative group border rounded-lg overflow-hidden aspect-square shadow-sm transition-transform hover:shadow-md"
+                  >
+                    <img
+                      src={url}
+                      alt={`Превью ${index + 1}`}
+                      // fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                    />
+                    <button
+                      type="button"
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
+                      onClick={() => handleRemoveImage(index)}
+                      aria-label="Удалить изображение"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent text-white text-xs p-2 truncate">
+                      {index < apartment.images?.length ? `Изображение ${index + 1}` : 'Новое'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
         </div>
-      )}
+        
         <Button
-        type="submit"
-        variant="primary"
-        size="md"
-        className="mt-4 w-full sm:w-auto"
-        disabled={loading}
-      >
-        {loading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Сохранение...
-          </>
-        ) : "Сохранить и продолжить"}
-      </Button>
+          type="submit"
+          variant="primary"
+          size="md"
+          className="mt-6 w-full sm:w-auto"
+          disabled={loading || previewUrls.length === 0}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Сохранение...
+            </>
+          ) : "Сохранить и продолжить"}
+        </Button>
+      </div>
     </form>
   );
 }

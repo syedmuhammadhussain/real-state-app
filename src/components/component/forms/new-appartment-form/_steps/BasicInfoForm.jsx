@@ -40,7 +40,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
   const onChange = (field) => (e) => {
     const value =  field === 'rooms'  || field === 'district' || field === 'matro_station'  || field === 'price' ? +e.target.value : e.target.value;
     setApartment({ ...apartment, [field]: value });
-    console.log('value',value)
+    // console.log('value',value)
   };
 
   const handleCityChange = (e) => {

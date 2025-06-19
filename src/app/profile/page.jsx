@@ -20,6 +20,8 @@ export default function ProfilePage() {
 
   const { apartments, loading, setLoading, error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit,currentApartment ,setCurrentApartment } = useApartment();
   
+
+  console.log('currentApartment',currentApartment)
   useEffect(() => {
     if (user?.id) fetchApartmentsByOwner(user.id);
   }, [user?.id]);
@@ -73,45 +75,40 @@ export default function ProfilePage() {
   
   const [notifications, setNotifications] = useState([
     {
-      id: 1,
-      apartment: "Apartment #123",
-      message: "New booking request for 5 nights starting next week",
-      date: "2023-10-15T14:30:00Z",
-      read: false
-    },
-    {
       id: 2,
-      apartment: "Apartment #456",
-      message: "Maintenance request: Kitchen sink leak",
+      apartment: "Апартаменты №456",
+      message: "Запрос на обслуживание: Протечка кухонной раковины",
       date: "2023-10-14T09:15:00Z",
       read: true
     },
     {
       id: 3,
-      apartment: "Apartment #789",
-      message: "Payment received for October rent",
+      apartment: "Апартаменты №789",
+      message: "Получена оплата за аренду в октябре",
       date: "2023-10-13T16:45:00Z",
       read: true
     }
   ]);
-  const handleAction = (id, action) => {
-    setNotifications(notifications.map(notif => 
-      notif.id === id ? { ...notif, read: true } : notif
-    ));
-    
-    console.log(`${action} action for notification ${id}`);
-    // Add your API call or state update logic here
-  };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+
+  // const handleAction = (id, action) => {
+  //   setNotifications(notifications.map(notif => 
+  //     notif.id === id ? { ...notif, read: true } : notif
+  //   ));
+    
+  //   console.log(`${action} action for notification ${id}`);
+  //   // Add your API call or state update logic here
+  // };
+
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString('en-US', { 
+  //     month: 'short', 
+  //     day: 'numeric',
+  //     hour: '2-digit',
+  //     minute: '2-digit'
+  //   });
+  // };
   return (
     <div className="min-h-screen bg-gray-50 pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
@@ -194,9 +191,9 @@ export default function ProfilePage() {
           <BellIcon className="w-5 h-5 mr-2  text-primary-dark" />
           Уведомление
         </h2>
-        <Button variant="ghost" size="sm">
+        {/* <Button variant="ghost" size="sm">
           Mark all as read
-        </Button>
+        </Button> */}
       </div>
 
       <div className="space-y-4">
@@ -226,7 +223,7 @@ export default function ProfilePage() {
             <CardContent>
               <p className="mb-4">{notification.message}</p>
               
-              {notification.apartment === "Apartment #123" && !notification.read && (
+              {/* {notification.apartment === "Apartment #123" && !notification.read && (
                 <div className="flex space-x-3">
                   <Button 
                     size="sm" 
@@ -246,7 +243,7 @@ export default function ProfilePage() {
                     Reject
                   </Button>
                 </div>
-              )}
+              )} */}
             </CardContent>
           </Card>
         ))}

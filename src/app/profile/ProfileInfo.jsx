@@ -41,12 +41,12 @@ export default function ProfileInfo() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-8 ">
+    <div className="bg-white ">
        <h2 className="text-2xl font-bold flex text-primary-dark items-center">
               <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" />
-              Мои объявления
+              Персональные данные
             </h2>
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-5  rounded-xl shadow-md p-8">
         <div>
           <Label htmlFor="lastName">ФИО</Label>
           <Input

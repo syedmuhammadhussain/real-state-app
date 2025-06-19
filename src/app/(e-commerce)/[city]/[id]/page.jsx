@@ -1,7 +1,5 @@
 "use client";
-
 import React, { useEffect, useState, use as usePromise } from "react";
-import { notFound } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -25,7 +23,7 @@ export default function ApartmentPage({ params }) {
   /* Loading spinner */
   if (loading)
     return (
-      <div className="flex items-center justify-center py-10 gap-4">
+      <div className="min-h-screen flex items-center justify-center py-10 gap-4">
         <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
       </div>
     );
@@ -35,7 +33,7 @@ export default function ApartmentPage({ params }) {
 
   /* Page content */
   if (currentApartment !== null ) return (
-    <div className=" mt-5 w-full mx-auto px-4 space-y-10">
+    <div className=" mt-5 w-full min-h-screen mx-auto px-4 space-y-10">
 
       <Breadcrumbs
         items={[
