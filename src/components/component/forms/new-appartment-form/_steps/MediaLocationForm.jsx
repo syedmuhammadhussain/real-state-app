@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useApartment } from '../../../../../../context/ApartmentContext';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
+import { StrapiImage } from '@/components/component/strapi-image/StrapiImage';
 
 export default function MediaLocationForm({ apartment, setApartment, handleSubmit }) {
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -152,7 +153,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
                     key={index} 
                     className="relative group border rounded-lg overflow-hidden aspect-square shadow-sm transition-transform hover:shadow-md"
                   >
-                    <img
+                    <StrapiImage
                       src={url}
                       alt={`Превью ${index + 1}`}
                       className="object-cover"

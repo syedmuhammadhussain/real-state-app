@@ -1,6 +1,5 @@
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { EqualApproximatelyIcon, Wifi } from 'lucide-react'
+import {  Wifi } from 'lucide-react'
 import { SimpleBookingForm } from './SimpleBookingForm'
 
 export const BookingCard = ({ price }) => (

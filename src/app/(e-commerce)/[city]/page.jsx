@@ -233,7 +233,7 @@
                 </>
               )}
   
-              {!loading && !error && apartments.length === 0 && (
+              {/* {!loading && !error && apartments.length === 0 && (
                 <div className="py-20 text-center">
                   <h2 className="text-2xl text-gray-600">Ничего не найдено</h2>
                   <Link
@@ -243,7 +243,7 @@
                     Просмотреть все объекты недвижимости
                   </Link>
                 </div>
-              )}
+              )} */}
             </TabsContent>
   
             <TabsContent value="map">

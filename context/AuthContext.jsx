@@ -185,6 +185,8 @@ export function AuthProvider({ children }) {
 
   // editUser editUser 
   const editUser = async (data) => {
+    const token = localStorage.getItem('authToken'); 
+
       try {
         await api.put(
           `${apiUrl}/user/me`,

@@ -7,10 +7,12 @@ export default function MenuOpen({isSubLinksVisible, links , subLinks, toggleSub
     const handleSub = ()=>{
         toggleSubLinks()
     }
+    
     const HandleClose = () =>{
         setIsMenuOpen(false)
     } 
-  return (
+
+    return (
         <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-lg">
             <div className='flex items-center justify-center'>
                 <NextLink href="/" aria-label="Home page" title="Go to Home page">
@@ -56,5 +58,5 @@ export default function MenuOpen({isSubLinksVisible, links , subLinks, toggleSub
             ))}
             </ul>
         </div>
-  )
+    )
 }

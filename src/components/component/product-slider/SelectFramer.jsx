@@ -20,7 +20,7 @@ import { cityOptions } from "@/constants/data"
 export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, selectedCity, handleCitySelect}) {
 
   return (
-    <Popover 
+    <Popover className="!max-w-[600px]"
       open={isPopoverOpen} 
       onOpenChange={setIsPopoverOpen}  
       // Prevent the automatic focusing of the input
@@ -32,7 +32,7 @@ export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, 
         variant="outline"
         role="combobox"
         aria-expanded={isPopoverOpen}
-        className="w-full justify-between px-6 py-6 bg-white/90 backdrop-blur-sm hover:bg-white/95 transition-all rounded-md shadow-lg hover:shadow-xl border-0"
+        className="w-[700px] justify-between px-6 py-6 bg-white/90 backdrop-blur-sm hover:bg-white/95 transition-all rounded-md shadow-lg hover:shadow-xl border-0"
       >
         <span className="truncate font-medium text-gray-900">
           {selectedCity?.ru || "Select city..."}

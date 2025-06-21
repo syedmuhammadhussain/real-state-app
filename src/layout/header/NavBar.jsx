@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Menu, ChevronDown, User, LogOut, FileText, Star, UserRound } from 'lucide-react';
+import { Menu, ChevronDown, User, LogOut, Star, UserRound } from 'lucide-react';
 import Image from 'next/image';
 import MenuOpen from './MenuOpen';
 import SearchProduct from './SearchProduct';
@@ -50,28 +50,31 @@ export default function Navbar() {
     pathname.startsWith('/login') ||
     pathname.startsWith('/register') ||
     pathname.startsWith('/forgot-password') ||
-    pathname.startsWith('/checkout')
+    pathname.startsWith('/checkout') ||
+    pathname.startsWith('/add-edit-apartment') 
   ) {
     return null;
   }
 
-
   // console.log('user', user)
+
   return (
     <header className="fixed top-0 left-0 w-full bg-background-default opacity-90 shadow-md z-50">
       <div className="px-4">
         <div className="flex justify-between items-center h-16">
           {/* Left side - Logo and menu */}
           <div className='hidden sm:flex items-center' >
-            <NextLink href="/">
-              <Image
+            <NextLink href="/" >
+                             <span className="text-2xl font-semibold" > KVKEY</span>   
+
+              {/* <Image
                 src="/images/logo-icon.svg"
                 alt="Brand Logo"
                 width={50}
                 height={50}
                 className="object-cover transform hover:scale-105 transition-transform duration-300"
                 priority
-              />
+              /> */}
             </NextLink>
           </div>
 
@@ -118,12 +121,13 @@ export default function Navbar() {
                 >
                   <div className="relative">
                     <Image
-                      src="/images/logo-icon.svg" //avatar
+                      src="/images/logo-icon.svg" //avatar user
                       alt="User avatar"
                       width={42}
                       height={42}
                       className="rounded-full border-2 border-transparent group-hover:border-primary-dark transition-all"
                     />
+                           {/* <span className="text-2xl font-semibold" > KVKEY</span>    */}
                     <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity" />
                   </div>
                   <ChevronDown
@@ -157,16 +161,6 @@ export default function Navbar() {
                         <User className="w-5 h-5 mr-3 text-gray-400 group-hover:text-primary-dark" />
                         Профиль
                       </NextLink>
-
-                      {/* <NextLink
-                        href="/posts"
-                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
-                        onClick={() => setIsAvatarMenuOpen(false)}
-                      >
-                        <FileText className="w-5 h-5 mr-3 text-gray-400 group-hover:text-primary-dark" />
-                        My Posts
-                      </NextLink> */}
-
                       <NextLink
                         href="/premium"
                         className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"

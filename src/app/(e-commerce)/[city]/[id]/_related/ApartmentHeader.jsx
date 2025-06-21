@@ -7,11 +7,12 @@ import { Home, Users, BedDouble, Ruler, Building, BedDoubleIcon } from 'lucide-r
 
 export const ApartmentHeader = ({ product }) =>{
   const contactInfo = {
-    phone: product.owner?.phone || "+7 (XXX) XXX-XX-XX",
-    whatsapp: product.owner?.whatsapp || "79123456789",
+    phone: product?.phone || "+7 (XXX) XXX-XX-XX",
+    whatsapp: product?.phone|| "79123456789",
     hiddenPhone: product.owner?.hiddenPhone || "+7••• •••••••",
   };
    
+  console.log('contactInfo.profile',contactInfo.profile)
   return (
   <div className="space-y-4">
     <div className="">
@@ -19,14 +20,6 @@ export const ApartmentHeader = ({ product }) =>{
         <h1 className="text-2xl text-primary-dark">{product.title}</h1>
         <p className="text-base text-primary-default w-[80%]">{product.description}</p>
       </div>
-      {/* <div className="">
-        <button variant="ghost" size="lg">
-          <Share2 className="w-5 h-5 text-red-600" />
-        </button>
-        <button variant="ghost" size="lg" >
-          <Heart className="w-5 h-5 text-red-600" />
-        </button>
-      </div> */}
     </div>
       <div className="flex items-center gap-4 mb-6">
         <div className="flex items-center gap-1 text-primary-default">

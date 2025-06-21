@@ -61,10 +61,8 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
      <StepsOverlay />
-      <div 
-      className="embla__viewport w-full h-full">
+      <div className="embla__viewport w-full h-full">
         <div className="embla__container flex h-full">
-         
             <div className=" relative flex-[0_0_100%] h-full" >
               {/* Background Image */}
               <Image
@@ -83,16 +81,16 @@ const HeroSection = () => {
              
                 {/* For the currently visible slide, show text (or show for all if you want) */}
                   
-                  <div className="max-w-4xl w-full space-y-8">
-                    <h1 className=" text-white drop-shadow-xl">
-                      {slides[0].title}
+                  <div className="max-w-6xl w-full space-y-8">
+                    <h1 className=" text-5xl text-white drop-shadow-xl">
+                      ПОСУТОЧНАЯ АРЕНДА ЖИЛЬЯ <br/> В ГОРОДАХ РОССИИ
                     </h1>
                     <p className="mt-4 md:mt-6 text-lg md:text-lg text-gray-100 max-w-2xl mx-auto leading-relaxed">
                       {slides[0].subtitle}
                     </p>
 
-                    {/* City Selector */}
-                    <div className="max-w-xs mx-auto">
+                    {/* CTA Buttons */}
+                    <div className="flex flex-row   justify-center gap-1 ">
                       <SelectFramer
                         handleCitySelect={handleCitySelect}
                         isPopoverOpen={isPopoverOpen}
@@ -100,24 +98,12 @@ const HeroSection = () => {
                         selectedCityKey={selectedCityKey}
                         selectedCity={selectedCity}
                       />
-                    </div>
-
-                    {/* CTA Buttons */}
-                    <div className="flex flex-row sm:flex-row justify-center gap-4 mt-8">
                       <NextLink
                         href={selectedCity?.link || "#"}
-                        className="flex items-center max-h-[47px] justify-center gap-3 px-8 py-4 bg-primary-default hover:bg-primary-dark text-white font-semibold rounded-md shadow-lg shadow-primary-default/20 transition-all transform active:scale-95"
+                        className="flex items-center  justify-center gap-3 px-8 py-3 bg-primary-default hover:bg-primary-dark text-white font-semibold rounded-md shadow-lg shadow-primary-default/20 transition-all transform active:scale-95"
                       >
-                        <Home className="w-5 h-5" />
-                        Найти жилье в {selectedCity?.ru}
-                      </NextLink>
-
-                      <NextLink
-                        href="/contact"
-                        className="flex items-center max-h-[47px] justify-center gap-3 px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-semibold rounded-md shadow-lg shadow-gray-900/10 transition-all transform active:scale-95"
-                      >
-                        <Info className="w-5 h-5" />
-                        {/* Learn More */}
+                        <Home className="w-5 h-5" /> Найти
+                        <span className="hidden lg:block">   жилье в {selectedCity?.ru} </span>
                       </NextLink>
                     </div>
                   </div>

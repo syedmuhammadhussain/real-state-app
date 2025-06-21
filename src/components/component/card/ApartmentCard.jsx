@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Wifi, Wind, Heart, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, AlignEndVertical, HighlighterIcon} from "lucide-react";
+import { Wifi, Wind, Heart, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, AlignEndVertical, HighlighterIcon, Star, StarIcon} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
@@ -106,10 +106,20 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
       {showButtonEdit ? (
         <div className="absolute top-2 right-2 ">
           <div className="w-full flex gap-2 center">
-          <Button variant="ghost" size="md"  className="p-2">
-            <span className="text-primary-dark"  onClick={() => setIsOpen(true)}>  Рекламировать </span>
-            <HighlighterIcon className="h-4 w-4" />
-          </Button>
+            <Button
+              variant="secondary" 
+              size="md"
+              className="flex items-center b px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+              onClick={() => setIsOpen(true)}
+                >
+                  <StarIcon className="w-5 h-5 mr-3  text-yellow-500 group-hover:text-yellow-600" />
+                  <span className="flex items-center text-white group-hover:text-yellow-600 text-sm gap-2">
+                   Рекламировать
+                    <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                      PRO
+                    </span>
+                  </span>
+                </Button>
           <Button variant="outline" size="iconicon" onClick={onEdit} className="p-2">
             <Pen className="h-4 w-4" />
           </Button>
@@ -140,7 +150,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
 
         {/* DETAILS */}
         <div className="lg:col-span-2">
-          <div className="w-full p-4 lg:p-6 flex flex-col justify-between gap-4">
+          <div className="w-full pt-2 px-2 lg:pt-4 lg:px-4 flex flex-col justify-between gap-4">
             {/* Title & Address */}
             <div>
               <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1 truncate" title={apartment.title}>

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusCircle, User, Home, Loader2, AlertTriangle, NotebookIcon, CheckCircle2, XCircle, BellIcon, HomeIcon } from "lucide-react";
+import { PlusCircle, User, Home, NotebookIcon, BellIcon, HomeIcon } from "lucide-react";
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "@/components/ui/button";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
@@ -12,33 +12,17 @@ import { useApartment } from "../../../context/ApartmentContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { EmptyState, LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
+import { notifications } from "@/constants/data";
 
 export default function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("properties");
   const { user } = useAuth();
   const router = useRouter();
-
+console.log('user ',user)
   const { apartments, loading, setLoading, error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit,currentApartment ,setCurrentApartment } = useApartment();
-  
-   
-  const notifications = [
-    {
-      id: 2,
-      apartment: "Апартаменты №456",
-      message: "Запрос на обслуживание: Протечка кухонной раковины",
-      date: "2023-10-14T09:15:00Z",
-      read: true
-    },
-    {
-      id: 3,
-      apartment: "Апартаменты №789",
-      message: "Получена оплата за аренду в октябре",
-      date: "2023-10-13T16:45:00Z",
-      read: true
-    }
-  ]
 
-  // console.log('currentApartment',currentApartment)
+  console.log('apartments',apartments)
 
   useEffect(() => {
     if (user?.id) fetchApartmentsByOwner(user.id);
@@ -69,32 +53,8 @@ export default function ProfilePage() {
     }
   };
 
-  const ErrorState = ({ message }) => (
-    <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-      <AlertTriangle className="h-12 w-12 text-destructive" />
-      <p className="text-lg font-medium text-destructive">{message}</p>
-    </div>
-  );
-
-  const LoadingState = () => (
-    <div className="flex items-center justify-center py-20">
-      <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
-    </div>
-  );
-
-  const EmptyState = () => (
-    <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-      <Home className="h-12 w-12 text-muted-foreground" />
-      <p className="text-lg font-medium text-muted-foreground">
-        У вас пока нет объявлений
-      </p>
-    </div>
-  );
- 
-
-
   return (
-    <div className="min-h-screen bg-gray-50 pt-10 mx-auto">
+    <div className="min-h-screen max-w-7xl bg-gray-50 pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
         {/* Header */}
         <div className="mb-8 flex flex-wrap items-end justify-between rounded-lg bg-white p-6 shadow">
@@ -136,18 +96,18 @@ export default function ProfilePage() {
               Мои объявления
             </h2>
               <Button
-                className="max-w-[80px] md:max-w-[200px] flex items-center justify-center gap-3"
+              variant="ghost"
+              // size = "md"
+                className="flex items-center justify-center gap-3 border-2 border-solid"
                 onClick={() => router.push("/add-edit-apartment")}
               >
-                <PlusCircle className="mr-2 h-4 w-4" /> {!useIsMobile()  &&  'Добавить новую ' }
+                <PlusCircle className="mr-2 h-4 w-4" /> {!useIsMobile()  &&  'Добавить квартиру' }
                  {/* //недвижимость */}
               </Button>
             </div>
 
             {/* Состояния данных */}
-            {loading && <LoadingState />}
-            {/* {error && !loading && <ErrorState message={error} />}
-            {!loading && !error && apartments.length === 0 && <EmptyState />} */}
+            {/* {error && !loading && <ErrorState message={error} />} */}
 
             {/* Список объявлений */}
             <div className="mt-4 grid gap-4">
@@ -163,6 +123,9 @@ export default function ProfilePage() {
                   />
                 ))}
             </div>
+            {loading && <LoadingState />}
+            {!loading && !error && apartments.length === 0 && <EmptyState />}
+
           </TabsContent>
 
           {/* Профиль */}
@@ -183,7 +146,7 @@ export default function ProfilePage() {
       </div>
 
       <div className="space-y-4">
-        {notifications.map((notification) => (
+        {notifications?.map((notification) => (
           <Card
             key={notification.id} 
             className={cn(

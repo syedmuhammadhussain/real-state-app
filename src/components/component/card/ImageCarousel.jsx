@@ -2,8 +2,8 @@
 import { cn } from "@/lib/utils";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
 import React, { useCallback, useEffect, useState } from 'react';
+import { StrapiImage } from "../strapi-image/StrapiImage";
 
 const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = false }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -32,7 +32,7 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
     )}>
       {/* Carousel Container */}
       <div className="embla " ref={emblaRef}>
-        <div className="embla__container w-full max-h-[400px]">
+        <div className="embla__container w-full lg:max-h-[650px]">
           {images.map((image, idx) => (
             <div 
               key={idx} 
@@ -40,16 +40,15 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
             >
               <div className={cn(
                 "relative w-full h-full",
-                auto ? "aspect-video" : "aspect-square "
+                auto ? "aspect-square" : "aspect-square "
               )}>
-                {/* <Image
-                  src={`${domain}${image.url}`}
-                  alt={image.alt || "Property image"}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={idx === 0}
-                /> */}
+                  <StrapiImage
+                      src={image.url}
+                      alt={image.url}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 80vw"
+                    />
               </div>
             </div>
           ))}
@@ -123,22 +122,22 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
 
       {/* Grid Preview Overlay */}
       {images.length > 1 && auto && (
-        <div className="absolute right-3 top-3 hidden lg:grid grid-cols-2 gap-1.5 w-24 h-24">
+        <div className="absolute right-3 top-3 hidden lg:grid grid-cols-2 gap-1.5 w-24 h-24 ">
           {images.slice(0, 4).map((image, index) => (
             <div
               key={index}
-              className="relative aspect-square cursor-pointer"
+              className="relative aspect-video cursor-pointer  "
               onClick={() => scrollTo(index)}
             >
-              {/* <Image
-                src={`${domain}${image.url}`}
+              <StrapiImage
+                src={image.url}
                 alt={`Preview ${index + 1}`}
                 fill
                 className={cn(
-                  "object-cover rounded-sm transition-transform hover:scale-105",
-                  index === selectedIndex ? "ring-2 ring-white" : ""
+                  "object-contain rounded-sm transition-transform hover:scale-105",
+                  index === selectedIndex ? "ring-2 ring-white " : ""
                 )}
-              /> */}
+              />
               {index === 3 && images.length > 4 && (
                 <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-white text-xs font-bold rounded-sm">
                   +{images.length - 4}

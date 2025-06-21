@@ -24,14 +24,14 @@ export const initialApartmentData = {
   images: [],
   rooms: 0,
   features: [],
-  address:'',
+  address:null,
   district:null,
   matro_station:null,
-  city: '',
+  city: null,
   amenities: [],
   infrastructures: [],
   kitchens: [],
-  owner: ''
+  owner: null
 };
 
 export default function NewApartmentForm() {

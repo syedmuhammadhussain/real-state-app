@@ -31,7 +31,6 @@ export const ApartmentProvider = ({ children }) => {
   const router = useRouter();
 
   const { user } = useAuth()
-  // console.log('user' ,user)
 
     const initialApartmentData = {
       title: '',
@@ -281,6 +280,11 @@ export const ApartmentProvider = ({ children }) => {
         // Step 2: Integrate uploaded image info into apartmentData
         const preparedData = {
           ...apartmentData,
+              amenities: apartmentData.amenities.map((amenity) => amenity.id),
+              // city: apartmentData.city.id,
+              features: apartmentData.features.map((feature) => feature.id),
+              kitchens: apartmentData.kitchens.map((kitchen) => kitchen.id),
+              infrastructures: apartmentData.infrastructures.map((infrastructure) => infrastructure.id),
           images:  uploadedImages.map((img) => img), 
         };
 

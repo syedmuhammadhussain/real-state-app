@@ -125,7 +125,7 @@ export default function RegisterPage() {
             onBlur={() =>
               setErrors((prev) => ({
                 ...prev,
-                telephone: validateTelephone(email)
+                telephone: validateTelephone(telephone)
               }))
             }
             error={errors.email}
