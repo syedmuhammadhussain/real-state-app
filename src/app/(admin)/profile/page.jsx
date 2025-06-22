@@ -7,22 +7,23 @@ import { PlusCircle, User, Home, NotebookIcon, BellIcon, HomeIcon } from "lucide
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "@/components/ui/button";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
-import { useAuth } from "../../../context/AuthContext";
-import { useApartment } from "../../../context/ApartmentContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { EmptyState, LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
 import { notifications } from "@/constants/data";
+import { useAuth } from "../../../../context/AuthContext";
+import { useApartment } from "../../../../context/ApartmentContext";
 
 export default function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("properties");
   const { user } = useAuth();
   const router = useRouter();
-console.log('user ',user)
-  const { apartments, loading, setLoading, error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit,currentApartment ,setCurrentApartment } = useApartment();
+  const { apartments, loading,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
 
-  console.log('apartments',apartments)
+  // console.log('apartments',apartments)
+  // console.log('apartments',apartments)
+  // console.log('user ',user)
 
   useEffect(() => {
     if (user?.id) fetchApartmentsByOwner(user.id);
@@ -33,26 +34,11 @@ console.log('user ',user)
   // =====================
   const handleEdit = async (apartment) => {
     setApartmentForEdit(apartment);
-    router.push("/add-edit-apartment");
+    router.push("/edit-apartment");
   };
 
-
-  const handleDelete = async (id) => {
-
-    try {
-      console.log('id',id)
-      await deleteApartment(id);
-      // setLoading(true)
-    } catch (err) {
-      /* eslint-disable no-console */
-      console.error("Ошибка при удалении квартиры:", err);
-      /* eslint-enable no-console */
-    }
-    finally{
-      // setLoading(false)
-    }
-  };
-
+  const handleDelete = async (id) => await deleteApartment(id);
+  
   return (
     <div className="min-h-screen max-w-7xl bg-gray-50 pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
@@ -99,7 +85,11 @@ console.log('user ',user)
               variant="ghost"
               // size = "md"
                 className="flex items-center justify-center gap-3 border-2 border-solid"
-                onClick={() => router.push("/add-edit-apartment")}
+                onClick={() => { 
+                  setEditMode(false)
+                  router.push("/add-apartment")
+
+                }}
               >
                 <PlusCircle className="mr-2 h-4 w-4" /> {!useIsMobile()  &&  'Добавить квартиру' }
                  {/* //недвижимость */}
@@ -176,8 +166,6 @@ console.log('user ',user)
         ))}
       </div>
           </TabsContent>
-
-
         </Tabs>
       </div>
     </div>

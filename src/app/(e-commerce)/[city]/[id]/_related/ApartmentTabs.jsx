@@ -3,15 +3,14 @@ import { DescriptionTab } from './DescriptionTab'
 import { LocationTab } from './LocationTab'
 import { AmenitiesTab } from './AmenitiesTab'
 
-export const ApartmentTabs = ({ product, description, amenities, infrastructure }) => (
-
+export const ApartmentTabs = ({ product, description }) => (
 
   <Tabs defaultValue="description">
-    <TabsList className="grid grid-cols-4 w-full ">
+    <TabsList className="grid grid-cols-3 w-full ">
       <TabsTrigger value="description">Описание</TabsTrigger>
       <TabsTrigger value="amenities">Удобства</TabsTrigger>
       <TabsTrigger value="location">Локация</TabsTrigger>
-      <TabsTrigger value="reviews">Отзывы</TabsTrigger>
+      {/* <TabsTrigger value="reviews">Отзывы</TabsTrigger> */}
     </TabsList>
 
     <TabsContent value="description" className="w-full  mx-auto">
@@ -37,8 +36,8 @@ export const ApartmentTabs = ({ product, description, amenities, infrastructure 
         infrastructure={product.infrastructures ?? []}
       />
     </TabsContent>
-    <TabsContent value="reviews" className="pt-6">
+    {/* <TabsContent value="reviews" className="pt-6">
       <h1>Review</h1>
-    </TabsContent>
+    </TabsContent> */}
   </Tabs>
 )

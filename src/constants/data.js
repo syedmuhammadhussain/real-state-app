@@ -1,3 +1,6 @@
+
+import {  MapPin, Search, MessageCircle } from "lucide-react";
+
 export const formatCurrency = (number) => {
   const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
     currency: 'USD',
@@ -5,26 +8,20 @@ export const formatCurrency = (number) => {
   });
   return CURRENCY_FORMATTER.format(number);
 };
-
-export const categories = [ 'products',  'Hoodies', 'Shirts', 'Jeans' ,'Trendy' , 'Arrival' ];
-
-// hero section data 
-export const slides = [
-  {
-    image: "/images/hero/hero.jpg",
-    title: "ПОСУТОЧНАЯ АРЕНДА ЖИЛЬЯ В ГОРОДАХ РОССИИ",
-    subtitle: "Просторные планировки — престижные районы — привлекательные цены", 
-  },
-  {
-    image: "/images/hero/hero2.jpg",
-    title: "Элитная недвижимость в центре города",
-    subtitle: "Современные небоскребы с завораживающими видами на город", 
-  },
-  {
-    image: "/images/hero/hero3.jpg",
-    title: "Уютные дома для вашей семьи",
-    subtitle: "Безопасные районы и благоустроенные территории для детей", 
-  },
+    
+export const steps = [
+    {
+      title: "Укажите город",
+      icon: MapPin,
+    },
+    {
+      title: "Найдите лучшее",
+      icon: Search,
+    },
+    {
+      title: "Обсудите условия",
+      icon: MessageCircle,
+    },
 ];
 
 export  const links = [
@@ -167,49 +164,7 @@ export const cityOptions = [
     districts: ["Центральный", "Ленинский", "Калининский", "Восточный", "Заречный"] },  
 ];  
 
-
-
-
-
-// // key is citites
-// export const data = {
-//   moscow: {
-//     properties :products,
-//     districts:['districts1','districts2','districts3','districts4'],
-//     metro:['metro1','metro2','metro3','metro4'],
-//     stations:['station1','station1','station1','station1']
-//   },
-//   saint_petersburg :{
-//     properties :products,
-//     districts:['districts1','districts2','districts3','districts4'],
-//     metro:['metro1','metro2','metro3','metro4'],
-//     stations:['station1','station1','station1','station1']
-//   },
-//   tyumen  : {
-//     properties :products,
-//     districts:['districts1','districts2','districts3','districts4'],
-//     metro:['metro1','metro2','metro3','metro4'],
-//     stations:['station1','station1','station1','station1']
-//   },
-//   city1 :{
-//     properties :products,
-//     districts:['','','',''],
-//     metro:['','','',''],
-//   },
-//   city2: {
-//     properties :[{},{},{},{}],
-//     districts:['','','',''],
-//     metro:['','','',''],
-//   },
-//   city3 :{
-//     properties :[{},{},{},{}],
-//     districts:['','','',''],
-//     metro:['','','',''],
-//   },
-
-// }
-
-  export const notifications = [
+export const notifications = [
     {
       id: 2,
       apartment: "Апартаменты №456",
@@ -224,4 +179,4 @@ export const cityOptions = [
       date: "2023-10-13T16:45:00Z",
       read: true
     }
-  ]
+]

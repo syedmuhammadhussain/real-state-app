@@ -171,6 +171,7 @@ a , button{
 }
 .embla__buttons {
 } */
+ 
 .embla__button {
   -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
   -webkit-appearance: none;

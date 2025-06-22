@@ -9,26 +9,9 @@ import { Slider } from "@/components/ui/slider";
 import Input from "@/components/ui/input";
 import { useApartment } from "../../../../../context/ApartmentContext";
 
-export function FilterContent({
-    metro,
-    district,
-    priceRange,
-    selectedRooms,
-    selectedBeds,
-    selectedMetro,
-    selectedAmenities,
-    isCottage,
-    onPriceChange,
-    onRoomSelect,
-    onBedSelect,
-    onMetroSelect,
-    onAmenityToggle,
-    onCottageToggle,
-    selectedDistict,
-    setSelectedDistict
-  }) {
+export function FilterContent({ metro, district, priceRange, selectedRooms, selectedBeds, selectedMetro, selectedAmenities, isCottage, onPriceChange, onRoomSelect, onBedSelect, onMetroSelect, onAmenityToggle, onCottageToggle, selectedDistict, setSelectedDistict }) {
 
-    const { amenities, features, infrastructures, kitchens, cities } = useApartment()
+    const { amenities, features, kitchens } = useApartment()
 
     return (
       <div className="space-y-6 p-4">

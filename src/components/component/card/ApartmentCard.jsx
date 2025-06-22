@@ -7,21 +7,25 @@ import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ReklamaPaymentDialog from "./ReklamaPaymentDialog";
+import ReklamaPaymentDialog from "../dialog-popups/ReklamaPaymentDialog";
+import { DeleteDialog } from "../dialog-popups/DeleteDialog";
+import { useApartment } from "../../../../context/ApartmentContext";
 
-/**
- * Renders an apartment card that accepts the raw backend JSON directly.
- *
- * New in this revision:
- *  - Every extra (amenity / kitchen / feature) now shows a context-appropriate Lucide icon.
- *  - Fallback to UtensilsCrossed when no mapping exists.
- */
 export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit = false , city=''}) {
   const [isLiked, setIsLiked] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpenDelete, setIsOpenDelete] = useState(false); 
 
   const isMobile = useIsMobile();
 
+  const { loading , deleteApartment  } = useApartment();
+  
+  const openDeleteDialog = () => setIsOpenDelete(true);
+  
+  const handleDelete = async (documentId) => {
+      await deleteApartment(documentId);
+    }
+  
   /* ----------------------------- TRANSFORM DATA ----------------------------- */
   const dedup = (arr) => Array.from(new Set(arr));
 
@@ -30,8 +34,9 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
     price: data.price,
     documentId: data.documentId,
     city: data.city,
-    address: data.location?.name ? `${data.location?.name}, ${data.city?.name}` : `${data.city?.name}`,
-    district: data.city?.slug,
+    // district
+    address: data.address ? `${data.location?.name}, ${data.city?.name}` : `${data.city?.name}`,
+    district: data.district,
     bedrooms: data.bedrooms,
     bathrooms: data.bathrooms,
     apartmentParameters: {
@@ -102,6 +107,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
   /* ---------------------------------- JSX ---------------------------------- */
   return (
     <div className="relative w-full bg-white border border-primary-light/50 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300">
+      
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
         <div className="absolute top-2 right-2 ">
@@ -123,7 +129,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
           <Button variant="outline" size="iconicon" onClick={onEdit} className="p-2">
             <Pen className="h-4 w-4" />
           </Button>
-          <Button variant="destructive" size="icon" onClick={onDelete} className="p-2">
+          <Button variant="destructive" size="icon" onClick={openDeleteDialog} className="p-2">
             <Trash2 className="h-4 w-4" />
           </Button>
          
@@ -224,6 +230,12 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
         </div>
       </div>
       <ReklamaPaymentDialog isOpen={isOpen} setIsOpen={setIsOpen}/>
+        <DeleteDialog 
+        isOpenDelete={isOpenDelete}
+        setIsOpenDelete={setIsOpenDelete}
+        onConfirm={() => handleDelete(data?.documentId)}
+        isLoading={loading}
+      />
     </div>
   );
 }

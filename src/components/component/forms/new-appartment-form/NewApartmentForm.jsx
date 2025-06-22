@@ -45,7 +45,7 @@ export default function NewApartmentForm() {
   // console.log('currentApartment',currentApartment,)
 
   // Единый стейт для всей информации о квартире
-  const [apartment, setApartment] = useState( currentApartment ? currentApartment  : initialApartmentData);
+  const [apartment, setApartment] = useState( editMode ? currentApartment  : initialApartmentData);
 
   // Контейнер для ошибок валидации
   const [errors, setErrors] = useState({});
@@ -80,6 +80,7 @@ export default function NewApartmentForm() {
     // 👉 Здесь можно вызвать API для сохранения
     // console.log('Отправка объекта квартиры →', {...apartment, owner:user.id});
     let payload  = {...apartment, owner:user.id}
+    
     if (editMode) updateApartment(payload, apartment.images )
     if (!editMode) createApartment(payload, apartment.images )
   };

@@ -7,6 +7,7 @@ import { api } from '@/lib/api';
 import { toast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { useAuth } from './AuthContext';
+import { cityOptions } from '@/constants/data';
 
 const ApartmentContext = createContext();
 
@@ -14,7 +15,7 @@ export const ApartmentProvider = ({ children }) => {
 
   const [cities, setCities] = useState([]);
   const [apartments, setApartments] = useState([]);
-  const [singleApartments, setSingleApartments] = useState([]);
+
   const [features, setFeature] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [infrastructures, setInfrastructures] = useState([]); 
@@ -23,7 +24,18 @@ export const ApartmentProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedApartment, setSelectedApartment] = useState(null);
-  const [editMode, setEditModa] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  // hero section and select Option City selector
+  const [selectedCityKey, setSelectedCityKey] = useState(cityOptions[0].ru);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const selectedCity = cityOptions.find((city) => city.ru === selectedCityKey);
+
+  // City selection
+  const handleCitySelect = (cityKey) => {
+    setSelectedCityKey(cityKey);
+    setIsPopoverOpen(false);
+  };
 
   // const [loader, setLoader] = useState(false)
 
@@ -55,6 +67,7 @@ export const ApartmentProvider = ({ children }) => {
       fetchInfrastructures()
       fetchKitchen()
       // fetchApartments()
+      
       fetchCities()
     },[])
 
@@ -211,7 +224,7 @@ export const ApartmentProvider = ({ children }) => {
     const fetchApartmentById = async (id) => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/products/${id}?populate=owner&populate=images&populate=city&populate=location&populate=features&populate=kitchens&populate=amenities&populate=infrastructures&fields=title&fields=bathrooms&fields=bedrooms&fields=description&fields=propertyType&fields=size&fields=price`);
+        const response = await api.get(`${apiUrl}/products/${id}?populate[images][populate]=*&populate[owner][populate]=*&populate[district][populate]=*&populate[city][populate][area][fields][0]=name&populate[location][populate]=*&populate[features][populate]=*&populate[kitchens][populate]=*&populate[amenities][populate]=*&populate[infrastructures][populate]=*`);
         const apartment = await response.data.data;
         setCurrentApartment(apartment);
         return apartment;
@@ -232,7 +245,7 @@ export const ApartmentProvider = ({ children }) => {
     //edit apartment for edit 
     const setApartmentForEdit = (apartment) => {
       setCurrentApartment(apartment);
-      setEditModa(true)
+      setEditMode(true)
     };
     // repve selected a[artment ]
     const clearCurrentApartment = () => {
@@ -357,8 +370,7 @@ export const ApartmentProvider = ({ children }) => {
               },
               body: JSON.stringify({ data: preparedData }),
             });
-
-        console.log('preparedData', preparedData)
+            // console.log('preparedData', preparedData)
 
             if (!response.ok) throw new Error('Не удалось обновить квартиру');
             const updatedApartment = await response.json();
@@ -371,7 +383,7 @@ export const ApartmentProvider = ({ children }) => {
               title: 'Квартира обновлена',
               description: 'Информация о квартире успешно обновлена.'
             });
-
+            setEditMode(false)
             return updatedApartment;
           } catch (err) {
             console.error('Ошибка обновления:', err);
@@ -435,7 +447,13 @@ export const ApartmentProvider = ({ children }) => {
         cities,
         selectedApartment,
         editMode,
-        setEditModa,
+        setEditMode,
+        selectedCityKey,
+        setSelectedCityKey,
+        isPopoverOpen,
+        setIsPopoverOpen,
+        selectedCity,
+        handleCitySelect,
         setSelectedApartment,
         fetchApartments,
         fetchApartmentsByOwner,

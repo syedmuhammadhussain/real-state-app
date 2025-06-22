@@ -36,7 +36,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
       onOpenChange={setIsOpen}
       className="border-t border-primary-light/20 pt-5">
 
-      <div className="flex justify-between items-center flex-wrap">
+      <div className="flex  justify-center md:justify-between  md:items-center flex-col md:flex-row gap-5 mb-4">
          
         <span className="text-lg  font-bold text-primary-dark"> Связаться с владельцем: </span>
 
@@ -79,17 +79,17 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
           >
             {!isOpen ? (
               <div className="flex items-center gap-2 transition-all">
-                 {!isMobile && <span className="hidden md:block text-white text-sm "> 
+               <span className=" text-white text-sm "> 
                   {/* {contact.hiddenPhone}  */}
                     показать номер
-                  </span>} 
+                  </span>
                   <Eye className="w-5 h-5 transition-transform duration-300 text-white " />
               </div>
             ) : (
               <div className="flex items-center gap-1 animate-in fade-in">
-                {!isMobile && <span className=" text-primary-default text-white text-sm">
+                 <span className=" text-primary-default text-white text-sm">
                   {/* Скрыть номер */}    {contact.phone}
-                </span> } 
+                </span>
                 <EyeClosed className="w-5 h-5 transition-transform duration-300 text-white " />
               </div>
             )}

@@ -51,7 +51,9 @@ export default function Navbar() {
     pathname.startsWith('/register') ||
     pathname.startsWith('/forgot-password') ||
     pathname.startsWith('/checkout') ||
-    pathname.startsWith('/add-edit-apartment') 
+    pathname.startsWith('/add-apartment')  || //add-edit-apartment
+    pathname.startsWith('/edit-apartment')  //add-edit-apartment
+
   ) {
     return null;
   }

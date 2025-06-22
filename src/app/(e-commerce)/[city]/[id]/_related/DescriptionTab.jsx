@@ -2,9 +2,8 @@ import { Building2, Bath, Home, CalendarDays, Dog, Bed } from 'lucide-react'
 
 export const DescriptionTab = ({ description, params, conditions }) => (
   <div className="flex flex-col justify-center h-auto">
-    <p className="text-lg ">{description}</p>
     
-    <div className="w-full mx-auto grid grid-cols-2 gap-6">
+    <div className="w-full mt-6  grid grid-cols-2 gap-6">
       <div className="">
         <h3 className="text-lg font-semibold text-primary-dark ">Особенности</h3>
 
@@ -29,7 +28,6 @@ propertyType */}
         </div>
       </div>
 
-{/* Правила */}
       <div className="">
         <h3 className="text-lg font-semibold text-primary-dark">Правила</h3>
 

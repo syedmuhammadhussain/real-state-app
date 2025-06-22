@@ -1,20 +1,9 @@
-// {city]
-
-  // /* ------------------------------------------------------------------
-  //  * Updated CityPage & Sidebar (responsive sidebar + "Список / Карта" tabs)
-  //  * -----------------------------------------------------------------*/
   "use client";
   
   import React, { useEffect, useState } from "react";
   import Image from "next/image";
-  import Link from "next/link";
   import { useRouter, useSearchParams } from "next/navigation";
-  import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-  } from "@/components/ui/tabs";
+  import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
   import { Loader2, MapPin, ListOrdered } from "lucide-react";
   import { Sidebar } from "./_related/SideBar";
   import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
@@ -156,9 +145,9 @@
             </div>
       </section>
   
-      <div className="flex min-h-screen lg:flex-row flex-col">
+      <div className=" mx-auto flex min-h-screen lg:flex-row flex-col">
         {/* ──────────────── SIDEBAR (lg≥)────────────── */}
-        <aside className="hidden lg:block lg:w-1/5 lg:min-w-[260px] border-r bg-slate-50 p-4 overflow-y-auto">
+        <aside className="hidden lg:block lg:w-1/4 lg:min-w-[260px] border-r bg-slate-50 p-4 overflow-y-auto">
           <Sidebar
             defaultValues={filters}
             onApply={(vals) => {
@@ -173,7 +162,7 @@
   
         {/* ──────────────── MAIN ────────────────────── */}
         <main className="flex-1 w-full px-4 lg:px-8 pt-4 pb-10">
-          <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
+          <div className="mb-3 flex flex-wrap items-start justify-between gap-4">
             <Breadcrumbs
               items={[
                 { key: "home", label: "Главная", href: "/" },
@@ -185,7 +174,7 @@
               </p>
           </div>
   
-          <Tabs value={view} onValueChange={setView} className="w-full mb-6">
+          <Tabs value={view} onValueChange={setView} className="w-full ">
             <TabsList className="grid w-full grid-cols-2  sm:inline-flex items-end justify-end">
               <TabsTrigger value="list" className="flex items-center gap-1">
                 <ListOrdered className="h-4 w-4" /> Список
@@ -259,9 +248,9 @@
     );
   }
   
-  // /* ------------------------------------------------------------------
-  //  * CityPage – server‑side (Next.js App Router) with **safe** URL manipulation
-  //  * ------------------------------------------------------------------*/
+  // // /* ------------------------------------------------------------------
+  // //  * CityPage – server‑side (Next.js App Router) with **safe** URL manipulation
+  // //  * ------------------------------------------------------------------*/
   // import "server-only";
   // import Image from "next/image";
   // import Link from "next/link";
@@ -426,7 +415,7 @@
   
   // <div className="flex min-h-screen flex-col lg:flex-row">
   //       {/* ───── Sidebar (desktop) ───── */}
-  //       <aside className="hidden lg:block lg:w-1/5 lg:min-w-[260px] border-r bg-slate-50 p-4 overflow-y-auto">
+  //       <aside className="hidden lg:block lg:w-1/4 lg:min-w-[260px] border-r bg-slate-50 p-4 overflow-y-auto">
   //         <Sidebar
   //           defaultValues={filters}
   //           onApply={undefined /* handled in client sidebar */}
@@ -484,10 +473,10 @@
   //             {apartments.length ? (
   //               <>
   //                 <div className="grid grid-cols-1 gap-3">
-  //                   {apartments.map(({ id, attributes }) => (
-  //                     <ApartmentCard key={id} data={{ id, ...attributes }} city={citySlug}  />
-  //                   ))}
-  //                 </div>
+  //                     {apartments.map((p) => (
+  //                       <ApartmentCard key={p.id} data={p} city={citySlug} />
+  //                     ))}
+  //                   </div>
   
   //                 {/* Pagination */}
   //                 <nav className="mt-12 flex items-center justify-center gap-2">

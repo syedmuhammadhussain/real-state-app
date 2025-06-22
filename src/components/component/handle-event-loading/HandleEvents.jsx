@@ -1,5 +1,3 @@
-
-
     import { Home, Loader2, AlertTriangle } from "lucide-react";
 
     export const ErrorState = ({ message }) => (
@@ -10,8 +8,8 @@
     );
 
     export const LoadingState = () => (
-        <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
+        <div className="flex items-center justify-center py-20 min-h-screen">
+         <Loader2 className="h-10 w-10 animate-spin text-primary-hover" />
         </div>
     );
 
