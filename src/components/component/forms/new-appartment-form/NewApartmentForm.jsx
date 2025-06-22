@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 
-// Шаги формы
 import BasicInfoForm from './_steps/BasicInfoForm';
 import ParametersForm from './_steps/ParametersForm';
 import MediaLocationForm from './_steps/MediaLocationForm';
@@ -35,14 +34,11 @@ export const initialApartmentData = {
 };
 
 export default function NewApartmentForm() {
+  
   // Текущий шаг (1‑3)
   const [step, setStep] = useState(1);
-
   const {user} = useAuth()
-
-  const {  currentApartment, createApartment , editMode, updateApartment } = useApartment()
-
-  // console.log('currentApartment',currentApartment,)
+  const { currentApartment, createApartment , editMode, updateApartment } = useApartment()
 
   // Единый стейт для всей информации о квартире
   const [apartment, setApartment] = useState( editMode ? currentApartment  : initialApartmentData);
@@ -78,14 +74,12 @@ export default function NewApartmentForm() {
   const handleMediaLocationSubmit = (e) => {
     e.preventDefault();
     // 👉 Здесь можно вызвать API для сохранения
-    // console.log('Отправка объекта квартиры →', {...apartment, owner:user.id});
+
     let payload  = {...apartment, owner:user.id}
-    
     if (editMode) updateApartment(payload, apartment.images )
     if (!editMode) createApartment(payload, apartment.images )
   };
 
-  // ------------ UI ------------
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex flex-col gap-8">

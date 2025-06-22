@@ -62,13 +62,11 @@ export const ApartmentProvider = ({ children }) => {
     };
 
     useEffect(()=>{
-      fetchFeature()
-      fetchAmenities()
-      fetchInfrastructures()
-      fetchKitchen()
-      // fetchApartments()
-      
-      fetchCities()
+        fetchFeature()
+        fetchAmenities()
+        fetchInfrastructures()
+        fetchKitchen()
+        fetchCities()
     },[])
 
     // Получить все FEATURE

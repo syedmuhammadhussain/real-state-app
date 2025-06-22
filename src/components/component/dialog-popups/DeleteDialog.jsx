@@ -18,14 +18,12 @@ export function DeleteDialog({ isOpenDelete, setIsOpenDelete, onConfirm, isLoadi
             Это действие не может быть отменено. Все данные будут удалены навсегда.
           </DialogDescription>
         </DialogHeader>
-
         <DialogFooter className="mt-6 sm:justify-center gap-3">
           <DialogClose asChild>
             <Button
               variant="outline"
               className="px-6 min-w-[120px] border-gray-300 dark:border-gray-600"
-              disabled={isLoading}
-            >
+              disabled={isLoading} >
                 Отмена
             </Button>
           </DialogClose>
@@ -41,7 +39,7 @@ export function DeleteDialog({ isOpenDelete, setIsOpenDelete, onConfirm, isLoadi
                 Удаление...
               </span>
             ) : (
-              "Confirm Delete"
+              "Подтвердить удаление"
             )}
           </Button>
         </DialogFooter>
