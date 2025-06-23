@@ -18,8 +18,8 @@ export default function ProfilePage() {
   const [selectedTab, setSelectedTab] = useState("properties");
   const { user } = useAuth();
   const router = useRouter();
-
-  const { apartmentsForOwner, loading,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
+ 
+  const { apartmentsForOwner, loading,handleNotification ,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
 
   // handle not not exist user
   useEffect(() => {
@@ -43,7 +43,9 @@ export default function ProfilePage() {
      await setEditMode(false)
      await router.push("/add-apartment")
     }
-    
+  
+const handleNotificationPart = ()=> handleNotification()
+
   return (
     <div className="min-h-screen max-w-7xl bg-gray-50 pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
@@ -73,9 +75,9 @@ export default function ProfilePage() {
               <User className="mr-2 h-4 w-4" />
               <span className="hidden md:block text-sm">Профиль</span> 
             </TabsTrigger>
-            <TabsTrigger value="notification">
+            <TabsTrigger value="notification" onClick={handleNotificationPart}>
               <NotebookIcon className="mr-2 h-4 w-4" /> 
-              <span className="hidden md:block text-sm">Уведомление</span> 
+              <span className="hidden md:block text-sm" >Уведомление</span> 
             </TabsTrigger> 
           </TabsList>
 

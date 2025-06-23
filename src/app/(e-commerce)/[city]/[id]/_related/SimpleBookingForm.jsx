@@ -88,13 +88,13 @@ export function SimpleBookingForm({ id = 5 }) {
         const response = await fetch(`${apiUrl}/booking-forms`, {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ data: payload }),
         });
       if (!response.ok) {
-        // throw new Error('Failed to submit booking')
+        throw new Error('Failed to submit booking')
       }
 
       const result = await response.json()

@@ -16,8 +16,6 @@ export const ApartmentProvider = ({ children }) => {
   const [cities, setCities] = useState([]);
   const [apartments, setApartments] = useState([]);
   const [apartmentsForOwner, setApartmentsForOwner] = useState([]);
-
-
   const [features, setFeature] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [infrastructures, setInfrastructures] = useState([]); 
@@ -25,11 +23,12 @@ export const ApartmentProvider = ({ children }) => {
   const [currentApartment, setCurrentApartment] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingPosition, setLoadingPosition] = useState(false);
-
+  const [notification, setNotification]=useState([])
   const [error, setError] = useState(null);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [position, setPosition] = useState(null)
+
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState(cityOptions[0].ru);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -73,8 +72,7 @@ export const ApartmentProvider = ({ children }) => {
         fetchCities()
     },[])
 
-
-      // Получить все FEATURE
+    // Получить все FEATURE
     const handlePositionByCity = async (id) => {
       setLoadingPosition(true);
       try {
@@ -455,6 +453,26 @@ export const ApartmentProvider = ({ children }) => {
         }
     };
 
+    // handle fetch notification 
+    const handleNotification = async () => {
+      setLoading(true);
+      try {
+        const response = await api.get(`${apiUrl}/notifications?filters[recipient][id][$eq]=${user?.id}&pagination[limit]=1&sort=createdAt:desc`);
+        const data = await response.data.data;
+        setNotification(data);
+        setError(null);
+      } catch (err) {
+        console.error('Ошибка при загрузке:', err);
+        toast({
+          variant: 'destructive',
+          title: 'Ошибка загрузки',
+          description: 'Не удалось получить список позиции.'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
   return (
     <ApartmentContext.Provider
       value={{
@@ -465,6 +483,8 @@ export const ApartmentProvider = ({ children }) => {
         currentApartment,
         initialApartmentData,
         loading,
+        setLoading,
+        notification,
         loadingPosition,
         error,
         features,
@@ -481,6 +501,7 @@ export const ApartmentProvider = ({ children }) => {
         setIsPopoverOpen,
         selectedCity,
         position,
+        handleNotification,
         handlePositionByCity,
         handleCitySelect,
         setSelectedApartment,
