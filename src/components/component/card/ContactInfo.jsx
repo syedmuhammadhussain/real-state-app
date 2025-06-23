@@ -75,22 +75,24 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
           <Button
             variant="pr"
             size="md"
-            className="text-primary-dark min-w-[165px] bg-primary-default hover:text-primary-dark/80 group"
-          >
+            className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-lg font-medium transition-colors duration-300 w-max"
+              >
+               
+          
             {!isOpen ? (
               <div className="flex items-center gap-2 transition-all">
-               <span className=" text-white text-sm "> 
+               <span className=" text-white text-md "> 
                   {/* {contact.hiddenPhone}  */}
                     показать номер
                   </span>
-                  <Eye className="w-5 h-5 transition-transform duration-300 text-white " />
+                  <Eye className="h-5 w-5 group-hover:text-green-400 transition-colors" />
               </div>
             ) : (
               <div className="flex items-center gap-1 animate-in fade-in">
                  <span className=" text-primary-default text-white text-sm">
                   {/* Скрыть номер */}    {contact.phone}
                 </span>
-                <EyeClosed className="w-5 h-5 transition-transform duration-300 text-white " />
+                <EyeClosed className="h-5 w-5 group-hover:text-green-400 transition-colors " />
               </div>
             )}
           </Button>

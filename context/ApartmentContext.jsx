@@ -15,6 +15,8 @@ export const ApartmentProvider = ({ children }) => {
 
   const [cities, setCities] = useState([]);
   const [apartments, setApartments] = useState([]);
+  const [apartmentsForOwner, setApartmentsForOwner] = useState([]);
+
 
   const [features, setFeature] = useState([]);
   const [amenities, setAmenities] = useState([]);
@@ -22,10 +24,12 @@ export const ApartmentProvider = ({ children }) => {
   const [kitchens, setKitchen] = useState([]); 
   const [currentApartment, setCurrentApartment] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingPosition, setLoadingPosition] = useState(false);
+
   const [error, setError] = useState(null);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [editMode, setEditMode] = useState(false);
-
+  const [position, setPosition] = useState(null)
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState(cityOptions[0].ru);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -68,6 +72,28 @@ export const ApartmentProvider = ({ children }) => {
         fetchKitchen()
         fetchCities()
     },[])
+
+
+      // Получить все FEATURE
+    const handlePositionByCity = async (id) => {
+      setLoadingPosition(true);
+      try {
+        const response = await api.get(`${apiUrl}/positions?filters[city][id][$eq]=${id}`);
+        const data = await response.data.data;
+        console.log('position', data)
+        setPosition(data);
+        setError(null);
+      } catch (err) {
+        console.error('Ошибка при загрузке:', err);
+        toast({
+          variant: 'destructive',
+          title: 'Ошибка загрузки',
+          description: 'Не удалось получить список позиции.'
+        });
+      } finally {
+        setLoadingPosition(false);
+      }
+    };
 
     // Получить все FEATURE
     const fetchFeature = async () => {
@@ -203,7 +229,7 @@ export const ApartmentProvider = ({ children }) => {
       try {
         const response = await api.get(`${apiUrl}/products?filters[owner][id][$eq]=${userId}&populate=owner&populate=images&populate=city&populate=location&populate=features&populate=kitchens&populate=amenities&populate=infrastructures&fields=title&fields=bathrooms&fields=bedrooms&fields=description&fields=propertyType&fields=size&fields=price&pagination[page]=1&pagination[pageSize]=10`);
         const data = await response.data.data;
-        setApartments(data);
+        setApartmentsForOwner(data);
         setError(null);
       } catch (err) {
         console.error('Ошибка при загрузке по городу:', err);
@@ -311,7 +337,7 @@ export const ApartmentProvider = ({ children }) => {
         });
         if (!response.ok) throw new Error('Не удалось создать квартиру');
         const newApartment = await response.json();
-        setApartments((prev) => [...prev, newApartment]);
+        setApartmentsForOwner((prev) => [...prev, newApartment]);
 
         toast({
           variant: 'success',
@@ -373,7 +399,7 @@ export const ApartmentProvider = ({ children }) => {
             if (!response.ok) throw new Error('Не удалось обновить квартиру');
             const updatedApartment = await response.json();
            
-            setApartments(prev => prev.map(apt => apt.documentId === apartmentData.documentId ? updatedApartment : apt));
+            setApartmentsForOwner(prev => prev.map(apt => apt.documentId === apartmentData.documentId ? updatedApartment : apt));
             // setCurrentApartment(updatedApartment);
             router.push('/profile')
             toast({
@@ -434,9 +460,12 @@ export const ApartmentProvider = ({ children }) => {
       value={{
         apartments,
         setApartments,
+        apartmentsForOwner,
+        setApartmentsForOwner,
         currentApartment,
         initialApartmentData,
         loading,
+        loadingPosition,
         error,
         features,
         amenities,
@@ -451,6 +480,8 @@ export const ApartmentProvider = ({ children }) => {
         isPopoverOpen,
         setIsPopoverOpen,
         selectedCity,
+        position,
+        handlePositionByCity,
         handleCitySelect,
         setSelectedApartment,
         fetchApartments,

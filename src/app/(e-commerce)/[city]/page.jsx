@@ -1,150 +1,161 @@
-  "use client";
-  
-  import React, { useEffect, useState } from "react";
-  import Image from "next/image";
-  import { useRouter, useSearchParams } from "next/navigation";
-  import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
-  import { Loader2, MapPin, ListOrdered } from "lucide-react";
-  import { Sidebar } from "./_related/SideBar";
-  import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-  import ApartmentCard from "@/components/component/card/ApartmentCard";
-  import PageLink from "./_related/PageLink";
-  import { cityOptions } from "@/constants/data";
-  import { api } from "@/lib/api";
-  import { useApartment } from "../../../../context/ApartmentContext";
-  
-  /* --------------------------------- UTILS ------------------------ */
-  const ITEMS_PER_PAGE = 5; // == pagination[pageSize]
-  const getRussianCity = (slug) =>
-    cityOptions.find(
-      (c) => c.key.toLowerCase() === decodeURIComponent(slug).toLowerCase(),
-    ) ?? { key: slug, name: `Unknown City (${slug})`, ru: slug };
-  
-  /* ------------------------------------------------------------------
-   * CityPage component
-   * -----------------------------------------------------------------*/
-  export default function CityPage({ params }) {
-    /* 1️⃣ unwrap dynamic segment */
-    const { city: citySlug = "" } = React.use(params);
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const currentPage = parseInt(searchParams.get("page") || "1", 10);
-    const [view, setView] = useState("list"); // «list» | «map»
-  
-    if (!citySlug) return <p className="p-10 text-center">Loading…</p>;
-  
-    /* 2️⃣ city label */
-    const cityRussian = getRussianCity(citySlug);
-  
-    /* 3️⃣ local state */
-    const { apartments , setApartments } = useApartment()
-    const [meta, setMeta] = useState({ pagination: { pageCount: 1 } });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-  
-    console.log('apartment',apartments)
-  
-    /* 4️⃣ extract filters from URL */
-    const filters = {
-      rooms: searchParams.get("rooms"),
-      priceMin: searchParams.get("priceMin"),
-      priceMax: searchParams.get("priceMax"),
-      beds: searchParams.get("beds"),
-      metro: searchParams.get("metro"),
-      amenities: searchParams.get("amenities")?.split(",") || [],
-      cottage: searchParams.get("cottage"),
-      district: searchParams.get("district"),
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Loader2, MapPin, ListOrdered } from "lucide-react";
+import { Sidebar } from "./_related/SideBar";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import PageLink from "./_related/PageLink";
+import { cityOptions } from "@/constants/data";
+import { api } from "@/lib/api";
+import { useApartment } from "../../../../context/ApartmentContext";
+import ApartmentCard from "@/components/component/card/ApartmentCard";
+
+/* --------------------------------- UTILS ------------------------ */
+const ITEMS_PER_PAGE = 5; // == pagination[pageSize]
+const getRussianCity = (slug) =>
+  cityOptions.find(
+    (c) => c.key.toLowerCase() === decodeURIComponent(slug).toLowerCase(),
+  ) ?? { key: slug, name: `Unknown City (${slug})`, ru: slug };
+
+/* ------------------------------------------------------------------
+ * CityPage component
+ * -----------------------------------------------------------------*/
+export default function CityPage({ params }) {
+  /* 1️⃣ unwrap dynamic segment */
+  const { city: citySlug = "" } = React.use(params);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+  const [view, setView] = useState("list"); // «list» | «map»
+
+  if (!citySlug) return <p className="p-10 text-center">Loading…</p>;
+
+  /* 2️⃣ city label */
+  const cityRussian = getRussianCity(citySlug);
+
+  /* 3️⃣ local state */
+  const { apartments, setApartments } = useApartment();
+  const [meta, setMeta] = useState({ pagination: { pageCount: 1 } });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  /* 4️⃣ extract filters from URL */
+  const filters = {
+    rooms: searchParams.get("rooms"),
+    priceMin: searchParams.get("priceMin"),
+    priceMax: searchParams.get("priceMax"),
+    beds: searchParams.get("beds"),
+    metro: searchParams.get("metro"),
+    amenities: searchParams.get("amenities")?.split(",") || [],
+    cottage: searchParams.get("cottage"),
+    district: searchParams.get("district"),
+  };
+
+  /* 5️⃣ Strapi URL builder - UPDATED TO MATCH PROVIDED QUERY */
+  const buildApiUrl = () => {
+    const q = new URLSearchParams();
+    
+    // Base filters
+    q.set("filters[city][name][$eq]", citySlug);
+    q.set("sort", "sequence_order:asc");
+    q.set("pagination[page]", currentPage.toString());
+    q.set("pagination[pageSize]", ITEMS_PER_PAGE.toString());
+
+    // Populate parameters
+    q.set("populate[images][populate]", "*");
+    q.set("populate[owner][populate]", "*");
+    q.set("populate[district][populate]", "*");
+    q.set("populate[city][populate][area][fields][0]", "name");
+    q.set("populate[location][populate]", "*");
+    q.set("populate[features][populate]", "*");
+    q.set("populate[kitchens][populate]", "*");
+    q.set("populate[amenities][populate]", "*");
+    q.set("populate[infrastructures][populate]", "*");
+
+    // Field selections
+    [
+      "title",
+      "bathrooms",
+      "bedrooms",
+      "description",
+      "propertyType",
+      "size",
+      "price",
+    ].forEach((f) => q.append("fields", f));
+
+    /* dynamic filters */
+    if (filters.rooms)
+      q.set("filters[apartmentParameters][apartmentType][$eq]", filters.rooms);
+    if (filters.beds)
+      q.set("filters[apartmentParameters][singleBeds][$eq]", filters.beds);
+    if (filters.priceMin) q.set("filters[price][$gte]", filters.priceMin);
+    if (filters.priceMax) q.set("filters[price][$lte]", filters.priceMax);
+    if (filters.metro) q.set("filters[metro][$eq]", filters.metro);
+    if (filters.district) q.set("filters[district][$eq]", filters.district);
+    if (filters.amenities.length)
+      q.set("filters[amenities][name][$in]", filters.amenities.join(","));
+
+    return `/products?${q.toString()}`;
+  };
+
+  /* 6️⃣ fetch whenever slug / page / filters change */
+  useEffect(() => {
+    const fetchProperties = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const apiUrl = buildApiUrl();
+        const { data } = await api.get(apiUrl);
+        setApartments(data?.data || []);
+        setMeta(data?.meta || { pagination: { pageCount: 1 } });
+      } catch (err) {
+        console.error(err);
+        setError("Не удалось загрузить данные. Попробуйте позже.");
+      } finally {
+        setLoading(false);
+      }
     };
-  
-    /* 5️⃣ Strapi URL builder */
-    const buildApiUrl = () => {
-      const q = new URLSearchParams();
-      q.set("filters[city][name][$eq]", citySlug);
-      [
-        "images",
-        "features",
-        "kitchens",
-        "amenities",
-        "infrastructures",
-      ].forEach((p) => q.append("populate", p));
-      [
-        "title",
-        "bathrooms",
-        "bedrooms",
-        "description",
-        "propertyType",
-        "size",
-        "price",
-      ].forEach((f) => q.append("fields", f));
-      q.set("pagination[page]", currentPage.toString());
-      q.set("pagination[pageSize]", ITEMS_PER_PAGE.toString());
-      /* dynamic filters */
-      if (filters.rooms)
-        q.set("filters[apartmentParameters][apartmentType][$eq]", filters.rooms);
-      if (filters.beds)
-        q.set("filters[apartmentParameters][singleBeds][$eq]", filters.beds);
-      if (filters.priceMin) q.set("filters[price][$gte]", filters.priceMin);
-      if (filters.priceMax) q.set("filters[price][$lte]", filters.priceMax);
-      if (filters.metro) q.set("filters[metro][$eq]", filters.metro);
-      if (filters.district) q.set("filters[district][$eq]", filters.district);
-      if (filters.amenities.length)
-        q.set("filters[amenities][name][$in]", filters.amenities.join(","));
-  
-      return `/products?${q.toString()}`;
-    };
-  
-    /* 6️⃣ fetch whenever slug / page / filters change */
-    useEffect(() => {
-      const fetchProperties = async () => {
-        setLoading(true);
-        setError("");
-        try {
-          const apiUrl = buildApiUrl();
-          const { data } = await api.get(apiUrl);
-          setApartments(data?.data || []);
-          setMeta(data?.meta || { pagination: { pageCount: 1 } });
-        } catch (err) {
-          console.error(err);
-          setError("Не удалось загрузить данные. Попробуйте позже.");
-        } finally {
-          setLoading(false);
-        }
-      };
-  
-      fetchProperties();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [citySlug, currentPage, searchParams.toString()]);
-  
-    /* 7️⃣ pagination helpers */
-    const totalPages = meta.pagination.pageCount ?? 1;
-    const buildLink = (page) => {
-      const q = new URLSearchParams(searchParams.toString());
-      page === 1 ? q.delete("page") : q.set("page", page);
-      return `/${citySlug}?${q.toString()}`;
-    };
-  
-    /* 8️⃣ JSX */
-    return (
-      <> 
+
+    fetchProperties();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [citySlug, currentPage, searchParams.toString()]);
+
+  /* 7️⃣ pagination helpers */
+  const totalPages = meta.pagination.pageCount ?? 1;
+  const buildLink = (page) => {
+    const q = new URLSearchParams(searchParams.toString());
+    page === 1 ? q.delete("page") : q.set("page", page);
+    return `/${citySlug}?${q.toString()}`;
+  };
+
+  /* 8️⃣ JSX */
+  return (
+    <>
       {/* Hero banner (desktop only) */}
       <section className="hidden md:block mb-6 relative h-[240px] lg:h-[260px]">
-            <Image
-              src="/images/aboutUs.jpg"
-              alt="Недвижимость премиум-класса"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-primary-dark/80 flex flex-col items-center justify-center text-center px-2">
-              <h1 className="font-bold text-white text-2xl lg:text-3xl max-w-4xl">
-                Квартиры посуточно в {cityRussian.ru}
-              </h1>
-              <p className="text-white mt-2 max-w-3xl">
-                На нашем сайте вы можете найти подходящий вариант посуточной аренды квартиры в городе {cityRussian.ru}. Мы публикуем объявления от собственников, что позволяет выбрать нужную вам квартиру по выгодной цене.
-              </p>
-            </div>
+        <Image
+          src="/images/aboutUs.jpg"
+          alt="Недвижимость премиум-класса"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-primary-dark/80 flex flex-col items-center justify-center text-center px-2">
+          <h1 className="font-bold text-white text-2xl lg:text-3xl max-w-4xl">
+            Квартиры посуточно в {cityRussian.ru}
+          </h1>
+          <p className="text-white mt-2 max-w-3xl">
+            На нашем сайте вы можете найти подходящий вариант посуточной аренды
+            квартиры в городе {cityRussian.ru}. Мы публикуем объявления от
+            собственников, что позволяет выбрать нужную вам квартиру по выгодной
+            цене.
+          </p>
+        </div>
       </section>
-  
+
       <div className=" mx-auto flex min-h-screen lg:flex-row flex-col">
         {/* ──────────────── SIDEBAR (lg≥)────────────── */}
         <aside className="hidden lg:block lg:w-1/4 lg:min-w-[260px] border-r bg-slate-50 p-4 overflow-y-auto">
@@ -159,7 +170,7 @@
             district={[]}
           />
         </aside>
-  
+
         {/* ──────────────── MAIN ────────────────────── */}
         <main className="flex-1 w-full px-4 lg:px-8 pt-4 pb-10">
           <div className="mb-3 flex flex-wrap items-start justify-between gap-4">
@@ -169,11 +180,14 @@
                 { key: "city", label: cityRussian.ru },
               ]}
             />
-              <p className="text-primary-default text-sm">
-                Страница <span className="text-primary-dark">{currentPage} из {totalPages}</span>
-              </p>
+            <p className="text-primary-default text-sm">
+              Страница{" "}
+              <span className="text-primary-dark">
+                {currentPage} из {totalPages}
+              </span>
+            </p>
           </div>
-  
+
           <Tabs value={view} onValueChange={setView} className="w-full ">
             <TabsList className="grid w-full grid-cols-2  sm:inline-flex items-end justify-end">
               <TabsTrigger value="list" className="flex items-center gap-1">
@@ -183,7 +197,7 @@
                 <MapPin className="h-4 w-4" /> Карта
               </TabsTrigger>
             </TabsList>
-  
+
             <TabsContent value="list">
               {loading && (
                 <div className="flex items-center justify-center py-10 gap-4">
@@ -193,17 +207,20 @@
               {error && (
                 <p className="py-20 text-center text-primary-hover">{error}</p>
               )}
-  
+
               {!loading && !error && apartments.length > 0 && (
                 <>
                   <div className="grid grid-cols-1 gap-3">
-                    {apartments.map((p) => (
+                    {apartments?.map((p) => (
                       <ApartmentCard key={p.id} data={p} city={citySlug} />
                     ))}
                   </div>
-  
+
                   <nav className="mt-12 flex items-center justify-center gap-2">
-                    <PageLink href={buildLink(currentPage - 1)} disabled={currentPage === 1}>
+                    <PageLink
+                      href={buildLink(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    >
                       Prev
                     </PageLink>
                     {Array.from({ length: totalPages }, (_, i) => (
@@ -215,38 +232,30 @@
                         {i + 1}
                       </PageLink>
                     ))}
-                    <PageLink href={buildLink(currentPage + 1)} disabled={currentPage === totalPages}>
+                    <PageLink
+                      href={buildLink(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    >
                       Next
                     </PageLink>
                   </nav>
                 </>
               )}
-  
-              {/* {!loading && !error && apartments.length === 0 && (
-                <div className="py-20 text-center">
-                  <h2 className="text-2xl text-gray-600">Ничего не найдено</h2>
-                  <Link
-                    href={`/${citySlug}`}
-                    className="mt-4 inline-block text-primary-dark hover:text-primary-light"
-                  >
-                    Просмотреть все объекты недвижимости
-                  </Link>
-                </div>
-              )} */}
             </TabsContent>
-  
+
             <TabsContent value="map">
               <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-lg">
-                <p className="text-gray-600">Здесь будет интерактивная карта с объектами.</p>
+                <p className="text-gray-600">
+                  Здесь будет интерактивная карта с объектами.
+                </p>
               </div>
             </TabsContent>
           </Tabs>
         </main>
       </div>
-      </>
-     
-    );
-  }
+    </>
+  );
+}
   
   // // /* ------------------------------------------------------------------
   // //  * CityPage – server‑side (Next.js App Router) with **safe** URL manipulation

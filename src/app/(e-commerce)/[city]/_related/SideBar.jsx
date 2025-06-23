@@ -1,20 +1,10 @@
 "use client";
 
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useTransition,
-} from "react";
+import { useState, useCallback, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"; 
+import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog"; 
 import { FilterContent } from "./FilterContent";
 
 /* Helper: safely copy params (ignores Symbol keys) */
@@ -29,23 +19,9 @@ const copyParamsSafe = (sp) => {
 };
 
 /* Keys managed by the filter */
-const FILTER_KEYS = [
-  "priceMin",
-  "priceMax",
-  "rooms",
-  "beds",
-  "metro",
-  "district",
-  "amenities",
-  "cottage",
-];
+const FILTER_KEYS = [ "priceMin", "priceMax", "rooms", "beds", "metro", "district", "amenities", "cottage" ];
 
-export function Sidebar({
-  citySlug,
-  defaultValues = {},
-  metro,
-  district,
-}) {
+export function Sidebar({ citySlug, defaultValues = {}, metro, district }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();

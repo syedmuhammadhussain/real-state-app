@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Wifi, Wind, Heart, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, AlignEndVertical, HighlighterIcon, Star, StarIcon} from "lucide-react";
+import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, AlignEndVertical, HighlighterIcon, Star, StarIcon} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
@@ -12,13 +12,13 @@ import { DeleteDialog } from "../dialog-popups/DeleteDialog";
 import { useApartment } from "../../../../context/ApartmentContext";
 
 export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit = false , city=''}) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(true);
   const [isOpen, setIsOpen] = useState(false); 
   const [isOpenDelete, setIsOpenDelete] = useState(false); 
 
   const isMobile = useIsMobile();
 
-  const { loading , deleteApartment  } = useApartment();
+  const { loading , deleteApartment, handlePositionByCity , loadingPosition } = useApartment();
   
   const openDeleteDialog = () => setIsOpenDelete(true);
   
@@ -30,7 +30,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
   const dedup = (arr) => Array.from(new Set(arr));
 
   const apartment = {
-    title: data?.title,
+    title: data.title ,
     price: data.price,
     documentId: data.documentId,
     city: data.city,
@@ -104,6 +104,15 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
 
   const images = apartment.images.length > 0 ? apartment.images : [{ url: "/default-apartment.jpg", caption: "Apartment preview" }];
 
+  const handlePosition = async () =>{
+    await setIsOpen(true)
+    // alert (data?.city.id)
+  // console.log('data', data?.city.id)
+ await handlePositionByCity(data?.city.id)
+    // await handlePositionByCity(data?.city.id)
+  }
+
+
   /* ---------------------------------- JSX ---------------------------------- */
   return (
     <div className="relative w-full bg-white border border-primary-light/50 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300">
@@ -112,20 +121,15 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
       {showButtonEdit ? (
         <div className="absolute top-2 right-2 ">
           <div className="w-full flex gap-2 center">
-            <Button
-              variant="secondary" 
-              size="md"
-              className="flex items-center b px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
-              onClick={() => setIsOpen(true)}
-                >
+            <Button variant="secondary"  size="md" className="flex items-center b px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group" onClick={handlePosition} >
                   <StarIcon className="w-5 h-5 mr-3  text-yellow-500 group-hover:text-yellow-600" />
                   <span className="flex items-center text-white group-hover:text-yellow-600 text-sm gap-2">
                    Рекламировать
-                    <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                    <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
                       PRO
                     </span>
                   </span>
-                </Button>
+             </Button>
           <Button variant="outline" size="iconicon" onClick={onEdit} className="p-2">
             <Pen className="h-4 w-4" />
           </Button>
@@ -136,14 +140,17 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
          </div>
         </div>
       ) : (
+
+        data?.sequence_order && 
         <Button
           size="sm"
           variant="ghost"
-          onClick={() => setIsLiked((prev) => !prev)}
-          className="group absolute top-2 right-2 p-2 rounded-full shadow transition-colors"
+          // onClick={() => setIsLiked((prev) => !prev)}
+          className="group absolute top-2 right-2 p-2   rounded-full shadow transition-colors"
         >
-          <Heart
-            className={`w-6 h-6 ${isLiked ? "text-red-500 fill-current" : "text-primary-dark group-hover:text-red-500"}`}
+
+          <Star
+            className={`w-6 h-6 " text-base text-secondary-default `}
           />
         </Button>
       )}
@@ -229,7 +236,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
           </div>
         </div>
       </div>
-      <ReklamaPaymentDialog isOpen={isOpen} setIsOpen={setIsOpen}/>
+      <ReklamaPaymentDialog isOpen={isOpen} setIsOpen={setIsOpen} data={data}/>
         <DeleteDialog 
         isOpenDelete={isOpenDelete}
         setIsOpenDelete={setIsOpenDelete}

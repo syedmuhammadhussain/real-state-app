@@ -72,7 +72,7 @@ export const ApartmentHeader = ({ product }) =>{
       {/* Contact Owner */}
         {/* Contact Owner */}
         <ContactInfo contact = {contactInfo}   initialOpen={false}/>
-        <BookingCard price={product.price} />
+        <BookingCard price={product.price} id = {product.id}/>
       </div>
   </div>
 )} 

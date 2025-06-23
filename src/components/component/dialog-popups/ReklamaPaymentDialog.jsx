@@ -4,16 +4,23 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle} from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
+import { useApartment } from '../../../../context/ApartmentContext';
+import { LoadingState } from '../handle-event-loading/HandleEvents';
 
-export default function ReklamaPaymentDialog({isOpen, setIsOpen}) {
+export default function ReklamaPaymentDialog({isOpen, setIsOpen, data }) {
   const [activeTab, setActiveTab] = useState('reklama');
   const [paymentUnlocked, setPaymentUnlocked] = useState(false);
 
+
+    const { loadingPosition , position } = useApartment();
+  
   const mockData = Array.from({ length: 25 }, (_, i) => ({
     name: `Item ${i + 1}`,
     place: `Place ${i + 1}`,
     terms: `Terms ${i + 1}`,
   }));
+
+  
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -22,19 +29,20 @@ export default function ReklamaPaymentDialog({isOpen, setIsOpen}) {
       </DialogTrigger> */}
       {/* <DialogTitle> hamad yel3a </DialogTitle> */}
 
-      <DialogContent className="h-[80vh] rounded-md bg-white max-w-4xl overflow-auto">
-      <DialogHeader>
-      <DialogTitle className="text-xl text-primary-dark">Рекламировать </DialogTitle>
+      <DialogContent className="max-h-[80vh] rounded-md bg-white max-w-4xl overflow-auto">
+      <DialogHeader  className="text-xl text-primary-dark ">
+      <DialogTitle>Рекламировать </DialogTitle>
     </DialogHeader>
+
+    
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full ">
           <TabsList className="grid grid-cols-2 w-full">
             <TabsTrigger value="reklama">Рекламировать </TabsTrigger>
-            <TabsTrigger value="payment" disabled={!paymentUnlocked}>
-            Оплата
-            </TabsTrigger>
+            <TabsTrigger value="payment" disabled={!paymentUnlocked}> Оплата </TabsTrigger>
           </TabsList>
 
           {/* Tab 1: Reklama */}
+          {loadingPosition ?  <LoadingState/>  :    
           <TabsContent value="reklama">
             <div className="mt-4 overflow-x-auto">
               <table className="min-w-full border border-gray-300 rounded-md text-sm">
@@ -47,29 +55,37 @@ export default function ReklamaPaymentDialog({isOpen, setIsOpen}) {
                   </tr>
                 </thead>
                 <tbody>
-                  {mockData.map((item, index) => (
+                  {position?.map((item, index) => (
                     <tr key={index} className="border-t">
-                      <td className="px-4 py-2 border text-center">{item.place}</td>
-                      <td className="px-4 py-2 text-center border">{item.name}</td>
-                      <td className="px-4 py-2 text-center border">{item.terms}</td>
+                      <td className="px-4 py-2 border text-center">{item.order}</td>
+                      <td className="px-4 py-2 text-center border">{item.title}</td>
+                      <td className="px-4 py-2 text-center border">{item.price} /  {item.is_booked === null ? '$' :   `busy until ${item.is_booked}`}</td>
                       <td className="px-4 py-2 text-center border">
                         <Button
                           variant="secondary"
                           size="sm"
                           onClick={() => {
+                            if(item.is_booked === null) {
                             setPaymentUnlocked(true);
                             setActiveTab('payment');
+
+                            } else {
+                              Router.push(`/${data?.city.slug}`)
+                            }
+                          
                           }}
                         >
-                          Buy
+                          { item.is_booked === null  ? 'Buy'  : 'look' }
                         </Button>
                       </td>
                     </tr>
+                    
                   ))}
                 </tbody>
               </table>
             </div>
-          </TabsContent>
+          </TabsContent> 
+          }
 
           {/* Tab 2: Payment */}
           <TabsContent value="payment">

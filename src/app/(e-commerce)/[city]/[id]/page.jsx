@@ -15,6 +15,7 @@ export default function ApartmentPage({ params }) {
 
   const { fetchApartmentById, currentApartment, loading } = useApartment();
 
+  // console.log('current apartment ' , currentApartment)
   /* Fetch data when the ID changes */
   useEffect(() => { if (id) fetchApartmentById(id) }, []);
 

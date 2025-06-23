@@ -41,7 +41,7 @@ export default function ProfileInfo() {
   };
 
   return (
-    <div className="bg-white ">
+    <div className="">
        <h2 className="text-2xl font-bold flex text-primary-dark items-center">
               <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" />
               Персональные данные

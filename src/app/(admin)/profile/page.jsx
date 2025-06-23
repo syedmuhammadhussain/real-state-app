@@ -1,44 +1,49 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, User, Home, NotebookIcon, BellIcon, HomeIcon } from "lucide-react";
 import ProfileInfo from "./ProfileInfo";
 import { Button } from "@/components/ui/button";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import { EmptyState, LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
-import { notifications } from "@/constants/data";
 import { useAuth } from "../../../../context/AuthContext";
 import { useApartment } from "../../../../context/ApartmentContext";
+import Notification from "./Notification"
 
 export default function ProfilePage() {
+  
   const [selectedTab, setSelectedTab] = useState("properties");
   const { user } = useAuth();
   const router = useRouter();
-  const { apartments, loading,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
 
-  // console.log('apartments',apartments)
-  // console.log('apartments',apartments)
-  // console.log('user ',user)
+  const { apartmentsForOwner, loading,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
 
+  // handle not not exist user
   useEffect(() => {
-    if (user?.id) fetchApartmentsByOwner(user.id);
-  }, [user?.id]);
+    if (user?.id &&  apartmentsForOwner.length === 0 ) fetchApartmentsByOwner(user.id)
+      //  else if (user !== undefined && !user?.id) {
+      //   notFound()
+      // }
+  }, [user?.id]); 
 
-  // =====================
-  // Handlers
-  // =====================
+  // Handlers edit 
   const handleEdit = async (apartment) => {
     setApartmentForEdit(apartment);
     router.push("/edit-apartment");
   };
 
+  // handle edit 
   const handleDelete = async (id) => await deleteApartment(id);
   
+  // handle navigate add 
+  const handleNavigate  = async () => { 
+     await setEditMode(false)
+     await router.push("/add-apartment")
+    }
+    
   return (
     <div className="min-h-screen max-w-7xl bg-gray-50 pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
@@ -77,22 +82,12 @@ export default function ProfilePage() {
           {/* Объекты */}
           <TabsContent value="properties">
             <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold flex text-primary-dark items-center">
-              <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" />
-              Мои объявления
-            </h2>
-              <Button
-              variant="ghost"
-              // size = "md"
+            <h2 className="text-2xl font-bold flex text-primary-dark items-center"> <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" /> Мои объявления </h2>
+              <Button  variant="ghost" // size = "md"
                 className="flex items-center justify-center gap-3 border-2 border-solid"
-                onClick={() => { 
-                  setEditMode(false)
-                  router.push("/add-apartment")
-
-                }}
+                onClick={handleNavigate}
               >
                 <PlusCircle className="mr-2 h-4 w-4" /> {!useIsMobile()  &&  'Добавить квартиру' }
-                 {/* //недвижимость */}
               </Button>
             </div>
 
@@ -103,7 +98,7 @@ export default function ProfilePage() {
             <div className="mt-4 grid gap-4">
               {!loading &&
                 !error &&
-                apartments.map((apartment, index) => (
+                apartmentsForOwner.map((apartment, index) => (
                   <ApartmentCard
                     key={apartment.id ?? `apt-${index}`}
                     data={apartment}
@@ -114,7 +109,7 @@ export default function ProfilePage() {
                 ))}
             </div>
             {loading && <LoadingState />}
-            {!loading && !error && apartments.length === 0 && <EmptyState />}
+            {!loading && !error && apartmentsForOwner.length === 0 && <EmptyState />}
 
           </TabsContent>
 
@@ -125,46 +120,7 @@ export default function ProfilePage() {
 
           {/*  notification */}
           <TabsContent value="notification" className="space-y-4">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold flex text-primary-dark items-center">
-          <BellIcon className="w-5 h-5 mr-2  text-primary-dark" />
-          Уведомление
-        </h2>
-        {/* <Button variant="ghost" size="sm">
-          Mark all as read
-        </Button> */}
-      </div>
-
-      <div className="space-y-4">
-        {notifications?.map((notification) => (
-          <Card
-            key={notification.id} 
-            className={cn(
-              "border-l-4 transition-all",
-              notification.read 
-                ? "border-l-transparent opacity-80" 
-                : "border-l-primary shadow-sm"
-            )}
-          >
-            <CardHeader className="pb-3">
-              <div className="flex justify-between">
-                <CardTitle className="text-base flex items-center">
-                  {!notification.read && (
-                    <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                  )}
-                  {notification.apartment}
-                </CardTitle>
-                <CardDescription className="text-xs">
-                  {/* {formatDate(notification.date)} */}
-                </CardDescription>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="mb-4">{notification.message}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            <Notification/>
           </TabsContent>
         </Tabs>
       </div>
