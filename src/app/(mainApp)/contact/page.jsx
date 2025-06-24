@@ -42,7 +42,7 @@ export default function ContactUs() {
      
 
       {/* Способы связи */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 px-3 lg:px-4">
         {[
           { 
             icon: <Home className="w-8 h-8 mx-auto text-primary-default" />, 

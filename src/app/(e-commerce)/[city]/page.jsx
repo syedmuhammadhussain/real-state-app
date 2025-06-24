@@ -261,7 +261,6 @@
   //  * CityPage – server‑side (Next.js App Router) with **safe** URL manipulation
   //  * ------------------------------------------------------------------*/
 
-
   import "server-only";
   import Image from "next/image";
   import Link from "next/link";
@@ -420,7 +419,7 @@
   
   <div className="relative  flex min-h-screen max-w-[1624px] mx-auto flex-col lg:flex-row">
         {/* ───── Sidebar (desktop) ───── */}
-        <aside className=" z-50 lg:w-1/4  border-r bg-slate-50 p-4 overflow-y-auto">
+        <aside className="  lg:w-1/4  border-r  overflow-y-auto">
           <Sidebar
           citySlug={citySlug}
             defaultValues={filters}

@@ -10,7 +10,7 @@ export const BookingCard = ({ price, id }) => (
           <p className="text-xl font-bold text-primary-default">{price}₽  / за сутки</p>
         </div>
         <Badge variant="default" className="text-sm">
-          <Wifi className="w-4 h-4 mr-1" />
+          <Wifi className="w-4 h-4 flex items-center justify-center gap-2" />
            <span className='hidden md:block'> Бесплатный Wi-Fi  </span>
         </Badge>
       </div>

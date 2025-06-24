@@ -127,7 +127,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
     <>
       {/* Desktop panel */}
       {isDesktop && (
-        <div className="space-y-6 hidden lg:block">
+        <div className="hidden  lg:block">
           <FilterContent {...filterProps} />
           <div className="flex gap-2">
             <Button
