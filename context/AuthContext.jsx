@@ -4,45 +4,52 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { ToastProvider } from '@/components/ui/toast';
 import { toast } from '@/hooks/use-toast';
+import { usePathname } from 'next/navigation'
 
 const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(!!false);
+  const [authLoading, setAuthLoading] = useState(!!false);
   const [error, setError] = useState(null);
   const [success , setSuccess]= useState(false)
-  
+ 
+  const pathname = usePathname()
   const router = useRouter();
 
   // const token = localStorage.getItem('authToken') ?? '' 
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   // initialize
-  const initializeAuth = async () => {
-    const token = localStorage.getItem('authToken'); // Assuming token is retrieved here
-    if (token) {
-      try {
-        const { data } = await api.get(`${apiUrl}/users/me?populate=*`,{
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setUser({ ...data, jwt: token });
-        setSuccess(true)
-      } catch (err) {
-        setSuccess(false)
+  const initializeAuth =() => {
+  return new Promise(async (resolve, reject) => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        try {
+          const { data } = await api.get(`${apiUrl}/users/me?populate=*`,{
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setUser({ ...data, jwt: token });
+          setSuccess(true)
+          resolve(true)
+        } catch (err) {
+          setSuccess(false)
+          reject(false)
+        }
       }
-    }
-    setLoading(false);
-  };
+    
+      setAuthLoading(false);
+  })};
 
-  // initialize authentication 
-  useEffect(() => { initializeAuth() }, []);
+  // controlling initializeAuth
+  const controlAuthIntialize = async () => await  initializeAuth() 
+  useEffect(() => {controlAuthIntialize()  }, []);
 
   // login
   const login = async (email, password) => {
-    setLoading(true);
+    setAuthLoading(true);
     setError(null);
     try {
       const { data } = await api.post(`${apiUrl}/auth/local`, 
@@ -73,13 +80,13 @@ export function AuthProvider({ children }) {
         // )
       });
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   // registration
   const register = async (firstName, lastName, email, password) => {
-    setLoading(true);
+    setAuthLoading(true);
     setError(null);
     try {
       const { data } = await api.post(`${apiUrl}/auth/local/register`, {
@@ -109,7 +116,7 @@ export function AuthProvider({ children }) {
         description: 'Не удалось создать аккаунт'
       });
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
@@ -138,7 +145,7 @@ export function AuthProvider({ children }) {
   
   // registration
    const resetPassword = async ( password, passwordConfirmation, code) => {
-    setLoading(true);
+    setAuthLoading(true);
     setError(null);
     if (password !== passwordConfirmation ) return 
     try {
@@ -164,7 +171,7 @@ export function AuthProvider({ children }) {
         description: 'Произошла ошибка при изменении пароля'
       });
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
       router.push('/');
 
     }
@@ -219,7 +226,7 @@ export function AuthProvider({ children }) {
   };
     
   return (
-    <AuthContext.Provider value={{ user, loading, error, login, register , resetPassword, logout, forgetPassword, success, editUser }}>
+    <AuthContext.Provider value={{initializeAuth ,user, authLoading, error, login, register , resetPassword, logout, forgetPassword, success, editUser }}>
       <ToastProvider>
       {children}
 

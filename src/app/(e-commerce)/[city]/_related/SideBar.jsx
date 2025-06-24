@@ -21,7 +21,7 @@ const copyParamsSafe = (sp) => {
 /* Keys managed by the filter */
 const FILTER_KEYS = [ "priceMin", "priceMax", "rooms", "beds", "metro", "district", "amenities", "cottage" ];
 
-export function Sidebar({ citySlug, defaultValues = {}, metro, district }) {
+export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();

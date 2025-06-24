@@ -35,7 +35,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
     documentId: data.documentId,
     city: data.city,
     // district
-    address: data.address ? `${data.location?.name}, ${data.city?.name}` : `${data.city?.name}`,
+    // address: `${data?.city.name} ,${data?.district} , ${data?.address} `  , //    <span>{product?.city.name}, {product?.district ?? ''}  {product?.address  ?? ''} </span><br/>
     district: data.district,
     bedrooms: data.bedrooms,
     bathrooms: data.bathrooms,
@@ -171,13 +171,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
               </h2>
               <div className="flex items-center text-sm text-primary-default gap-1.5 flex-wrap">
                 <MapPin className="w-4 h-4" />
-                <span>{apartment.address}</span>
-                {apartment.district && (
-                  <>
-                    <span className="text-gray-400">•</span>
-                    <span>{apartment.district} District</span>
-                  </>
-                )}
+                {/* <span>{apartment.address}</span> */}
               </div>
             </div>
 

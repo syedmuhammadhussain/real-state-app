@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { HomeIcon } from "lucide-react";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "../../../../../context/AuthContext";
 
 export default function ProfileInfo() {
   const { user, editUser } = useAuth();

@@ -26,7 +26,7 @@ export default function ApartmentPage({ params }) {
   if (currentApartment !== null ) return (
     
     // max-w-7xl
-    <div className=" mt-5  min-h-screen mx-auto px-4 space-y-10">
+    <div className=" mt-5  min-h-screen  max-w-7xl mx-auto px-4 space-y-10">
       <Breadcrumbs
         items={[
           { label: "Главная", href: "/" },

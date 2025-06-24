@@ -50,11 +50,11 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Register</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Зарегистрироваться</h1>
 
         {success && (
           <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
-            Регистрация прошла успешно! Проверьте вашу почту для подтверждения.
+            Регистрация прошла успешно!
           </div>
         )}
 

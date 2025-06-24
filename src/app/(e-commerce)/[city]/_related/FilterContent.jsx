@@ -18,7 +18,7 @@ export function FilterContent({ metro, district, priceRange, selectedRooms, sele
         
         {/* Price */}
         <div className="space-y-4">
-          <Label className="text-sm font-semibold  text-primary-dark">Цена за сутки (₽)</Label>
+          <Label className="text-md font-semibold  text-primary-dark">Цена за сутки (₽)</Label>
           <div className="flex items-center gap-3">
             <Input
               type="number"
@@ -50,9 +50,9 @@ export function FilterContent({ metro, district, priceRange, selectedRooms, sele
                   size="sm"
                   variant={selectedRooms === r ? "default" : "outline"}
                   onClick={() => onRoomSelect(r)}
-                  className={`gap-1 text-primary-dark ${selectedRooms === r && ' text-white' }`}
+                  className={`gap-1 text-primary-dark ${selectedRooms === r && ' bg-primary-default text-white' }`}
                 >
-                  {selectedRooms === r && <CheckCircle className="h-5  w-5 text-green-500" />} {r}
+                  {selectedRooms === r && <CheckCircle className="h-5  w-5 text-green-400" />} {r}
                 </Button>
               ))}
             </div>

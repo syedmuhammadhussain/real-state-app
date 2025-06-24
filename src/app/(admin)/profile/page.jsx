@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, User, Home, NotebookIcon, BellIcon, HomeIcon } from "lucide-react";
-import ProfileInfo from "./ProfileInfo";
 import { Button } from "@/components/ui/button";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { EmptyState, LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
 import { useAuth } from "../../../../context/AuthContext";
 import { useApartment } from "../../../../context/ApartmentContext";
-import Notification from "./Notification"
+import Notification from "./_related/Notification"
+import ProfileInfo from "./_related/ProfileInfo";
 
 export default function ProfilePage() {
   
@@ -20,6 +20,10 @@ export default function ProfilePage() {
   const router = useRouter();
  
   const { apartmentsForOwner, loading,handleNotification ,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
+
+  // useEffect(()=>{
+  //   if(!user?.id)  router.push('/register')
+  // },[])
 
   // handle not not exist user
   useEffect(() => {
