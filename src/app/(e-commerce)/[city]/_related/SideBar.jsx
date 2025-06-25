@@ -6,6 +6,7 @@ import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog"; 
 import { FilterContent } from "./FilterContent";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 /* Helper: safely copy params (ignores Symbol keys) */
 const copyParamsSafe = (sp) => {
@@ -25,9 +26,11 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const isMobile = useIsMobile()
 
   /* viewport detection */
   const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1024px)");
     setIsDesktop(media.matches);
@@ -126,7 +129,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
   return (
     <>
       {/* Desktop panel */}
-      {isDesktop && (
+      {/* {!isMobile && (
         <div className="hidden  lg:block">
           <FilterContent {...filterProps} />
           <div className="flex gap-2">
@@ -149,10 +152,10 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
         </div>
       )}
 
-      {/* Mobile floating button + sheet */}
-      {!isDesktop && (
+      {isMobile && 
+      ( */}
         <>
-          <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 lg:hidden">
+          <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 ">
             <Button
               variant="primary"
               onClick={() => setIsOpen(true)}
@@ -165,7 +168,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent
               side="bottom"
-              className="flex h-[85vh] flex-col rounded-t-lg bg-slate-50"
+              className="max-w-[95%] flex h-[85vh] flex-col rounded-lg bg-slate-50"
             >
               <DialogHeader className="border-b">
                 <DialogTitle className="flex items-center gap-2 text-lg text-primary-dark">
@@ -203,7 +206,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
             </DialogContent>
           </Dialog>
         </>
-      )}
+      {/* )} */}
     </>
   );
 }

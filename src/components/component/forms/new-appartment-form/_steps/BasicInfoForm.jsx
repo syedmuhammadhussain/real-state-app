@@ -50,7 +50,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-2xl p-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
       <h2 className="text-xl font-semibold flex items-center gap-2 text-primary-dark">
         <Mail className="w-7 h-7 text-primary-dark" />
         Основная информация

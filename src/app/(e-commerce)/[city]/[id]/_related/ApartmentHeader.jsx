@@ -19,7 +19,7 @@ export const ApartmentHeader = ({ product }) =>{
            <div className="flex items-center flex-wrap gap-4 mb-6">
             <div className="flex  items-center gap-1 text-primary-default">
               <MapPin className="w-5 h-5 text-primary-light " />
-              <span>{product?.city.name}, {product?.district ?? ''}  {product?.address  ?? ''} </span><br/>
+              {/* <span>{product?.city.name}, {product?.district ?? ''}  {product?.address  ?? ''} </span><br/> */}
               {product?.matro_station ?? ''}
             </div>
             <div className="flex items-center gap-1">

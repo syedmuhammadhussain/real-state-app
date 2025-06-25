@@ -10,6 +10,7 @@ import MediaLocationForm from './_steps/MediaLocationForm';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../../../../../context/AuthContext';
 import { useApartment } from '../../../../../context/ApartmentContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Начальные данные для квартиры (доступны на всех шагах)
 export const initialApartmentData = {
@@ -38,6 +39,7 @@ export default function NewApartmentForm() {
   // Текущий шаг (1‑3)
   const [step, setStep] = useState(1);
   const {user} = useAuth()
+  const isMobile = useIsMobile()
   const { currentApartment, createApartment , editMode, updateApartment } = useApartment()
 
   // Единый стейт для всей информации о квартире
@@ -82,9 +84,9 @@ export default function NewApartmentForm() {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-4">
         {/* Навигация по шагам */}
-        <div className="mb-6 flex space-x-4 text-sm md:text-lg font-semibold text-primary-dark">
+        <div className="mb-6  mx-auto  flex space-x-4 text-sm md:text-lg font-semibold text-primary-dark">
           {['Основная информация', 'Параметры', 'Медиа и адрес'].map((label, i) => {
             const current = i + 1;
             const reached = step >= current;
@@ -92,18 +94,18 @@ export default function NewApartmentForm() {
               <span
                 key={label}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                  reached ? 'bg-primary-default text-white' : 'bg-gray-300 text-gray-700'
+                  reached ? 'bg-primary-default text-white' : 'bg-gray-300 text-primary-dark'
                 }`}
               >
                 {step > current ? <CheckCircle size={18} className="text-green-400" /> : null}
-                {current}. {label}
+                {current}. {isMobile ? 'шаг' : label }  
               </span>
             );
           })}
         </div>
 
         {/* Текущий шаг */}
-        <div className="bg-background-light p-6 rounded-lg shadow-md">
+        <div className="bg-background-light  rounded-lg shadow-md">
           {step === 1 && (
             <BasicInfoForm
               apartment={apartment}

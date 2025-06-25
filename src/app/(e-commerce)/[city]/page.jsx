@@ -400,113 +400,105 @@
       <div>
         {/* Hero (desktop) */}
         <section className="hidden md:block  relative h-[260px] lg:h-[320px]">
-            <Image
-              src="/images/aboutUs.jpg"
-              alt="Недвижимость премиум‑класса"
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-primary-dark/80 flex flex-col items-center justify-center text-center px-2">
+          <Image
+            src="/images/aboutUs.jpg"
+            alt="Недвижимость премиум‑класса"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-primary-dark/80 flex flex-col items-center justify-center text-center px-2">
               <h1 className="font-bold text-white text-2xl lg:text-3xl max-w-4xl">
                 Квартиры посуточно в {cityRussian.ru}
               </h1>
               <p className="text-white mt-2 max-w-3xl">
                 На нашем сайте вы можете найти подходящий вариант посуточной аренды квартиры в городе {cityRussian.ru}. Мы публикуем объявления от собственников, что позволяет выбрать нужную вам квартиру по выгодной цене.
               </p>
-            </div>
-          </section>
-  
-  <div className="relative  flex min-h-screen max-w-[1624px] mx-auto flex-col lg:flex-row">
-        {/* ───── Sidebar (desktop) ───── */}
-        <aside className="  lg:w-1/4  border-r  overflow-y-auto">
-          <Sidebar
-          citySlug={citySlug}
-            defaultValues={filters}
-            onApply={undefined /* handled in client sidebar */}
-            metro={[]}
-            district={[]}
-            
-          />
-        </aside>
-  
-        {/* ───── Main content ───── */}
-        <main className="flex-1 lg:w-3/4  px-4 lg:px-8 pt-4 pb-10">
-         
-          {/* Header row: breadcrumbs + view‑tabs */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-            <Breadcrumbs
-              items={[{ key: "home", label: "Главная", href: "/" }, { key: "city", label: cityRussian.ru }]}
-            />
-  
-            <div className="flex items-center gap-2">
-              
-              <Link
-                href={buildViewLink({ citySlug, currentSearchParams: searchParams, nextView: "list" })}
-                className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                  view === "list" ? "bg-primary-dark text-white" : "bg-muted hover:bg-muted/70"
-                }`}
-              >
-                <ListOrdered className="h-4 w-4" /> Список
-              </Link>
-              <Link
-                href={buildViewLink({ citySlug, currentSearchParams: searchParams, nextView: "map" })}
-                className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                  view === "map" ? "bg-primary-dark text-white" : "bg-muted hover:bg-muted/70"
-                }`}
-              >
-                <MapPin className="h-4 w-4" /> Карта
-              </Link>
-            </div>
           </div>
+        </section>
   
-          {/* Content */}
-          {error && <p className="py-20 text-center text-primary-hover">{error}</p>}
-  
-          {view === "list" && !error && (
-            <>
-              {apartments.length ? (
-                <>
-                  <div className="grid grid-cols-1 gap-3">
-                      {apartments.map((p) => (
-                        <ApartmentCard key={p.id} data={p} city={citySlug} />
-                      ))}
-                    </div>
-  
-                  {/* Pagination */}
-                  <nav className="mt-12 flex items-center justify-center gap-2">
-                    <PageLink href={buildPageLink(currentPage - 1)} disabled={currentPage === 1}>
-                      Prev
-                    </PageLink>
-                    {Array.from({ length: totalPages }, (_, i) => (
-                      <PageLink key={i} href={buildPageLink(i + 1)} active={currentPage === i + 1}>
-                        {i + 1}
-                      </PageLink>
-                    ))}
-                    <PageLink href={buildPageLink(currentPage + 1)} disabled={currentPage === totalPages}>
-                      Next
-                    </PageLink>
-                  </nav>
-                </>
-              ) : (
-                <div className="py-20 text-center">
-                  <h2 className="text-2xl text-gray-600">Ничего не найдено</h2>
-                  <Link href={`/${citySlug}`} className="mt-4 inline-block text-primary-dark hover:text-primary-light">
-                    Просмотреть все объекты недвижимости
-                  </Link>
-                </div>
-              )}
-            </>
-          )}
-  
-          {view === "map" && !error && (
-            <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-lg">
-              {/* TODO: replace with actual interactive map */}
-              <p className="text-gray-600">Здесь будет интерактивная карта с объектами.</p>
+        <div className="relative  flex min-h-screen max-w-7xl mx-auto flex-col lg:flex-row">
+          {/* ───── Sidebar (desktop) lg:w-1/4  border-r  ───── */}
+          <aside className="   overflow-y-auto">
+            <Sidebar
+              citySlug={citySlug}
+              defaultValues={filters}
+              onApply={undefined /* handled in client sidebar */}
+              metro={[]}
+              district={[]}
+              
+            />
+          </aside>
+    
+          {/* ───── Main content ───── */}
+          <main className="flex-1 lg:w-3/4  px-4 lg:px-8 pt-4 pb-10">
+            {/* Header row: breadcrumbs + view‑tabs */}
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+              <Breadcrumbs items={[{ key: "home", label: "Главная", href: "/" }, { key: "city", label: cityRussian.ru }]}/>
+              <div className="flex items-center gap-2">
+                <Link
+                  href={buildViewLink({ citySlug, currentSearchParams: searchParams, nextView: "list" })}
+                  className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    view === "list" ? "bg-primary-dark text-white" : "bg-muted hover:bg-muted/70"
+                  }`}>
+                  <ListOrdered className="h-4 w-4" /> Список
+                </Link>
+                <Link
+                  href={buildViewLink({ citySlug, currentSearchParams: searchParams, nextView: "map" })}
+                  className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                    view === "map" ? "bg-primary-dark text-white" : "bg-muted hover:bg-muted/70"
+                  }`}
+                >
+                  <MapPin className="h-4 w-4" /> Карта
+                </Link>
+              </div>
             </div>
-          )}
-        </main>
-      </div>
+    
+            {/* Content */}
+            { error && <p className="py-20 text-center text-primary-hover">{error}</p> }
+            {view === "list" && !error && (
+              <>
+                {apartments.length ? (
+                  <>
+                    <div className="grid grid-cols-1 gap-3">
+                        {apartments.map((p) => (
+                          <ApartmentCard key={p.id} data={p} city={citySlug} />
+                        ))}
+                      </div>
+    
+                    {/* Pagination */}
+                    <nav className="mt-12 flex items-center justify-center gap-2">
+                      <PageLink href={buildPageLink(currentPage - 1)} disabled={currentPage === 1}>
+                        Prev
+                      </PageLink>
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <PageLink key={i} href={buildPageLink(i + 1)} active={currentPage === i + 1}>
+                          {i + 1}
+                        </PageLink>
+                      ))}
+                      <PageLink href={buildPageLink(currentPage + 1)} disabled={currentPage === totalPages}>
+                        Next
+                      </PageLink>
+                    </nav>
+                  </>
+                ) : (
+                  <div className="py-20 text-center">
+                    <h2 className="text-2xl text-gray-600">Ничего не найдено</h2>
+                    <Link href={`/${citySlug}`} className="mt-4 inline-block text-primary-dark hover:text-primary-light">
+                      Просмотреть все объекты недвижимости
+                    </Link>
+                  </div>
+                )}
+              </>
+            )}
+            {view === "map" && !error && (
+              <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-lg">
+                {/* TODO: replace with actual interactive map */}
+                <p className="text-gray-600">Здесь будет интерактивная карта с объектами.</p>
+              </div>
+            )}
+          </main>
+        </div>
       </div>
     
     );

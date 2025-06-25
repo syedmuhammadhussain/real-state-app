@@ -51,7 +51,7 @@ export default function ProfilePage() {
 const handleNotificationPart = ()=> handleNotification()
 
   return (
-    <div className="min-h-screen max-w-7xl bg-gray-50 pt-10 mx-auto">
+    <div className="min-h-screen max-w-7xl pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
         {/* Header */}
         <div className="mb-8 flex flex-wrap items-end justify-between rounded-lg bg-white p-6 shadow">
@@ -72,15 +72,15 @@ const handleNotificationPart = ()=> handleNotification()
         <Tabs value={selectedTab} onValueChange={setSelectedTab}>
           <TabsList className="mb-8 grid w-full grid-cols-3">
             <TabsTrigger value="properties">
-              <Home className="mr-2 h-4 w-4" /> 
+              <Home className="mr-2 h-5 w-5" /> 
               <span className="hidden md:block text-sm">Объекты</span>
             </TabsTrigger>
             <TabsTrigger value="profile">
-              <User className="mr-2 h-4 w-4" />
+              <User className="mr-2 h-5 w-5" />
               <span className="hidden md:block text-sm">Профиль</span> 
             </TabsTrigger>
             <TabsTrigger value="notification" onClick={handleNotificationPart}>
-              <NotebookIcon className="mr-2 h-4 w-4" /> 
+              <NotebookIcon className="mr-2 h-5 w-5" /> 
               <span className="hidden md:block text-sm" >Уведомление</span> 
             </TabsTrigger> 
           </TabsList>
@@ -93,7 +93,7 @@ const handleNotificationPart = ()=> handleNotification()
                 className="flex items-center justify-center gap-3 border-2 border-solid"
                 onClick={handleNavigate}
               >
-                <PlusCircle className="mr-2 h-4 w-4" /> {!useIsMobile()  &&  'Добавить квартиру' }
+                <PlusCircle className=" h-5 w-5 text-primary-dark" /> {!useIsMobile()  &&  'Добавить квартиру' }
               </Button>
             </div>
 

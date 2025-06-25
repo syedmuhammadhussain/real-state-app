@@ -40,7 +40,7 @@ export function FilterContent({ metro, district, priceRange, selectedRooms, sele
         </div>
   
         {/* Rooms & Beds */}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2">
           <div className="space-y-2">
             <Label className="text-sm font-semibold  text-primary-dark">Комнаты</Label>
             <div className="flex flex-wrap gap-2">

@@ -36,7 +36,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
       onOpenChange={setIsOpen}
       className="border-t border-primary-light/20 pt-5">
 
-      <div className="flex  justify-center md:justify-between  md:items-center flex-col md:flex-row gap-5 mb-4">
+      <div className="flex  justify-center items-center md:justify-between  md: flex-col  md:flex-row gap-5 mb-4">
          
         <span className="text-lg  font-bold text-primary-dark"> Связаться с владельцем: </span>
 
@@ -47,9 +47,9 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
               variant="outline"
               size="sm"
               onClick={() => handleCopy(contact.phone)}
-              className= "group border-primary-light/30 hover:bg-primary-dark "
+              className= "group border-primary-light/30 hover:bg-primary-dark flex justify-center items-center "
             >
-              <Phone className="w-4 h-4 mr-2 text-primary-dark text group-hover:text-green-500 " />
+              <Phone className="w-4 h-4 text-primary-dark text group-hover:text-green-500 " />
               <span className="text-primary-dark text-sm group-hover:text-white">
                 {/* {contact.phone} */}
               </span>
@@ -64,8 +64,9 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
             className="flex items-center  gap-2 px-4 py-2 bg-green-100/80 hover:bg-green-100/60 border hover:border-primary-light rounded-md transition-colors group"
           >
             <MessageCircle className="w-4 h-4 text-green-700 group-hover:text-green-800" />
-            <span className="text-green-500 text-sm group-hover:text-green-800 font-medium">
-              Написать в WhatsApp
+            <span className="hidden md:block s text-green-500 text-sm group-hover:text-green-800 font-medium">
+              {/* Написать в */}
+               WhatsApp
             </span>
           </a>
           </div>

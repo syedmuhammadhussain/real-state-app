@@ -3,7 +3,7 @@ import NewApartmentForm from '@/components/component/forms/new-appartment-form/N
 const AddApartmentModal = () => {
   return (
 
-    <div className = 'mt-16 p-4 mx-auto'>
+    <div className = ' min-h-screen  flex justify-center items-center'>
      <NewApartmentForm />
     </div>
   )

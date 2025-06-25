@@ -34,3 +34,20 @@ export async function getApartmentById(id) {
     return null;
   }
 }
+
+export const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  
+  // Проверка на валидность даты
+  if (isNaN(date.getTime())) {
+    return "Неверная дата";
+  }
+
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = date.toLocaleString('ru-RU', { month: 'long' });
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${day} ${month} ${year}, ${hours}:${minutes}`;
+};

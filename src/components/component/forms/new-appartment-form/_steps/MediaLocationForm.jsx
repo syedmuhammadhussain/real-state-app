@@ -104,7 +104,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
   }, [previewUrls]);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
           <ImagePlus className="w-6 h-6 mr-2 text-primary-dark" /> Загрузка фотографий

@@ -82,7 +82,8 @@ export function SimpleBookingForm({ id = 5 }) {
           description: "",
           address: ""
         }
-      console.log('data : ',payload)
+      
+      // console.log('data : ',payload)
 
       // Step 3: Send create request
         const response = await fetch(`${apiUrl}/booking-forms`, {

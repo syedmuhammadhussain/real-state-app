@@ -72,7 +72,7 @@ export default function ParametersForm({ apartment, setApartment, handleSubmit, 
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
       <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
         <Package className="w-7 h-7 mr-2 text-primary-dark" /> Параметры квартиры
       </h2>

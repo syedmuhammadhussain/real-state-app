@@ -23,7 +23,7 @@ export const ApartmentProvider = ({ children }) => {
   const [currentApartment, setCurrentApartment] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingPosition, setLoadingPosition] = useState(false);
-  const [notification, setNotification]=useState([])
+  const [notifications, setNotifications]=useState([])
   const [error, setError] = useState(null);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -457,9 +457,9 @@ export const ApartmentProvider = ({ children }) => {
     const handleNotification = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/notifications?filters[recipient][id][$eq]=${user?.id}&pagination[limit]=1&sort=createdAt:desc`);
+        const response = await api.get(`${apiUrl}/notifications?filters[recipient][id][$eq]=${user?.id}&pagination[limit]=10&sort=createdAt:desc&populate=booking_form`);
         const data = await response.data.data;
-        setNotification(data);
+        setNotifications(data);
         setError(null);
       } catch (err) {
         console.error('Ошибка при загрузке:', err);
@@ -484,7 +484,8 @@ export const ApartmentProvider = ({ children }) => {
         initialApartmentData,
         loading,
         setLoading,
-        notification,
+        notifications,
+        setNotifications,
         loadingPosition,
         error,
         features,
