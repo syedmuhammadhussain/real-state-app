@@ -270,6 +270,7 @@
   import ApartmentCard from "@/components/component/card/ApartmentCard";
   import PageLink from "./_related/PageLink";
   import { cityOptions } from "@/constants/data";
+import { notFound } from "next/navigation";
   
   /* --------------------------------- CONSTS ----------------------- */
   const ITEMS_PER_PAGE = 10; // Strapi page size
@@ -344,11 +345,17 @@
    * Server Component – runs on every request
    * -----------------------------------------------------------------*/
   export default async function CityPage({ params, searchParams = {} }) {
-    const citySlug = params.city ?? "";
-    if (!citySlug) {
-      return <p className="p-10 text-center">Loading…</p>;
+
+    // Inside your page function
+     const citySlug = params.city ?? "";
+
+    // Check if the slug exists in your cityOptions array
+    const city = cityOptions.find(c => c.key === citySlug.toLowerCase());
+
+    if (!city) {
+      notFound(); // Redirect to Not-found.jsx if slug is invalid
     }
-  
+
     /* ───── derive state from URL ───── */
     const currentPage = parseInt(searchParams.page ?? "1", 10);
     const view = searchParams.view === "map" ? "map" : "list";
@@ -431,7 +438,7 @@
           </aside>
     
           {/* ───── Main content ───── */}
-          <main className="flex-1 lg:w-3/4  px-4 lg:px-8 pt-4 pb-10">
+          <main className=" lg:mt-0 flex-1 lg:w-3/4  px-4 lg:px-8 pt-4 pb-10">
             {/* Header row: breadcrumbs + view‑tabs */}
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
               <Breadcrumbs items={[{ key: "home", label: "Главная", href: "/" }, { key: "city", label: cityRussian.ru }]}/>

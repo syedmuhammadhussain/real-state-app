@@ -28,9 +28,10 @@ export  const links = [
   { name: 'О нас', link: '/about' },
   { name: 'Контакт', link: '/contact' },
   { name: 'Премиум', link: '/premium' },
+  { name: 'Вопросы', link: '/faq' },
+
 ];
 
-export const subLinks = ['Shirts', 'Jeans', 'Hoodies',   'Trendy' , 'Arrival'];
 
 export const cityOptions = [  
   { en: "Moscow",
@@ -49,7 +50,7 @@ export const cityOptions = [
     img: '/images/cities/saint-petersburg.jpg',
     districts: ["Адмиралтейский", "Центральный", "Василеостровский", "Петроградский", "Московский"]
   },  
-  { en: "Novosibirsk",
+    { en: "Novosibirsk",
     ru: "Новосибирск",
     key: "novosibirsk",
     description: 'Столица Сибири: современные ЖК у Обского моря и уютные дома в зеленых районах',
@@ -65,7 +66,7 @@ export const cityOptions = [
       link: '/yekaterinburg',
       img: '/images/cities/yekaterinburg.jpg',
       districts: ["Верх-Исетский", "Чкаловский", "Орджоникидзевский", "Кировский", "Ленинский"]
-     },  
+    },  
   { en: "Kazan",
      ru: "Казань",
       key: "kazan",

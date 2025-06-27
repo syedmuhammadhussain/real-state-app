@@ -7,18 +7,22 @@ import { ApartmentHeader } from "./_related/ApartmentHeader";
 import { ApartmentTabs } from "./_related/ApartmentTabs";
 import { useApartment } from "../../../../../context/ApartmentContext";
 import { LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
+import { notFound } from "next/navigation";
 
 export default function ApartmentPage({ params }) {
 
   /* Unwrap the params promise once */
-  const { id } = usePromise(params);
-
-  const { fetchApartmentById, currentApartment, loading } = useApartment();
+  const { id } = params;
+  console.log('id', id)
+  const { fetchApartmentById, currentApartment, loading ,error } = useApartment();
 
   // console.log('current apartment ' , currentApartment)
   /* Fetch data when the ID changes */
   useEffect(() => { if (id) fetchApartmentById(id) }, []);
 
+  if( error) {
+    return notFound()
+  }
   /* Loading spinner */
   if (loading) return  <LoadingState/>
 

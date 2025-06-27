@@ -67,7 +67,7 @@ export default function Navbar() {
           {/* Left side - Logo and menu */}
           <div className='hidden sm:flex items-center' >
             <NextLink href="/" >
-                             <span className="text-2xl font-semibold" > KVKEY</span>   
+               <span className="text-2xl font-semibold" > KVKEY</span>   
 
               {/* <Image
                 src="/images/logo-icon.svg"
@@ -82,12 +82,35 @@ export default function Navbar() {
 
           {/* Middle - Navigation links */}
           <div className="flex items-center gap-4">
-            <button
-              onClick={toggleMenu}
-              className="md:hidden text-primary-dark hover:text-primary-hover transition-all"
-            >
-              <Menu size={24} />
-            </button>
+             <button
+                  onClick={toggleMenu}
+                  className="md:hidden flex items-center gap-2 group"
+                  aria-label="User menu"
+                >
+                  <div className="relative">
+                    <Image
+                      src="/images/logo-icon.svg" //avatar user
+                      alt="User avatar"
+                      width={42}
+                      height={42}
+                      className="rounded-full border-2 border-transparent group-hover:border-primary-dark transition-all"
+                    />
+                           {/* <span className="text-2xl font-semibold" > KVKEY</span>    */}
+                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity" />
+                  </div>
+                  <ChevronDown
+                    className={`text-primary-dark transition-transform ${
+                      isMenuOpen ? 'rotate-180' : ''
+                    }`}
+                    size={18}
+                  />
+                </button>
+                {/* <button
+                  onClick={toggleMenu}
+                  className="md:hidden text-primary-dark hover:text-primary-hover transition-all"
+                >
+                  <Menu size={24} />
+                </button> */}
             <nav className="md:flex items-center space-x-6 hidden">
               <ul className="flex gap-4 md:gap-6">
                 {links.map((link, index) => (

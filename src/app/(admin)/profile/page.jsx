@@ -114,6 +114,7 @@ const handleNotificationPart = ()=> handleNotification()
                   />
                 ))}
             </div>
+            
             {loading && <LoadingState />}
             {!loading && !error && apartmentsForOwner.length === 0 && <EmptyState />}
 

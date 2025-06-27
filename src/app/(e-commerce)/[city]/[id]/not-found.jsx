@@ -14,7 +14,7 @@ export default function NotFound() {
         Извините, мы не смогли найти запрошенный город. Пожалуйста, проверьте адрес или вернитесь на главную страницу.
       </p>
 
-         <Link
+      <Link
         href="/"
         className="mt-8 inline-flex items-center px-6 py-3 bg-primary-default hover:bg-primary-dark text-white text-sm font-semibold rounded-lg shadow  transition"
       >

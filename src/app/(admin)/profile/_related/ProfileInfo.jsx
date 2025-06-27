@@ -4,7 +4,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { HomeIcon } from "lucide-react";
+import { HomeIcon, User } from "lucide-react";
 import { useAuth } from "../../../../../context/AuthContext";
 
 export default function ProfileInfo() {
@@ -43,13 +43,13 @@ export default function ProfileInfo() {
   return (
     <div className="">
        <h2 className="text-2xl font-bold flex text-primary-dark items-center">
-              <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" />
+              <User className="w-5 h-5 mr-2  text-primary-dark" />
               Персональные данные
             </h2>
       <form onSubmit={handleSubmit} className="space-y-5  rounded-xl shadow-md p-8">
         <div>
-          <Label htmlFor="lastName">ФИО</Label>
           <Input
+            label="ФИО"
             id="lastName"
             name="lastName"
             placeholder="Введите полное имя"
@@ -59,8 +59,8 @@ export default function ProfileInfo() {
           />
         </div>
         <div>
-          <Label htmlFor="email">Электронная почта</Label>
           <Input
+            label="Электронная почта"
             id="email"
             type="email"
             name="email"
@@ -72,8 +72,8 @@ export default function ProfileInfo() {
           />
         </div>
         <div>
-          <Label htmlFor="telephone">Телефон</Label>
           <Input
+            label="Телефон"
             id="telephone"
             name="telephone"
             placeholder="+7 (999) 123-45-67"
@@ -83,9 +83,7 @@ export default function ProfileInfo() {
           />
         </div>
         <div className="pt-4">
-          <Button type="submit" className="w-full md:w-auto">
-            Сохранить изменения
-          </Button>
+          <Button type="submit" className="w-full md:w-auto"> Сохранить изменения  </Button>
         </div>
       </form>
     </div>

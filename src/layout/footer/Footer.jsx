@@ -23,14 +23,12 @@ export default function Footer() {
     { name: "О нас", href: "/about" },
     { name: "Контакты", href: "/contact" },
     { name: "Премиум", href: "/premium" },
-    { name: "Частые вопросы", href: "/faq" },
   ];
 
   const customerSupport = [
-    { name: "Политика конфиденциальности", href: "/privacy" },
-    { name: "Условия использования", href: "/terms" },
-    { name: "Доставка и возврат", href: "/shipping" },
-    { name: "Поддержка клиентов", href: "/support" },
+    { name: "Политика конфиденциальности", href: "/legal/privacy" },
+    { name: "Условия использования", href: "/legal/oferta" },
+    { name: "Частые вопросы", href: "/faq" },
   ];
 
   const socialMedia = [
@@ -56,7 +54,7 @@ export default function Footer() {
     <footer className="bg-background-dark text-white py-10">
       <div className="container mx-auto px-6 lg:px-8">
         {/* Top Section */}
-        <div className="flex flex-col md:flex-row items-center justify-between border-b border-gray-700 pb-8">
+        <div className="flex flex-col md:flex-row items-end justify-between border-b border-gray-700 pb-8">
           <div className="text-center md:text-left">
             <Link href="/" aria-label="Главная страница">
               <Image
@@ -71,21 +69,11 @@ export default function Footer() {
               X Real Estate — платформа для аренды недвижимости в России. Посуточно, напрямую, без посредников.
             </p>
           </div>
-
-          {/* Social Media Icons */}
-          <div className="mt-6 md:mt-0 flex space-x-4">
-            {socialMedia.map((social, index) => (
-              <a
-                key={index}
-                href={social.href}
-                className="p-3 rounded-full bg-primary-default hover:bg-gradient-to-r from-secondary-light to-accent-default text-white transition-all duration-300"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {social.icon}
-              </a>
-            ))}
-          </div>
+           <p  className='text-sm  text-gray-400' >Индивидуальный предприниматель Шевелёва Татьяна Николаевна
+            <br/>ОГРНИП: 324723200031395, ИНН: 860235365698, 
+            <br/>адрес регистрации: 628004, Тюменская обл., г. Тюмень, ул. Кольцевая, д.392
+          </p>
+      
         </div>
 
         {/* Middle Section */}
@@ -130,7 +118,7 @@ export default function Footer() {
             <p className="text-sm text-gray-400 mb-4">
               Получайте новости, предложения и советы напрямую на почту.
             </p>
-            <form className="flex  mx-auto md:mx-0">
+            {/* <form className="flex  mx-auto md:mx-0">
               <Input
                 type="email"
                 placeholder="Ваш e-mail"
@@ -144,7 +132,22 @@ export default function Footer() {
               >
                 <Bell size={20} className="mr-1 group-hover:animate-pulse" /> Подписаться
               </Button>
-            </form>
+            </form> */}
+          <div className="mt-6 md:mt-0 flex space-x-4">
+            {socialMedia.map((social, index) => (
+              <a
+                key={index}
+                href={social.href}
+                className="p-3 rounded-full bg-primary-default hover:bg-gradient-to-r from-secondary-light to-accent-default text-white transition-all duration-300"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
+           <p  className='mt-4 text-sm  text-gray-400' >  почта : email </p>
+           {/* <p  className=' text-sm  text-gray-400' >  Telephone : email </p> */}
           </div>
         </div>
 

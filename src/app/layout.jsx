@@ -1,10 +1,11 @@
 import { Poppins } from "next/font/google";
-import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import Navbar from "@/layout/header/NavBar";
 import SocialLinks from "@/components/component/social-links/SocialLinks";
 import { AuthProvider } from "../../context/AuthContext";
 import { ApartmentProvider } from "../../context/ApartmentContext";
+import "./globals.css";
+
+import Navbar from "@/layout/header/NavBar";
 import Footer from "@/layout/footer/Footer";
 
 const roboto = Poppins({
@@ -17,7 +18,6 @@ export const metadata = {
   title: "x real state ",
   description: "Your one-stop shop for the latest fashion trends.",
 };
-
 
 // // Метаданные для SEO
 // export const metadata = {
@@ -47,20 +47,21 @@ export const metadata = {
 //   },
 // };
 
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-      <Toaster/>
         <AuthProvider>
           <ApartmentProvider>
           <Navbar/>
-          <main>{children}</main>
+            <main>
+              {children}
+            </main>
           <SocialLinks/>
           <Footer />
           </ApartmentProvider>
         </AuthProvider>
+        <Toaster/>
       </body>
     </html>
   );

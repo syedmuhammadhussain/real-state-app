@@ -1,6 +1,4 @@
 
-import "../globals.css";
-import Sidebar from "./[city]/_related/SideBar";
 
 export const metadata = {
   title: "E-Commerce - Clothes Store",
