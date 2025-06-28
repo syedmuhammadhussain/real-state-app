@@ -50,7 +50,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-xl p-6">
       <h2 className="text-xl font-semibold flex items-center gap-2 text-primary-dark">
         <Mail className="w-7 h-7 text-primary-dark" />
         Основная информация
@@ -74,7 +74,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
         </label>
         <textarea
           id="description"
-          className="border p-2 w-full rounded-lg  bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
+          className="border p-2 w-full rounded-xl  bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
           value={apartment.description || ''}
           onChange={onChange('description')}
           placeholder="Опишите преимущества и особенности жилья"
@@ -114,7 +114,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
         </label>
         <select
           id="propertyType"
-            className="w-full p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
+            className="w-full p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
           value={apartment.propertyType || 'APARTMENT'}
           onChange={onChange('propertyType')}
           required
@@ -139,7 +139,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
         </label>
         <select
           id="city"
-          className=" w-full  p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
+          className=" w-full  p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
           value={apartment.city || ''}
           onChange={handleCityChange}
           required
@@ -164,7 +164,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
           </label>
           <select
             id="district"
-            className=" w-full  p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
+            className=" w-full  p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
             value={apartment.district ?? null}
             onChange={onChange('district')}
             required
@@ -190,7 +190,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
           </label>
           <select
             id="matro_station"
-             className=" w-full p-2 rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
+             className=" w-full p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
             value={apartment.matro_station ?? null}
             onChange={onChange('matro_station')}
             required

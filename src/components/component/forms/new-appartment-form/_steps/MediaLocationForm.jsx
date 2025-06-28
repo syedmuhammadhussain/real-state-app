@@ -104,14 +104,14 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
   }, [previewUrls]);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-xl p-6">
+      <div className="bg-white p-6 rounded-xl shadow-md">
         <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
           <ImagePlus className="w-6 h-6 mr-2 text-primary-dark" /> Загрузка фотографий
         </h2>
 
         <div className="flex flex-col gap-4">
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors hover:border-primary-light ">
+          <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center transition-colors hover:border-primary-light ">
             <label className="cursor-pointer">
               <input 
                 type="file" 
@@ -134,7 +134,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
           </div>
 
           {error && (
-            <div className="mt-2 text-red-500 text-sm font-medium bg-red-50 p-2 rounded-md">
+            <div className="mt-2 text-red-500 text-sm font-medium bg-red-50 p-2 rounded-xl">
               {error}
             </div>
           )}
@@ -151,7 +151,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
                 {previewUrls.map((url, index) => (
                   <div 
                     key={index} 
-                    className="relative group border rounded-lg overflow-hidden aspect-square shadow-sm transition-transform hover:shadow-md"
+                    className="relative group border rounded-xl overflow-hidden aspect-square shadow-sm transition-transform hover:shadow-md"
                   >
                     <StrapiImage
                       src={url}

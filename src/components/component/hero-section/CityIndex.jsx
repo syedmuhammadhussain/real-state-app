@@ -15,14 +15,14 @@ const citiesByLetter = {
   export default function CityIndex() {
     return (
       <div className=" mx-auto p-6 ">
-        <h1 className="text-2xl lg:text-3xl  text-primary-dark font-bold text-left mb-10">Россия</h1>
+        <h1 className="text-2xl md:text-4xl text-primary-dark font-bold text-left mb-10">Россия</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(citiesByLetter).map(([letter, cities]) => (
             <div key={letter}>
               <h2 className="text-primary-dark font-bold mb-2 text-2xl">{letter}</h2>
               <ul className="space-y-1">
                 {cities.map((city) => (
-                  <li key={city} className="text-primary-dark hover:text-primary-hover hover:underline transition-all cursor-pointer">{city}</li>
+                  <li key={city} className="text-primary-dark text-base hover:text-primary-hover hover:underline transition-all cursor-pointer">{city}</li>
                 ))}
               </ul>
             </div>

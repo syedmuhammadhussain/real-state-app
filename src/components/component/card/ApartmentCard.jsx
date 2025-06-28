@@ -115,7 +115,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
 
   /* ---------------------------------- JSX ---------------------------------- */
   return (
-    <div className="relative w-full bg-white border border-primary-light/50 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="relative w-full bg-white border border-primary-light/50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
       
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
@@ -218,7 +218,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
               <NextLink
               // apartment.city?.slug
                 href={`/${city.length != 0 ? city  :  apartment.city?.slug}/${apartment.documentId}`}
-                className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-lg font-medium transition-colors duration-300 w-max"
+                className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
               >
                 Подробнее..
                 <Info className="h-5 w-5 group-hover:text-green-400 transition-colors" />

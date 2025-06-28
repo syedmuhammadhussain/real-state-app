@@ -6,7 +6,7 @@ export function DeleteDialog({ isOpenDelete, setIsOpenDelete, onConfirm, isLoadi
   const handleConfirm = () => onConfirm();
   return (
     <Dialog open={isOpenDelete} onOpenChange={setIsOpenDelete}>
-      <DialogContent className="max-w-md bg-white  rounded-lg">
+      <DialogContent className="max-w-md bg-white  rounded-xl">
         <DialogHeader>
           <div className="mx-auto bg-red-50 bg-red-900/20 p-3 rounded-full mb-4">
             <Trash2 className="w-8 h-8 text-red-600 dark:text-red-400 mx-auto" />

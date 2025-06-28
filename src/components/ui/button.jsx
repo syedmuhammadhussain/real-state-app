@@ -3,16 +3,16 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50  font-medium rounded-md shadow-lg shadow-primary-default/20 transition-all transform active:scale-95 ",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:pointer-events-none disabled:opacity-50  font-medium rounded-xl shadow-lg shadow-primary-default/20 transition-all transform active:scale-95 ",
   {
     variants: {
       variant: {
         primary:
-          "w-full px-4 py-2 bg-primary-default text-white rounded-lg hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary-dark hover:animate-pulse",
+          "w-full px-4 py-2 bg-primary-default text-white rounded-xl hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary-dark hover:animate-pulse",
         secondary:
           "bg-secondary-default text-white shadow-md hover:bg-secondary-hover hover:scale-105",
         outline:
-          "border border-gray-400 text-textColor-dark px-4 py-2 rounded-lg hover:bg-background-hover hover:border-gray-900 hover:shadow-md",
+          "border border-gray-400 text-textColor-dark px-4 py-2 rounded-xl hover:bg-background-hover hover:border-gray-900 hover:shadow-md",
         destructive:
           "bg-errorColor-default text-white shadow-md hover:bg-errorColor-light hover:animate-shake",
         ghost:

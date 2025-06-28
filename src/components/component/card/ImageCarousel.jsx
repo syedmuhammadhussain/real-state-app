@@ -38,7 +38,7 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
 
   return (
     <div className={cn(
-      "relative rounded-lg overflow-hidden shadow-xl",
+      "relative rounded-xl overflow-hidden shadow-xl",
        isFullscreen ? "fixed inset-0 z-50 bg-black rounded-none" : ""
     )}>
       
@@ -105,7 +105,7 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
                         key={idx}
                         onClick={() => scrollTo(idx)}
                         className={cn(
-                          "relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
+                          "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
                           idx === selectedIndex ? "border-white scale-110" : "border-transparent"
                         )}
                         aria-label={`Go to slide ${idx + 1}`}
@@ -175,7 +175,7 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
               key={idx}
               onClick={() => scrollTo(idx)}
               className={cn(
-                "relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
+                "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
                 idx === selectedIndex ? "border-white scale-110" : "border-transparent"
               )}
               aria-label={`Go to slide ${idx + 1}`}
@@ -195,12 +195,12 @@ const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = 
       {!isFullscreen && (
         <div className="absolute top-3 left-3 flex flex-wrap gap-2 z-10">
           {apartment?.checkInConditions?.petsAllowed && (
-            <span className="bg-primary-dark/90 backdrop-blur-sm text-white text-xs py-1.5 px-2.5 rounded-md shadow-sm">
+            <span className="bg-primary-dark/90 backdrop-blur-sm text-white text-xs py-1.5 px-2.5 rounded-xl shadow-sm">
               Pets allowed
             </span>
           )}
           {apartment?.apartmentParameters?.balconyType && (
-            <span className="bg-primary-dark/90 backdrop-blur-sm text-white text-xs py-1.5 px-2.5 rounded-md shadow-sm">
+            <span className="bg-primary-dark/90 backdrop-blur-sm text-white text-xs py-1.5 px-2.5 rounded-xl shadow-sm">
               {apartment.apartmentParameters.balconyType} balcony
             </span>
           )}

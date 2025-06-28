@@ -42,7 +42,7 @@ export default function RentalSection() {
       <div className="">
         {/* Hero Section */}
         <div className="">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary-dark "> Аренда жилья посуточно</h1>
+          <h4 className="text-2xl md:text-4xl font-bold text-primary-dark "> Аренда жилья посуточно</h4>
         </div>
         <EmblaCarousel categories = {false} slides={data} />
 

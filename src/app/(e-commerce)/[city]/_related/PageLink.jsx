@@ -5,7 +5,7 @@ const PageLink = ({ href, children, disabled, active }) => {
     return (
       <NextLink
         href={href}
-        className={`rounded-lg px-4 py-2 transition-all ${
+        className={`rounded-xl px-4 py-2 transition-all ${
           active
             ? "pointer-events-none bg-primary-dark text-white"
             : disabled

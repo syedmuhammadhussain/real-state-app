@@ -123,7 +123,7 @@ const Notification = () => {
 
               <CardContent className="pt-20">
                 {notification.booking_form && expandedId === notification.id && (
-                  <div className="bg-muted/50 rounded-lg p-4 animate-in fade-in">
+                  <div className="bg-muted/50 rounded-xl p-4 animate-in fade-in">
                     <h3 className="font-medium mb-4 text-xl   text-primary-dark">Данные о бронировании:</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-primary-dark">
                       <li className="flex">

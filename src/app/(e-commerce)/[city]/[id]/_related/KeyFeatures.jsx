@@ -2,7 +2,7 @@ import { Home, Users, BedDouble, Ruler } from 'lucide-react'
 
 const FeatureItem = ({ icon: Icon, label, value }) => (
   <>
-  <div className="flex gap-1 bg-muted rounded-md">
+  <div className="flex gap-1 bg-muted rounded-xl">
     <Icon className="w-5 h-5 text-primary-default" />
       <div className='flex flex-col'>
         <p className="text-sm  text-primary-dark">{label}</p>

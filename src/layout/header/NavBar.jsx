@@ -68,7 +68,6 @@ export default function Navbar() {
           <div className='hidden sm:flex items-center' >
             <NextLink href="/" >
                <span className="text-2xl font-semibold" > KVKEY</span>   
-
               {/* <Image
                 src="/images/logo-icon.svg"
                 alt="Brand Logo"
@@ -114,10 +113,9 @@ export default function Navbar() {
             <nav className="md:flex items-center space-x-6 hidden">
               <ul className="flex gap-4 md:gap-6">
                 {links.map((link, index) => (
-                  <li key={index}>
+                  <li key={index} className='responsive-appbar-button text-primary-dark text-base  transition-all cursor-pointer'>
                     <NextLink
                       href={link.link}
-                      className="text-primary-dark hover:text-primary-hover transition-colors"
                     >
                       {link.name}
                     </NextLink>

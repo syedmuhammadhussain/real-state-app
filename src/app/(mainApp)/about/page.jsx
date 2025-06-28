@@ -61,7 +61,7 @@ export default function AboutUs() {
           </h2>
           
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="relative aspect-square rounded-lg overflow-hidden">
+            <div className="relative aspect-square rounded-xl overflow-hidden">
               <video
                 src="/images/vv.mp4"
                 autoPlay
@@ -104,7 +104,7 @@ export default function AboutUs() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[1,2,3,4].map((_, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-2xl">
+              <div key={index} className="group relative overflow-hidden rounded-xl">
                 <div className="aspect-square bg-gray-200 animate-pulse">
                   {/* Заменить на реальные изображения */}
                 </div>
@@ -118,7 +118,7 @@ export default function AboutUs() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-primary-default/10 rounded-2xl p-8 md:p-16 text-center">
+        <section className="bg-primary-default/10 rounded-xl p-8 md:p-16 text-center">
           <h2 className="text-3xl font-bold mb-6">
             Готовы найти свой идеальный дом?
           </h2>
@@ -128,7 +128,7 @@ export default function AboutUs() {
           </p>
           <Link
             href="/contact"
-            className="bg-primary-default text-white px-8 py-4 rounded-lg hover:bg-primary-hover transition-all text-lg font-medium inline-flex items-center gap-2"
+            className="bg-primary-default text-white px-8 py-4 rounded-xl hover:bg-primary-hover transition-all text-lg font-medium inline-flex items-center gap-2"
           >
             <Home className="w-6 h-6" />
             Получить консультацию

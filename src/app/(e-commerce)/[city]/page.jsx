@@ -244,7 +244,7 @@
 //             </TabsContent>
 
 //             <TabsContent value="map">
-//               <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-lg">
+//               <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-xl">
 //                 <p className="text-gray-600">
 //                   Здесь будет интерактивная карта с объектами.
 //                 </p>
@@ -445,14 +445,14 @@ import { notFound } from "next/navigation";
               <div className="flex items-center gap-2">
                 <Link
                   href={buildViewLink({ citySlug, currentSearchParams: searchParams, nextView: "list" })}
-                  className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1 rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
                     view === "list" ? "bg-primary-dark text-white" : "bg-muted hover:bg-muted/70"
                   }`}>
                   <ListOrdered className="h-4 w-4" /> Список
                 </Link>
                 <Link
                   href={buildViewLink({ citySlug, currentSearchParams: searchParams, nextView: "map" })}
-                  className={`inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1 rounded-xl px-3 py-2 text-sm font-medium transition-colors ${
                     view === "map" ? "bg-primary-dark text-white" : "bg-muted hover:bg-muted/70"
                   }`}
                 >
@@ -499,7 +499,7 @@ import { notFound } from "next/navigation";
               </>
             )}
             {view === "map" && !error && (
-              <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-lg">
+              <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-xl">
                 {/* TODO: replace with actual interactive map */}
                 <p className="text-gray-600">Здесь будет интерактивная карта с объектами.</p>
               </div>

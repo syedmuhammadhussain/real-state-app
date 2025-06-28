@@ -54,7 +54,7 @@ const handleNotificationPart = ()=> handleNotification()
     <div className="min-h-screen max-w-7xl pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
         {/* Header */}
-        <div className="mb-8 flex flex-wrap items-end justify-between rounded-lg bg-white p-6 shadow">
+        <div className="mb-8 flex flex-wrap items-end justify-between rounded-xl bg-white p-6 shadow">
           <div className="flex items-center gap-6">
             <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
               <User className="h-12 w-12 text-gray-400" />

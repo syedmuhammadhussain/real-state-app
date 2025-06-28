@@ -55,7 +55,7 @@ export default function ParametersForm({ apartment, setApartment, handleSubmit, 
 
   // Utility to render an options group
   const renderGroup = (label, field, options) => (
-    <div className="mt-4 p-4 border rounded-md">
+    <div className="mt-4 p-4 border rounded-xl">
       <h3 className="text-2xl font-bold mb-2 text-primary-dark">{label}</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {options.map((opt) => (
@@ -72,7 +72,7 @@ export default function ParametersForm({ apartment, setApartment, handleSubmit, 
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-lg p-6">
+    <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-xl p-6">
       <h2 className="text-xl font-bold mb-4 flex items-center text-primary-dark">
         <Package className="w-7 h-7 mr-2 text-primary-dark" /> Параметры квартиры
       </h2>

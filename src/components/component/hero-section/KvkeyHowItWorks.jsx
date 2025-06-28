@@ -1,20 +1,6 @@
-// components/KvkeyHowItWorks.tsx
-
 import Image from 'next/image';
 import { Key, Folder, Briefcase } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import KvkeyBenefits from './KvkeyBenefits';
-/**
- * "How It Works" section with interactive hover effects.
- * ┌──────────────┬─────────────────────────────────────────────────┐
- * │  IMAGE (L)   │ Heading, intro, overlay cards (hover‑lift)      │
- * └──────────────┴─────────────────────────────────────────────────┘
- *
- * – Mobile:   stacked (image first, text & cards below)
- * – Desktop:  two‑column layout (image left, text right)
- * – Overlay cards: glass‑blur, hover‑translate/scale, subtle ring  
- */
-
 
 
 const features = [
@@ -42,7 +28,7 @@ const features = [
 export default function KvkeyHowItWorks() {
   return (
     <section className="py-8 md:py-20 ">
-      <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 px-4 md:px-8 lg:px-20 items-center">
+      <div className=" mx-auto grid grid-cols-1 md:grid-cols-2 gap-12  items-center">
         {/* Left: Image with overlay cards */}
         <div className="relative w-full h-80 md:h-[32rem] rounded-3xl overflow-hidden shadow-lg group">
           {/* Replace the src with your real image */}
@@ -55,11 +41,11 @@ export default function KvkeyHowItWorks() {
           />
 
           {/* Overlay feature cards (hidden on very small screens) */}
-          <div className="hidden sm:block">
+          <div className="hidden md:block">
             {features.map(({ title, description, Icon, position }, idx) => (
               <Card
                 key={idx}
-                className={`absolute ${position} w-64 border border-white/60 backdrop-blur-md bg-white/80 rounded-2xl shadow-xl
+                className={`absolute ${position} w-64 border border-white/60 backdrop-blur-md bg-white/80 rounded-xl shadow-xl
                   transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl hover:ring-2 hover:ring-primary-dark hover:bg-white/90 cursor-pointer`}
               >
                 <CardContent className="p-4 flex items-start  gap-3">
@@ -92,25 +78,6 @@ export default function KvkeyHowItWorks() {
               свободно общаются с вами напрямую.
             </p>
           </header>
-
-          {/* Mobile‑first feature list */}
-          <ul className="space-y-4 sm:hidden">
-            {features.map(({ title, description, Icon }, idx) => (
-              <li
-                key={idx}
-                className="flex items-start gap-3 p-3 bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-                <Icon className="w-5 h-5 text-primary mt-1" />
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-900 mb-0.5">
-                    {title}
-                  </h4>
-                  <p className="text-xs text-gray-700 leading-tight">
-                    {description}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
 

@@ -78,7 +78,7 @@ const EmblaCarousel = ({ slides }) => {
             return (
               <div
                 key={slide.key}
-                className=" embla__slide relative w-full min-h-120 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 "
+                className=" embla__slide relative w-full min-h-120 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 "
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
                 onTouchStart={() => handleTouch(index, slide.link)}

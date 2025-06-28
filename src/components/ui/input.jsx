@@ -28,7 +28,7 @@ const Input = ({ label = "", type, id, value, onChange, onBlur, error, placehold
           placeholder={placeholder}
           required={required}
           className={cn(
-            "w-full rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out",
+            "w-full rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out",
             error ? "border-errorColor-default" : "border-gray-300 hover:border-primary-default"
           )}
         />

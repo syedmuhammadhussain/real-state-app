@@ -2,7 +2,7 @@
 export const AmenitiesIcons = ({ amenities }) => (
     <div className="absolute bottom-3 left-2 flex gap-2">
       {amenities.map(({ icon: Icon }, idx) => (
-        <div key={idx} className="bg-white/90 p-1.5 rounded-md shadow-sm">
+        <div key={idx} className="bg-white/90 p-1.5 rounded-xl shadow-sm">
           <Icon className="w-5 h-5 text-primary-dark" />
         </div>
       ))}

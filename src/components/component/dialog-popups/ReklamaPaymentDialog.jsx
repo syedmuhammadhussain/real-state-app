@@ -29,7 +29,7 @@ export default function ReklamaPaymentDialog({isOpen, setIsOpen, data }) {
       </DialogTrigger> */}
       {/* <DialogTitle> hamad yel3a </DialogTitle> */}
 
-      <DialogContent className="max-h-[80vh] rounded-md bg-white max-w-4xl overflow-auto">
+      <DialogContent className="max-h-[80vh] rounded-xl bg-white max-w-4xl overflow-auto">
       <DialogHeader  className="text-xl text-primary-dark ">
       <DialogTitle>Рекламировать </DialogTitle>
     </DialogHeader>
@@ -45,7 +45,7 @@ export default function ReklamaPaymentDialog({isOpen, setIsOpen, data }) {
           {loadingPosition ?  <LoadingState/>  :    
           <TabsContent value="reklama">
             <div className="mt-4 overflow-x-auto">
-              <table className="min-w-full border border-gray-300 rounded-md text-sm">
+              <table className="min-w-full border border-gray-300 rounded-xl text-sm">
                 <thead className="bg-gray-100 text-gray-700">
                   <tr>
                     <th className="px-4 py-2 border">Место</th>

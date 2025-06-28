@@ -131,7 +131,7 @@ export function SimpleBookingForm({ id = 5 }) {
         </Button>
       </DialogTrigger>
       
-      <DialogContent className="max-w-[95%] md:max-w-[500px] rounded-md bg-white">
+      <DialogContent className="max-w-[95%] md:max-w-[500px] rounded-xl bg-white">
         <DialogHeader>
           <DialogTitle className="text-primary-dark">Форма бронирования</DialogTitle>
         </DialogHeader>

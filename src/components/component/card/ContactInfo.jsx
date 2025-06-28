@@ -61,7 +61,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
             href={`https://wa.me/${contact.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center  gap-2 px-4 py-2 bg-green-100/80 hover:bg-green-100/60 border hover:border-primary-light rounded-md transition-colors group"
+            className="flex items-center  gap-2 px-4 py-2 bg-green-100/80 hover:bg-green-100/60 border hover:border-primary-light rounded-xl transition-colors group"
           >
             <MessageCircle className="w-4 h-4 text-green-700 group-hover:text-green-800" />
             <span className="hidden md:block s text-green-500 text-sm group-hover:text-green-800 font-medium">
@@ -76,7 +76,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
           <Button
             variant="pr"
             size="md"
-            className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-lg font-medium transition-colors duration-300 w-max"
+            className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
               >
                
           

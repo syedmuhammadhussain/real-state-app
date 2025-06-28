@@ -95,7 +95,7 @@ export function FilterContent({ metro, district, priceRange, selectedRooms, sele
                value={selectedMetro}
                onChange={e => onMetroSelect(e.target.value)}
                className={cn(
-                 "flex h-10 w-full px-2  text-primary-dark  rounded-md border py-3 text-sm ring-offset-background",
+                 "flex h-10 w-full px-2  text-primary-dark  rounded-xl border py-3 text-sm ring-offset-background",
                  "focus:outline-primary-light "
                )}
              >
@@ -118,7 +118,7 @@ export function FilterContent({ metro, district, priceRange, selectedRooms, sele
             value={selectedDistict}
             onChange={e => setSelectedDistict(e.target.value)}
             className={cn(
-              "flex h-10 w-full rounded-md border px-3 py-2 text-sm ring-offset-background",
+              "flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background",
               "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             )}
           >

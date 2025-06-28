@@ -114,7 +114,7 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold  rounded-md mb-4">Подпишитесь</h3>
+            <h3 className="text-lg font-semibold  rounded-xl mb-4">Подпишитесь</h3>
             <p className="text-sm text-gray-400 mb-4">
               Получайте новости, предложения и советы напрямую на почту.
             </p>

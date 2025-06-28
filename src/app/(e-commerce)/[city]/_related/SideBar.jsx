@@ -159,7 +159,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
             <Button
               variant="primary"
               onClick={() => setIsOpen(true)}
-              className="flex items-center gap-2 rounded-lg px-6 py-4 shadow-2xl"
+              className="flex items-center gap-2 rounded-xl px-6 py-4 shadow-2xl"
             >
               Фильтры <SlidersHorizontal className="h-5 w-5" />
             </Button>
@@ -168,7 +168,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent
               side="bottom"
-              className="max-w-[95%] flex h-[85vh] flex-col rounded-lg bg-slate-50"
+              className="max-w-[95%] flex h-[85vh] flex-col rounded-xl bg-slate-50"
             >
               <DialogHeader className="border-b">
                 <DialogTitle className="flex items-center gap-2 text-lg text-primary-dark">

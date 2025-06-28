@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12 text-center bg-white dark:bg-background">
-      <AlertTriangle className="w-20 h-20 text-primary-light mb-6" />
+      <AlertTriangle className="w-20 h-20 text-primary-dark mb-6" />
 
       <h1 className="text-4xl md:text-5xl font-bold text-primary-dark">
         404 – Не найдено
@@ -16,7 +16,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="mt-8 inline-flex items-center px-6 py-3 bg-primary-default hover:bg-primary-dark text-white text-sm font-semibold rounded-lg shadow  transition"
+        className="mt-8 inline-flex items-center px-6 py-3 bg-primary-default hover:bg-primary-dark text-white text-sm font-semibold rounded-xl shadow  transition"
       >
         На главную
       </Link>

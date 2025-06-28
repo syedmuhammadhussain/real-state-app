@@ -63,7 +63,7 @@ export default function ContactUs() {
             email: "legal@xralstate.ru" 
           },
         ].map((item, index) => (
-          <div key={index} className="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl transition-all duration-300">
+          <div key={index} className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300">
             {item.icon}
             <h3 className="text-xl font-bold mb-2 text-primary-dark">{item.title}</h3>
             <p className="text-textColor-muted mb-4">{item.text}</p>
@@ -82,7 +82,7 @@ export default function ContactUs() {
         <h2 className="text-2xl font-bold mb-6 text-primary-default flex items-center justify-center">
           <Phone className="w-6 h-6 mr-2 text-primary-dark" /> Написать нам
         </h2>
-        <form className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+        <form className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {[
               { label: "Имя", type: "text", id: "name", placeholder: "Ваше имя" },
@@ -96,7 +96,7 @@ export default function ContactUs() {
                   type={input.type}
                   id={input.id}
                   name={input.id}
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-default"
+                  className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-default"
                   placeholder={input.placeholder}
                   required
                 />
@@ -111,7 +111,7 @@ export default function ContactUs() {
               type="text"
               id="subject"
               name="subject"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-default"
+              className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-default"
               placeholder="Тема сообщения"
               required
             />
@@ -124,14 +124,14 @@ export default function ContactUs() {
               id="message"
               name="message"
               rows="5"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-default"
+              className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-default"
               placeholder="Опишите ваши пожелания"
               required
             ></textarea>
           </div>
           <button
             type="submit"
-            className="w-full bg-primary-default text-white px-6 py-3 rounded-lg hover:bg-primary-hover transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full bg-primary-default text-white px-6 py-3 rounded-xl hover:bg-primary-hover transition-all duration-300 flex items-center justify-center gap-2"
           >
             <Send className="w-5 h-5" /> Отправить сообщение
           </button>
