@@ -1,5 +1,5 @@
 
-import {  MapPin, Search, MessageCircle } from "lucide-react";
+import {  MapPin, Search, MessageCircle, Key, Folder, Briefcase} from "lucide-react";
 
 export const formatCurrency = (number) => {
   const CURRENCY_FORMATTER = new Intl.NumberFormat('en-US', {
@@ -12,14 +12,20 @@ export const formatCurrency = (number) => {
 export const steps = [
     {
       title: "Укажите город",
+    description:',',
+
       icon: MapPin,
     },
     {
       title: "Найдите лучшее",
+    description:',',
+
       icon: Search,
     },
     {
       title: "Обсудите условия",
+    description:',',
+
       icon: MessageCircle,
     },
 ];
@@ -181,3 +187,52 @@ export const notifications = [
       read: true
     }
 ]
+
+
+export const benefits = [
+  {
+    title: 'Отсутствие скрытых платежей',
+    description:
+      'Наши гости ничего не оплачивают дополнительно — стоимость указывается сразу и окончательно.',
+  },
+  {
+    title: 'Удобство выбора',
+    description:
+      'Легко искать объекты по карте, фильтруя нужные районы, цену и категорию жилья.',
+  },
+  {
+    title: 'Свобода переговоров',
+    description:
+      'Звоните владельцу напрямую, договаривайтесь о скидках и особых условиях.',
+  },
+  {
+    title: 'Широкий выбор вариантов',
+    description:
+      'Квартиры-студии, просторные коттеджи, комнаты и целые жилые комплексы — всё доступно в одном месте.',
+  },
+  {
+    title: 'Без ограничений по срокам',
+    description:
+      'Хотите снять квартиру на неделю или провести месяц вдали от дома — решаете сами.',
+  },
+];
+
+
+export const features = [
+  {
+    title: 'Ключ в один клик',
+    description: 'Мгновенно получите доступ к интересующему объекту.',
+    icon: Key,
+  },
+  {
+    title: 'Без лишней бюрократии',
+    description: 'Живое общение и личные договоренности упрощают процесс найма.',
+    icon: Folder,
+  },
+  {
+    title: 'Идеально для бизнеса и отдыха',
+    description:
+      'Выбирайте подходящий вариант в каждом регионе нашей огромной страны.',
+    icon: Briefcase,
+  },
+];

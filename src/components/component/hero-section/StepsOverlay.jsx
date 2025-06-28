@@ -1,6 +1,5 @@
-import { steps } from "@/constants/data";
 
-const StepsOverlay = () => {
+const StepsOverlay = ({steps}) => {
   return (
     <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 w-full max-w-5xl px-4 hidden md:block">
       <div className="grid grid-cols-3 gap-6 backdrop-blur-sm bg-white/10 p-6 rounded-2xl border border-white/10 shadow-xl">

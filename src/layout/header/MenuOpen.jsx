@@ -2,7 +2,7 @@ import NextLink from '@/components/ui/NextLink';
 import {  ChevronDown, ChevronUp } from 'lucide-react';
 import Image from 'next/image';
 
-export default function MenuOpen({isSubLinksVisible, links , subLinks, toggleSubLinks, setIsMenuOpen, isMenuOpen}) {
+export default function MenuOpen({isSubLinksVisible, links, toggleSubLinks, setIsMenuOpen, isMenuOpen}) {
 
     const handleSub = ()=>{
         toggleSubLinks()

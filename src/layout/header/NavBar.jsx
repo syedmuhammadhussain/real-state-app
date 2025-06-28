@@ -6,7 +6,7 @@ import MenuOpen from './MenuOpen';
 import SearchProduct from './SearchProduct';
 import { usePathname } from 'next/navigation';
 import NextLink from '@/components/ui/NextLink';
-import { links, subLinks } from '@/constants/data';
+import { links  } from '@/constants/data';
 import { useAuth } from '../../../context/AuthContext';
 
 export default function Navbar() {
@@ -223,7 +223,6 @@ export default function Navbar() {
         {isMenuOpen && (
           <MenuOpen
             links={links}
-            subLinks={subLinks}
             setIsMenuOpen={setIsMenuOpen}
             isMenuOpen={isMenuOpen}
           />

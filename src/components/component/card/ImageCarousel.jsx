@@ -1,9 +1,9 @@
 'use client';
+import { StrapiImage } from "@/components/ui/StrapiImage";
 import { cn } from "@/lib/utils";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, ZoomIn, Maximize } from "lucide-react";
 import React, { useCallback, useEffect, useState } from 'react';
-import { StrapiImage } from "../strapi-image/StrapiImage";
 
 const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = false }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });

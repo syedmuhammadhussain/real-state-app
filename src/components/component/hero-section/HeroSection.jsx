@@ -1,12 +1,13 @@
 import Image from "next/image";
 import StepsOverlay from "./StepsOverlay";
 import FramerSelectShadcn from "./FramerSelectShadcn";
+import { steps } from "@/constants/data";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen w-full">
     {/* shagyy */}
-    <StepsOverlay />
+    <StepsOverlay steps = {steps} />
 
         {/* Background Image */}
         <Image

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useApartment } from '../../../../../../context/ApartmentContext';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
-import { StrapiImage } from '@/components/component/strapi-image/StrapiImage';
+import { StrapiImage } from '@/components/ui/StrapiImage';
 
 export default function MediaLocationForm({ apartment, setApartment, handleSubmit }) {
   const [previewUrls, setPreviewUrls] = useState([]);

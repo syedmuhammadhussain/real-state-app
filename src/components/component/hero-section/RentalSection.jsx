@@ -1,6 +1,6 @@
-import { Home } from 'lucide-react';
+
 import EmblaCarousel from '../product-slider/EmblaCarousel';
-import NextLink from '@/components/ui/NextLink';
+
 
 export default function RentalSection() {
 
@@ -42,7 +42,7 @@ export default function RentalSection() {
       <div className="">
         {/* Hero Section */}
         <div className="">
-          <h1 className="text-2xl lg:text-3xl font-bold text-primary-dark "> Аренда жилья посуточно</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-primary-dark "> Аренда жилья посуточно</h1>
         </div>
         <EmblaCarousel categories = {false} slides={data} />
 
