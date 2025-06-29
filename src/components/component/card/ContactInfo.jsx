@@ -1,109 +1,106 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Phone, MessageCircle, ChevronDown, Check, Eye, EyeClosed } from "lucide-react"
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
-import { toast } from '@/hooks/use-toast'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Phone,
+  MessageCircle,
+  Eye,
+  EyeClosed,
+} from 'lucide-react';
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from '@/components/ui/collapsible';
+import { toast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useRouter } from 'next/navigation';
 
 export const ContactInfo = ({ contact, initialOpen = false }) => {
-  const [isOpen, setIsOpen] = useState(initialOpen)
-  const [copied, setCopied] = useState(false)
+  const [isOpen, setIsOpen] = useState(initialOpen);
+  const [copied, setCopied] = useState(false);
 
-  const isMobile = useIsMobile()
+  const router = useRouter();
+  const isMobile = useIsMobile();
+
   const handleCopy = async (text) => {
     try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)         
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
       toast({
         variant: 'success',
         title: 'Номер скопирован в буфер обмена',
-        description: 'call him before some bbody else cal him'
+        description: 'Позвоните, пока кто-то другой не позвонил',
       });
-      setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       toast({
         variant: 'destructive',
         title: 'Не удалось скопировать номер',
       });
     }
-  }
+  };
 
   return (
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="border-t border-primary-light/20 pt-5">
+      className="border-t border-primary-light/20 pt-5"
+    >
+      <div className="flex flex-col md:flex-row justify-center md:justify-between items-start gap-5 mb-4">
+        <span className="text-lg font-bold text-primary-dark">
+          Связаться с владельцем:
+        </span>
 
-      <div className="flex  justify-center items-center md:justify-between  md: flex-col  md:flex-row gap-5 mb-4">
-         
-        <span className="text-lg  font-bold text-primary-dark"> Связаться с владельцем: </span>
-
-        { isOpen &&
-          <div className="flex flex-col sm:flex-row justify-center items-start sm:items-center gap-4 ">
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleCopy(contact.phone)}
-              className= "group border-primary-light/30 hover:bg-primary-dark flex justify-center items-center "
-            >
-              <Phone className="w-4 h-4 text-primary-dark text group-hover:text-green-500 " />
-              <span className="text-primary-dark text-sm group-hover:text-white">
-                {/* {contact.phone} */}
-              </span>
-            </Button>
-
-            <div className="h-6  bg-primary-light/30 hidden sm:block" />
-          </div>
-          <a
-            href={`https://wa.me/${contact.whatsapp}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center  gap-2 px-4 py-2 bg-green-100/80 hover:bg-green-100/60 border hover:border-primary-light rounded-xl transition-colors group"
-          >
-            <MessageCircle className="w-4 h-4 text-green-700 group-hover:text-green-800" />
-            <span className="hidden md:block s text-green-500 text-sm group-hover:text-green-800 font-medium">
-              {/* Написать в */}
-               WhatsApp
-            </span>
-          </a>
-          </div>
-        } 
-
+        {/* ↓ asChild убирает внешний <button>, человек кликает по обычному <div> */}
         <CollapsibleTrigger asChild>
-          <Button
-            variant="pr"
-            size="md"
-            className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
-              >
-               
-          
-            {!isOpen ? (
-              <div className="flex items-center gap-2 transition-all">
-               <span className=" text-white text-md "> 
-                  {/* {contact.hiddenPhone}  */}
-                    показать номер
-                  </span>
-                  <Eye className="h-5 w-5 group-hover:text-green-400 transition-colors" />
-              </div>
-            ) : (
-              <div className="flex items-center gap-1 animate-in fade-in">
-                 <span className=" text-primary-default text-white text-sm">
-                  {/* Скрыть номер */}    {contact.phone}
-                </span>
-                <EyeClosed className="h-5 w-5 group-hover:text-green-400 transition-colors " />
+          <div className="flex flex-col md:flex-row items-center gap-5 cursor-pointer">
+            {/* Блок с иконками (виден только когда открыт) */}
+            {isOpen && (
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={() => handleCopy(contact.phone)}
+                >
+                  <Phone className="h-4 w-4" />
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={() => router.push(`https://wa.me/${contact.whatsapp}`)}
+                >
+                  <MessageCircle className="w-4 h-4 text-green-400 group-hover:text-green-800" />
+                </Button>
               </div>
             )}
-          </Button>
-        </CollapsibleTrigger>
 
-   
+            {/* Кнопка «показать/скрыть» */}
+            <Button
+              variant="primary"
+              size="md"
+              className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
+            >
+              {!isOpen ? (
+                <div className="flex items-center gap-2 transition-all">
+                  <span className="text-white text-md">показать номер</span>
+                  <Eye className="h-5 w-5 group-hover:text-green-400 transition-colors" />
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 animate-in fade-in">
+                  <span className="text-white text-sm">{contact.phone}</span>
+                  <EyeClosed className="h-5 w-5 group-hover:text-green-400 transition-colors" />
+                </div>
+              )}
+            </Button>
+          </div>
+        </CollapsibleTrigger>
       </div>
+
       <CollapsibleContent className="mt-2 animate-in slide-in-from-top-5 fade-in duration-300">
-     
+        {/* можно добавить дополнительную информацию здесь */}
       </CollapsibleContent>
     </Collapsible>
-  )
-}
+  );
+};

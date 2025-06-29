@@ -225,7 +225,7 @@ export const ApartmentProvider = ({ children }) => {
     const fetchApartmentsByOwner = async (userId) => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/products?filters[owner][id][$eq]=${userId}&populate=owner&populate=images&populate=city&populate=location&populate=features&populate=kitchens&populate=amenities&populate=infrastructures&fields=title&fields=bathrooms&fields=bedrooms&fields=description&fields=propertyType&fields=size&fields=price&pagination[page]=1&pagination[pageSize]=10`);
+        const response = await api.get(`${apiUrl}/products?filters[owner][id][$eq]=${userId}&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10`);
         const data = await response.data.data;
         setApartmentsForOwner(data);
         setError(null);
@@ -280,11 +280,11 @@ export const ApartmentProvider = ({ children }) => {
 
     const formData = new FormData();
     images.forEach((image) => {
-      formData.append("images", image); // Use the correct key expected by your backend
+      formData.append("files", image); // Use the correct key expected by your backend
     });
 
     try {
-      const response =  await api.post(`${apiUrl}/products/upload-images`, 
+      const response =  await api.post(`${apiUrl}/upload`, 
         formData,
         {
         headers: { "Content-Type": "multipart/form-data" },
@@ -294,8 +294,8 @@ export const ApartmentProvider = ({ children }) => {
         },
       });
 
-      console.log("Uploaded media:", response.data.files);
-      return response.data.files; // Adapt this based on your backend response structure
+      console.log("Uploaded media:", response.data);
+      return response.data; // Adapt this based on your backend response structure
     } catch (error) {
       console.error("Upload failed:", error);
       throw new Error("Image upload failed.");
@@ -320,7 +320,7 @@ export const ApartmentProvider = ({ children }) => {
               features: apartmentData.features.map((feature) => feature.id),
               kitchens: apartmentData.kitchens.map((kitchen) => kitchen.id),
               infrastructures: apartmentData.infrastructures.map((infrastructure) => infrastructure.id),
-          images:  uploadedImages.map((img) => img), 
+          images:  uploadedImages.map((img) => img.id), 
         };
 
         
@@ -334,17 +334,15 @@ export const ApartmentProvider = ({ children }) => {
           body: JSON.stringify({ data: preparedData }),
         });
         if (!response.ok) throw new Error('Не удалось создать квартиру');
-        const newApartment = await response.json();
-        setApartmentsForOwner((prev) => [...prev, newApartment]);
-
+        const newApartment = await response.data;
+        // setApartmentsForOwner((prev) => [...prev, newApartment]);
+        if(user?.id) await  fetchApartmentsByOwner(user?.id)
         toast({
           variant: 'success',
           title: 'Квартира создана',
           description: 'Новая квартира успешно добавлена.'
         });
-
-        router.push('/profile')
-        return newApartment;
+        await router.push('/profile')
       } catch (err) {
         console.error('Ошибка создания:', err);
         setError(err.message || 'Ошибка при создании квартиры');
@@ -377,11 +375,16 @@ export const ApartmentProvider = ({ children }) => {
               features: apartmentData.features.map((feature) => feature.id),
               kitchens: apartmentData.kitchens.map((kitchen) => kitchen.id),
               infrastructures: apartmentData.infrastructures.map((infrastructure) => infrastructure.id),
-              images:  uploadedImages.map((img) => img),
+              images:  uploadedImages.map((img) => img.id),
             };
             
             delete preparedData.id
             delete preparedData.documentId
+            delete preparedData.sequence_order
+            delete preparedData.publishedAt
+            delete preparedData.createdAt
+            delete preparedData.updatedAt
+
 
             // Step 3: Send create request
             const response = await fetch(`${apiUrl}/products/${apartmentData.documentId}`, {
@@ -396,10 +399,10 @@ export const ApartmentProvider = ({ children }) => {
 
             if (!response.ok) throw new Error('Не удалось обновить квартиру');
             const updatedApartment = await response.json();
-           
             setApartmentsForOwner(prev => prev.map(apt => apt.documentId === apartmentData.documentId ? updatedApartment : apt));
+             if(user?.id) await  fetchApartmentsByOwner(user?.id)
             // setCurrentApartment(updatedApartment);
-            router.push('/profile')
+            await router.push('/profile')
             toast({
               variant: 'success',
               title: 'Квартира обновлена',
@@ -431,8 +434,9 @@ export const ApartmentProvider = ({ children }) => {
             }
           });
           // if (!response.ok) throw new Error('Не удалось удалить квартиру');
-          // setApartments(prev => prev.filter(apt => apt.id !== id));
-          if (user) await fetchApartmentsByOwner(user?.id)
+          setApartmentsForOwner(prev => prev.filter(apt => apt.documentId !== id));
+           if(user?.id) await  fetchApartmentsByOwner(user?.id)
+          // if (user) await fetchApartmentsByOwner(user?.id)
           toast({
             variant: 'success',
             title: 'Квартира удалена',
@@ -457,7 +461,7 @@ export const ApartmentProvider = ({ children }) => {
     const handleNotification = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/notifications?filters[recipient][id][$eq]=${user?.id}&pagination[limit]=10&sort=createdAt:desc&populate=booking_form`);
+        const response = await api.get(`${apiUrl}/notifications?filters[recipient][id]   [$eq]=${user?.id}&pagination[limit]=10&sort=createdAt:desc&populate=booking_form`);
         const data = await response.data.data;
         setNotifications(data);
         setError(null);

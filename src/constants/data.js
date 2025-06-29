@@ -236,3 +236,27 @@ export const features = [
     icon: Briefcase,
   },
 ];
+
+
+
+// Начальные данные для квартиры (доступны на всех шагах)
+export const initialApartmentData = {
+  title: '',
+  description: '',
+  price: 0,
+  bedrooms: 1,
+  bathrooms: 1,
+  size: 0,
+  propertyType: 'APARTMENT',
+  images: [],
+  rooms: 0,
+  features: [],
+  address:null,
+  district:null,
+  metro_station:null,
+  city: null,
+  amenities: [],
+  infrastructures: [],
+  kitchens: [],
+  owner: null
+};

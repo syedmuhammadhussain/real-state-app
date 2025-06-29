@@ -35,10 +35,10 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
 
   const selectedCity = cities?.find((c) => c.id == apartment.city);
   const districtOptions = (selectedCity?.districts ?? []).map(normalise);
-  const metroOptions = (selectedCity?.matro_stations ?? []).map(normalise);
+  const metroOptions = (selectedCity?.metro_stations ?? []).map(normalise);
 
   const onChange = (field) => (e) => {
-    const value =  field === 'rooms'  || field === 'district' || field === 'matro_station'  || field === 'price' ? +e.target.value : e.target.value;
+    const value =  field === 'rooms'  || field === 'district' || field === 'metro_station'  || field === 'price' ? +e.target.value : e.target.value;
     setApartment({ ...apartment, [field]: value });
     // console.log('value',value)
   };
@@ -165,7 +165,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
           <select
             id="district"
             className=" w-full  p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-            value={apartment.district ?? null}
+            value={apartment.district ?? ""}
             onChange={onChange('district')}
             required
           >
@@ -185,14 +185,14 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
       {/* Метро */}
       {metroOptions.length > 0 && (
         <div>
-          <label htmlFor="matro_station" className="block text-sm text-primary-dark mb-1">
+          <label htmlFor="metro_station" className="block text-sm text-primary-dark mb-1">
             Станция метро
           </label>
           <select
-            id="matro_station"
+            id="metro_station"
              className=" w-full p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-            value={apartment.matro_station ?? null}
-            onChange={onChange('matro_station')}
+            value={apartment.metro_station ?? ""}
+            onChange={onChange('metro_station')}
             required
           >
             <option value="" disabled>

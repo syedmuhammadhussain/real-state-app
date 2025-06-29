@@ -1,3 +1,4 @@
+'use client '
 import NewApartmentForm from '@/components/component/forms/new-appartment-form/NewApartmentForm';
 
 const AddApartmentModal = () => {

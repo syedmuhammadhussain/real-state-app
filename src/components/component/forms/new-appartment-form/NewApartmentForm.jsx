@@ -1,38 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
-
 import BasicInfoForm from './_steps/BasicInfoForm';
 import ParametersForm from './_steps/ParametersForm';
 import MediaLocationForm from './_steps/MediaLocationForm';
-
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../../../../../context/AuthContext';
 import { useApartment } from '../../../../../context/ApartmentContext';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { initialApartmentData } from '@/constants/data';
 
-// Начальные данные для квартиры (доступны на всех шагах)
-export const initialApartmentData = {
-  title: '',
-  description: '',
-  price: 0,
-  bedrooms: 1,
-  bathrooms: 1,
-  size: 0,
-  propertyType: 'APARTMENT',
-  images: [],
-  rooms: 0,
-  features: [],
-  address:null,
-  district:null,
-  matro_station:null,
-  city: null,
-  amenities: [],
-  infrastructures: [],
-  kitchens: [],
-  owner: null
-};
 
 export default function NewApartmentForm() {
   
@@ -40,10 +18,18 @@ export default function NewApartmentForm() {
   const [step, setStep] = useState(1);
   const {user} = useAuth()
   const isMobile = useIsMobile()
-  const { currentApartment, createApartment , editMode, updateApartment } = useApartment()
+  const {  createApartment , editMode, updateApartment } = useApartment()
+  const [apartment, setApartment] = useState(initialApartmentData);
 
-  // Единый стейт для всей информации о квартире
-  const [apartment, setApartment] = useState( editMode ? currentApartment  : initialApartmentData);
+  const handleGetEditApartment = async() => {
+     if (localStorage.getItem('apartmentForEdit')) {
+      const apartmentId =await JSON.parse(localStorage.getItem('apartmentForEdit'));
+      await setApartment(apartmentId);
+    } else {
+      await setApartment(initialApartmentData);
+    }
+  }
+  useEffect(() => { handleGetEditApartment() },[])
 
   // Контейнер для ошибок валидации
   const [errors, setErrors] = useState({});

@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Menu, ChevronDown, User, LogOut, Star, UserRound } from 'lucide-react';
+import { ChevronDown, User, LogOut, Star, UserRound } from 'lucide-react';
 import Image from 'next/image';
 import MenuOpen from './MenuOpen';
 import SearchProduct from './SearchProduct';
@@ -51,14 +51,12 @@ export default function Navbar() {
     pathname.startsWith('/register') ||
     pathname.startsWith('/forgot-password') ||
     pathname.startsWith('/checkout') ||
-    pathname.startsWith('/add-apartment')  || //add-edit-apartment
-    pathname.startsWith('/edit-apartment')  //add-edit-apartment
-
+    pathname.startsWith('/add-apartment')  || 
+    pathname.startsWith('/edit-apartment')  
   ) {
     return null;
   }
 
-  // console.log('user', user)
 
   return (
     <header className="fixed top-0 left-0 w-full bg-background-default opacity-90 shadow-md z-50">

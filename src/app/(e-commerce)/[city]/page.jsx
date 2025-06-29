@@ -290,6 +290,7 @@ import { notFound } from "next/navigation";
       "kitchens",
       "amenities",
       "infrastructures",
+      "owner"
     ].forEach((p) => q.append("populate", p));
     [
       "title",
@@ -324,7 +325,7 @@ import { notFound } from "next/navigation";
   function copyParamsSafe(obj) {
     const q = new URLSearchParams();
     if (!obj) return q;
-    Object.keys(obj).forEach((k) => {
+    Object.keys(obj)?.forEach((k) => {
       const v = obj[k];
       if (v === undefined || v === null || v === "") return;
       q.set(k, Array.isArray(v) ? v.join(",") : String(v));
@@ -347,7 +348,7 @@ import { notFound } from "next/navigation";
   export default async function CityPage({ params, searchParams = {} }) {
 
     // Inside your page function
-     const citySlug = params.city ?? "";
+     const citySlug = params?.city ?? "";
 
     // Check if the slug exists in your cityOptions array
     const city = cityOptions.find(c => c.key === citySlug.toLowerCase());
@@ -373,14 +374,18 @@ import { notFound } from "next/navigation";
     /* ───── fetch data ───── */
     const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
     const apiPath = buildApiPath({ citySlug, page: currentPage, filters });
+
+    console.log("API Path:", apiPath); // Debugging log
     let apartments = [];
     let meta = { pagination: { pageCount: 1 } };
     let error = "";
     try {
-      const res = await fetch(`${apiBase}${apiPath}`, { cache: "no-store" });
+      const res = await fetch(`${apiBase}${apiPath}`);
       if (!res.ok) throw new Error("API error");
       const json = await res.json();
       apartments = json.data ?? [];
+
+      // console.log("Fetched apartments:", apartments); // Debugging log
       meta = json.meta ?? meta;
     } catch (e) {
       console.error(e);

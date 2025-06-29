@@ -4,13 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { cn, formatDate } from "@/lib/utils";
 import { useApartment } from "../../../../../context/ApartmentContext";
+import { LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
 
 const Notification = () => {
-  const { notifications ,setNotifications } = useApartment();
+  const { notifications ,setNotifications , loading } = useApartment();
   
   const [expandedId, setExpandedId] = useState(null);
 
-  console.log('notifications ' , notifications)
   // Пометить все как прочитанные
   const markAllAsRead = () => {
     setNotifications(prev => 
@@ -39,10 +39,7 @@ const Notification = () => {
     <div className="">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
           <h2 className="text-2xl font-bold flex text-primary-dark items-center">
-                 <BellIcon className="w-5 h-5 mr-2" />
-          Уведомления
-            </h2>
-    
+          <BellIcon className="w-5 h-5 mr-2" />  Уведомления  </h2>
         <Button 
           variant="outline" 
           size="md"
@@ -54,11 +51,8 @@ const Notification = () => {
         </Button>
       </div>
 
-      {notifications?.length === 0 ? (
-        <div className="text-center py-8 text-muted-foreground">
-          У вас нет новых уведомлений
-        </div>
-      ) : (
+      {loading? ( <LoadingState/> ) 
+      : (
         <div className="space-y-4">
           {notifications?.map(notification => (
             <Card 
@@ -82,11 +76,10 @@ const Notification = () => {
                   </div>
                   
                   <div className="flex gap-1">
-                    
-                      <Button variant="outline" size="iconicon" onClick={() => markAsRead(notification.id)} className="p-2">
+                      <Button variant="outline" size="md" onClick={() => markAsRead(notification.id)}>
                         <CheckIcon className="h-4 w-4" />
                       </Button>
-                      <Button variant="destructive" size="icon" onClick={() => deleteNotification(notification.id)} className="p-2">
+                      <Button variant="destructive" size="md" onClick={() => deleteNotification(notification.id)}>
                         <Trash2 className="h-4 w-4" />
                       </Button>
                   </div>

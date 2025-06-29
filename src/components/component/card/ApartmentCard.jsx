@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, AlignEndVertical, HighlighterIcon, Star, StarIcon} from "lucide-react";
+import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, 
+  Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake,  Star, StarIcon} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
@@ -11,8 +12,7 @@ import ReklamaPaymentDialog from "../dialog-popups/ReklamaPaymentDialog";
 import { DeleteDialog } from "../dialog-popups/DeleteDialog";
 import { useApartment } from "../../../../context/ApartmentContext";
 
-export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit = false , city=''}) {
-  const [isLiked, setIsLiked] = useState(true);
+export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , city=''}) {
   const [isOpen, setIsOpen] = useState(false); 
   const [isOpenDelete, setIsOpenDelete] = useState(false); 
 
@@ -22,21 +22,20 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
   
   const openDeleteDialog = () => setIsOpenDelete(true);
   
-  const handleDelete = async (documentId) => {
-      await deleteApartment(documentId);
-    }
-  
-  /* ----------------------------- TRANSFORM DATA ----------------------------- */
-  const dedup = (arr) => Array.from(new Set(arr));
+  const handleDelete = async (documentId) => { await deleteApartment(documentId); }
 
+  const dedup = (arr) => Array.from(new Set(arr));
+  
   const apartment = {
     title: data.title ,
     price: data.price,
     documentId: data.documentId,
-    city: data.city,
+    region: data.city?.area?.name || "Unknown Region",
+    city: data.city.name,
     // district
-    // address: `${data?.city.name} ,${data?.district} , ${data?.address} `  , //    <span>{product?.city.name}, {product?.district ?? ''}  {product?.address  ?? ''} </span><br/>
-    district: data.district,
+    address: data.address , 
+    district: data.district ?  data.district.name  : '',
+    metro_station: data.metro_station ? data.metro_station.name : '',
     bedrooms: data.bedrooms,
     bathrooms: data.bathrooms,
     apartmentParameters: {
@@ -96,11 +95,6 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
     { icon: Car, condition: apartment.apartmentParameters.parkingAvailable },
   ].filter((a) => a.condition);
 
-  const contactInfo = {
-    phone: apartment.contactInfo.phone || "+7 (XXX) XXX-XX-XX",
-    whatsapp: apartment.contactInfo.whatsapp || "79123456789",
-    hiddenPhone: apartment.contactInfo.hiddenPhone || "+7••• •••••••",
-  };
 
   const images = apartment.images.length > 0 ? apartment.images : [{ url: "/default-apartment.jpg", caption: "Apartment preview" }];
 
@@ -130,10 +124,10 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
                     </span>
                   </span>
              </Button>
-          <Button variant="outline" size="iconicon" onClick={onEdit} className="p-2">
+          <Button variant="outline" size="md" onClick={onEdit} >
             <Pen className="h-4 w-4" />
           </Button>
-          <Button variant="destructive" size="icon" onClick={openDeleteDialog} className="p-2">
+          <Button variant="destructive" size="icon" onClick={openDeleteDialog} >
             <Trash2 className="h-4 w-4" />
           </Button>
          
@@ -148,10 +142,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
           // onClick={() => setIsLiked((prev) => !prev)}
           className="group absolute top-2 right-2 p-2   rounded-full shadow transition-colors"
         >
-
-          <Star
-            className={`w-6 h-6 " text-base text-secondary-default `}
-          />
+          <Star  className={`w-6 h-6 " text-base text-secondary-default `} />
         </Button>
       )}
 
@@ -163,15 +154,17 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
 
         {/* DETAILS */}
         <div className="lg:col-span-2">
-          <div className="w-full pt-2 px-2 lg:pt-4 lg:px-4 flex flex-col justify-between gap-4">
+          <div className="w-full pt-2 px-2 lg:pt-4 lg:px-4 flex flex-col justify-between md:gap-4">
             {/* Title & Address */}
             <div>
-              <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1 truncate" title={apartment.title}>
+              <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1 truncate" >
                 {apartment.title}
               </h2>
               <div className="flex items-center text-sm text-primary-default gap-1.5 flex-wrap">
                 <MapPin className="w-4 h-4" />
-                {/* <span>{apartment.address}</span> */}
+                <span> {apartment.region}, {apartment.city}, 
+                  {apartment.district },   
+                   {apartment.address  ?? ''} </span>
               </div>
             </div>
 
@@ -209,7 +202,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
             )}
 
             {/* Price & CTA */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-t border-gray-100 pt-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between border-t border-gray-100 pt-4">
               <div>
                 <p className="text-2xl font-bold text-primary-default">
                   {apartment.price} <span className="text-base font-normal text-primary-dark">₽ / сутки</span>
@@ -226,7 +219,7 @@ export default function ApartmentCard({ data, onEdit, onDelete, showButtonEdit =
             </div>
 
             {/* Contact */}
-            <ContactInfo contact={contactInfo} initialOpen={false} />
+            <ContactInfo contact={apartment.contactInfo} initialOpen={false} />
           </div>
         </div>
       </div>

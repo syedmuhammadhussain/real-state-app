@@ -1,17 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { notFound, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusCircle, User, Home, NotebookIcon, BellIcon, HomeIcon } from "lucide-react";
+import { PlusCircle, User, Home, NotebookIcon, HomeIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ApartmentCard from "@/components/component/card/ApartmentCard";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { EmptyState, LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
 import { useAuth } from "../../../../context/AuthContext";
 import { useApartment } from "../../../../context/ApartmentContext";
 import Notification from "./_related/Notification"
 import ProfileInfo from "./_related/ProfileInfo";
+import ApartmentOwnerComponenet from "./_related/ApartmentOwnerComponenet";
 
 export default function ProfilePage() {
   
@@ -19,40 +18,27 @@ export default function ProfilePage() {
   const { user } = useAuth();
   const router = useRouter();
  
-  const { apartmentsForOwner, loading,handleNotification ,  error, deleteApartment, fetchApartmentsByOwner, setApartmentForEdit, setEditMode } = useApartment();
-
-  // useEffect(()=>{
-  //   if(!user?.id)  router.push('/register')
-  // },[])
+  const { apartmentsForOwner,  notifications, handleNotification ,fetchApartmentsByOwner,  setEditMode } = useApartment();
 
   // handle not not exist user
   useEffect(() => {
     if (user?.id &&  apartmentsForOwner.length === 0 ) fetchApartmentsByOwner(user.id)
-      //  else if (user !== undefined && !user?.id) {
-      //   notFound()
-      // }
-  }, [user?.id]); 
-
-  // Handlers edit 
-  const handleEdit = async (apartment) => {
-    setApartmentForEdit(apartment);
-    router.push("/edit-apartment");
-  };
-
-  // handle edit 
-  const handleDelete = async (id) => await deleteApartment(id);
+  }, []); 
   
   // handle navigate add 
   const handleNavigate  = async () => { 
      await setEditMode(false)
+     localStorage.removeItem('apartmentForEdit')
      await router.push("/add-apartment")
     }
   
-const handleNotificationPart = ()=> handleNotification()
+  // fetch notifications if not exist
+  const handleNotificationPart = async ()=> { if (notifications === null || notifications.length === 0  ) await handleNotification()}
 
   return (
     <div className="min-h-screen max-w-7xl pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">
+        
         {/* Header */}
         <div className="mb-8 flex flex-wrap items-end justify-between rounded-xl bg-white p-6 shadow">
           <div className="flex items-center gap-6">
@@ -88,36 +74,17 @@ const handleNotificationPart = ()=> handleNotification()
           {/* Объекты */}
           <TabsContent value="properties">
             <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold flex text-primary-dark items-center"> <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" /> Мои объявления </h2>
-              <Button  variant="ghost" // size = "md"
+            <h2 className="text-2xl font-bold flex text-primary-dark items-center"> 
+              <HomeIcon className="w-5 h-5 mr-2  text-primary-dark" />    Мои объявления </h2>
+              <Button  variant="outline"
+                size="md" 
                 className="flex items-center justify-center gap-3 border-2 border-solid"
-                onClick={handleNavigate}
-              >
-                <PlusCircle className=" h-5 w-5 text-primary-dark" /> {!useIsMobile()  &&  'Добавить квартиру' }
+                onClick={handleNavigate}>
+                <PlusCircle className=" h-5 w-5 text-primary-dark" /> 
+                {!useIsMobile()  &&  <span className=" text-primary-dark">Добавить квартиру </span> }
               </Button>
             </div>
-
-            {/* Состояния данных */}
-            {/* {error && !loading && <ErrorState message={error} />} */}
-
-            {/* Список объявлений */}
-            <div className="mt-4 grid gap-4">
-              {!loading &&
-                !error &&
-                apartmentsForOwner.map((apartment, index) => (
-                  <ApartmentCard
-                    key={apartment.id ?? `apt-${index}`}
-                    data={apartment}
-                    onEdit={() => handleEdit(apartment)}
-                    onDelete={() => handleDelete(apartment.documentId)}
-                    showButtonEdit
-                  />
-                ))}
-            </div>
-            
-            {loading && <LoadingState />}
-            {!loading && !error && apartmentsForOwner.length === 0 && <EmptyState />}
-
+            <ApartmentOwnerComponenet/>
           </TabsContent>
 
           {/* Профиль */}
