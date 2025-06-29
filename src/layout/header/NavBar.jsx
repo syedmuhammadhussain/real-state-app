@@ -59,7 +59,7 @@ export default function Navbar() {
 
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-background-default opacity-90 shadow-md z-50">
+    <header className="fixed top-0 left-0 w-full bg-background-default opacity-95 shadow-md z-50">
       <div className="px-4">
         <div className="flex justify-between items-center h-16">
           {/* Left side - Logo and menu */}

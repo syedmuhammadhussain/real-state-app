@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
     --background: 0 0% 10%; /* Black */
     --foreground: 210 25% 96%; /* Light gray */
@@ -97,7 +96,7 @@ a , button{
   display: inline-block;
   overflow: hidden;
   text-transform: capitalize;
-  color: var(--primary-color) ;
+  color: #1F3B57 ;
 
 }
 .responsive-appbar-button::after {

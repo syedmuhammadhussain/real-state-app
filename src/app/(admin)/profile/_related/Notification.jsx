@@ -39,13 +39,13 @@ const Notification = () => {
     <div className="">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
           <h2 className="text-2xl font-bold flex text-primary-dark items-center">
-          <BellIcon className="w-5 h-5 mr-2" />  Уведомления  </h2>
+          <BellIcon className="w-5 h-5 mr-2 " />  Уведомления  </h2>
         <Button 
           variant="outline" 
           size="md"
           onClick={markAllAsRead}
           disabled={notifications.length === 0}
-          className="transition-colors hover:bg-accent"
+          className="transition-colors hover:bg-accent text-primary-dark"
         >
           Пометить все как прочитанные
         </Button>
@@ -77,7 +77,7 @@ const Notification = () => {
                   
                   <div className="flex gap-1">
                       <Button variant="outline" size="md" onClick={() => markAsRead(notification.id)}>
-                        <CheckIcon className="h-4 w-4" />
+                        <CheckIcon className="h-4 w-4 text-primary-default" />
                       </Button>
                       <Button variant="destructive" size="md" onClick={() => deleteNotification(notification.id)}>
                         <Trash2 className="h-4 w-4" />
@@ -100,12 +100,12 @@ const Notification = () => {
                     >
                       {expandedId === notification.id ? (
                         <>
-                          <span className="hidden md:block"> Свернуть </span> 
+                          <span className="hidden md:block text-primary-dark"> Свернуть </span> 
                           <ChevronUpIcon className=" h-4 w-4" />
                         </>
                       ) : (
                         <>
-                         <span className="hidden md:block"> Подробнее </span> 
+                         <span className="hidden md:block text-primary-dark"> Подробнее </span> 
                            <ChevronDownIcon className=" h-4 w-4" />
                         </>
                       )}

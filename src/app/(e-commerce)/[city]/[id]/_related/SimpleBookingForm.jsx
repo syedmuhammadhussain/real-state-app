@@ -1,10 +1,8 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import Input from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { api } from "@/lib/api"
 import { apiUrl } from "@/lib/utils"
 import { validateEmail, validateTelephone } from "@/constants/utils"
 import { toast } from "@/hooks/use-toast"
@@ -82,14 +80,9 @@ export function SimpleBookingForm({ id = 5 }) {
           description: "",
           address: ""
         }
-      
-      // console.log('data : ',payload)
-
-      // Step 3: Send create request
         const response = await fetch(`${apiUrl}/booking-forms`, {
           method: 'POST',
           headers: {
-            // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ data: payload }),
@@ -97,17 +90,13 @@ export function SimpleBookingForm({ id = 5 }) {
       if (!response.ok) {
         throw new Error('Failed to submit booking')
       }
-
       const result = await response.json()
-
-      console.log('Booking successful:', result)
-           // Show success toast
+      // console.log('Booking successful:', result)
       toast({
         variant: "success",
         title: "Заявка отправлена",
         description: "Ваша заявка на бронирование успешно отправлена!"
       })
-      
       setOpen(false)
     } catch (error) {
       console.error('Booking error:', error)
@@ -184,7 +173,7 @@ export function SimpleBookingForm({ id = 5 }) {
           </div>
           <div className="space-y-2">
             <Input
-              label="Email"
+              label="Почта"
               type="email"
               id="email"
               value={formData.email}
@@ -198,9 +187,7 @@ export function SimpleBookingForm({ id = 5 }) {
                   }))
                     }
                error={errors.email}
-
             />
-            {/* {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>} */}
           </div>
 
           <div className="space-y-2">

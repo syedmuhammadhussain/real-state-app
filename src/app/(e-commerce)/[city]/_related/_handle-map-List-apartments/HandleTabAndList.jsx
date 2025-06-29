@@ -32,7 +32,7 @@ const HandleTabAndList = ({
           <>
             <div className="grid grid-cols-1 gap-3">
               {apartments.map((p) => (
-                <ApartmentCard key={p.id} data={p} city={citySlug} />
+                <ApartmentCard key={p.id} data={p} city={citySlug}  />
               ))}
             </div>
             

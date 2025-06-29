@@ -48,6 +48,7 @@ const ApartmentOwnerComponenet = () => {
             onEdit={() => handleEdit(apartment)}
             onDelete={() => handleDelete(apartment.documentId)}
             showButtonEdit
+            city=""
           />
         ))
        }

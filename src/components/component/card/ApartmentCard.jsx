@@ -4,13 +4,13 @@ import { useState } from "react";
 import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, 
   Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake,  Star, StarIcon} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ImageCarousel from "./ImageCarousel";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ReklamaPaymentDialog from "../dialog-popups/ReklamaPaymentDialog";
 import { DeleteDialog } from "../dialog-popups/DeleteDialog";
 import { useApartment } from "../../../../context/ApartmentContext";
+import { ImageCarousel } from "./ImageCarousel";
 
 export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , city=''}) {
   const [isOpen, setIsOpen] = useState(false); 
@@ -32,6 +32,8 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
     documentId: data.documentId,
     region: data.city?.area?.name || "Unknown Region",
     city: data.city.name,
+    slug: data.city.slug,
+
     // district
     address: data.address , 
     district: data.district ?  data.district.name  : '',
@@ -109,11 +111,11 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
 
   /* ---------------------------------- JSX ---------------------------------- */
   return (
-    <div className="relative w-full bg-white border border-primary-light/50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
+    <div className="relative w-full  bg-white border border-primary-light/50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300">
       
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
-        <div className="absolute top-2 right-2 z-50 ">
+        <div className="absolute top-2 right-2 z-10">
           <div className="w-full flex gap-2 center">
             <Button variant="secondary"  size="md" className="flex items-center b px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group" onClick={handlePosition} >
                   <StarIcon className="w-5 h-5 mr-3  text-yellow-500 group-hover:text-yellow-600" />
@@ -134,7 +136,6 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
          </div>
         </div>
       ) : (
-
         data?.sequence_order && 
         <Button
           size="sm"
@@ -160,9 +161,9 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
               <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1 truncate" >
                 {apartment.title}
               </h2>
-              <div className="flex items-center text-sm text-primary-default gap-1.5 flex-wrap">
+              <div className="flex items-center text-primary-default gap-1.5">
                 <MapPin className="w-4 h-4" />
-                <span> {apartment.region}, {apartment.city}, 
+                <span className="t text-primary-default "> {apartment.region}, {apartment.city}, 
                   {apartment.district },   
                    {apartment.address  ?? ''} </span>
               </div>
@@ -209,8 +210,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
                 </p>
               </div>
               <NextLink
-              // apartment.city?.slug
-                href={`/${city.length != 0 ? city  :  apartment.city?.slug}/${apartment.documentId}`}
+                href={`/${city.length != 0 ? data.slug :  apartment.slug}/${apartment.documentId}`}
                 className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
               >
                 Подробнее..
@@ -239,7 +239,7 @@ function Param({ icon: Icon, label }) {
   return (
     <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-default truncate">
       {Icon && <Icon className="w-4 h-4 shrink-0 text-primary-default" />}
-      <span>{label}</span>
+      <span className="text-xs sm:text-sm">{label}</span>
     </div>
   );
 }

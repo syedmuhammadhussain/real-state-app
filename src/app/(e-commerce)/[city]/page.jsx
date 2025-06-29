@@ -375,17 +375,18 @@ import { notFound } from "next/navigation";
     const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
     const apiPath = buildApiPath({ citySlug, page: currentPage, filters });
 
-    console.log("API Path:", apiPath); // Debugging log
+    // console.log("API Path:", apiPath); // Debugging log
     let apartments = [];
     let meta = { pagination: { pageCount: 1 } };
     let error = "";
     try {
-      const res = await fetch(`${apiBase}${apiPath}`);
+      // const res = await fetch(`${apiBase}${apiPath}`);
+      const res = await fetch(`https://lovely-growth-c72512e849.strapiapp.com/api/products/?filters[city][name][%24eq]=moscow&sort=sequence_order%3Aasc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10`)
       if (!res.ok) throw new Error("API error");
       const json = await res.json();
       apartments = json.data ?? [];
 
-      // console.log("Fetched apartments:", apartments); // Debugging log
+      console.log("Fetched apartments:", apartments); // Debugging log
       meta = json.meta ?? meta;
     } catch (e) {
       console.error(e);

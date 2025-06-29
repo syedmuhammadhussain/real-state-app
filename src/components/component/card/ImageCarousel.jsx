@@ -1,239 +1,216 @@
-'use client';
-import { StrapiImage } from "@/components/ui/StrapiImage";
-import { cn } from "@/lib/utils";
+"use client";
+
+/* ------------------------------------------------------------------
+ *  Updated & Responsive Components (ApartmentCard + ImageCarousel)
+ *  Author: ChatGPT – June 2025
+ * ------------------------------------------------------------------*/
+
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, ZoomIn, Maximize } from "lucide-react";
-import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from "prop-types";
+import {
+  Wifi,
+  Wind,
+  BedDouble,
+  Users,
+  MapPin,
+  Building,
+  Pen,
+  Trash2,
+  WashingMachine,
+  Bath,
+  Car,
+  Info,
+  UtensilsCrossed,
+  Coffee,
+  Tv,
+  Fan,
+  Snowflake,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  Maximize,
+} from "lucide-react";
 
-const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = false }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+/* ------------ Project‑level shared helpers ------------- */
+import { Button } from "@/components/ui/button";
+import { StrapiImage } from "@/components/ui/StrapiImage";
+import NextLink from "@/components/ui/NextLink";
+import { ContactInfo } from "./ContactInfo";
+import { useIsMobile } from "@/hooks/use-mobile";
+import ReklamaPaymentDialog from "../dialog-popups/ReklamaPaymentDialog";
+import { DeleteDialog } from "../dialog-popups/DeleteDialog";
+import { useApartment } from "../../../../context/ApartmentContext";
+import { cn } from "@/lib/utils";
+
+/* ========================================================
+ *  ImageCarousel – cleaner API, thumbnail strip & fullscreen
+ * ====================================================== */
+export function ImageCarousel({
+  images,
+  apartment = null,
+  mainAmenities = [],
+  showThumbnails = true,
+}) {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: images.length > 1 });
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [hoveredImage, setHoveredImage] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const domain = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-  // Navigation controls
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo = useCallback((index) => emblaApi?.scrollTo(index), [emblaApi]);
-
-  // Update selected index
+  /* ---------- Embla event binding ---------- */
   useEffect(() => {
     if (!emblaApi) return;
-    
-    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
-    emblaApi.on("select", onSelect);
-    return () => emblaApi.off("select", onSelect);
+    const cb = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", cb);
+    return () => emblaApi.off("select", cb);
   }, [emblaApi]);
 
-  const openFullscreen = () => {
-    setIsFullscreen(true);
-    document.body.style.overflow = 'hidden';
-  };
+  /* ---------- Carousel controls ---------- */
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback((idx) => emblaApi?.scrollTo(idx), [emblaApi]);
 
-  const closeFullscreen = () => {
+  /* ---------- Full‑screen helpers ---------- */
+  const openFs = () => {
+    setIsFullscreen(true);
+    if (typeof document !== "undefined") document.body.style.overflow = "hidden";
+  };
+  const closeFs = () => {
     setIsFullscreen(false);
-    document.body.style.overflow = 'auto';
+    if (typeof document !== "undefined") document.body.style.overflow = "auto";
   };
 
   return (
-    <div className={cn(
-      "relative rounded-xl overflow-hidden shadow-xl",
-       isFullscreen ? "fixed inset-0 z-50 bg-black rounded-none" : ""
-    )}>
-      
-      {/* Fullscreen toggle button */}
-       {!!auto &&   
-       <button
-        onClick={isFullscreen ? closeFullscreen : openFullscreen}
-        className={cn(
-          "absolute z-10 transition-all duration-300 hover:scale-110",
-          "bg-white/90 p-2 rounded-full shadow-md",
-          isFullscreen ? "top-6 right-6" : "top-4 right-4"
-        )}
-        aria-label={isFullscreen ? "Exit fullscreen" : "View fullscreen"}
-      >
-        {isFullscreen  ? (
-          <Maximize className="w-5 h-5 text-gray-800" />
-        ) : (
-          <Maximize className="w-5 h-5 text-gray-800" />
-        )}
-      </button>}
-      
+    <figure
+      className={cn(
+        "relative overflow-hidden rounded-xl shadow-xl",
+        isFullscreen && "fixed inset-0 z-50 rounded-none bg-black"
+      )}
+    >
+      {/* Fullscreen toggle */}
+      {images.length > 0 && (
+        <button
+          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+          className={cn(
+            "absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 shadow-md transition-transform duration-300 hover:scale-110 focus:outline-none",
+            isFullscreen && "right-6 top-6"
+          )}
+          onClick={isFullscreen ? closeFs : openFs}
+        >
+          <Maximize className="h-5 w-5 text-gray-800" />
+        </button>
+      )}
 
-      {/* Carousel Container */}
-      <div 
-        className={cn(
-          "embla overflow-hidden",
-          isFullscreen ? "h-screen " : ""
-        )} 
+      {/* Embla */}
+      <div
         ref={emblaRef}
+        className={cn("embla h-full w-full overflow-hidden", isFullscreen && "h-screen")}
       >
-        <div className={cn(
-          "embla__container w-full",
-          isFullscreen ? "lg:max-h-screen mx-auto" : "lg:max-h-[650px]"
-        )}>
-          {images.map((image, idx) => (
-            <div 
-              key={idx} 
-              className="relative flex-[0_0_100%]"
-              onMouseEnter={() => setHoveredImage(idx)}
-              onMouseLeave={() => setHoveredImage(null)}
-            >
-              <div className={cn(
-                "relative w-full h-full transition-all duration-300 ",
-                !!auto ? "aspect-square " : "aspect-square",
-                isFullscreen ? "h-screen flex justify-center " : ""
-              )}>
-                <StrapiImage
-                  src={image.url}
-                  alt={image.url}
-                  fill
-                  className={cn(
-                    "object-contain transition-transform duration-500",
-                     hoveredImage === idx && !isFullscreen ? "scale-105" : "scale-100"
-                  )}
-                  sizes="(max-width: 768px) 100vw, 80vw"
-                />
-                {/* { images.length > 1 && !!isFullscreen && (
-                  <div className={cn(
-                    "absolute top-4 left-1/2 transform -translate-x-1/2  bg-white flex  gap-2 transition-all duration-300",
-                    isFullscreen ? "opacity-0" : "opacity-100"
-                  )}>
-                    {images.map((image, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => scrollTo(idx)}
-                        className={cn(
-                          "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
-                          idx === selectedIndex ? "border-white scale-110" : "border-transparent"
-                        )}
-                        aria-label={`Go to slide ${idx + 1}`}
-                      >
-                        <StrapiImage
-                          src={image.url}
-                          alt={`Thumbnail ${idx + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )} */}
+        <div
+          className={cn(
+            "embla__container h-full w-full",
+            isFullscreen ? "mx-auto h-screen lg:max-h-screen" : "lg:max-h-[650px]"
+          )}
+        >
+          {images.map((img, idx) => (
+            <div key={idx} className="relative flex-[0_0_100%]">
+              <StrapiImage
+                src={img.url}
+                alt={img.caption ?? `Image ${idx + 1}`}
+                fill
+                sizes="(max-width:768px) 100vw, 80vw"
+                className="object-contain"
+              />
 
-                {/* Zoom overlay */}
-                {hoveredImage === idx && !isFullscreen &&  !!auto && (
-                  <div 
-                    className="absolute inset-0 bg-black/30 flex items-center justify-center cursor-zoom-in"
-                    onClick={openFullscreen}
-                  >
-                    <div className="bg-white p-3 rounded-full shadow-lg animate-pulse">
-                      <ZoomIn className="w-8 h-8 text-gray-800" />
-                    </div>
-                  </div>
-                )}
-              </div>
+              {/* Amenities (bottom‑left) */}
+              {!isFullscreen && idx === selectedIndex && mainAmenities.length > 0 && (
+                <div className="absolute bottom-3 left-3 z-10 flex gap-2">
+                  {mainAmenities.slice(0, 3).map(({ icon: Icon }, key) => (
+                    <span
+                      key={key}
+                      className="rounded-full bg-primary-dark/90 p-2 shadow-md backdrop-blur-sm"
+                    >
+                      <Icon className="h-5 w-5 text-white" />
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation arrows */}
       {images.length > 1 && (
         <>
           <button
-            onClick={scrollPrev}
+            aria-label="Previous image"
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
-              isFullscreen ? "left-6" : "left-2"
+              "absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-white",
+              isFullscreen && "left-6"
             )}
-            aria-label="Previous slide"
+            onClick={scrollPrev}
           >
-            <ChevronLeft className="w-6 h-6 text-primary-dark hover:text-white" />
+            <ChevronLeft className="h-6 w-6 text-primary-dark hover:text-white" />
           </button>
           <button
-            onClick={scrollNext}
+            aria-label="Next image"
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
-              isFullscreen ? "right-6" : "right-2"
+              "absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-3 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-white",
+              isFullscreen && "right-6"
             )}
-            aria-label="Next slide"
+            onClick={scrollNext}
           >
-            <ChevronRight className="w-6 h-6 text-primary-dark hover:text-white" />
+            <ChevronRight className="h-6 w-6 text-primary-dark hover:text-white" />
           </button>
         </>
       )}
 
-      {/* Bottom Slider */}
-      {images.length > 1 && !!auto && (
-        <div className={cn(
-          "absolute bottom-4 left-1/2 transform -translate-x-1/2 flex  gap-2 transition-all duration-300",
-          isFullscreen ? "opacity-0" : "opacity-100"
-        )}>
-          {images.map((image, idx) => (
+      {/* Thumbnail strip */}
+      {images.length > 1 && showThumbnails && (
+        <figcaption
+          className={cn(
+            "absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2 transition-opacity",
+            isFullscreen ? "opacity-0" : "opacity-100"
+          )}
+        >
+          {images.map((img, idx) => (
             <button
               key={idx}
+              aria-label={`Thumbnail ${idx + 1}`}
               onClick={() => scrollTo(idx)}
               className={cn(
-                "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
-                idx === selectedIndex ? "border-white scale-110" : "border-transparent"
+                "relative h-14 w-14 overflow-hidden rounded-lg border-2 transition-transform duration-300 hover:scale-105",
+                idx === selectedIndex ? "border-white" : "border-transparent"
               )}
-              aria-label={`Go to slide ${idx + 1}`}
             >
-              <StrapiImage
-                src={image.url}
-                alt={`Thumbnail ${idx + 1}`}
-                fill
-                className="object-cover"
-              />
+              <StrapiImage src={img.url} alt={`Thumb ${idx + 1}`} fill className="object-cover" />
             </button>
           ))}
-        </div>
-      )}
-      
-      {/* Top-left Badges */}
-      {!isFullscreen && (
-        <div className="absolute top-3 left-3 flex flex-wrap gap-2 z-10">
-          {apartment?.checkInConditions?.petsAllowed && (
-            <span className="bg-primary-dark/90 backdrop-blur-sm text-white text-xs py-1.5 px-2.5 rounded-xl shadow-sm">
-              Pets allowed
-            </span>
-          )}
-          {apartment?.apartmentParameters?.balconyType && (
-            <span className="bg-primary-dark/90 backdrop-blur-sm text-white text-xs py-1.5 px-2.5 rounded-xl shadow-sm">
-              {apartment.apartmentParameters.balconyType} balcony
-            </span>
-          )}
-        </div>
+        </figcaption>
       )}
 
-      {/* Bottom-left Amenities */}
-      {!isFullscreen && mainAmenities?.length > 0 && (
-        <div className="absolute bottom-3 left-3 flex gap-2 z-10">
-          {mainAmenities.slice(0, 3).map(({ icon: Icon }, idx) => (
-            <div 
-              key={idx} 
-              className="bg-primary-dark/90 backdrop-blur-sm text-white p-2 rounded-full shadow-md"
-            >
-              <Icon className="w-5 h-5 text-white" />
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Fullscreen close button */}
+      {/* Close fs */}
       {isFullscreen && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2">
-          <button
-            onClick={closeFullscreen}
-            className="bg-white/90 text-gray-800 py-2 px-6 rounded-full shadow-lg hover:bg-white transition-all"
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2">
+          <Button
+            variant="outline"
+            size="md"
+            className="rounded-full bg-white/90 px-6 py-2 text-primary-dark shadow-lg hover:bg-white"
+            onClick={closeFs}
           >
-           Закрыть 
-          </button>
+            Закрыть
+          </Button>
         </div>
       )}
-    </div>
+    </figure>
   );
-};
+}
 
-export default ImageCarousel;
+ImageCarousel.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({ url: PropTypes.string.isRequired, caption: PropTypes.string })
+  ).isRequired,
+  apartment: PropTypes.object,
+  mainAmenities: PropTypes.array,
+  showThumbnails: PropTypes.bool,
+};

@@ -48,7 +48,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
       className="border-t border-primary-light/20 pt-5"
     >
       <div className="flex flex-col md:flex-row justify-center md:justify-between items-start gap-5 mb-4">
-        <span className="text-lg font-bold text-primary-dark">
+        <span className="text-lg md:text-xl font-bold text-primary-dark">
           Связаться с владельцем:
         </span>
 

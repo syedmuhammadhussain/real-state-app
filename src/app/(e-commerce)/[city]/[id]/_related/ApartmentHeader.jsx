@@ -10,6 +10,17 @@ export const ApartmentHeader = ({ product }) =>{
     hiddenPhone: product.owner?.hiddenPhone || "+7••••••••••",
   };
   // console.log('contactInfo.profile',contactInfo.profile)
+  console.log('address',product)
+
+  const apartment ={
+      city: product.city.name ??'',
+    slug: product.city.slug ?? '',
+ region: product.city?.area?.name || "Unknown Region",
+    // district
+    address: product.address ??'', 
+    district: product.district ?  product?.district.name  : '' ,
+    metro_station: product.metro_station ? data.metro_station.name : '',
+  }
   return (
   <div className="space-y-4">
       <div className='mb-11'>
@@ -19,8 +30,10 @@ export const ApartmentHeader = ({ product }) =>{
            <div className="flex items-center flex-wrap gap-4 mb-6">
             <div className="flex  items-center gap-1 text-primary-default">
               <MapPin className="w-5 h-5 text-primary-light " />
-              {/* <span>{product?.city.name}, {product?.district ?? ''}  {product?.address  ?? ''} </span><br/> */}
-              {product?.metro_station ?? ''}
+              
+               {apartment.region}, {apartment.city}, 
+                  {apartment.district },   
+                   {apartment.address  ?? ''}
             </div>
             <div className="flex items-center gap-1">
               <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
