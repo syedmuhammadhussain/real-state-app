@@ -59,15 +59,15 @@ export default function ProfilePage() {
           <TabsList className="mb-8 grid w-full grid-cols-3">
             <TabsTrigger value="properties">
               <Home className="mr-2 h-5 w-5" /> 
-              <span className="hidden md:block text-sm">Объекты</span>
+              <span className="hidden md:block ">Объекты</span>
             </TabsTrigger>
             <TabsTrigger value="profile">
               <User className="mr-2 h-5 w-5" />
-              <span className="hidden md:block text-sm">Профиль</span> 
+              <span className="hidden md:block ">Профиль</span> 
             </TabsTrigger>
             <TabsTrigger value="notification" onClick={handleNotificationPart}>
               <NotebookIcon className="mr-2 h-5 w-5" /> 
-              <span className="hidden md:block text-sm" >Уведомление</span> 
+              <span className="hidden md:block " >Уведомление</span> 
             </TabsTrigger> 
           </TabsList>
 

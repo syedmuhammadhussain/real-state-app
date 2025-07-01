@@ -31,7 +31,7 @@ export default function ReklamaPaymentDialog({isOpen, setIsOpen, data }) {
 
       <DialogContent className="max-h-[80vh] rounded-xl bg-white max-w-4xl overflow-auto">
       <DialogHeader  className="text-xl text-primary-dark ">
-      <DialogTitle>Рекламировать </DialogTitle>
+      <DialogTitle className="text-3xl">Рекламировать </DialogTitle>
     </DialogHeader>
 
     

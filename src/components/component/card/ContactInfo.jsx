@@ -2,20 +2,12 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Phone,
-  MessageCircle,
-  Eye,
-  EyeClosed,
-} from 'lucide-react';
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@/components/ui/collapsible';
+import { Phone, Eye, EyeClosed, MessageCircle } from 'lucide-react';
+import {Collapsible,CollapsibleTrigger,CollapsibleContent, } from '@/components/ui/collapsible';
 import { toast } from '@/hooks/use-toast';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export const ContactInfo = ({ contact, initialOpen = false }) => {
   const [isOpen, setIsOpen] = useState(initialOpen);
@@ -45,33 +37,42 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="border-t border-primary-light/20 pt-5"
+      className="border-t border-primary-light/20 pt-3"
     >
-      <div className="flex flex-col md:flex-row justify-center md:justify-between items-start gap-5 mb-4">
-        <span className="text-lg md:text-xl font-bold text-primary-dark">
-          Связаться с владельцем:
+      {/* flex-col md:flex-row */}
+      <div className="flex   justify-between items-center gap-2 mb-2">
+        <span className="text-base md:text-lg font-bold text-primary-dark">
+         Связаться :
         </span>
 
         {/* ↓ asChild убирает внешний <button>, человек кликает по обычному <div> */}
         <CollapsibleTrigger asChild>
-          <div className="flex flex-col md:flex-row items-center gap-5 cursor-pointer">
+          <div className="flex items-center gap-2 cursor-pointer">
             {/* Блок с иконками (виден только когда открыт) */}
             {isOpen && (
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex  items-center gap-2">
                 <Button
                   variant="outline"
                   size="md"
                   onClick={() => handleCopy(contact.phone)}
                 >
-                  <Phone className="h-4 w-4" />
+                  <Phone className="h-4 w-4 text-primary-dark" />
                 </Button>
 
                 <Button
                   variant="outline"
                   size="md"
                   onClick={() => router.push(`https://wa.me/${contact.whatsapp}`)}
+                  // className="bg-transparent p-0 m-0 "
                 >
-                  <MessageCircle className="w-4 h-4 text-green-400 group-hover:text-green-800" />
+                  {/* <Image
+                    src="/images/wp.webp"
+                    alt="WhatsApp"
+                    width={110}
+                    height={110}
+                  /> */}
+                  <MessageCircle className="h-4 w-4 text-green-400" />
+                
                 </Button>
               </div>
             )}
@@ -80,16 +81,17 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
             <Button
               variant="primary"
               size="md"
-              className="group flex items-center gap-1 bg-primary-default hover:bg-primary-dark shadow-primary-default/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
+              className="group  "
             >
               {!isOpen ? (
                 <div className="flex items-center gap-2 transition-all">
-                  <span className="text-white text-md">показать номер</span>
+                  {/* показать */}
+                  <span className="text-white  text-sm md:text-base "> номер показать</span>
                   <Eye className="h-5 w-5 group-hover:text-green-400 transition-colors" />
                 </div>
               ) : (
                 <div className="flex items-center gap-1 animate-in fade-in">
-                  <span className="text-white text-sm">{contact.phone}</span>
+                  <span className="text-white  text-sm md:text-base  ">{contact.phone}</span>
                   <EyeClosed className="h-5 w-5 group-hover:text-green-400 transition-colors" />
                 </div>
               )}

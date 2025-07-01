@@ -1,0 +1,37 @@
+'use client';
+
+
+import { ImageCarousel } from '@/components/component/card/ImageCarousel';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { ApartmentHeader } from './ApartmentHeader';
+import { ApartmentTabs } from './ApartmentTabs';
+
+export default function ApartmentClient({ apartment }) {
+  return (
+    <div className="mt-5 min-h-screen max-w-7xl mx-auto px-4 space-y-10">
+      <Breadcrumbs
+        items={[
+          { label: 'Главная', href: '/' },
+          { label: apartment.city?.name, href: `/${apartment.city?.slug}` },
+          { label: apartment.address || apartment.title },
+        ]}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-2">
+          <ImageCarousel images={apartment.images ?? []} auto className="h-full" />
+        </div>
+        <div className="lg:col-span-2">
+          <ApartmentHeader product={apartment} className="lg:sticky lg:top-6" />
+        </div>
+      </div>
+
+      <ApartmentTabs
+        product={apartment}
+        description={apartment.description}
+        amenities={apartment.amenities}
+        infrastructure={apartment.infrastructures}
+      />
+    </div>
+  );
+}

@@ -18,7 +18,7 @@ const FramerSelectShadcn = () => {
            />
            <NextLink
              href={selectedCity?.link || "#"}
-             className="flex items-center  justify-center gap-3 px-8 py-3 bg-primary-default hover:bg-primary-dark text-white font-semibold rounded-xl shadow-lg shadow-primary-default/20 transition-all transform active:scale-95"
+             className="flex items-center  justify-center gap-3 px-8 py-3 bg-primary-dark hover:bg-gradient-to-br from-black/80 text-white font-bold rounded-xl shadow-lg  transition-all duration-300 "
            >
              <Home className="w-5 h-5" />
              <span className="hidden lg:block">    Найти  жилье в {selectedCity?.ru} </span>

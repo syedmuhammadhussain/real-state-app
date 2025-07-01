@@ -1,14 +1,19 @@
 "use client";
-
 import { useState, useCallback, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog"; 
-import { FilterContent } from "./FilterContent";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { FilterContent } from "./FilterContent";
+import { useApartment } from "../../../../../context/ApartmentContext";
 
-/* Helper: safely copy params (ignores Symbol keys) */
+/* -------------------------------- helpers ------------------------------ */
 const copyParamsSafe = (sp) => {
   const q = new URLSearchParams();
   if (!sp) return q;
@@ -19,111 +24,156 @@ const copyParamsSafe = (sp) => {
   return q;
 };
 
-/* Keys managed by the filter */
-const FILTER_KEYS = [ "priceMin", "priceMax", "rooms", "beds", "metro", "district", "amenities", "cottage" ];
+/* all keys Sidebar manages (used to wipe before applying fresh) */
+const FILTER_KEYS = [
+  "priceMin",
+  "priceMax",
+  "rooms",
+  "beds",
+  "bedrooms",
+  "bathrooms",
+  "metro",
+  "district",
+  "amenities",
+  "feature",
+  "cottage",
+];
 
-export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}) {
+export default function Sidebar({
+  citySlug,
+  defaultValues = {},
+  // metro = [],
+  // district = [],
+}) {
+  /* --------------------------------------------------------------------- */
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const isMobile = useIsMobile()
+  const isMobile = useIsMobile();
+  const {cities} = useApartment()
 
-  /* viewport detection */
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(media.matches);
-    const listener = (e) => setIsDesktop(e.matches);
-    media.addEventListener("change", listener);
-    return () => media.removeEventListener("change", listener);
-  }, []);
-
-  /* ---------------- local state ---------------- */
+  /* -------------------- local state (mirrors filter UI) ----------------- */
   const [isOpen, setIsOpen] = useState(false);
+
   const [priceRange, setPriceRange] = useState([
-    +defaultValues.priceMin || 900,
-    +defaultValues.priceMax || 2000,
+    +defaultValues.priceMin || 0,
+    +defaultValues.priceMax || 30000,
   ]);
-  const [selectedRooms, setSelectedRooms] = useState(defaultValues.rooms || "");
-  const [selectedBeds, setSelectedBeds] = useState(defaultValues.beds || "");
-  const [selectedMetro, setSelectedMetro] = useState(defaultValues.metro || "");
+
+  const [selectedRooms, setSelectedRooms] = useState(defaultValues.rooms ?? "");
+  const [selectedBeds, setSelectedBeds] = useState(defaultValues.beds ?? "");
+  const [selectedBedrooms, setSelectedBedrooms] = useState(
+    defaultValues.bedrooms ?? ""
+  );
+  const [selectedBathrooms, setSelectedBathrooms] = useState(
+    defaultValues.bathrooms ?? ""
+  );
+  const [selectedMetro, setSelectedMetro] = useState(defaultValues.metro ?? "");
   const [selectedDistrict, setSelectedDistrict] = useState(
-    defaultValues.district || "",
+    defaultValues.district ?? ""
   );
   const [selectedAmenities, setSelectedAmenities] = useState(
-    defaultValues.amenities || [],
+    defaultValues.amenities ?? []
+  );
+  const [selectedFeature, setSelectedFeature] = useState(
+    defaultValues.feature ?? ""
   );
   const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
 
-  /* sync when URL‑driven props change */
+  /* ---------- keep local state in-sync when URL-driven defaults change --- */
   useEffect(() => {
     setPriceRange([
-      defaultValues.priceMin ? +defaultValues.priceMin : 900,
-      defaultValues.priceMax ? +defaultValues.priceMax : 2000,
+      defaultValues.priceMin ? +defaultValues.priceMin : 0,
+      defaultValues.priceMax ? +defaultValues.priceMax : 30000,
     ]);
-    setSelectedRooms(defaultValues.rooms || "");
-    setSelectedBeds(defaultValues.beds || "");
-    setSelectedMetro(defaultValues.metro || "");
-    setSelectedDistrict(defaultValues.district || "");
-    setSelectedAmenities(defaultValues.amenities || []);
+    setSelectedRooms(defaultValues.rooms ?? "");
+    setSelectedBeds(defaultValues.beds ?? "");
+    setSelectedBedrooms(defaultValues.bedrooms ?? "");
+    setSelectedBathrooms(defaultValues.bathrooms ?? "");
+    setSelectedMetro(defaultValues.metro ?? "");
+    setSelectedDistrict(defaultValues.district ?? "");
+    setSelectedAmenities(defaultValues.amenities ?? []);
+    setSelectedFeature(defaultValues.feature ?? "");
     setIsCottage(!!defaultValues.cottage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(defaultValues)]);
 
+  /* amenity toggle helper */
   const toggleAmenity = useCallback((a) => {
     setSelectedAmenities((prev) =>
-      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a],
+      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
     );
   }, []);
 
-  /* Build new URL & navigate */
+  /* ------------------- apply & navigate ------------------- */
   const applyFiltersAndNavigate = () => {
     const q = copyParamsSafe(searchParams);
     FILTER_KEYS.forEach((k) => q.delete(k));
-    q.delete("page"); // reset pagination
+    q.delete("page"); // reset pagination on new filters
 
-    if (priceRange[0]) q.set("priceMin", priceRange[0].toString());
-    if (priceRange[1]) q.set("priceMax", priceRange[1].toString());
+    // price BETWEEN
+    q.set("priceMin", priceRange[0].toString());
+    q.set("priceMax", priceRange[1].toString());
+
     if (selectedRooms) q.set("rooms", selectedRooms);
     if (selectedBeds) q.set("beds", selectedBeds);
+    if (selectedBedrooms) q.set("bedrooms", selectedBedrooms);
+    if (selectedBathrooms) q.set("bathrooms", selectedBathrooms);
     if (selectedMetro) q.set("metro", selectedMetro);
     if (selectedDistrict) q.set("district", selectedDistrict);
-    if (selectedAmenities.length) q.set("amenities", selectedAmenities.join(","));
+    if (selectedAmenities.length)
+      q.set("amenities", selectedAmenities.join(","));
+    if (selectedFeature) q.set("feature", selectedFeature);
     if (isCottage) q.set("cottage", "1");
 
     startTransition(() => router.push(`/${citySlug}?${q.toString()}`));
     setIsOpen(false);
   };
 
+  /* eset local UI state  */
   const handleReset = () => {
-    setPriceRange([900, 2000]);
+    setPriceRange([0, 30000]);
     setSelectedRooms("");
     setSelectedBeds("");
+    setSelectedBedrooms("");
+    setSelectedBathrooms("");
     setSelectedMetro("");
     setSelectedDistrict("");
     setSelectedAmenities([]);
+    setSelectedFeature("");
     setIsCottage(false);
   };
 
+  const metro=  cities.find(c => c.slug === citySlug)?.metro_stations ?? []
+  const district =   cities.find(c => c.slug === citySlug)?.districts ?? []
+
+  /* props passed to <FilterContent/> */
   const filterProps = {
     priceRange,
     selectedRooms,
     selectedBeds,
+    selectedBedrooms,
+    selectedBathrooms,
     selectedMetro,
     selectedDistrict,
     selectedAmenities,
+    selectedFeature,
     isCottage,
-    metro,
+    metro  ,
     district,
+    // callbacks
     onPriceChange: setPriceRange,
     onRoomSelect: setSelectedRooms,
     onBedSelect: setSelectedBeds,
+    onBedroomSelect: setSelectedBedrooms,
+    onBathroomSelect: setSelectedBathrooms,
     onMetroSelect: setSelectedMetro,
     onDistrictSelect: setSelectedDistrict,
     onAmenityToggle: toggleAmenity,
+    onFeatureSelect: setSelectedFeature,
     onCottageToggle: () => setIsCottage((p) => !p),
   };
+
 
   /* -------------- RENDER -------------- */
   return (
@@ -168,7 +218,7 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent
               side="bottom"
-              className="max-w-[95%] flex h-[85vh] flex-col rounded-xl bg-slate-50"
+              className="max-w-[95%] md:max-w-5xl flex h-[85vh] flex-col rounded-xl bg-white overflow-auto"
             >
               <DialogHeader className="border-b">
                 <DialogTitle className="flex items-center gap-2 text-lg text-primary-dark">
@@ -176,11 +226,11 @@ export function Sidebar({ citySlug, defaultValues = {}, metro, district,onApply}
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="flex-1 overflow-y-auto p-4">
+              <div className="">
                 <FilterContent {...filterProps} />
               </div>
 
-              <div className="border-t bg-background p-4">
+              <div className="border-t bg-background pt-4">
                 <div className="flex gap-2">
                   <Button
                     className="flex-1"

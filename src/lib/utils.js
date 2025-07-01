@@ -51,3 +51,32 @@ export const formatDate = (dateString) => {
 
   return `${day} ${month} ${year}, ${hours}:${minutes}`;
 };
+
+
+// export const  copyParamsSafe = (obj) => {
+//   const q = new URLSearchParams();
+//   if (!obj) return q;
+//   Object.keys(obj).forEach((k) => {
+//     const v = obj[k];
+//     if (v === undefined || v === null || v === "") return;
+//     q.set(k, Array.isArray(v) ? v.join(",") : String(v));
+//   });
+//   return q;
+// }
+
+// export const buildViewLink = ({
+//   citySlug,
+//   currentSearchParams,
+//   nextView,
+// }) => {
+//   const q = copyParamsSafe(currentSearchParams);
+//   q.set("view", nextView);
+//   return `/${citySlug}?${q.toString()}`;
+// }
+
+//   /* pagination link builder */
+//   export const buildPageLink = (page, searchParams) => {
+//     const q = copyParamsSafe(searchParams);
+//     page === 1 ? q.delete("page") : q.set("page", String(page));
+//     return `/${citySlug}?${q.toString()}`;
+//   };

@@ -9,9 +9,9 @@ export const BookingCard = ({ price, id }) => (
         <div>
           <p className="text-xl font-bold text-primary-default">{price}₽  / за сутки</p>
         </div>
-        <Badge variant="default" className="text-sm">
+        <Badge variant="default" className="text-sm flex items-center justify-center gap-2">
           <Wifi className="w-4 h-4 flex items-center justify-center gap-2" />
-           <span className='hidden md:block'> Бесплатный Wi-Fi  </span>
+           <span className='hidden md:block text-sm'> Бесплатный Wi-Fi  </span>
         </Badge>
       </div>
 

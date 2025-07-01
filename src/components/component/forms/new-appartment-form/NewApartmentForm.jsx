@@ -64,8 +64,11 @@ export default function NewApartmentForm() {
     // 👉 Здесь можно вызвать API для сохранения
 
     let payload  = {...apartment, owner:user.id}
-    if (editMode) updateApartment(payload, apartment.images )
-    if (!editMode) createApartment(payload, apartment.images )
+    if (localStorage.getItem('apartmentForEdit')){ 
+      updateApartment(payload, apartment.images)
+    }else {
+      createApartment(payload, apartment.images )
+    }
   };
 
   return (

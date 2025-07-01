@@ -209,7 +209,7 @@ export function SimpleBookingForm({ id = 5 }) {
             />
           </div>
 
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-primary-dark">
             Нажимая на кнопку "Отправить заявку", вы даете согласие на обработку 
             своих персональных данных и принимаете условия пользовательского соглашения.
           </p>

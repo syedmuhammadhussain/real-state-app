@@ -385,7 +385,6 @@ export const ApartmentProvider = ({ children }) => {
             delete preparedData.createdAt
             delete preparedData.updatedAt
 
-
             // Step 3: Send create request
             const response = await fetch(`${apiUrl}/products/${apartmentData.documentId}`, {
               method: 'PUT',
@@ -401,8 +400,9 @@ export const ApartmentProvider = ({ children }) => {
             const updatedApartment = await response.json();
             setApartmentsForOwner(prev => prev.map(apt => apt.documentId === apartmentData.documentId ? updatedApartment : apt));
              if(user?.id) await  fetchApartmentsByOwner(user?.id)
+              localStorage.removeItem("apartmentForEdit")
             // setCurrentApartment(updatedApartment);
-            await router.push('/profile')
+             router.push('/profile')
             toast({
               variant: 'success',
               title: 'Квартира обновлена',
