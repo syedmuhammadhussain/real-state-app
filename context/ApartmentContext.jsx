@@ -378,8 +378,16 @@ export const ApartmentProvider = ({ children }) => {
               city: apartmentData.city.id,
               features: apartmentData.features.map((feature) => feature.id),
               kitchens: apartmentData.kitchens.map((kitchen) => kitchen.id),
-              district: apartmentData.district.id,
-              // metro_station: apartmentData.metro_station.id,
+              district: typeof apartmentData.district === 'number' 
+                        ? apartmentData.district 
+                        : apartmentData.district?.id,
+              metro_station: typeof apartmentData.metro_station === 'number' 
+                        ? apartmentData.metro_station 
+                        : apartmentData.metro_station?.id,
+              city: typeof apartmentData.city === 'number' 
+                        ? apartmentData.city 
+                        : apartmentData.city?.id,
+              
               // city: apartmentData.city.id,
               infrastructures: apartmentData.infrastructures.map((infrastructure) => infrastructure.id),
               images: toUpload.length > 0 ?  [...newImages,...oldImages] : oldImages ,
