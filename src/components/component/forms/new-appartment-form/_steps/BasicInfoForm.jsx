@@ -10,6 +10,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
   const { cities = [] } = useApartment();
 const [isEditingApartment, setIsEditingApartment] = useState(false);
 
+console.log('apartment',apartment)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsEditingApartment(Boolean(localStorage.getItem('apartmentForEdit')));
@@ -183,7 +184,7 @@ const selectedCity = cities.find((c) => c.id == selectedCityId);
           <select
             id="metro_station"
             className="w-full p-2 rounded-xl border px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-            value={apartment.metro_station ?? ''}
+            value={isEditingApartment ? apartment.metro_station?.id : apartment.metro_station || ''}
             onChange={handleChange('metro_station')}
             required
           >
