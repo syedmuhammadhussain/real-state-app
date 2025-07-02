@@ -37,10 +37,10 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="border-t border-primary-light/20 pt-3"
+      className="border-t border-primary-light/20 pt-2"
     >
       {/* flex-col md:flex-row */}
-      <div className="flex   justify-between items-center gap-2 mb-2">
+      <div className="flex   justify-between items-center gap-2 mb-2 md:mb-0">
         <span className="text-base md:text-lg font-bold text-primary-dark">
          Связаться :
         </span>

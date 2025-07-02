@@ -49,6 +49,8 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
     
   };
 
+  console.log('apartment', apartment);
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded-xl p-6">
       <h2 className="text-xl font-semibold flex items-center gap-2 text-primary-dark">
@@ -140,7 +142,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
         <select
           id="city"
           className=" w-full  p-2 rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
-          value={apartment.city || ''}
+          value={apartment.city?.id || ''}
           onChange={handleCityChange}
           required
         >
@@ -148,7 +150,7 @@ export default function BasicInfoForm({ apartment, setApartment, errors = {}, ha
             Выберите город
           </option>
           {cities.map((c, idx) => (
-            <option key={c.name || idx} value={c.id}>
+            <option key={c.name || idx} value={c.id} >
               {c.name}
             </option>
           ))}

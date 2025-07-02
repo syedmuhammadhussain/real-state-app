@@ -5,8 +5,8 @@ import {  Users, Building, BedDoubleIcon  } from 'lucide-react'
 
 export const ApartmentHeader = ({ product }) =>{
   const contactInfo = {
-    phone: product?.owner.phone || "+7 (XXX) XXX-XX-XX",
-    whatsapp: product?.owner.phone|| "79123456789",
+    phone: product?.owner?.phone || "+7 (XXX) XXX-XX-XX",
+    whatsapp: product?.owner?.phone|| "79123456789",
     hiddenPhone: product.owner?.hiddenPhone || "+7••••••••••",
   };
   // console.log('contactInfo.profile',contactInfo.profile)

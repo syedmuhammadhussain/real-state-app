@@ -44,29 +44,12 @@ function buildEndpoint({
   url.searchParams.set("populate[district][populate][fields]", "name");
   url.searchParams.set("populate[city][populate][area][fields]", "name");
   url.searchParams.set("populate[location][populate][fields]", "name");
-  [
-    "features",
-    "kitchens",
-    "amenities",
-    "infrastructures",
-  ].forEach((rel) =>
+  ["features","kitchens","amenities","infrastructures"].forEach((rel) =>
     url.searchParams.set(`populate[${rel}][populate][fields]`, "name"),
   );
 
   /* -------  OPTIONAL FILTERS  ------- */
-  const {
-    priceMin,
-    priceMax,
-    rooms,
-    beds,
-    bedrooms,
-    bathrooms,
-    metro,
-    district,
-    amenities,
-    feature, // single feature ID
-    cottage,
-  } = filters
+  const { priceMin,priceMax,rooms,beds,bedrooms,bathrooms,metro,district,amenities,feature, cottage } = filters
 
   // price – Strapi BETWEEN syntax
   if (priceMin !== undefined || priceMax !== undefined) {
@@ -144,10 +127,14 @@ export default async function CityPage({
   let meta = { pagination: { pageCount: 1 } };
   let error = "";
   try {
-    const res = await fetch(endpoint, { next: { revalidate: 60 } });
+    // const res = await fetch(endpoint, { next: { revalidate: 60 } });
+    const res = await fetch('https://lovely-growth-c72512e849.strapiapp.com/api/products/?filters[city][name][$eq]=moscow&sort=sequence_order:asc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10', { cache: "no-store" });
     if (!res.ok) throw new Error("API error");
+
     const json = await res.json();
     apartments = json.data ?? [];
+
+    
     meta = json.meta ?? meta;
   } catch (e) {
     console.error(e);

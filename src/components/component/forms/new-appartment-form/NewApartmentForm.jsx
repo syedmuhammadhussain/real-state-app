@@ -29,9 +29,9 @@ export default function NewApartmentForm() {
       await setApartment(initialApartmentData);
     }
   }
+
   useEffect(() => { handleGetEditApartment() },[])
 
-  // Контейнер для ошибок валидации
   const [errors, setErrors] = useState({});
   
   // ------------ Обработчики шагов ------------
@@ -58,14 +58,12 @@ export default function NewApartmentForm() {
     setStep(3);
   };
 
-  // console.log('editmode', editMode)
   const handleMediaLocationSubmit = (e) => {
     e.preventDefault();
-    // 👉 Здесь можно вызвать API для сохранения
-
     let payload  = {...apartment, owner:user.id}
     if (localStorage.getItem('apartmentForEdit')){ 
-      updateApartment(payload, apartment.images)
+      const withoutId = apartment.images.filter(f => !f.id);
+      updateApartment(payload, withoutId)
     }else {
       createApartment(payload, apartment.images )
     }
@@ -118,16 +116,18 @@ export default function NewApartmentForm() {
               handleSubmit={handleMediaLocationSubmit}
             />
           )}
-        </div>
 
-        {/* Кнопка "Назад" */}
+           {/* Кнопка "Назад" */}
         {step > 1 && (
-          <div className="mt-4">
+          <div className="mt-4 pl-5 md:pl-0">
             <Button variant="outline" onClick={() => setStep(step - 1)} size="lg">
               Назад
             </Button>
           </div>
         )}
+        </div>
+
+       
       </div>
     </div>
   );

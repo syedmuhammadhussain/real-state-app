@@ -2,6 +2,8 @@
 "use client";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator} from "@/components/ui/breadcrumb";
 import { ChevronDown } from "lucide-react";
+import NextLink from "next/link";
+
 
 export const Breadcrumbs = ({ items }) => {
   if (!items?.length) return null;
@@ -13,7 +15,9 @@ export const Breadcrumbs = ({ items }) => {
           <span key={item.label} className="flex items-center gap-2">
             <BreadcrumbItem>
               {item.href ? (
-                <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
+                <BreadcrumbLink asChild>
+                  <NextLink href={item.href}>{item.label}</NextLink>
+                </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage>{item.label}</BreadcrumbPage>
               )}

@@ -87,7 +87,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
   };
 
   const getExtraIcon = (name) => extraIconMap[name] || UtensilsCrossed;
-  console.log('apartment.slug', apartment.slug)
+  // console.log('apartment.slug', apartment.slug)
 
   /* ------------------------------ ICON HELPERS ------------------------------ */
   const mainAmenities = [
@@ -213,7 +213,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
                 </p>
               </div>
               <NextLink
-                href={`/${city.length != 0 ? data.slug :  apartment.slug}/${apartment.documentId}`}
+                href={`/${ apartment.slug}/${apartment.documentId}`}
                 className="group flex items-center gap-1 bg-primary-dark hover:bg-gradient-to-br from-black/80 shadow-primary-dark/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
               >
                 <span className="text-sm md:text-base">Подробнее..</span>

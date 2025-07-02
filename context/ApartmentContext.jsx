@@ -204,7 +204,7 @@ export const ApartmentProvider = ({ children }) => {
      const fetchCities = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`${apiUrl}/cities?populate=*`);
+        const response = await api.get(`${apiUrl}/cities?populate=districts&populate=metro_stations`);
         const data = await response.data.data;
         setCities(data);
         setError(null);
@@ -364,9 +364,13 @@ export const ApartmentProvider = ({ children }) => {
             // Step 1: Upload images if any
             let uploadedImages = [];
             if (toUpload.length > 0) {
-              uploadedImages = await uploadImages(toUpload);
+              uploadedImages =  await uploadImages(toUpload);
             }
+            
 
+            const newImages = uploadedImages.map((img) => img.id)
+            const oldImages = apartmentData.images.map((img) => img.id)
+            
             // Step 2: Integrate uploaded image info into apartmentData
             const preparedData = {
               ...apartmentData,
@@ -374,8 +378,11 @@ export const ApartmentProvider = ({ children }) => {
               city: apartmentData.city.id,
               features: apartmentData.features.map((feature) => feature.id),
               kitchens: apartmentData.kitchens.map((kitchen) => kitchen.id),
+              district: apartmentData.district.id,
+              // metro_station: apartmentData.metro_station.id,
+              // city: apartmentData.city.id,
               infrastructures: apartmentData.infrastructures.map((infrastructure) => infrastructure.id),
-              images:  uploadedImages.map((img) => img.id),
+              images: toUpload.length > 0 ?  [...newImages,...oldImages] : oldImages ,
             };
             
             delete preparedData.id
