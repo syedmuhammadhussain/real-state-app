@@ -1,91 +1,134 @@
-'use client';
+"use client";
 
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import Input from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { HomeIcon, User } from "lucide-react";
+import { User, Pencil, Save } from "lucide-react";
 import { useAuth } from "../../../../../context/AuthContext";
+import HandleProfileImage from "./HandleProfileImage";
+import Input from "@/components/ui/input";
+import { ConfirmEditDialog } from "@/components/component/dialog-popups/ConfirmEditDialog";
 
 export default function ProfileInfo() {
   const { user, editUser } = useAuth();
+  const [showPopup, setShowPopup] = useState(false);
+  const [form, setForm] = useState({
+    username: user?.username ?? "",
+    email: user?.email ?? "",
+    phone: user?.phone ?? "",
+    image: "",
+  });
 
-  const [lastName, setLastName] = useState(user?.username ?? '');
-  const [email, setEmail] = useState(user?.email ?? '');
-  const [telephone, setTelephone] = useState(user?.phone ?? '');
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (user?.id) {
+      setForm({
+        username: user.username ?? "",
+        email: user.email ?? "",
+        phone: user.phone ?? "",
+        image: "",
+      });
+    }
+  }, [user]);
 
+  const handleChange = (key) => (e) => {
+      setForm((prev) => ({ ...prev, [key]: e.target.value }));
+    };
+
+  const handleSubmit = async () => {
     try {
-      const data  = {
-        username: lastName,
-        phone: telephone,
-      }
-      await editUser(data);
-
-      // Успешно обновлено (опционально: показать toast)
-      console.log("Данные профиля успешно обновлены.");
+      const payload = {
+        username: form.username,
+        phone: form.phone,
+        image: form.image,
+      };
+      await editUser(payload);
+      setIsEditing(false);
+      setShowPopup(false)
     } catch (error) {
-      // Ошибка обновления (опционально: показать toast)
       console.error("Ошибка при обновлении профиля:", error);
     }
   };
 
-  const handleTelephoneChange = (e) => {
-    setTelephone(e.target.value);
-  };
-
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-
   return (
-    <div className="">
-       <h2 className="text-2xl font-bold flex text-primary-dark items-center">
-              <User className="w-5 h-5 mr-2  text-primary-dark" />
-              Персональные данные
-            </h2>
-      <form onSubmit={handleSubmit} className="space-y-5  rounded-xl shadow-md p-8">
-        <div>
-          <Input
-            label="ФИО"
-            id="lastName"
-            name="lastName"
-            placeholder="Введите полное имя"
-            value={lastName}
-            onChange={handleLastNameChange}
-            required
+    <section className="space-y-6">
+      <h2 className="flex items-center text-2xl font-bold text-primary-dark">
+        <User className="mr-2 h-5 w-5 text-primary-dark" />
+        Персональные данные
+      </h2>
+
+      <form
+        onSubmit={(e) => e.preventDefault()} 
+        className="space-y-5 rounded-xl p-8 shadow-md"
+      >
+        {isEditing && (
+          <HandleProfileImage
+            image={form.image}
+            setImage={(img) => setForm((prev) => ({ ...prev, image: img }))}
           />
-        </div>
-        <div>
-          <Input
-            label="Электронная почта"
-            id="email"
-            type="email"
-            name="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(email)}
-            readOnly
-            disabled // предполагаем, что email не редактируется
-          />
-        </div>
-        <div>
-          <Input
-            label="Телефон"
-            id="telephone"
-            name="telephone"
-            placeholder="+7 (999) 123-45-67"
-            value={telephone}
-            onChange={handleTelephoneChange}
-            required
-          />
-        </div>
-        <div className="pt-4">
-          <Button type="submit" className="w-full md:w-auto"> Сохранить изменения  </Button>
+        )}
+        <Input
+          label="ФИО"
+          id="username"
+          name="username"
+          placeholder="Введите полное имя"
+          value={form.username}
+          onChange={handleChange("username")}
+          required
+          disabled={!isEditing}
+        />
+        <Input
+          label="Электронная почта"
+          id="email"
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          value={form.email}
+          onChange={handleChange("username")}
+
+          readOnly
+          disabled
+        />
+        <Input
+          label="Телефон"
+          id="telephone"
+          name="telephone"
+          placeholder="+7 (999) 123-45-67"
+          value={form.phone}
+          onChange={handleChange("phone")}
+          required
+          disabled={!isEditing}
+        />
+        
+        {isEditing ? 
+        <div className="flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
+        <Button type="button" className="w-full md:w-auto" 
+          onClick={()=>setShowPopup(true)}>
+          <Save className="mr-2 h-4 w-4" /> Сохранить изменения
+        </Button> 
+        <Button
+          size="md"
+          variant="outline"
+          onClick={()=>setIsEditing(false)}
+          >
+            Отмена
+        </Button>
+          </div>
+        :  
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() =>setIsEditing(true)}
+          className="w-full md:w-auto"
+        >
+          <Pencil className="mr-2 h-4 w-4" /> Редактировать
+        </Button>
+        }
+
+        <div className="pt-4 ">
+          {showPopup &&   <ConfirmEditDialog handleSubmit={handleSubmit} handlePopDown = { () => setShowPopup(false) }/>}
         </div>
       </form>
-    </div>
+    </section>
   );
 }

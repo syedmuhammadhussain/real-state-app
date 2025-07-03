@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { ConfirmEditDialog } from "../dialog-popups/ConfirmEditDialog";
 
 export default function CookieConsent() {
   const [showPopup, setShowPopup] = useState(false);
@@ -19,34 +19,12 @@ export default function CookieConsent() {
   };
 
   if (!showPopup) return null;
+  return <ConfirmEditDialog
+              handleSubmit = {() => handleConsent("accepted")}
+              handlePopDown = {() => handleConsent("refused")}
+              title='Мы используем файлы cookie  🍪'
+              description='Этот сайт использует файлы cookie, чтобы обеспечить вам наилучший опыт работы с нашей платформой недвижимости.' 
+              buttonText = 'Принять'
+              />  
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/70 flex items-end sm:items-center justify-center">
-      <div className="bg-white w-full sm:max-w-md mx-auto rounded-t-2xl sm:rounded-xl p-6 shadow-lg animate-slide-up">
-        <h2 className="text-xl text-primary-dark font-semibold mb-2">
-          Мы используем файлы cookie  🍪
-        </h2>
-        <p className="text-sm text-primary-dark mb-4">
-          Этот сайт использует файлы cookie, чтобы обеспечить вам наилучший опыт работы с нашей платформой недвижимости.
-        </p>
-        <div className="flex justify-end space-x-3">
-          <Button
-            size="md"
-            variant="outline"
-            onClick={() => handleConsent("refused")}
-            className=""
-          >
-            Отказаться
-          </Button>
-          <Button
-            size="md"
-            variant="primary"
-            onClick={() => handleConsent("accepted")}
-          >
-            Принять
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
 }

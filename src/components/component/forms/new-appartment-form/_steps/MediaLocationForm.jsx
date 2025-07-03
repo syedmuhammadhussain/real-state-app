@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { StrapiImage } from '@/components/ui/StrapiImage';
 import { api } from '@/lib/api';
 import { extractUrl } from '@/lib/utils';
+import Uploader from '@/components/ui/Uploader';
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; 
 
@@ -149,28 +150,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
           Загрузка фотографий
         </h2>
 
-        {/* -------------------- dropzone -------------------- */}
-        <div className="rounded-xl border-2 border-dashed border-gray-300 p-6 text-center transition-colors hover:border-primary-light">
-          <label className="cursor-pointer">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-              aria-label="Загрузить изображения"
-            />
-            <div className="flex flex-col items-center gap-2">
-              <ImagePlus className="h-10 w-10 text-primary-dark" />
-              <p className="font-medium text-primary-dark">
-                <span className="font-bold">Нажмите для загрузки</span> или перетащите файлы сюда
-              </p>
-              <p className="text-sm text-primary-default">
-                Поддерживаются JPG, PNG, WEBP. Макс. размер — 20 МБ.
-              </p>
-            </div>
-          </label>
-        </div>
+        <Uploader handleImageChange = {handleImageChange}/>
 
         {/* -------------------- error -------------------- */}
         {error && (

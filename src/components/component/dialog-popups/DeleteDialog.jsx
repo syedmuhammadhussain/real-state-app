@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Loader2, Trash2 } from "lucide-react";
 
-export function DeleteDialog({ isOpenDelete, setIsOpenDelete, onConfirm, isLoading }) {
+export function DeleteDialog({isOpenDelete, setIsOpenDelete, onConfirm, isLoading ,}) {
   const handleConfirm = () => onConfirm();
   return (
     <Dialog open={isOpenDelete} onOpenChange={setIsOpenDelete}>

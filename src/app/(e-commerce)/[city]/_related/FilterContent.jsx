@@ -44,9 +44,6 @@ export function FilterContent({
   /* pull amenity / feature lists from global context */
   const { amenities, features, kitchens } = useApartment();
   
-  
-
-
   return (
     <div className="space-y-6 ">
       {/* -------- Price -------- */}
@@ -88,7 +85,7 @@ export function FilterContent({
             Комнаты
           </p>
           <div className="flex flex-wrap gap-2">
-            {["1", "2", "3", "4", "5+"].map((r) => (
+            {["1", "2", "3", "4", "5"].map((r) => (
               <Button
                 key={r}
                 size="sm"
@@ -109,7 +106,7 @@ export function FilterContent({
         </div>
 
         {/* Beds */}
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <p className="text-sm lg:text-base font-semibold text-primary-dark">
             Спальные места
           </p>
@@ -132,7 +129,7 @@ export function FilterContent({
               </Button>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Bedrooms */}
         <div className="space-y-2">
@@ -240,18 +237,30 @@ export function FilterContent({
           <label className="text-sm lg:text-base font-semibold text-primary-dark">
             Доп. особенность
           </label>
-          <select
+          {/* <select
             value={selectedFeature}
             onChange={(e) => onFeatureSelect(e.target.value)}
             className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
-          >
+          > */}
             {/* <option value=\"\">Не выбрано</option> */}
-            {features.map((f) => (
+            {/* {.map((f) => (
               <option key={f.id} value={f.id}>
                 {f.name}
               </option>
-            ))}
-          </select>
+            ))} */}
+            {features.map((am) => (
+            <label
+              key={am.id}
+              className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
+            >
+              <Checkbox
+                checked={selectedFeature.includes(am)}
+                onCheckedChange={() => onFeatureSelect(am)}
+              />
+              {am.name}
+            </label>
+          ))}
+          {/* </select> */}
         </div>
       )}
       {/* -------- Amenities (checkbox grid) -------- */}

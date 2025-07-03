@@ -19,10 +19,15 @@ export default function ProfilePage() {
   const router = useRouter();
  
   const { apartmentsForOwner,  notifications, handleNotification ,fetchApartmentsByOwner,  setEditMode } = useApartment();
+  
+  
+  console.log('user?.id',user )
 
   // handle not not exist user
   useEffect(() => {
     if (user?.id &&  apartmentsForOwner.length === 0 ) fetchApartmentsByOwner(user.id)
+      setTimeout(() => {
+      }, 3000);
   }, []); 
   
   // handle navigate add 
@@ -31,10 +36,13 @@ export default function ProfilePage() {
      localStorage.removeItem('apartmentForEdit')
      await router.push("/add-apartment")
     }
+
   
   // fetch notifications if not exist
   const handleNotificationPart = async ()=> { if (notifications === null || notifications.length === 0  ) await handleNotification()}
 
+  // if(user == null ) return router.push('login')
+  
   return (
     <div className="min-h-screen max-w-7xl pt-10 mx-auto">
       <div className="mx-auto w-full  px-4 py-8">

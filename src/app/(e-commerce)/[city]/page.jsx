@@ -1,4 +1,11 @@
+"use server";
+
+/**
+ * CityPage.jsx – Server Component (JavaScript)
+ * Fetch apartments for a given city from Strapi CMS with advanced filters.
+ */
 import "server-only";
+
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ListOrdered } from "lucide-react";
@@ -13,63 +20,101 @@ import Sidebar from "./_related/SideBar";
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
 const API_BASE =
-  // process.env.NEXT_PUBLIC_STRAPI_URL ||
+  process.env.NEXT_PUBLIC_STRAPI_URL ||
   "https://lovely-growth-c72512e849.strapiapp.com";
 
 /* --------------------------------- HELPERS ---------------------- */
+// find Russian title for breadcrumb etc.
 const getRussianCity = (slug) =>
   cityOptions.find(
     (c) => c.key.toLowerCase() === decodeURIComponent(slug).toLowerCase(),
   ) ?? { key: slug, name: `Unknown City (${slug})`, ru: slug };
 
 /**
- * Build a Strapi endpoint from high‑level filters coming from the URL.
+ * Build a Strapi collection endpoint with filters / pagination.
+ * @param {Object} params
+ * @param {string} params.citySlug – city in EN (e.g. "moscow")
+ * @param {number} params.page – page number (1‑based)
+ * @param {Object} params.filters – various optional filters from query‑string
+ * @returns {string} fully‑qualified URL
  */
-function buildEndpoint({
-  citySlug,
-  page = 1,
-  filters = {},
-}) {
+function buildEndpoint({ citySlug, page = 1, filters = {} }) {
+  // NB: collection type in Strapi is "apartments"
   const url = new URL("/api/products", API_BASE);
-  console.log("Building endpoint for city:", url);
+
   /* -------  COMMON  ------- */
   url.searchParams.set("filters[city][name][$eq]", citySlug);
   url.searchParams.set("sort", "sequence_order:asc");
   url.searchParams.set("pagination[page]", String(page));
   url.searchParams.set("pagination[pageSize]", String(ITEMS_PER_PAGE));
 
-  // populate (mirrors the reference query)
+  // populate (flat relations)
   url.searchParams.set("populate[images][fields]", "formats");
   url.searchParams.set("populate[owner][populate]", "role");
   url.searchParams.set("populate[district][populate][fields]", "name");
+  url.searchParams.set("populate[metro_station][populate][fields]", "name");
   url.searchParams.set("populate[city][populate][area][fields]", "name");
   url.searchParams.set("populate[location][populate][fields]", "name");
-  ["features","kitchens","amenities","infrastructures"].forEach((rel) =>
+  [
+    "features",
+    "kitchens",
+    "amenities",
+    "infrastructures",
+  ].forEach((rel) =>
     url.searchParams.set(`populate[${rel}][populate][fields]`, "name"),
   );
 
   /* -------  OPTIONAL FILTERS  ------- */
-  const { priceMin,priceMax,rooms,beds,bedrooms,bathrooms,metro,district,amenities,feature, cottage } = filters
+  const {
+    priceMin,
+    priceMax,
+    rooms,
+    bedrooms,
+    bathrooms,
+    metro,
+    district,
+    amenities,
+    feature,
+    cottage,
+  } = filters;
 
-  // price – Strapi BETWEEN syntax
+  // price range (Strapi $between)
   if (priceMin !== undefined || priceMax !== undefined) {
     url.searchParams.set("filters[price][$between][0]", priceMin ?? "0");
-    url.searchParams.set("filters[price][$between][1]", priceMax ?? "1000000");
+    url.searchParams.set(
+      "filters[price][$between][1]",
+      priceMax ?? "100000000",
+    );
   }
-  if (feature) url.searchParams.set("filters[features][id]", feature);
-  if (rooms) url.searchParams.set("filters[apartmentType][$eq]", rooms);
-  if (beds) url.searchParams.set("filters[beds][$eq]", beds);
-  if (bedrooms) url.searchParams.set("filters[bedrooms][$eq]", bedrooms);
-  if (bathrooms) url.searchParams.set("filters[bathrooms][$eq]", bathrooms);
-  if (metro) url.searchParams.set("filters[metro][$eq]", metro);
-  if (district) url.searchParams.set("filters[district][$eq]", district);
+
+  if (feature)
+    url.searchParams.set("filters[features][id][$eq]", String(feature.map((f)=>f.id)));
+  if (rooms) url.searchParams.set("filters[rooms][$eq]", String(rooms));
+  if (bedrooms)
+    url.searchParams.set("filters[bedrooms][$eq]", String(bedrooms));
+  if (bathrooms)
+    url.searchParams.set("filters[bathrooms][$eq]", String(bathrooms));
+
+  // metro_station and district come by *name* (adjust as needed)
+  if (metro)
+    url.searchParams.set("filters[metro_station][name][$eq]", String(metro));
+  if (district)
+    url.searchParams.set("filters[district][name][$eq]", String(district));
+
   if (amenities?.length)
-    url.searchParams.set("filters[amenities][name][$in]", amenities.join(","));
+    url.searchParams.set(
+      "filters[amenities][name][$in]",
+      amenities.map((a)=>a.id),
+    );
+
   if (cottage) url.searchParams.set("filters[propertyType][$eq]", "cottage");
 
   return url.toString();
 }
 
+/**
+ * Copy plain object to URLSearchParams, skipping empty / undefined values.
+ */
 const copyParamsSafe = (obj) => {
   const q = new URLSearchParams();
   if (!obj) return q;
@@ -79,26 +124,21 @@ const copyParamsSafe = (obj) => {
     q.set(k, Array.isArray(v) ? v.join(",") : String(v));
   });
   return q;
-}
+};
 
-const buildViewLink = ({
-  citySlug,
-  currentSearchParams,
-  nextView,
-}) => {
+/**
+ * Build a link switching between list / map view without losing params.
+ */
+const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
   const q = copyParamsSafe(currentSearchParams);
   q.set("view", nextView);
   return `/${citySlug}?${q.toString()}`;
-}
+};
 
 /* ------------------------------------------------------------------
  * Server Component – runs on every request
  * -----------------------------------------------------------------*/
-
-export default async function CityPage({
-  params,
-  searchParams = {},
-}) {
+export default async function CityPage({ params, searchParams = {} }) {
   const citySlug = params?.city ?? "";
   const city = cityOptions.find((c) => c.key === citySlug.toLowerCase());
   if (!city) notFound();
@@ -111,7 +151,6 @@ export default async function CityPage({
     priceMin: searchParams.priceMin,
     priceMax: searchParams.priceMax,
     rooms: searchParams.rooms,
-    beds: searchParams.beds,
     bedrooms: searchParams.bedrooms,
     bathrooms: searchParams.bathrooms,
     metro: searchParams.metro,
@@ -124,17 +163,22 @@ export default async function CityPage({
   /* ───── fetch data ───── */
   const endpoint = buildEndpoint({ citySlug, page: currentPage, filters });
 
-  let apartments= [];
+  let apartments = [];
   let meta = { pagination: { pageCount: 1 } };
   let error = "";
   try {
-    const res = await fetch(endpoint, { next: { revalidate: 60 } },{ cache: "no-store" });
-    if (!res.ok) throw new Error("API error");
+    const res = await fetch(endpoint, {
+      cache: "no-store", // always fresh
+      next: { revalidate: 60 }, // fallback ISR
+    });
+
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+
     const json = await res.json();
     apartments = json.data ?? [];
     meta = json.meta ?? meta;
   } catch (e) {
-    console.error(e);
+    console.error("Fetch failed", e);
     error = "Не удалось загрузить данные. Попробуйте позже.";
   }
 
@@ -176,10 +220,7 @@ export default async function CityPage({
       <div className="relative flex min-h-screen max-w-7xl mx-auto flex-col lg:flex-row">
         {/* Sidebar */}
         <aside className="overflow-y-auto">
-          <Sidebar
-            citySlug={citySlug}
-            defaultValues={filters}
-          />
+          <Sidebar citySlug={citySlug} defaultValues={filters} />
         </aside>
 
         {/* Main content */}
@@ -225,9 +266,7 @@ export default async function CityPage({
             </div>
           </div>
 
-          {error && (
-            <p className="py-20 text-center text-primary-hover">{error}</p>
-          )}
+          {error && <p className="py-20 text-center text-primary-hover">{error}</p>}
 
           {view === "list" && !error && (
             <>

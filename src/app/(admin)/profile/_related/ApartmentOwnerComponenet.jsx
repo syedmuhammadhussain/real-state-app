@@ -26,9 +26,6 @@ const ApartmentOwnerComponenet = () => {
   useEffect(() => {
     if (user?.id && apartmentsForOwner.length === 0)
       fetchApartmentsByOwner(user.id);
-    //  else if (user !== undefined && !user?.id) {
-    //   notFound()
-    // }
   }, [user?.id]);
 
   // Handlers edit
@@ -42,14 +39,9 @@ const ApartmentOwnerComponenet = () => {
   const handleDelete = async (id) => await deleteApartment(id);
 
   if (loading || loading === null) return <LoadingState />;
+  // if (error || apartmentsForOwner.length === 0) return <EmptyState/>;
 
-  // if (apartmentsForOwner.length === 0)
-  //   return <EmptyState message="Ошибка при загрузке квартир" />;
 
-  //   if (loading) return ;
-  if (error) return <EmptyState message="Ошибка при загрузке квартир" />;
-
-  // console.log('apartmentsForOwner', apartmentsForOwner)
   return (
     <div className="mt-4 grid gap-4">
       {loading ? (

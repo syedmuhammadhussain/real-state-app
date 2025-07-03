@@ -166,9 +166,12 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
               </h2>
               <div className="flex items-center text-primary-default gap-1.5">
                 <MapPin className="w-4 h-4" />
-                <span className="text-sm md:text-base text-primary-dark  "> {apartment.region}, {apartment.city}, 
-                  {apartment.district },   
-                   {apartment.address  ?? ''} </span>
+                <span className="text-sm md:text-base text-primary-dark  "> {`${apartment.region}, `} {`${apartment.city}, `}  
+                  {apartment.district}  
+                  {/* {apartment.district !== null && ',' } */}
+                  {apartment.metro_station}
+                   {/* {apartment.metro_station !== null && ',' } */}
+                  {`${apartment.address}`}    </span>
               </div>
             </div>
 

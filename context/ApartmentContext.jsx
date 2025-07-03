@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 // import { useRouter } from 'next/router';
-import { api } from "@/lib/api";
+import { api, uploadImages } from "@/lib/api";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthContext";
@@ -28,6 +28,7 @@ export const ApartmentProvider = ({ children }) => {
   const [editMode, setEditMode] = useState(false);
   const [position, setPosition] = useState(null);
 
+  console.log('features', features)
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState(cityOptions[0].ru);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -281,35 +282,7 @@ export const ApartmentProvider = ({ children }) => {
     setCurrentApartment(null);
   };
 
-  // handle uploading image
-  const uploadImages = async (images) => {
-    if (!images || images.length === 0) return [];
 
-    const formData = new FormData();
-    images.forEach((image) => {
-      formData.append("files", image); // Use the correct key expected by your backend
-    });
-
-    try {
-      const response = await api.post(`${apiUrl}/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (progressEvent) => {
-          // Optionally show progress
-          console.log(
-            `Upload progress: ${
-              (progressEvent.loaded / progressEvent.total) * 100
-            }%`
-          );
-        },
-      });
-
-      console.log("Uploaded media:", response.data);
-      return response.data; // Adapt this based on your backend response structure
-    } catch (error) {
-      console.error("Upload failed:", error);
-      throw new Error("Image upload failed.");
-    }
-  };
 
   // create new
   const createApartment = async (apartmentData, toUpload = []) => {
@@ -369,7 +342,7 @@ export const ApartmentProvider = ({ children }) => {
 
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
-    debugger;
+    // debugger;
     setLoading(true);
     try {
       // Step 1: Upload images if any
@@ -564,7 +537,6 @@ export const ApartmentProvider = ({ children }) => {
         fetchInfrastructures,
         fetchKitchen,
         fetchCities,
-        uploadImages,
         createApartment,
       }}
     >

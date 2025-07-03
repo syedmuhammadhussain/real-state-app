@@ -35,6 +35,38 @@ const url = `${apiUrl}/products/${id}?populate[images][populate]=*&populate[owne
   return data;
 } 
 
+// uploader image endPoint 
+
+  // handle uploading image
+  export const uploadImages = async (images) => {
+    if (!images || images.length === 0) return [];
+
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("files", image); // Use the correct key expected by your backend
+    });
+
+    try {
+      const response = await api.post(`${apiUrl}/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          // Optionally show progress
+          console.log(
+            `Upload progress: ${
+              (progressEvent.loaded / progressEvent.total) * 100
+            }%`
+          );
+        },
+      });
+
+      console.log("Uploaded media:", response.data);
+      return response.data; 
+    } catch (error) {
+      console.error("Upload failed:", error);
+      throw new Error("Image upload failed.");
+    }
+  };
+
 
 
 // lib/strapi-utils.ts

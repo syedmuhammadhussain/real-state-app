@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import { api, uploadImages } from '@/lib/api';
 import { ToastProvider } from '@/components/ui/toast';
 import { toast } from '@/hooks/use-toast';
 import { usePathname } from 'next/navigation'
@@ -86,7 +86,7 @@ export function AuthProvider({ children }) {
 
   // registration
   const register = async (firstName, lastName, email, password, phone) => {
-    debugger
+    // debugger
     setAuthLoading(true);
     setError(null);
     try {
@@ -194,37 +194,45 @@ export function AuthProvider({ children }) {
 
   // editUser editUser 
   const editUser = async (data) => {
+    debugger
+    
     const token = localStorage.getItem('authToken'); 
 
-      try {
-        await api.put(
-          `${apiUrl}/user/me`,
-            data,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
+      try { 
+          // Step 1: Upload images if any
+            let uploadedImages = [];
+            if (data.image.length > 0) {
+              uploadedImages = await uploadImages(data.image);
             }
-        );
-        setSuccess(true);
-      initializeAuth()
-
-        toast({
-          variant: 'success',
-          title: 'Профиль обновлён',
-          description: 'Ваши данные были успешно сохранены'
-        });
-      } catch (error) {
-        setError(prev => ({
-          ...prev,
-          server: error.response?.data?.message || 'Не удалось обновить данные. Пожалуйста, попробуйте снова.'
-        }));
-        toast({
-          variant: 'destructive',
-          title: 'Ошибка обновления',
-          description: 'Не удалось сохранить изменения профиля'
-        });
-      }
+            const preparedData = {
+              ...data,
+              image: uploadedImages.map((img) => img.id)[0],
+            };
+           await api.put(`${apiUrl}/user/me`,preparedData, {
+            // headers: {
+            //   Authorization: `Bearer ${token}`,
+            //   "Content-Type": "application/json",
+            // },
+            // body: JSON.stringify(preparedData),
+          });
+          setSuccess(true);
+          initializeAuth()
+          toast({
+            variant: 'success',
+            title: 'Профиль обновлён',
+            description: 'Ваши данные были успешно сохранены'
+          });
+        } catch (error) {
+          setError(prev => ({
+            ...prev,
+            server: error.response?.data?.message || 'Не удалось обновить данные. Пожалуйста, попробуйте снова.'
+          }));
+          toast({
+            variant: 'destructive',
+            title: 'Ошибка обновления',
+            description: 'Не удалось сохранить изменения профиля'
+          });
+        }
   };
     
   return (

@@ -39,7 +39,7 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
 
   return (
     <div className={cn(
-      `relative rounded-xl overflow-hidden shadow-xl ${auto ?  'h-[340px]  md:h-[500px]'  : 'max-h-[320px]'  } mx-auto `,
+      `relative rounded-xl overflow-hidden shadow-xl ${auto ?  'h-[340px]  md:h-[500px]'  : 'max-h-[320px]'  } ${isFullscreen && 'min-h-screen'} mx-auto `,
        isFullscreen ? "fixed inset-0 z-50 bg-black rounded-none" : ""
     )}>
       
@@ -82,9 +82,9 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
               onMouseLeave={() => setHoveredImage(null)}
             >
               <div className={cn(
-                "relative w-full h-full transition-all duration-300 ",
+                "relative w-full h-full transition-all duration-300 mx-auto ",
                 !!auto ? "aspect-square " : "aspect-square",
-                isFullscreen ? "h-screen flex justify-center " : ""
+                isFullscreen ? "h-screen flex justify-center  max-w-[500px]  md:max-w-7xl  " : ""
               )}>
                 <StrapiImage
                   src={image.url}

@@ -3,12 +3,7 @@ import { useState, useCallback, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import {Dialog,DialogContent,DialogHeader,DialogTitle} from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FilterContent } from "./FilterContent";
 import { useApartment } from "../../../../../context/ApartmentContext";
@@ -25,19 +20,7 @@ const copyParamsSafe = (sp) => {
 };
 
 /* all keys Sidebar manages (used to wipe before applying fresh) */
-const FILTER_KEYS = [
-  "priceMin",
-  "priceMax",
-  "rooms",
-  "beds",
-  "bedrooms",
-  "bathrooms",
-  "metro",
-  "district",
-  "amenities",
-  "feature",
-  "cottage",
-];
+const FILTER_KEYS = ["priceMin","priceMax","rooms","beds","bedrooms","bathrooms","metro","district","amenities","feature","cottage"];
 
 export default function Sidebar({
   citySlug,
@@ -103,6 +86,15 @@ export default function Sidebar({
     setSelectedAmenities((prev) =>
       prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
     );
+  }, [
+    
+  ]);
+
+  // feature select
+  const onFeatureSelect = useCallback((a) => {
+    setSelectedFeature((prev) =>
+      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
+    );
   }, []);
 
   /* ------------------- apply & navigate ------------------- */
@@ -147,6 +139,22 @@ export default function Sidebar({
   const metro=  cities.find(c => c.slug === citySlug)?.metro_stations ?? []
   const district =   cities.find(c => c.slug === citySlug)?.districts ?? []
 
+  // select room 
+  const onRoomSelect = (room) => {
+    setSelectedRooms((prev) => (prev === room ? null : room));
+  };
+
+  // select bedroom 
+  const onBedroomSelect  = (bed) =>{
+    setSelectedBedrooms((prev) => (prev === bed ? null : bed));
+  };
+
+  // selectBathroom
+  const onBathroomSelect  = (bt) =>{
+    setSelectedBathrooms((prev) => (prev === bt ? null : bt));
+  };
+
+
   /* props passed to <FilterContent/> */
   const filterProps = {
     priceRange,
@@ -163,17 +171,16 @@ export default function Sidebar({
     district,
     // callbacks
     onPriceChange: setPriceRange,
-    onRoomSelect: setSelectedRooms,
+    onRoomSelect: onRoomSelect,
     onBedSelect: setSelectedBeds,
-    onBedroomSelect: setSelectedBedrooms,
-    onBathroomSelect: setSelectedBathrooms,
+    onBedroomSelect: onBedroomSelect,
+    onBathroomSelect: onBathroomSelect,
     onMetroSelect: setSelectedMetro,
     onDistrictSelect: setSelectedDistrict,
     onAmenityToggle: toggleAmenity,
-    onFeatureSelect: setSelectedFeature,
+    onFeatureSelect: onFeatureSelect,
     onCottageToggle: () => setIsCottage((p) => !p),
   };
-
 
   /* -------------- RENDER -------------- */
   return (
