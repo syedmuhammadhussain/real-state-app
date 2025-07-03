@@ -93,7 +93,7 @@ export function AuthProvider({ children }) {
         username: `${firstName}_${lastName}`,
         email,
         password,
-        "roleName": "agency"
+        "roleName": "agent"
       });
       localStorage.setItem('authToken', data.jwt);
       // api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;

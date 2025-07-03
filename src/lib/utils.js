@@ -9,7 +9,7 @@ export function cn(...inputs) {
 }
 
 export function getStrapiURL() {
-  return  "https://supportive-book-28b595a0b7.strapiapp.com";
+  return  process.env.NEXT_PUBLIC_BASE_URL;
 }
 
 export function getStrapiMedia(url) {

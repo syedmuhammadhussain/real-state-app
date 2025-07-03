@@ -4,7 +4,7 @@ import ApartmentClient from './_related/ApartmentClient';
 
 async function getApartment(id) {
 
-const api = 'https://lovely-growth-c72512e849.strapiapp.com/api'
+const api = process.env.NEXT_PUBLIC_API_BASE_URL
 const url = `${api}/products/${id}?populate[images][populate]=*&populate[owner][populate]=*&populate[district][populate]=*&populate[city][populate][area][fields][0]=name&populate[location][populate]=*&populate[features][populate]=*&populate[kitchens]    [populate]=*&populate[amenities][populate]=*&populate[infrastructures][populate]=*`;
 
   const res = await fetch(url, { cache: 'no-store' },

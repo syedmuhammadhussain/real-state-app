@@ -127,8 +127,8 @@ export default async function CityPage({
   let meta = { pagination: { pageCount: 1 } };
   let error = "";
   try {
-    // const res = await fetch(endpoint, { next: { revalidate: 60 } });
-    const res = await fetch('https://lovely-growth-c72512e849.strapiapp.com/api/products/?filters[city][name][$eq]=moscow&sort=sequence_order:asc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10', { cache: "no-store" });
+    const res = await fetch(endpoint, { next: { revalidate: 60 } });
+    // const res = await fetch(`https://lovely-growth-c72512e849.strapiapp.com/api/products/?filters[city][name][$eq]=moscow&sort=sequence_order:asc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10`, { cache: "no-store" });
     if (!res.ok) throw new Error("API error");
 
     const json = await res.json();
