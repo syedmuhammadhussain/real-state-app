@@ -85,7 +85,8 @@ export function AuthProvider({ children }) {
   };
 
   // registration
-  const register = async (firstName, lastName, email, password) => {
+  const register = async (firstName, lastName, email, password, phone) => {
+    debugger
     setAuthLoading(true);
     setError(null);
     try {
@@ -93,6 +94,7 @@ export function AuthProvider({ children }) {
         username: `${firstName}_${lastName}`,
         email,
         password,
+        phone,
         "roleName": "agent"
       });
       localStorage.setItem('authToken', data.jwt);

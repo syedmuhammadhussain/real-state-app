@@ -16,13 +16,13 @@ import { Button } from '@/components/ui/button';
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [telephone, setTelephone] = useState('');
+  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [errors, setErrors] = useState({
     email: '',
-    telephone:'',
+    phone:'',
     password: '',
     firstName: '',
     lastName: ''
@@ -35,7 +35,7 @@ export default function RegisterPage() {
     // const validationErrors = {
     //   firstName: validateFirstName(firstName),
     //   lastName: validateLastName(lastName),
-    //   telephone:validateTelephone(telephone),
+    //   phone:validatephone(phone),
     //   email: validateEmail(email),
     //   password: validatePassword(password)
     // };
@@ -44,7 +44,7 @@ export default function RegisterPage() {
     //   setErrors(validationErrors);
     //   return;
     // }
-    await register(firstName, lastName, email, password, telephone);
+    await register(firstName, lastName, email, password, phone);
   };
 
   return (
@@ -119,16 +119,16 @@ export default function RegisterPage() {
           <Input
             label="Телефон"
             type="tel"
-            id="telephone"
-            value={telephone}
-            onChange={(e) => setTelephone(e.target.value)}
+            id="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             onBlur={() =>
               setErrors((prev) => ({
                 ...prev,
-                telephone: validateTelephone(telephone)
+                phone: validateTelephone(phone)
               }))
             }
-            error={errors.telephone}
+            error={errors.phone}
             placeholder="Введите ваш Телефон"
             required
           />
