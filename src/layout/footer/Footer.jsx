@@ -5,8 +5,11 @@ import Image from "next/image";
 import { Bell, Send, Instagram, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
+import { usePathname } from 'next/navigation';
 
 const VKIcon = ({ className }) => (
+
+
   <svg
     className={className}
     viewBox="0 0 24 24"
@@ -18,6 +21,19 @@ const VKIcon = ({ className }) => (
 );
 
 export default function Footer() {
+  const pathname = usePathname(); 
+  
+ if (
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
+    pathname.startsWith('/forgot-password') ||
+    pathname.startsWith('/checkout') ||
+    pathname.startsWith('/add-apartment')  || 
+    pathname.startsWith('/edit-apartment')  
+  ) {
+    return null;
+  }
+
   const links = [
     { name: "Главная", href: "/" },
     { name: "О нас", href: "/about" },
@@ -51,8 +67,8 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-background-dark text-white py-10">
-      <div className="container mx-auto px-6 lg:px-8">
+    <footer className="bg-background-dark text-white py-10 ">
+      <div className="  max-w-7xl mx-auto">
         {/* Top Section */}
         <div className="flex flex-col md:flex-row items-end justify-between border-b border-gray-700 pb-8">
           <div className="text-center md:text-left">

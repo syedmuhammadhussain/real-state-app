@@ -14,7 +14,7 @@ const citiesByLetter = {
   
   export default function CityIndex() {
     return (
-      <div className=" mx-auto p-6 ">
+      <div className=" mx-auto mt-10 ">
         <h1 className="text-2xl md:text-4xl text-primary-dark font-bold text-left mb-10">Россия</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
           {Object.entries(citiesByLetter).map(([letter, cities]) => (

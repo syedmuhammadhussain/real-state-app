@@ -15,10 +15,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cityOptions } from "@/constants/data"
+import { useApartment } from "../../../../context/ApartmentContext"
 
 
 export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, selectedCity, handleCitySelect}) {
 
+  // const { cities} = useApartment()
   return (
     <Popover className="!max-w-[600px]"
       open={isPopoverOpen} 

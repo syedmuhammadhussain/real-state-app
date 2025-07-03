@@ -11,7 +11,6 @@ import { useApartment } from '../../../../../context/ApartmentContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { initialApartmentData } from '@/constants/data';
 
-
 export default function NewApartmentForm() {
   
   // Текущий шаг (1‑3)
@@ -70,7 +69,7 @@ export default function NewApartmentForm() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto mt-10 mb-10 min-h-screen overflow-auto">
       <div className="flex flex-col gap-4">
         {/* Навигация по шагам */}
         <div className="mb-6  mx-auto  flex space-x-4 text-sm md:text-lg font-semibold text-primary-dark">
@@ -92,7 +91,7 @@ export default function NewApartmentForm() {
         </div>
 
         {/* Текущий шаг */}
-        <div className="bg-background-light  rounded-xl shadow-md">
+        <div className="bg-background-light  rounded-xl shadow-md border border-grey-500 ">
           {step === 1 && (
             <BasicInfoForm
               apartment={apartment}

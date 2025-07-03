@@ -9,15 +9,15 @@ export default function ProductPage() {
   return (
     <>
       <HeroSection/>
-      <div className = "px-3 lg:px-4">
+      <div className = "max-w-7xl px-3 lg:px-4 mx-auto">
         <KvkeyHowItWorks/>
 
         <Categories/>
         <RentalSection/>
         <KvkeyBenefits/>
+        <CityIndex/>
 
       </div>
-      <CityIndex/>
     </>
   );
 }

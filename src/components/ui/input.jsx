@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Mail, Phone, User, Search, EyeClosed } from "lucide-react";

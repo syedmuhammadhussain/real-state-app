@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button';
+import Input from '@/components/ui/input';
 import { Home, Search, Shield, Phone, MapPin, Send } from 'lucide-react';
 import Image from 'next/image';
 
@@ -42,7 +44,7 @@ export default function ContactUs() {
      
 
       {/* Способы связи */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 px-3 lg:px-4">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 px-3 lg:px-4 max-w-7xl mx-auto">
         {[
           { 
             icon: <Home className="w-8 h-8 mx-auto text-primary-default" />, 
@@ -66,7 +68,7 @@ export default function ContactUs() {
           <div key={index} className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300">
             {item.icon}
             <h3 className="text-xl font-bold mb-2 text-primary-dark">{item.title}</h3>
-            <p className="text-textColor-muted mb-4">{item.text}</p>
+            <p className="text-sm md:text-base text-primary-dark mb-4">{item.text}</p>
             <a
               href={`mailto:${item.email}`}
               className="text-primary-default hover:text-primary-hover transition-all duration-300"
@@ -85,14 +87,12 @@ export default function ContactUs() {
         <form className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {[
-              { label: "Имя", type: "text", id: "name", placeholder: "Ваше имя" },
+              { label: "Имя", type: "text", id: "firstName", placeholder: "Ваше имя" },
               { label: "Email", type: "email", id: "email", placeholder: "Ваш email" },
             ].map((input, index) => (
               <div key={index}>
-                <label htmlFor={input.id} className="block text-sm font-medium text-textColor-muted mb-2">
-                  {input.label}
-                </label>
-                <input
+                <Input
+                  label={input.label}
                   type={input.type}
                   id={input.id}
                   name={input.id}
@@ -104,20 +104,7 @@ export default function ContactUs() {
             ))}
           </div>
           <div className="mb-6">
-            <label htmlFor="subject" className="block text-sm font-medium text-textColor-muted mb-2">
-              Тема обращения
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-default"
-              placeholder="Тема сообщения"
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="message" className="block text-sm font-medium text-textColor-muted mb-2">
+            <label htmlFor="message" className="block text-sm font-medium text-primary-dark mb-2">
               Сообщение
             </label>
             <textarea
@@ -129,12 +116,14 @@ export default function ContactUs() {
               required
             ></textarea>
           </div>
-          <button
-            type="submit"
+          <Button
+            size="md" 
+            variant='primary'
+             type="submit"
             className="w-full bg-primary-default text-white px-6 py-3 rounded-xl hover:bg-primary-hover transition-all duration-300 flex items-center justify-center gap-2"
           >
             <Send className="w-5 h-5" /> Отправить сообщение
-          </button>
+          </Button>
         </form>
       </section>
     </>

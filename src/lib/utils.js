@@ -12,6 +12,7 @@ export function getStrapiURL() {
   return  process.env.NEXT_PUBLIC_BASE_URL;
 }
 
+// get strapi url
 export function getStrapiMedia(url) {
   if (url == null) return null;
   if (url.startsWith("data:")) return url;
@@ -20,6 +21,7 @@ export function getStrapiMedia(url) {
 }
 
 
+// formatiing date
 export const formatDate = (dateString) => {
   const date = new Date(dateString);
   // Проверка на валидность даты
@@ -36,7 +38,7 @@ export const formatDate = (dateString) => {
 
 // extract image from apartment.images for strapi which contained many format of images
 export const extractUrl = (img) => {
-  if (img instanceof File) return null; // File has no remote URL
+  if (img instanceof File) return null; 
   if (typeof img === 'string') return img;
   return (
     img?.url ??
@@ -47,31 +49,3 @@ export const extractUrl = (img) => {
     null
   );
 };
-
-// export const  copyParamsSafe = (obj) => {
-//   const q = new URLSearchParams();
-//   if (!obj) return q;
-//   Object.keys(obj).forEach((k) => {
-//     const v = obj[k];
-//     if (v === undefined || v === null || v === "") return;
-//     q.set(k, Array.isArray(v) ? v.join(",") : String(v));
-//   });
-//   return q;
-// }
-
-// export const buildViewLink = ({
-//   citySlug,
-//   currentSearchParams,
-//   nextView,
-// }) => {
-//   const q = copyParamsSafe(currentSearchParams);
-//   q.set("view", nextView);
-//   return `/${citySlug}?${q.toString()}`;
-// }
-
-//   /* pagination link builder */
-//   export const buildPageLink = (page, searchParams) => {
-//     const q = copyParamsSafe(searchParams);
-//     page === 1 ? q.delete("page") : q.set("page", String(page));
-//     return `/${citySlug}?${q.toString()}`;
-//   };

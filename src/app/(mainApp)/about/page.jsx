@@ -35,7 +35,7 @@ export default function AboutUs() {
         </div>
       </section>
 
-      <div className="mx-auto px-4 py-16">
+      <div className="mx-auto px-4 py-16 max-w-7xl">
         {/* Stats Section */}
         <section className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {[
@@ -45,10 +45,10 @@ export default function AboutUs() {
             { number: '98%', label: 'Довольных клиентов' }
           ].map((stat, index) => (
             <div key={index} className="bg-white p-6 rounded-xl shadow-lg text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary-default mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">
                 {stat.number}
               </div>
-              <div className="text-textColor-muted">{stat.label}</div>
+              <div className= "text-sm md:text-base text-primary-dark">{stat.label}</div>
             </div>
           ))}
         </section>
@@ -85,8 +85,8 @@ export default function AboutUs() {
                   <div className="flex items-start gap-4">
                     <div className="text-primary-default">{value.icon}</div>
                     <div>
-                      <h3 className="text-xl font-bold mb-2 text-primary-dark">{value.title}</h3>
-                      <p className="text-textColor-muted">{value.text}</p>
+                      <h3 className="text-xl md:text-3xlfont-bold mb-2 text-primary-dark">{value.title}</h3>
+                      <p className="text-sm md:text-base text-primary-dark">{value.text}</p>
                     </div>
                   </div>
                 </div>
@@ -110,7 +110,7 @@ export default function AboutUs() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent p-6 flex flex-col justify-end">
                   <h3 className="text-white text-xl font-bold mb-2">Иван Петров</h3>
-                  <p className="text-gray-300">Старший риелтор</p>
+                  <p className="text-sm md:text-base text-primary-dark">Старший риелтор</p>
                 </div>
               </div>
             ))}
@@ -119,18 +119,18 @@ export default function AboutUs() {
 
         {/* CTA Section */}
         <section className="bg-primary-default/10 rounded-xl p-8 md:p-16 text-center">
-          <h2 className="text-3xl font-bold mb-6">
+          <h2 className="text-3xl font-bold mb-6  text-primary-dark">
             Готовы найти свой идеальный дом?
           </h2>
-          <p className="text-textColor-muted mb-8 max-w-2xl mx-auto">
+          <p className=" text-primary-dark mb-8 max-w-2xl mx-auto">
             Оставьте заявку и получите персональную подборку объектов 
             уже через 24 часа
           </p>
           <Link
             href="/contact"
-            className="bg-primary-default text-white px-8 py-4 rounded-xl hover:bg-primary-hover transition-all text-lg font-medium inline-flex items-center gap-2"
+            className="bg-primary-default text-white px-4 py-2 rounded-xl hover:bg-primary-hover transition-all text-lg font-medium inline-flex items-center gap-2"
           >
-            <Home className="w-6 h-6" />
+            <Home className="w-4 h-4" />
             Получить консультацию
           </Link>
         </section>

@@ -41,7 +41,7 @@ const ApartmentOwnerComponenet = () => {
   // handle edit
   const handleDelete = async (id) => await deleteApartment(id);
 
-  if (loading || loading === null) return <div>Loading...</div>;
+  if (loading || loading === null) return <LoadingState />;
 
   // if (apartmentsForOwner.length === 0)
   //   return <EmptyState message="Ошибка при загрузке квартир" />;

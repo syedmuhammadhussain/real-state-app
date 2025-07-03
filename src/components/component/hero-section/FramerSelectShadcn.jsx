@@ -6,7 +6,7 @@ import { SelectFramer } from "../product-slider/SelectFramer";
 import { useApartment } from "../../../../context/ApartmentContext";
 
 const FramerSelectShadcn = () => {
-  const {selectedCityKey, isPopoverOpen, setIsPopoverOpen, selectedCity, handleCitySelect, } = useApartment()
+  const {selectedCityKey, isPopoverOpen, setIsPopoverOpen, selectedCity, handleCitySelect } = useApartment()
     return (
         <div className="flex flex-row   justify-center gap-1 ">
            <SelectFramer

@@ -31,7 +31,7 @@ export default function MenuOpen({isSubLinksVisible, links, toggleSubLinks, setI
             </div>
             <div className={`absolute  bg-white  w-56 origin-top-right transition-all duration-200 ${
                 isMenuOpen
-                  ? 'opacity-100 scale-100'
+                  ? 'opacity-100 scale-100  rounded-b-2xl animate-slide-up'
                   : 'opacity-0 scale-95 pointer-events-none'
               }`}>
             <ul className="flex flex-col gap-4 p-4">

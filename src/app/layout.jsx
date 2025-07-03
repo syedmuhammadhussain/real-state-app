@@ -7,6 +7,7 @@ import "./globals.css";
 
 import Navbar from "@/layout/header/NavBar";
 import Footer from "@/layout/footer/Footer";
+import CookieConsent from "@/components/component/coockies/CookieConsent";
 
 const roboto = Poppins({
   subsets: ["latin"],
@@ -56,8 +57,9 @@ export default function RootLayout({ children }) {
           <Navbar/>
             <main>
               {children}
+              <CookieConsent/>
             </main>
-          <SocialLinks/>
+          {/* <SocialLinks/> */}
           <Footer />
           </ApartmentProvider>
         </AuthProvider>
