@@ -1,12 +1,20 @@
 "use client";
+
 import { useState, useCallback, useEffect, useTransition } from "react";
+import qs from "qs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {Dialog,DialogContent,DialogHeader,DialogTitle} from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { FilterContent } from "./FilterContent";
 import { useApartment } from "../../../../../context/ApartmentContext";
+import { normalizeIds } from "@/lib/utils";
 
 /* -------------------------------- helpers ------------------------------ */
 const copyParamsSafe = (sp) => {
@@ -20,7 +28,19 @@ const copyParamsSafe = (sp) => {
 };
 
 /* all keys Sidebar manages (used to wipe before applying fresh) */
-const FILTER_KEYS = ["priceMin","priceMax","rooms","beds","bedrooms","bathrooms","metro","district","amenities","feature","cottage"];
+const FILTER_KEYS = [
+  "priceMin",
+  "priceMax",
+  "rooms",
+  "beds",
+  "bedrooms",
+  "bathrooms",
+  "metro",
+  "district",
+  "amenities",
+  "feature",
+  "cottage",
+];
 
 export default function Sidebar({
   citySlug,
@@ -33,7 +53,7 @@ export default function Sidebar({
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const isMobile = useIsMobile();
-  const {cities} = useApartment()
+  const { cities } = useApartment();
 
   /* -------------------- local state (mirrors filter UI) ----------------- */
   const [isOpen, setIsOpen] = useState(false);
@@ -58,15 +78,14 @@ export default function Sidebar({
   const [selectedAmenities, setSelectedAmenities] = useState(
     defaultValues.amenities ?? []
   );
-   const [selectedKitchen, setSelectedKitchen] = useState(
+  const [selectedKitchen, setSelectedKitchen] = useState(
     defaultValues.kitchen ?? []
   );
   const [selectedFeature, setSelectedFeature] = useState(
     defaultValues.feature ?? ""
   );
   const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
-  const [isAparment, setIsApartment] = useState(!!defaultValues.apartment);
-
+  const [isApartment, setIsApartment] = useState(!!defaultValues.apartment);
 
   /* ---------- keep local state in-sync when URL-driven defaults change --- */
   useEffect(() => {
@@ -80,7 +99,7 @@ export default function Sidebar({
     setSelectedBathrooms(defaultValues.bathrooms ?? "");
     setSelectedMetro(defaultValues.metro ?? "");
     setSelectedDistrict(defaultValues.district ?? "");
-    setSelectedAmenities(defaultValues.amenities ?? []);
+    setSelectedAmenities(normalizeIds(defaultValues.amenities) ?? []);
     setSelectedFeature(defaultValues.feature ?? "");
     setIsCottage(!!defaultValues.cottage);
     setIsApartment(!!defaultValues.apartment);
@@ -93,18 +112,14 @@ export default function Sidebar({
     setSelectedAmenities((prev) =>
       prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
     );
-  }, [
-  ]);
+  }, []);
 
-
-   /* amenity toggle helper */
+  /* amenity toggle helper */
   const toggleKitchen = useCallback((a) => {
     setSelectedKitchen((prev) =>
       prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
     );
-  }, [
-  ]);
-
+  }, []);
 
   // feature select
   const onFeatureSelect = useCallback((a) => {
@@ -115,28 +130,43 @@ export default function Sidebar({
 
   /* ------------------- apply & navigate ------------------- */
   const applyFiltersAndNavigate = () => {
-    const q = copyParamsSafe(searchParams);
-    FILTER_KEYS.forEach((k) => q.delete(k));
-    q.delete("page");
+    debugger;
+    // Preserve `view` if present
+    const currentView = searchParams.get("view");
 
-    // price BETWEEN
-    q.set("priceMin", priceRange[0].toString());
-    q.set("priceMax", priceRange[1].toString());
+    // Build plain object of all params
+    const params = {
+      ...(currentView ? { view: currentView } : {}),
+      priceMin: priceRange[0],
+      priceMax: priceRange[1],
+      ...(selectedRooms && { rooms: selectedRooms }),
+      ...(selectedBeds && { beds: selectedBeds }),
+      ...(selectedBedrooms && { bedrooms: selectedBedrooms }),
+      ...(selectedBathrooms && { bathrooms: selectedBathrooms }),
+      ...(selectedMetro && { metro: selectedMetro }),
+      ...(selectedDistrict && { district: selectedDistrict }),
+      ...(selectedAmenities.length > 0 && {
+        amenities: selectedAmenities.map((a) => a.id),
+      }),
+      ...(selectedKitchen.length > 0 && {
+        kitchen: selectedKitchen.map((k) => k.id),
+      }),
+      ...(selectedFeature && { feature: selectedFeature.map((f) => f.id) }),
+      // ...(isCottage                && { cottage:   "1" }),
+      // ...(isApartment              && { apartment: "1" }),
+      // Note: no `page` key → pagination resets to 1
+    };
 
-    if (selectedRooms) q.set("rooms", selectedRooms);
-    if (selectedBeds) q.set("beds", selectedBeds);
-    if (selectedBedrooms) q.set("bedrooms", selectedBedrooms);
-    if (selectedBathrooms) q.set("bathrooms", selectedBathrooms);
-    if (selectedMetro) q.set("metro", selectedMetro);
-    if (selectedDistrict) q.set("district", selectedDistrict);
-    if (selectedAmenities.length > 0 ) q.set("amenities", selectedAmenities.join(","));
-    if (selectedKitchen.length > 0 ) q.set("kitchen", selectedKitchen.join(",")); //new
-    if (selectedFeature) q.set("feature", selectedFeature);
-    // if (isCottage) q.set("cottage", "1");
-    // if (isAparment) q.set("apartment", "1");
+    const qsString = qs.stringify(params, {
+      encodeValuesOnly: true,
+      arrayFormat: "comma",
+      skipNulls: true,
+    });
 
-    startTransition(() => router.push(`/${citySlug}?${q.toString()}`));
-    setIsOpen(false);
+    startTransition(() => {
+      router.push(`/${citySlug}?${qsString}`);
+      setIsOpen(false);
+    });
   };
 
   /* eset local UI state  */
@@ -152,27 +182,26 @@ export default function Sidebar({
     setSelectedKitchen("");
     setSelectedFeature("");
     setIsCottage(false);
-    setIsApartment(false)
+    setIsApartment(false);
   };
 
-  const metro=  cities.find(c => c.slug === citySlug)?.metro_stations ?? []
-  const district =   cities.find(c => c.slug === citySlug)?.districts ?? []
+  const metro = cities.find((c) => c.slug === citySlug)?.metro_stations ?? [];
+  const district = cities.find((c) => c.slug === citySlug)?.districts ?? [];
 
-  // select room 
+  // select room
   const onRoomSelect = (room) => {
     setSelectedRooms((prev) => (prev === room ? null : room));
   };
 
-  // select bedroom 
-  const onBedroomSelect  = (bed) =>{
+  // select bedroom
+  const onBedroomSelect = (bed) => {
     setSelectedBedrooms((prev) => (prev === bed ? null : bed));
   };
 
   // selectBathroom
-  const onBathroomSelect  = (bt) =>{
+  const onBathroomSelect = (bt) => {
     setSelectedBathrooms((prev) => (prev === bt ? null : bt));
   };
-
 
   /* props passed to <FilterContent/> */
   const filterProps = {
@@ -187,8 +216,8 @@ export default function Sidebar({
     selectedKitchen,
     selectedFeature,
     isCottage,
-    isAparment,
-    metro  ,
+    isApartment,
+    metro,
     district,
     // callbacks
     onPriceChange: setPriceRange,
@@ -199,7 +228,7 @@ export default function Sidebar({
     onMetroSelect: setSelectedMetro,
     onDistrictSelect: setSelectedDistrict,
     onAmenityToggle: toggleAmenity,
-    toggleKitchen:toggleKitchen,
+    toggleKitchen: toggleKitchen,
     onFeatureSelect: onFeatureSelect,
     onCottageToggle: () => setIsCottage((p) => !p),
     onApartmentToggle: () => setIsApartment((p) => !p),
@@ -234,58 +263,58 @@ export default function Sidebar({
 
       {isMobile && 
       ( */}
-        <>
-          <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 ">
-            <Button
-              variant="primary"
-              onClick={() => setIsOpen(true)}
-              className="flex items-center gap-2 rounded-xl px-6 py-4 shadow-2xl"
-            >
-              Фильтры <SlidersHorizontal className="h-5 w-5" />
-            </Button>
-          </div>
+      <>
+        <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 ">
+          <Button
+            variant="primary"
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2 rounded-xl px-6 py-4 shadow-2xl"
+          >
+            Фильтры <SlidersHorizontal className="h-5 w-5" />
+          </Button>
+        </div>
 
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogContent
-              side="bottom"
-              className="max-w-[95%] md:max-w-5xl flex h-[85vh] flex-col rounded-xl bg-white overflow-auto"
-            >
-              <DialogHeader className="border-b">
-                <DialogTitle className="flex items-center gap-2 text-lg text-primary-dark">
-                  <SlidersHorizontal className="h-5 w-5" /> Фильтры
-                </DialogTitle>
-              </DialogHeader>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogContent
+            side="bottom"
+            className="max-w-[95%] md:max-w-5xl flex h-[85vh] flex-col rounded-xl bg-white overflow-auto"
+          >
+            <DialogHeader className="border-b">
+              <DialogTitle className="flex items-center gap-2 text-lg text-primary-dark">
+                <SlidersHorizontal className="h-5 w-5" /> Фильтры
+              </DialogTitle>
+            </DialogHeader>
 
-              <div className="">
-                <FilterContent {...filterProps} />
+            <div className="">
+              <FilterContent {...filterProps} />
+            </div>
+
+            <div className="border-t bg-background pt-4">
+              <div className="flex gap-2">
+                <Button
+                  className="flex-1"
+                  onClick={applyFiltersAndNavigate}
+                  disabled={isPending}
+                >
+                  {isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Применить"
+                  )}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={handleReset}
+                  disabled={isPending}
+                >
+                  Сбросить
+                </Button>
               </div>
-
-              <div className="border-t bg-background pt-4">
-                <div className="flex gap-2">
-                  <Button
-                    className="flex-1"
-                    onClick={applyFiltersAndNavigate}
-                    disabled={isPending}
-                  >
-                    {isPending ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      "Применить"
-                    )}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1"
-                    onClick={handleReset}
-                    disabled={isPending}
-                  >
-                    Сбросить
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </>
       {/* )} */}
     </>
   );

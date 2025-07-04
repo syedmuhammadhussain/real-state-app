@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  CheckCircle,
-  Check,
-} from "lucide-react";
+import { CheckCircle, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
@@ -23,7 +20,7 @@ export function FilterContent({
   selectedAmenities,
   selectedFeature,
   isCottage,
-  isAparment,
+  isApartment,
   selectedKitchen,
   /* data lists */
   metro = [],
@@ -40,22 +37,20 @@ export function FilterContent({
   onFeatureSelect,
   onCottageToggle,
   toggleKitchen,
-  onApartmentToggle
-
+  onApartmentToggle,
 }) {
-
   /* pull amenity / feature lists from global context */
   const { amenities, features, kitchens } = useApartment();
 
-
-  console.log('selectedktchen',selectedKitchen)
-  console.log('selectedAmenities',selectedAmenities)
+  console.log("selectedktchen", selectedKitchen);
+  console.log("selectedAmenities", selectedAmenities);
   return (
     <div className="space-y-6 ">
-      
       {/* -------- Price -------- */}
       <div className="space-y-4">
-        <p className="text-sm lg:text-base font-semibold text-primary-dark">Цена за сутки (₽)</p>
+        <p className="text-sm lg:text-base font-semibold text-primary-dark">
+          Цена за сутки (₽)
+        </p>
         <div className="flex items-center  gap-3">
           <Input
             label="from (₽)"
@@ -68,7 +63,6 @@ export function FilterContent({
           <span className="text-muted-foreground">–</span>
           <Input
             label="to (₽)"
-
             type="number"
             value={priceRange[1]}
             onChange={(e) => onPriceChange([priceRange[0], +e.target.value])}
@@ -140,7 +134,7 @@ export function FilterContent({
 
         {/* Bedrooms */}
         <div className="space-y-2">
-         <p className="text-sm lg:text-base font-semibold text-primary-dark">
+          <p className="text-sm lg:text-base font-semibold text-primary-dark">
             Спальни
           </p>
           <div className="flex flex-wrap gap-2">
@@ -166,7 +160,7 @@ export function FilterContent({
 
         {/* Bathrooms */}
         <div className="space-y-2">
-         <p className="text-sm lg:text-base font-semibold text-primary-dark">
+          <p className="text-sm lg:text-base font-semibold text-primary-dark">
             Ванные комнаты
           </p>
           <div className="flex flex-wrap gap-2">
@@ -192,13 +186,15 @@ export function FilterContent({
       </div>
       {/* -------- Property Type -------- */}
       <div className="space-y-2">
-        <p className="text-sm lg:text-base font-semibold text-primary-dark">Тип жилья</p>
+        <p className="text-sm lg:text-base font-semibold text-primary-dark">
+          Тип жилья
+        </p>
         <label className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark">
           <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} />{" "}
           Коттедж
         </label>
-          <label className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark">
-          <Checkbox checked={isAparment} onCheckedChange={onApartmentToggle} />{" "}
+        <label className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark">
+          <Checkbox checked={isApartment} onCheckedChange={onApartmentToggle} />{" "}
           apartment
         </label>
       </div>
@@ -248,7 +244,7 @@ export function FilterContent({
           <label className="text-sm lg:text-base font-semibold text-primary-dark">
             Доп. особенность
           </label>
-            {features.map((am) => (
+          {features.map((am) => (
             <label
               key={am.id}
               className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
@@ -275,7 +271,11 @@ export function FilterContent({
               className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
             >
               <Checkbox
-                checked={selectedAmenities.includes(am)}
+                checked={selectedAmenities.includes(
+                  typeof am === "object" && am !== null && "id" in am
+                    ? am.id
+                    : am
+                )}
                 onCheckedChange={() => onAmenityToggle(am)}
               />
               {am.name}
@@ -298,5 +298,5 @@ export function FilterContent({
         </div>
       </div>
     </div>
-  )
+  );
 }

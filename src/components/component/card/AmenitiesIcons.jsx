@@ -20,6 +20,7 @@ export const ApartmentParameters = ({ params, isMobile }) =>
     <ParameterItem icon="🛏" label={`${params.singleBeds || 0} single beds`} />
     <ParameterItem icon="📏" label={`${params.area?.total || 0} m²`} />
     <ParameterItem icon="🏗" label={params.buildingType || "Modern"} />
+    <ParameterItem icon="🏗" label={params.rooms || "Rooms"} />
   </div>
 );
 

@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ListOrdered } from "lucide-react";
 import { notFound } from "next/navigation";
+import qs from "qs";
 
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
@@ -27,7 +28,7 @@ const API_BASE =
 // find Russian title for breadcrumb etc.
 const getRussianCity = (slug) =>
   cityOptions.find(
-    (c) => c.key.toLowerCase() === decodeURIComponent(slug).toLowerCase(),
+    (c) => c.key.toLowerCase() === decodeURIComponent(slug).toLowerCase()
   ) ?? { key: slug, name: `Unknown City (${slug})`, ru: slug };
 
 /**
@@ -39,77 +40,97 @@ const getRussianCity = (slug) =>
  * @returns {string} fully‑qualified URL
  */
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
-  // NB: collection type in Strapi is "apartments"
-  const url = new URL("/api/products", API_BASE);
+  // base query object
+  const queryObj = {
+    filters: {
+      city: { name: { $eq: citySlug } },
+      price: {},
+      rooms: {},
+      bedrooms: {},
+      bathrooms: {},
+      amenities: {},
+      features: {},
+      kitchens: {},
+      infrastructures: {},
+      metro_station: {},
+      district: {},
+      propertyType: {},
+    },
+    sort: "sequence_order:asc",
+    populate: {
+      images: { fields: ["formats"] },
+      owner: { populate: ["role"] },
+      district: { populate: { fields: ["name"] } },
+      metro_station: { populate: { fields: ["name"] } },
+      city: { populate: { area: { fields: ["name"] } } },
+      location: { populate: { fields: ["name"] } },
+      features: { populate: { fields: ["name"] } },
+      kitchens: { populate: { fields: ["name"] } },
+      amenities: { populate: { fields: ["name"] } },
+      infrastructures: { populate: { fields: ["name"] } },
+    },
+    pagination: {
+      page,
+      pageSize: ITEMS_PER_PAGE,
+    },
+  };
 
-  /* -------  COMMON  ------- */
-  url.searchParams.set("filters[city][name][$eq]", citySlug);
-  url.searchParams.set("sort", "sequence_order:asc");
-  url.searchParams.set("pagination[page]", String(page));
-  url.searchParams.set("pagination[pageSize]", String(ITEMS_PER_PAGE));
-
-  // populate (flat relations)
-  url.searchParams.set("populate[images][fields]", "formats");
-  url.searchParams.set("populate[owner][populate]", "role");
-  url.searchParams.set("populate[district][populate][fields]", "name");
-  url.searchParams.set("populate[metro_station][populate][fields]", "name");
-  url.searchParams.set("populate[city][populate][area][fields]", "name");
-  url.searchParams.set("populate[location][populate][fields]", "name");
-  [
-    "features",
-    "kitchens",
-    "amenities",
-    "infrastructures",
-  ].forEach((rel) =>
-    url.searchParams.set(`populate[${rel}][populate][fields]`, "name"),
-  );
-
-  /* -------  OPTIONAL FILTERS  ------- */
-  const {
-    priceMin,
-    priceMax,
-    rooms,
-    bedrooms,
-    bathrooms,
-    metro,
-    district,
-    amenities,
-    feature,
-    cottage,
-  } = filters;
-
-  // price range (Strapi $between)
-  if (priceMin !== undefined || priceMax !== undefined) {
-    url.searchParams.set("filters[price][$between][0]", priceMin ?? "0");
-    url.searchParams.set(
-      "filters[price][$between][1]",
-      priceMax ?? "100000000",
-    );
+  // price range
+  if (filters.priceMin != null || filters.priceMax != null) {
+    queryObj.filters.price.$between = [
+      filters.priceMin ?? 0,
+      filters.priceMax ?? Number.MAX_SAFE_INTEGER,
+    ];
   }
 
-  if (feature)
-    url.searchParams.set("filters[features][id][$eq]", String(feature.map((f)=>f.id)));
-  if (rooms) url.searchParams.set("filters[rooms][$eq]", String(rooms));
-  if (bedrooms)
-    url.searchParams.set("filters[bedrooms][$eq]", String(bedrooms));
-  if (bathrooms)
-    url.searchParams.set("filters[bathrooms][$eq]", String(bathrooms));
+  // simple equality filters
+  ["rooms", "bedrooms", "bathrooms"].forEach((key) => {
+    if (filters[key] != null) {
+      queryObj.filters[key].$eq = Number(filters[key]);
+    }
+  });
 
-  // metro_station and district come by *name* (adjust as needed)
-  if (metro)
-    url.searchParams.set("filters[metro_station][name][$eq]", String(metro));
-  if (district)
-    url.searchParams.set("filters[district][name][$eq]", String(district));
+  // property type (e.g. cottage)
+  if (filters.cottage) {
+    queryObj.filters.propertyType.$eq = "cottage";
+  }
 
-  if (amenities?.length)
-    url.searchParams.set(
-      "filters[amenities][name][$in]",
-      amenities.map((a)=>a.id),
-    );
+  // array‑based filters
+  if (Array.isArray(filters.amenities) && filters.amenities.length) {
+    queryObj.filters.amenities = {
+      id: {
+        $in: Number(filters.amenities.join(",")),
+      },
+    };
+  }
+  if (Array.isArray(filters.feature) && filters.feature.length) {
+    queryObj.filters.features = {
+      id: {
+        $in: selectedFeature,
+      },
+    };
+  }
+  if (Array.isArray(filters.kitchen) && filters.kitchen.length) {
+    queryObj.filters.kitchens = {
+      id: {
+        $in: selectedKitchen,
+      },
+    };
+  }
 
-  if (cottage) url.searchParams.set("filters[propertyType][$eq]", "cottage");
+  // location strings
+  if (filters.metro) {
+    queryObj.filters.metro_station.name.$eq = filters.metro;
+  }
+  if (filters.district) {
+    queryObj.filters.district.name.$eq = filters.district;
+  }
 
-  return url.toString();
+  // now stringify
+  const qsOptions = { encodeValuesOnly: true };
+  const queryString = qs.stringify(queryObj, qsOptions);
+
+  return `${API_BASE}/api/products?${queryString}`;
 }
 
 /**
@@ -159,7 +180,7 @@ export default async function CityPage({ params, searchParams = {} }) {
     kitchen: searchParams.kitchen?.split(",") ?? [],
     feature: searchParams.feature,
     cottage: searchParams.cottage,
-    apartment : searchParams.apartment  
+    apartment: searchParams.apartment,
   };
 
   /* ───── fetch data ───── */
@@ -170,8 +191,8 @@ export default async function CityPage({ params, searchParams = {} }) {
   let error = "";
   try {
     const res = await fetch(endpoint, {
-      cache: "no-store", 
-      next: { revalidate: 60 }, 
+      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (!res.ok) throw new Error(`API error ${res.status}`);
@@ -268,7 +289,9 @@ export default async function CityPage({ params, searchParams = {} }) {
             </div>
           </div>
 
-          {error && <p className="py-20 text-center text-primary-hover">{error}</p>}
+          {error && (
+            <p className="py-20 text-center text-primary-hover">{error}</p>
+          )}
 
           {view === "list" && !error && (
             <>
@@ -320,7 +343,9 @@ export default async function CityPage({ params, searchParams = {} }) {
 
           {view === "map" && !error && (
             <div className="w-full h-[600px] bg-gray-200 flex items-center justify-center rounded-xl">
-              <p className="text-gray-600">Здесь будет интерактивная карта с объектами.</p>
+              <p className="text-gray-600">
+                Здесь будет интерактивная карта с объектами.
+              </p>
             </div>
           )}
         </main>
