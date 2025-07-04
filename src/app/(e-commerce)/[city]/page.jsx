@@ -156,8 +156,10 @@ export default async function CityPage({ params, searchParams = {} }) {
     metro: searchParams.metro,
     district: searchParams.district,
     amenities: searchParams.amenities?.split(",") ?? [],
+    kitchen: searchParams.kitchen?.split(",") ?? [],
     feature: searchParams.feature,
     cottage: searchParams.cottage,
+    apartment : searchParams.apartment  
   };
 
   /* ───── fetch data ───── */
@@ -168,8 +170,8 @@ export default async function CityPage({ params, searchParams = {} }) {
   let error = "";
   try {
     const res = await fetch(endpoint, {
-      cache: "no-store", // always fresh
-      next: { revalidate: 60 }, // fallback ISR
+      cache: "no-store", 
+      next: { revalidate: 60 }, 
     });
 
     if (!res.ok) throw new Error(`API error ${res.status}`);

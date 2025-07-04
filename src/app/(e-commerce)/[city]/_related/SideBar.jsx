@@ -58,10 +58,15 @@ export default function Sidebar({
   const [selectedAmenities, setSelectedAmenities] = useState(
     defaultValues.amenities ?? []
   );
+   const [selectedKitchen, setSelectedKitchen] = useState(
+    defaultValues.kitchen ?? []
+  );
   const [selectedFeature, setSelectedFeature] = useState(
     defaultValues.feature ?? ""
   );
   const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
+  const [isAparment, setIsApartment] = useState(!!defaultValues.apartment);
+
 
   /* ---------- keep local state in-sync when URL-driven defaults change --- */
   useEffect(() => {
@@ -78,6 +83,8 @@ export default function Sidebar({
     setSelectedAmenities(defaultValues.amenities ?? []);
     setSelectedFeature(defaultValues.feature ?? "");
     setIsCottage(!!defaultValues.cottage);
+    setIsApartment(!!defaultValues.apartment);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(defaultValues)]);
 
@@ -87,8 +94,17 @@ export default function Sidebar({
       prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
     );
   }, [
-    
   ]);
+
+
+   /* amenity toggle helper */
+  const toggleKitchen = useCallback((a) => {
+    setSelectedKitchen((prev) =>
+      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
+    );
+  }, [
+  ]);
+
 
   // feature select
   const onFeatureSelect = useCallback((a) => {
@@ -101,7 +117,7 @@ export default function Sidebar({
   const applyFiltersAndNavigate = () => {
     const q = copyParamsSafe(searchParams);
     FILTER_KEYS.forEach((k) => q.delete(k));
-    q.delete("page"); // reset pagination on new filters
+    q.delete("page");
 
     // price BETWEEN
     q.set("priceMin", priceRange[0].toString());
@@ -113,10 +129,11 @@ export default function Sidebar({
     if (selectedBathrooms) q.set("bathrooms", selectedBathrooms);
     if (selectedMetro) q.set("metro", selectedMetro);
     if (selectedDistrict) q.set("district", selectedDistrict);
-    if (selectedAmenities.length)
-      q.set("amenities", selectedAmenities.join(","));
+    if (selectedAmenities.length > 0 ) q.set("amenities", selectedAmenities.join(","));
+    if (selectedKitchen.length > 0 ) q.set("kitchen", selectedKitchen.join(",")); //new
     if (selectedFeature) q.set("feature", selectedFeature);
-    if (isCottage) q.set("cottage", "1");
+    // if (isCottage) q.set("cottage", "1");
+    // if (isAparment) q.set("apartment", "1");
 
     startTransition(() => router.push(`/${citySlug}?${q.toString()}`));
     setIsOpen(false);
@@ -131,9 +148,11 @@ export default function Sidebar({
     setSelectedBathrooms("");
     setSelectedMetro("");
     setSelectedDistrict("");
-    setSelectedAmenities([]);
+    setSelectedAmenities("");
+    setSelectedKitchen("");
     setSelectedFeature("");
     setIsCottage(false);
+    setIsApartment(false)
   };
 
   const metro=  cities.find(c => c.slug === citySlug)?.metro_stations ?? []
@@ -165,8 +184,10 @@ export default function Sidebar({
     selectedMetro,
     selectedDistrict,
     selectedAmenities,
+    selectedKitchen,
     selectedFeature,
     isCottage,
+    isAparment,
     metro  ,
     district,
     // callbacks
@@ -178,8 +199,10 @@ export default function Sidebar({
     onMetroSelect: setSelectedMetro,
     onDistrictSelect: setSelectedDistrict,
     onAmenityToggle: toggleAmenity,
+    toggleKitchen:toggleKitchen,
     onFeatureSelect: onFeatureSelect,
     onCottageToggle: () => setIsCottage((p) => !p),
+    onApartmentToggle: () => setIsApartment((p) => !p),
   };
 
   /* -------------- RENDER -------------- */

@@ -28,7 +28,7 @@ export const ApartmentProvider = ({ children }) => {
   const [editMode, setEditMode] = useState(false);
   const [position, setPosition] = useState(null);
 
-  console.log('features', features)
+  // console.log('features', features)
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState(cityOptions[0].ru);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);

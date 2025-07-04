@@ -11,10 +11,6 @@ import Input from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useApartment } from "../../../../../context/ApartmentContext";
 
-/**
- * Presentational component – no Strapi calls here; all state is lifted up in Sidebar.
-*/
-
 export function FilterContent({
   /* state */
   priceRange,
@@ -27,6 +23,8 @@ export function FilterContent({
   selectedAmenities,
   selectedFeature,
   isCottage,
+  isAparment,
+  selectedKitchen,
   /* data lists */
   metro = [],
   district = [],
@@ -41,11 +39,17 @@ export function FilterContent({
   onAmenityToggle,
   onFeatureSelect,
   onCottageToggle,
+  toggleKitchen,
+  onApartmentToggle
+
 }) {
 
   /* pull amenity / feature lists from global context */
   const { amenities, features, kitchens } = useApartment();
-  
+
+
+  console.log('selectedktchen',selectedKitchen)
+  console.log('selectedAmenities',selectedAmenities)
   return (
     <div className="space-y-6 ">
       
@@ -193,6 +197,10 @@ export function FilterContent({
           <Checkbox checked={isCottage} onCheckedChange={onCottageToggle} />{" "}
           Коттедж
         </label>
+          <label className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark">
+          <Checkbox checked={isAparment} onCheckedChange={onApartmentToggle} />{" "}
+          apartment
+        </label>
       </div>
       {/* -------- Metro -------- */}
       {metro.length > 0 && (
@@ -240,17 +248,6 @@ export function FilterContent({
           <label className="text-sm lg:text-base font-semibold text-primary-dark">
             Доп. особенность
           </label>
-          {/* <select
-            value={selectedFeature}
-            onChange={(e) => onFeatureSelect(e.target.value)}
-            className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
-          > */}
-            {/* <option value=\"\">Не выбрано</option> */}
-            {/* {.map((f) => (
-              <option key={f.id} value={f.id}>
-                {f.name}
-              </option>
-            ))} */}
             {features.map((am) => (
             <label
               key={am.id}
@@ -285,23 +282,21 @@ export function FilterContent({
             </label>
           ))}
         </div>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {kitchens.map((am) => (
             <label
               key={am.id}
               className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
             >
               <Checkbox
-                checked={selectedAmenities.includes(am)}
-                onCheckedChange={() => onAmenityToggle(am)}
+                checked={selectedKitchen.includes(am)}
+                onCheckedChange={() => toggleKitchen(am)}
               />
               {am.name}
             </label>
           ))}
         </div>
       </div>
-      
-       
     </div>
   )
 }
