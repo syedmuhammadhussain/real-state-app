@@ -13,7 +13,8 @@ import { useApartment } from "../../../../../context/ApartmentContext";
 
 /**
  * Presentational component – no Strapi calls here; all state is lifted up in Sidebar.
- */
+*/
+
 export function FilterContent({
   /* state */
   priceRange,
@@ -41,11 +42,13 @@ export function FilterContent({
   onFeatureSelect,
   onCottageToggle,
 }) {
+
   /* pull amenity / feature lists from global context */
   const { amenities, features, kitchens } = useApartment();
   
   return (
     <div className="space-y-6 ">
+      
       {/* -------- Price -------- */}
       <div className="space-y-4">
         <p className="text-sm lg:text-base font-semibold text-primary-dark">Цена за сутки (₽)</p>

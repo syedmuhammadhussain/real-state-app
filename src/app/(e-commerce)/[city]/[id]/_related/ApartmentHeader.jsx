@@ -28,8 +28,8 @@ export const ApartmentHeader = ({ product }) =>{
 
             {/* addresss  */}
            <div className="flex items-center flex-wrap gap-4 mb-6">
-            <div className="flex  items-center gap-1 text-primary-default">
-              <MapPin className="w-5 h-5 text-primary-light " />
+            <div className="flex  items-center gap-1 text-primary-dark">
+              <MapPin className="w-5 h-5 text-primary-dark " />
               
                {apartment.region}, {apartment.city}, 
                   {apartment.district },   
@@ -43,7 +43,7 @@ export const ApartmentHeader = ({ product }) =>{
           </div>
 
           {/* description */}
-        <p className=" text-primary-dark max-h-[300px] overflow-auto">{product.description}</p>
+        <p className=" text-sm md:text-md text-primary-dark max-h-[300px] overflow-auto">{product.description}</p>
       </div>
    
     <div className="mx-auto " >
@@ -58,10 +58,10 @@ export const ApartmentHeader = ({ product }) =>{
                 <Toilet className="w-4 h-4 text-primary-default  shrink-0" />
                {product.bathrooms|| 1} Туалет
               </div>
-              <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-dark">
+              {/* <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-dark">
                 <BedDoubleIcon className="w-4 h-4 text-primary-dark  shrink-0" />
                 {product?.doubleBeds || 0} двуспальные кровати 
-              </div>
+              </div> */}
               <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-dark">
                 <span className="text-primary-dark  shrink-0">🛏</span>
                 {product?.bedrooms || 0} односпальные кровати

@@ -4,10 +4,10 @@ import SocialLinks from "@/components/component/social-links/SocialLinks";
 import { AuthProvider } from "../../context/AuthContext";
 import { ApartmentProvider } from "../../context/ApartmentContext";
 import "./globals.css";
-
 import Navbar from "@/layout/header/NavBar";
 import Footer from "@/layout/footer/Footer";
 import CookieConsent from "@/components/component/coockies/CookieConsent";
+import NextTopLoader from 'nextjs-toploader';
 
 const roboto = Poppins({
   subsets: ["latin"],
@@ -52,6 +52,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
+      <NextTopLoader color="#3B678C" />
         <AuthProvider>
           <ApartmentProvider>
           <Navbar/>

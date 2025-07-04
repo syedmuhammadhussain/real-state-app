@@ -3,11 +3,11 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 // import { useRouter } from 'next/router';
-import { api, uploadImages } from "@/lib/api";
-import { toast } from "@/hooks/use-toast";
+import { api, uploadImages } from "../src/lib/api";
+import { toast } from "../src/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthContext";
-import { cityOptions } from "@/constants/data";
+import { cityOptions } from "../src/constants/data";
 
 const ApartmentContext = createContext();
 
