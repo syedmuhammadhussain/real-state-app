@@ -3,12 +3,14 @@ import { StrapiImage } from '@/components/ui/StrapiImage';
 import Uploader from '@/components/ui/Uploader';
 import { toast } from '@/hooks/use-toast';
 import { X } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../../../../../context/AuthContext';
 
 
 const HandleProfileImage = ({image, setImage}) => {
 const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
+const {user} = useAuth()
 const[error, setError] = useState(null)
 
 
@@ -27,7 +29,7 @@ const[error, setError] = useState(null)
         });
         return;
       }
-      if(image.length  > 1   ) setError(`Некоторые файлы превышают 1:`);
+      // if(image.length  > 1   ) setError(`Некоторые файлы превышают 1:`);
       setImage(files);
     },
     []
@@ -53,7 +55,10 @@ const[error, setError] = useState(null)
     // }
   };
 
-  console.log('image',image)
+  useEffect(()=>{
+ if(user.image) setImage(user.image.url)
+  },[])
+  console.log('image',typeof image)
   return (
     <div>
         <Uploader handleImageChange = {handleImageChange} multiple={false}/>
@@ -71,15 +76,15 @@ const[error, setError] = useState(null)
               <h3 className="text-lg font-bold text-primary-dark">Предпросмотр</h3>
             </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-                <div
-                  className="group relative aspect-square overflow-hidden rounded-xl border shadow-sm transition-transform hover:shadow-md"
-                >
-                  <StrapiImage
-                    src={URL.createObjectURL(image[0])}
-                    alt={`Превью `}
-                    className="object-cover"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
-                  />
+                <div className="group relative aspect-square overflow-hidden rounded-xl border shadow-sm transition-transform hover:shadow-md" >
+                  {image !== null  && 
+                    <StrapiImage
+                      src={ typeof image === 'object' ? URL.createObjectURL(image[0]) : image}
+                      alt={`Превью `}
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                    />}
+               
                   <button
                     type="button"
                     aria-label="Удалить изображение"

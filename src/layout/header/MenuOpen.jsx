@@ -1,62 +1,72 @@
 import NextLink from '@/components/ui/NextLink';
-import {  ChevronDown, ChevronUp } from 'lucide-react';
-import Image from 'next/image';
+import {  Headset, Newspaper, Star, BookmarkCheck, Home } from 'lucide-react';
+import { useCallback } from 'react';
 
-export default function MenuOpen({isSubLinksVisible, links, toggleSubLinks, setIsMenuOpen, isMenuOpen}) {
+export default function MenuOpen({ setIsMenuOpen, isMenuOpen , menuRef}) {
 
-    const handleSub = ()=>{
-        toggleSubLinks()
-    }
-    
-    const HandleClose = () =>{
-        setIsMenuOpen(false)
-    } 
+    const HandleClose = useCallback(() => setIsMenuOpen(false),[])
 
     return (
-        <div className="md:hidden absolute  top-16 left-0 w-full bg-white shadow-lg">
+        <div ref= {menuRef} className="md:hidden absolute  top-16 left-0 w-full bg-white shadow-lg">
             <div className='flex items-center justify-center'>
-                {/* <NextLink href="/" aria-label="Home page" title="Go to Home page">
-                  <Image
-                    onClick={HandleClose}
-                    src={'/images/logo-icon.svg'}
-                    alt={'Brand Logo'}
-                    width={50}
-                    height={50}
-                    // fill
-                    className="mt-4 object-cover transform hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={true}
-                  />
-                </NextLink> */}
             </div>
-            <div className={`absolute  bg-white  w-56 origin-top-right transition-all duration-200 ${
-                isMenuOpen
-                  ? 'opacity-100 scale-100  rounded-b-2xl animate-slide-up'
-                  : 'opacity-0 scale-95 pointer-events-none'
-              }`}>
-            <ul className="flex flex-col gap-4 p-4">
-                <li className="flex items-center justify-between">
-                    <NextLink href="/" className="text-primary-dark hover:text-primary-hover" onClick={HandleClose}>
-                        <span className="text-lg font-semibold">KVKEY</span>
-                    </NextLink>
-                </li>
-                {links.map((link, index) => (
-                <li key={index}>
-                    <div className="flex items-center gap-1">
-                        <NextLink href={link.link} className=" text-primary-dark hover:text-primary-hover" 
-                        onClick={HandleClose}>
-                            {link.name}
-                        </NextLink>
-                        {link.name === 'all' && (
-                        <button onClick={handleSub} className=" text-primary-dark hover:text-primary-hover">
-                            {isSubLinksVisible ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                        </button>
-                        )}
+              <div
+                  className={`absolute left-0 mt-0 w-56 origin-top-right transition-all duration-200 ${
+                    isMenuOpen
+                      ? 'opacity-100 scale-100'
+                      : 'opacity-0 scale-95 pointer-events-none'
+                  }`}
+                >
+                  <div className="bg-white rounded-b-xl shadow-xl ring-1 ring-black/5 py-2">
+                    <div className=" py-3 border-b border-gray-100">
+                        <NextLink
+                        href="/"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                        onClick={HandleClose}
+                            >
+                        <Home className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                        KVKEY
+                      </NextLink>
+                      <NextLink
+                        href="/about"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                     onClick={HandleClose}
+                      >
+                        <Newspaper className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                        О нас
+                      </NextLink>
+                           <NextLink
+                        href="/contact"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                     onClick={HandleClose}
+                      >
+                       <Headset  className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                        Контакт
+                      </NextLink>
+                      <NextLink
+                        href="/premium"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                        onClick={HandleClose}
+                      >
+                        <Star className="w-4 h-4 mr-3  text-yellow-500 group-hover:text-yellow-600" />
+                        <span className="flex items-center text-sm gap-2">
+                         Премиум
+                          <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                            PRO
+                          </span>
+                        </span>
+                      </NextLink>
+                        <NextLink
+                        href="/faq"
+                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                     onClick={HandleClose}
+                      >
+                     <BookmarkCheck    className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                        Вопросы
+                      </NextLink>
                     </div>
-                </li>
-            ))}
-            </ul>
-            </div>
+                  </div>
+                </div>
         </div>
     )
 }
