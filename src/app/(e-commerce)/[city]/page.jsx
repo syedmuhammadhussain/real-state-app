@@ -40,6 +40,7 @@ const getRussianCity = (slug) =>
  * @returns {string} fully‑qualified URL
  */
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
+  debugger;
   // base query object
   const queryObj = {
     filters: {
@@ -86,8 +87,10 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   });
   if (filters.cottage) queryObj.filters.propertyType.$eq = "cottage";
   if (filters.apartment) queryObj.filters.propertyType.$eq = "apartment";
-  if (filters.metro) queryObj.filters.metro_station.name.$eq = filters.metro;
-  if (filters.district) queryObj.filters.district.name.$eq = filters.district;
+
+  if (filters.metro) queryObj.filters.metro_station.id = { $eq: filters.metro };
+  if (filters.district)
+    queryObj.filters.district.id = { $eq: Number(filters.district) };
 
   // 3) build an $and array for amenities (AND semantics)
   if (Array.isArray(filters.amenities) && filters.amenities.length) {

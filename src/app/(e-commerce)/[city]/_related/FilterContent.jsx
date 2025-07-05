@@ -199,43 +199,47 @@ export function FilterContent({
         </label>
       </div>
       {/* -------- Metro -------- */}
-      {metro.length > 0 && (
-        <div className="space-y-2">
-          <label className="text-sm lg:text-base font-semibold text-primary-dark">
-            Метро
-          </label>
-          <select
-            value={selectedMetro}
-            onChange={(e) => onMetroSelect(e.target.value)}
-            className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
-          >
-            <option value="">Выберите станцию</option>
-            {metro?.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      {/* -------- District -------- */}
-      {district.length > 0 && (
-        <div className="space-y-2">
-          <label className="ttext-sm lg:text-base font-semibold text-primary-dark">
-            Округ
-          </label>
-          <select
-            value={selectedDistrict}
-            onChange={(e) => onDistrictSelect(e.target.value)}
-            className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
-          >
-            <option value="">Выберите округ</option>
-            {district?.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-          </select>
+      {(metro.length > 0 || district.length > 0) && (
+        <div className="flex flex-col md:flex-row md:items-end gap-4">
+          {metro.length > 0 && (
+            <div className="flex-1 space-y-2">
+              <label className="text-sm lg:text-base font-semibold text-primary-dark">
+                Метро
+              </label>
+              <select
+                value={selectedMetro}
+                onChange={(e) => onMetroSelect(e.target.value)}
+                className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
+              >
+                <option value="">Выберите станцию</option>
+                {metro?.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {district.length > 0 && (
+            <div className="flex-1 space-y-2">
+              <label className="text-sm lg:text-base font-semibold text-primary-dark">
+                Округ
+              </label>
+              <select
+                value={selectedDistrict}
+                onChange={(e) => onDistrictSelect(e.target.value)}
+                className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
+              >
+                <option value="">Выберите округ</option>
+                {district?.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       )}
       {/* -------- Feature (single select) -------- */}

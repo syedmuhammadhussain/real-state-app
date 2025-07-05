@@ -132,6 +132,7 @@ export default function Sidebar({
 
   /* ------------------- apply & navigate ------------------- */
   const applyFiltersAndNavigate = () => {
+    debugger
     // Preserve `view` if present
     const currentView = searchParams.get("view");
 
