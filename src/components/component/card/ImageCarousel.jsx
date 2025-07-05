@@ -39,7 +39,7 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
 
   return (
     <div className={cn(
-      `relative rounded-xl overflow-hidden shadow-xl ${auto ?  'h-[340px]  md:h-[500px]'  : 'max-h-[320px]'  } ${isFullscreen && 'min-h-screen'} mx-auto `,
+      `relative rounded-l-xl overflow-hidden  ${auto ?  'h-[340px]  md:h-[500px]'  : 'max-h-[320px]'  } ${isFullscreen && 'min-h-screen'} mx-auto `,
        isFullscreen ? "fixed inset-0 z-50 bg-black rounded-none" : ""
     )}>
       

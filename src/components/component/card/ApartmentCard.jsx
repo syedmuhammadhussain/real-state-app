@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, 
-  Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake,  Star, StarIcon} from "lucide-react";
+  Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake,  Star, StarIcon , House, SquareDashedBottom , RulerDimensionLine, Radius} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
@@ -11,6 +11,7 @@ import ReklamaPaymentDialog from "../dialog-popups/ReklamaPaymentDialog";
 import { DeleteDialog } from "../dialog-popups/DeleteDialog";
 import { useApartment } from "../../../../context/ApartmentContext";
 import { ImageCarousel } from "./ImageCarousel";
+import { Param } from "@/components/ui/Param";
 
 export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , city=''}) {
   const [isOpen, setIsOpen] = useState(false); 
@@ -18,7 +19,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
 
   const isMobile = useIsMobile();
 
-  const { loading , deleteApartment, handlePositionByCity , loadingPosition } = useApartment();
+  const { loading , deleteApartment, handlePositionByCity  } = useApartment();
   
   const openDeleteDialog = () => setIsOpenDelete(true);
   
@@ -27,19 +28,12 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
   const dedup = (arr) => Array.from(new Set(arr));
   
   const apartment = {
-    title: data.title ,
-    price: data.price,
-    documentId: data.documentId,
-    region: data.city?.area?.name || "Unknown Region",
-    city: data.city.name,
-    slug: data.city.slug,
-
-    // district
     address: data.address , 
     district: data.district ?  data.district.name  : '',
     metro_station: data.metro_station ? data.metro_station.name : '',
     bedrooms: data.bedrooms,
     bathrooms: data.bathrooms,
+    rooms:data.bathrooms,
     apartmentParameters: {
       apartmentType: data.propertyType,
       area: {
@@ -91,7 +85,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
 
   /* ------------------------------ ICON HELPERS ------------------------------ */
   const mainAmenities = [
-    { icon: Wifi, condition: apartment.extras.includes("Wi-Fi") || apartment.extras.includes("WiFi") },
+    { icon: Wifi, condition: apartment.extras.includes("Wi-Fi") },
     { icon: Wind, condition: apartment.checkInConditions.airConditioning },
     { icon: WashingMachine, condition: apartment.extras.includes("Washing machine") || apartment.extras.includes("Dishwasher") },
     { icon: Bath, condition: apartment.bathrooms > 0 },
@@ -162,28 +156,28 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
             {/* Title & Address */}
             <div className="mb-2">
               <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1 truncate" >
-                {apartment.title}
+                {data.title}
               </h2>
               <div className="flex items-center text-primary-default gap-1.5">
                 <MapPin className="w-4 h-4" />
-                <span className="text-sm md:text-base text-primary-dark  "> {`${apartment.region}, `} {`${apartment.city}, `}  
-                  {apartment.district}  
+                <span className="text-sm md:text-base text-primary-dark  "> {`${ data.city?.area?.name || "Unknown Region"}, `} {`${data.city.name}, `}  
+                  {data.district ?  data.district.name  : ''}  
                   {/* {apartment.district !== null && ',' } */}
-                  {apartment.metro_station}
+                  {data.metro_station ? data.metro_station.name : ''}
                    {/* {apartment.metro_station !== null && ',' } */}
-                  {`${apartment.address}`}    </span>
+                  {`${data.address}`}    </span>
               </div>
             </div>
 
             {/* Core parameters grid */}
             {!isMobile && (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <Param icon={Building} label={apartment.apartmentParameters.apartmentType || "Apartment"} />
-                <Param icon={Users} label={`Up to ${apartment.apartmentParameters.maxGuests}`} />
-                <Param icon={BedDouble} label={`${apartment.bedrooms} bedrooms`} />
-                <Param icon={Bath} label={`${apartment.bathrooms} bathrooms`} />
-                <Param label={`${apartment.apartmentParameters.area.total} m²`} />
-                <Param label={apartment.apartmentParameters.buildingType} />
+                <Param icon={ apartment.apartmentParameters.apartmentType === 'APARTMENT'  ? Building :  House} label={apartment.apartmentParameters.apartmentType || "Apartment"} />
+                <Param icon={Users} label={`Up to ${data.bedrooms * 2 } `} />
+                <Param icon={BedDouble} label={`${ data.bedrooms} спальни`} />
+                <Param icon={Bath} label={`${data.bathrooms} ванные комнаты`} />
+                <Param  icon = {Radius} label={`${data.size} m²`} />
+                <Param icon={SquareDashedBottom} label={data.rooms} />
               </div>
             )}
 
@@ -195,10 +189,10 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
                   return (
                     <li
                       key={`${item}-${idx}`}
-                      className="flex items-center gap-1 bg-primary-light/20 text-primary-dark px-2 py-1 rounded-full truncate"
+                      className="flex items-center gap-1 bg-primary-light/20 text-primary-dark px-2 py-1 rounded-full truncate border border-primary-dark"
                     >
                       <IconCmp className="h-3 w-3" />
-                      <span>{item}</span>
+                      <span className="text-xs ">{item}</span>
                     </li>
                   );
                 })}
@@ -212,11 +206,11 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
             <div className="flex flex-row items-center justify-between border-t border-gray-100 pt-2 mb-2 ">
               <div>
                 <p className="text-3xl font-bold text-primary-dark !mb-0">
-                  {apartment.price} <span className="text-base font-normal text-primary-dark">₽ / сутки</span>
+                  {data.price} <span className="text-base font-normal text-primary-dark">₽ / сутки</span>
                 </p>
               </div>
               <NextLink
-                href={`/${ apartment.slug}/${apartment.documentId}`}
+                href={`/${ data.city.slug}/${data.documentId}`}
                 className="group flex items-center gap-1 bg-primary-dark hover:bg-gradient-to-br from-black/80 shadow-primary-dark/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
               >
                 <span className="text-sm md:text-base">Подробнее..</span>
@@ -241,11 +235,11 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
 }
 
 /* ----------------------------- SMALL COMPONENT ---------------------------- */
-function Param({ icon: Icon, label }) {
-  return (
-    <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-dark truncate">
-      {Icon && <Icon className="w-4 h-4 shrink-0 text-primary-dark" />}
-      <span className="text-xs sm:text-sm">{label}</span>
-    </div>
-  );
-}
+// export function Param({ icon: Icon, label }) {
+//   return (
+//     <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-dark truncate">
+//       {Icon && <Icon className="w-4 h-4 shrink-0 text-primary-dark" />}
+//       <span className="text-xs sm:text-sm">{label}</span>
+//     </div>
+//   );
+// }

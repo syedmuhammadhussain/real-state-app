@@ -196,9 +196,11 @@ export default async function CityPage({ params, searchParams = {} }) {
     });
 
     if (!res.ok) throw new Error(`API error ${res.status}`);
+    // debugger
 
     const json = await res.json();
     apartments = json.data ?? [];
+
     meta = json.meta ?? meta;
   } catch (e) {
     console.error("Fetch failed", e);

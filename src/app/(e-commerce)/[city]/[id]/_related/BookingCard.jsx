@@ -7,10 +7,12 @@ export const BookingCard = ({ price, id }) => (
     <div className="space-y-6 ">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xl font-bold text-primary-default">{price}₽  / за сутки</p>
+             <p className="text-3xl font-bold text-primary-dark !mb-0">
+                  {price} <span className="text-base font-normal text-primary-dark">₽ / сутки</span>
+                </p>
         </div>
-        <Badge variant="default" className="text-sm flex items-center justify-center gap-2">
-          <Wifi className="w-4 h-4 flex items-center justify-center gap-2" />
+        <Badge variant="default" className="text-sm flex items-center justify-center gap-2 bg-primary-dark">
+          <Wifi className="w-5 h-5 flex items-center justify-center gap-2" />
            <span className='hidden md:block text-sm'> Бесплатный Wi-Fi  </span>
         </Badge>
       </div>
