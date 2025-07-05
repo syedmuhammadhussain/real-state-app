@@ -1,6 +1,7 @@
+'use client'
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Mail, Phone, User, Search } from "lucide-react";
+import { Eye, EyeOff, Mail, Phone, User, Search, EyeClosed } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Input = ({ label = "", type, id, value, onChange, onBlur, error, placeholder, required }) => {
@@ -11,7 +12,7 @@ const Input = ({ label = "", type, id, value, onChange, onBlur, error, placehold
       {/* Label */}
       <label
         htmlFor={id}
-        className={`${label === "" && "hidden"} block text-sm mb-2 font-medium text-labelColor-default`}
+        className={`${label === "" && "hidden"} block text-sm mb-2 font-medium text-primary-dark`}
       >
         {label} 
         {required && <span className="absolute text-sm text-errorColor-default pl-1 mt-1">*</span>}
@@ -28,7 +29,7 @@ const Input = ({ label = "", type, id, value, onChange, onBlur, error, placehold
           placeholder={placeholder}
           required={required}
           className={cn(
-            "w-full rounded-lg border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out",
+            "w-full rounded-xl border !pr-9 px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out",
             error ? "border-errorColor-default" : "border-gray-300 hover:border-primary-default"
           )}
         />
@@ -62,7 +63,7 @@ const Input = ({ label = "", type, id, value, onChange, onBlur, error, placehold
               transition={{ type: "spring", stiffness: 150 }}
               className="transition-transform duration-300 ease-in-out transform scale-100 hover:scale-110"
             >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              {showPassword ? <EyeClosed size={20} /> : <Eye size={20} />}
             </motion.span>
           </motion.button>
         )}

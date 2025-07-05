@@ -15,12 +15,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { cityOptions } from "@/constants/data"
+import { useApartment } from "../../../../context/ApartmentContext"
 
 
 export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, selectedCity, handleCitySelect}) {
 
+  // const { cities} = useApartment()
   return (
-    <Popover 
+    <Popover className="!max-w-[600px]"
       open={isPopoverOpen} 
       onOpenChange={setIsPopoverOpen}  
       // Prevent the automatic focusing of the input
@@ -32,7 +34,7 @@ export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, 
         variant="outline"
         role="combobox"
         aria-expanded={isPopoverOpen}
-        className="w-full justify-between px-6 py-6 bg-white/90 backdrop-blur-sm hover:bg-white/95 transition-all rounded-md shadow-lg hover:shadow-xl border-0"
+        className="w-[700px] justify-between px-6 py-6 bg-white/90 backdrop-blur-sm hover:bg-white/95 transition-all rounded-xl shadow-lg hover:shadow-xl border-0"
       >
         <span className="truncate font-medium text-gray-900">
           {selectedCity?.ru || "Select city..."}
@@ -46,7 +48,7 @@ export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, 
       align="center"      
       sideOffset={8}      
       avoidCollisions={false} 
-      className="w-[var(--radix-popover-trigger-width)] p-0 overflow-hidden rounded-md shadow-md bg-white/95 backdrop-blur-sm border border-gray-100"
+      className="w-[var(--radix-popover-trigger-width)] p-0 overflow-hidden rounded-xl shadow-md bg-white/95 backdrop-blur-sm border border-gray-100"
     >
       <Command className="[&_[cmdk-group]]:px-2 [&_[cmdk-group]]:py-3">
         <CommandInput 
@@ -64,7 +66,7 @@ export function SelectFramer({isPopoverOpen, setIsPopoverOpen, selectedCityKey, 
                 key={city.ru}
                 value={city.ru}
                 onSelect={() => handleCitySelect(city.ru)}
-                className="group px-4 py-3 rounded-md aria-selected:bg-gray-50/50 transition-colors"
+                className="group px-4 py-3 rounded-xl aria-selected:bg-gray-50/50 transition-colors"
               >
                 <Check
                   className={cn(

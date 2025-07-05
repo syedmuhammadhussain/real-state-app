@@ -1,7 +1,0 @@
-const NotFound = () => {
-    return(
-        <>
-        NotFound
-        </>
-    )
-}

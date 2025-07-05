@@ -23,7 +23,7 @@ BreadcrumbList.displayName = "BreadcrumbList"
 const BreadcrumbItem = React.forwardRef(({ className, ...props }, ref) => (
   <li
     ref={ref}
-    className={cn("inline-flex items-center gap-1.5", className)}
+    className={cn("inline-flex items-center gap-1.5 text-primary-dark hover:text-secondary-dark cursor-pointer", className)}
     {...props} />
 ))
 BreadcrumbItem.displayName = "BreadcrumbItem"
@@ -32,10 +32,10 @@ const BreadcrumbLink = React.forwardRef(({ asChild, className, ...props }, ref) 
   const Comp = asChild ? Slot : "a"
 
   return (
-    (<Comp
+    <Comp
       ref={ref}
-      className={cn("transition-colors hover:text-foreground", className)}
-      {...props} />)
+      className={cn("transition-colors  text-primary-dark hover:text-secondary-dark cursor-pointer", className)}
+      {...props} />
   );
 })
 BreadcrumbLink.displayName = "BreadcrumbLink"
