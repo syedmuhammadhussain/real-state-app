@@ -48,9 +48,6 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
       rooms: {},
       bedrooms: {},
       bathrooms: {},
-      amenities: {},
-      features: {},
-      kitchens: {},
       infrastructures: {},
       metro_station: {},
       district: {},
@@ -82,55 +79,43 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
       filters.priceMax ?? Number.MAX_SAFE_INTEGER,
     ];
   }
-
-  // simple equality filters
-  ["rooms", "bedrooms", "bathrooms"].forEach((key) => {
-    if (filters[key] != null) {
-      queryObj.filters[key].$eq = Number(filters[key]);
+  ["rooms", "bedrooms", "bathrooms"].forEach((k) => {
+    if (filters[k] != null) {
+      queryObj.filters[k].$eq = Number(filters[k]);
     }
   });
+  if (filters.cottage) queryObj.filters.propertyType.$eq = "cottage";
+  if (filters.apartment) queryObj.filters.propertyType.$eq = "apartment";
+  if (filters.metro) queryObj.filters.metro_station.name.$eq = filters.metro;
+  if (filters.district) queryObj.filters.district.name.$eq = filters.district;
 
-  // property type (e.g. cottage)
-  if (filters.cottage) {
-    queryObj.filters.propertyType.$eq = "cottage";
-  }
-
-  // array‑based filters
+  // 3) build an $and array for amenities (AND semantics)
   if (Array.isArray(filters.amenities) && filters.amenities.length) {
-    queryObj.filters.amenities = {
-      id: {
-        $in: Number(filters.amenities.join(",")),
-      },
-    };
+    queryObj.filters.$and = filters.amenities.map((id) => ({
+      amenities: { id: { $eq: Number(id) } },
+    }));
   }
+
+  // 4) you can still use $in (OR) for features & kitchens if desired:
   if (Array.isArray(filters.feature) && filters.feature.length) {
-    queryObj.filters.features = {
-      id: {
-        $in: selectedFeature,
-      },
-    };
+    queryObj.filters.$and = filters.features.map((id) => ({
+      features: { id: { $eq: Number(id) } },
+    }));
   }
   if (Array.isArray(filters.kitchen) && filters.kitchen.length) {
-    queryObj.filters.kitchens = {
-      id: {
-        $in: selectedKitchen,
-      },
-    };
+    queryObj.filters.$and = filters.kitchens.map((id) => ({
+      kitchens: { id: { $eq: Number(id) } },
+    }));
   }
 
-  // location strings
-  if (filters.metro) {
-    queryObj.filters.metro_station.name.$eq = filters.metro;
-  }
-  if (filters.district) {
-    queryObj.filters.district.name.$eq = filters.district;
-  }
+  // 5) stringify with indexed arrays for $and
+  const qsString = qs.stringify(queryObj, {
+    encodeValuesOnly: true,
+    arrayFormat: "indices", // produces $and[0], $and[1], ...
+    skipNulls: true,
+  });
 
-  // now stringify
-  const qsOptions = { encodeValuesOnly: true };
-  const queryString = qs.stringify(queryObj, qsOptions);
-
-  return `${API_BASE}/api/products?${queryString}`;
+  return `${API_BASE}/api/products?${qsString}`;
 }
 
 /**

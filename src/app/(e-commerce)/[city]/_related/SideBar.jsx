@@ -108,9 +108,11 @@ export default function Sidebar({
   }, [JSON.stringify(defaultValues)]);
 
   /* amenity toggle helper */
-  const toggleAmenity = useCallback((a) => {
+  const toggleAmenity = useCallback((amenity) => {
+    const id = String(amenity.id);
+
     setSelectedAmenities((prev) =>
-      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   }, []);
 
@@ -130,7 +132,6 @@ export default function Sidebar({
 
   /* ------------------- apply & navigate ------------------- */
   const applyFiltersAndNavigate = () => {
-    debugger;
     // Preserve `view` if present
     const currentView = searchParams.get("view");
 
@@ -146,12 +147,14 @@ export default function Sidebar({
       ...(selectedMetro && { metro: selectedMetro }),
       ...(selectedDistrict && { district: selectedDistrict }),
       ...(selectedAmenities.length > 0 && {
-        amenities: selectedAmenities.map((a) => a.id),
+        amenities: selectedAmenities.map((id) => Number(id)),
       }),
       ...(selectedKitchen.length > 0 && {
-        kitchen: selectedKitchen.map((k) => k.id),
+        kitchen: selectedKitchen.map((id) => Number(id)),
       }),
-      ...(selectedFeature && { feature: selectedFeature.map((f) => f.id) }),
+      ...(selectedFeature && {
+        feature: selectedFeature.map((id) => Number(id)),
+      }),
       // ...(isCottage                && { cottage:   "1" }),
       // ...(isApartment              && { apartment: "1" }),
       // Note: no `page` key → pagination resets to 1

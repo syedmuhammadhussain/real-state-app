@@ -271,11 +271,7 @@ export function FilterContent({
               className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
             >
               <Checkbox
-                checked={selectedAmenities.includes(
-                  typeof am === "object" && am !== null && "id" in am
-                    ? am.id
-                    : am
-                )}
+                checked={selectedAmenities.includes(String(am.id))}
                 onCheckedChange={() => onAmenityToggle(am)}
               />
               {am.name}
