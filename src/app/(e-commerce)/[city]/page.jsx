@@ -40,7 +40,6 @@ const getRussianCity = (slug) =>
  * @returns {string} fully‑qualified URL
  */
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
-  debugger;
   // base query object
   const queryObj = {
     filters: {
@@ -85,8 +84,10 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
       queryObj.filters[k].$eq = Number(filters[k]);
     }
   });
-  if (filters.cottage) queryObj.filters.propertyType.$eq = "cottage";
-  if (filters.apartment) queryObj.filters.propertyType.$eq = "apartment";
+  // if (filters.cottage) queryObj.filters.propertyType.$eq = "cottage";
+  // if (filters.apartment) queryObj.filters.propertyType.$eq = "apartment";
+  if (filters.propertyType)
+    queryObj.filters.propertyType.$eq = filters.propertyType;
 
   if (filters.metro) queryObj.filters.metro_station.id = { $eq: filters.metro };
   if (filters.district)
@@ -100,12 +101,12 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   }
 
   // 4) you can still use $in (OR) for features & kitchens if desired:
-  if (Array.isArray(filters.feature) && filters.feature.length) {
+  if (Array.isArray(filters.features) && filters.features.length) {
     queryObj.filters.$and = filters.features.map((id) => ({
       features: { id: { $eq: Number(id) } },
     }));
   }
-  if (Array.isArray(filters.kitchen) && filters.kitchen.length) {
+  if (Array.isArray(filters.kitchens) && filters.kitchens.length) {
     queryObj.filters.$and = filters.kitchens.map((id) => ({
       kitchens: { id: { $eq: Number(id) } },
     }));
@@ -165,10 +166,11 @@ export default async function CityPage({ params, searchParams = {} }) {
     metro: searchParams.metro,
     district: searchParams.district,
     amenities: searchParams.amenities?.split(",") ?? [],
-    kitchen: searchParams.kitchen?.split(",") ?? [],
-    feature: searchParams.feature,
-    cottage: searchParams.cottage,
-    apartment: searchParams.apartment,
+    kitchens: searchParams.kitchens?.split(",") ?? [],
+    features: searchParams.features?.split(",") ?? [],
+    propertyType: searchParams.propertyType,
+    // cottage: searchParams.cottage,
+    // apartment: searchParams.apartment,
   };
 
   /* ───── fetch data ───── */

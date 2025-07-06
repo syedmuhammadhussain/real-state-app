@@ -19,12 +19,13 @@ export function FilterContent({
   selectedDistrict,
   selectedAmenities,
   selectedFeature,
-  isCottage,
-  isApartment,
+  // isCottage,
+  // isApartment,
   selectedKitchen,
   /* data lists */
   metro = [],
   district = [],
+  propertyType = [],
   /* callbacks */
   onPriceChange,
   onRoomSelect,
@@ -35,15 +36,17 @@ export function FilterContent({
   onDistrictSelect,
   onAmenityToggle,
   onFeatureSelect,
-  onCottageToggle,
+  // onCottageToggle,
   toggleKitchen,
-  onApartmentToggle,
+  // onApartmentToggle,
+  onPropertyTypeSelect,
 }) {
   /* pull amenity / feature lists from global context */
   const { amenities, features, kitchens } = useApartment();
 
   console.log("selectedktchen", selectedKitchen);
   console.log("selectedAmenities", selectedAmenities);
+  console.log("selectedFeature", selectedFeature);
   return (
     <div className="space-y-6 ">
       {/* -------- Price -------- */}
@@ -185,7 +188,7 @@ export function FilterContent({
         </div>
       </div>
       {/* -------- Property Type -------- */}
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         <p className="text-sm lg:text-base font-semibold text-primary-dark">
           Тип жилья
         </p>
@@ -197,9 +200,9 @@ export function FilterContent({
           <Checkbox checked={isApartment} onCheckedChange={onApartmentToggle} />{" "}
           apartment
         </label>
-      </div>
+      </div> */}
       {/* -------- Metro -------- */}
-      {(metro.length > 0 || district.length > 0) && (
+      {(metro.length > 0 || district.length > 0 || propertyType) && (
         <div className="flex flex-col md:flex-row md:items-end gap-4">
           {metro.length > 0 && (
             <div className="flex-1 space-y-2">
@@ -240,6 +243,21 @@ export function FilterContent({
               </select>
             </div>
           )}
+
+          <div className="flex-1 space-y-2">
+            <label className="text-sm lg:text-base font-semibold text-primary-dark">
+              Тип жилья
+            </label>
+            <select
+              value={propertyType}
+              onChange={(e) => onPropertyTypeSelect(e.target.value)}
+              className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
+            >
+              <option value="">Выберите станцию</option>
+              <option value="VILLA">VILLA</option>
+              <option value="APARTMENT">APARTMENT</option>
+            </select>
+          </div>
         </div>
       )}
       {/* -------- Feature (single select) -------- */}
@@ -254,7 +272,7 @@ export function FilterContent({
               className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
             >
               <Checkbox
-                checked={selectedFeature.includes(am)}
+                checked={selectedFeature.includes(String(am.id))}
                 onCheckedChange={() => onFeatureSelect(am)}
               />
               {am.name}
@@ -289,7 +307,7 @@ export function FilterContent({
               className="flex cursor-pointer items-center gap-3 text-sm text-primary-dark"
             >
               <Checkbox
-                checked={selectedKitchen.includes(am)}
+                checked={selectedKitchen.includes(String(am.id))}
                 onCheckedChange={() => toggleKitchen(am)}
               />
               {am.name}

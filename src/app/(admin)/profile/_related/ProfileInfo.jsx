@@ -9,7 +9,9 @@ import Input from "@/components/ui/input";
 import { ConfirmEditDialog } from "@/components/component/dialog-popups/ConfirmEditDialog";
 
 export default function ProfileInfo() {
-  const { user, editUser } = useAuth();
+  const { user, editUser  } = useAuth();
+  const [loading, setIsLoading] = useState(false);
+
   const [showPopup, setShowPopup] = useState(false);
   const [form, setForm] = useState({
     username: user?.username ?? "",
@@ -37,12 +39,14 @@ export default function ProfileInfo() {
 
   const handleSubmit = async () => {
     try {
+      setIsLoading(true)
       const payload = {
         username: form.username,
         phone: form.phone,
         image: form.image,
       };
       await editUser(payload);
+      setIsLoading(false)
       setIsEditing(false);
       setShowPopup(false)
     } catch (error) {
@@ -59,7 +63,7 @@ export default function ProfileInfo() {
 
       <form
         onSubmit={(e) => e.preventDefault()} 
-        className="space-y-5 rounded-xl p-8 shadow-md"
+        className="space-y-5 rounded-xl "
       >
         {isEditing && (
           <HandleProfileImage
@@ -126,7 +130,7 @@ export default function ProfileInfo() {
         }
 
         <div className="pt-4 ">
-          {showPopup &&   <ConfirmEditDialog handleSubmit={handleSubmit} handlePopDown = { () => setShowPopup(false) }/>}
+          {showPopup &&   <ConfirmEditDialog handleSubmit={handleSubmit} loading={loading} handlePopDown = { () => setShowPopup(false) }/>}
         </div>
       </form>
     </section>

@@ -11,6 +11,7 @@ import { useApartment } from "../../../../context/ApartmentContext";
 import Notification from "./_related/Notification"
 import ProfileInfo from "./_related/ProfileInfo";
 import ApartmentOwnerComponenet from "./_related/ApartmentOwnerComponenet";
+import { StrapiImage } from '@/components/ui/StrapiImage';
 
 export default function ProfilePage() {
   
@@ -21,7 +22,7 @@ export default function ProfilePage() {
   const { apartmentsForOwner,  notifications, handleNotification ,fetchApartmentsByOwner,  setEditMode } = useApartment();
   
   
-  console.log('user?.id',user )
+  // console.log('user?.id',user )
 
   // handle not not exist user
   useEffect(() => {
@@ -50,8 +51,12 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="mb-8 flex flex-wrap items-end justify-between rounded-xl bg-white p-6 shadow">
           <div className="flex items-center gap-6">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200">
-              <User className="h-12 w-12 text-gray-400" />
+            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
+              <StrapiImage
+                src={user?.image.url}
+                alt={`Превью `}
+                className="object-cover"
+                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"/>
             </div>
             <div>
               <h1 className="text-2xl font-bold text-primary-dark">

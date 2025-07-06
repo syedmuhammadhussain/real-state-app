@@ -16,32 +16,6 @@ import { FilterContent } from "./FilterContent";
 import { useApartment } from "../../../../../context/ApartmentContext";
 import { normalizeIds } from "@/lib/utils";
 
-/* -------------------------------- helpers ------------------------------ */
-const copyParamsSafe = (sp) => {
-  const q = new URLSearchParams();
-  if (!sp) return q;
-  for (const [k, v] of sp.entries()) {
-    if (!k || v === undefined || v === null || v === "") continue;
-    q.set(k, v);
-  }
-  return q;
-};
-
-/* all keys Sidebar manages (used to wipe before applying fresh) */
-const FILTER_KEYS = [
-  "priceMin",
-  "priceMax",
-  "rooms",
-  "beds",
-  "bedrooms",
-  "bathrooms",
-  "metro",
-  "district",
-  "amenities",
-  "feature",
-  "cottage",
-];
-
 export default function Sidebar({
   citySlug,
   defaultValues = {},
@@ -82,10 +56,14 @@ export default function Sidebar({
     defaultValues.kitchen ?? []
   );
   const [selectedFeature, setSelectedFeature] = useState(
-    defaultValues.feature ?? ""
+    defaultValues.feature ?? []
   );
-  const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
-  const [isApartment, setIsApartment] = useState(!!defaultValues.apartment);
+  const [propertyType, setPropertyType] = useState(
+    defaultValues.propertyType ?? ""
+  );
+
+  // const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
+  // const [isApartment, setIsApartment] = useState(!!defaultValues.apartment);
 
   /* ---------- keep local state in-sync when URL-driven defaults change --- */
   useEffect(() => {
@@ -100,9 +78,10 @@ export default function Sidebar({
     setSelectedMetro(defaultValues.metro ?? "");
     setSelectedDistrict(defaultValues.district ?? "");
     setSelectedAmenities(normalizeIds(defaultValues.amenities) ?? []);
-    setSelectedFeature(defaultValues.feature ?? "");
-    setIsCottage(!!defaultValues.cottage);
-    setIsApartment(!!defaultValues.apartment);
+    setSelectedFeature(normalizeIds(defaultValues.features) ?? []);
+    setSelectedKitchen(normalizeIds(defaultValues.kitchens) ?? []);
+    // setIsCottage(!!defaultValues.cottage);
+    // setIsApartment(!!defaultValues.apartment);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(defaultValues)]);
@@ -117,22 +96,29 @@ export default function Sidebar({
   }, []);
 
   /* amenity toggle helper */
-  const toggleKitchen = useCallback((a) => {
+  const toggleKitchen = useCallback((kitchen) => {
+    const id = String(kitchen.id);
+
     setSelectedKitchen((prev) =>
-      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   }, []);
 
   // feature select
-  const onFeatureSelect = useCallback((a) => {
+  const onFeatureSelect = useCallback((feature) => {
+    const id = String(feature.id);
+
     setSelectedFeature((prev) =>
-      prev.includes(a) ? prev.filter((x) => x !== a) : [...prev, a]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   }, []);
 
+  const onPropertyTypeSelect = useCallback((property) => {
+    setPropertyType(property);
+  });
+
   /* ------------------- apply & navigate ------------------- */
   const applyFiltersAndNavigate = () => {
-    debugger
     // Preserve `view` if present
     const currentView = searchParams.get("view");
 
@@ -150,11 +136,12 @@ export default function Sidebar({
       ...(selectedAmenities.length > 0 && {
         amenities: selectedAmenities.map((id) => Number(id)),
       }),
+      ...(propertyType && { propertyType }),
       ...(selectedKitchen.length > 0 && {
-        kitchen: selectedKitchen.map((id) => Number(id)),
+        kitchens: selectedKitchen.map((id) => Number(id)),
       }),
       ...(selectedFeature && {
-        feature: selectedFeature.map((id) => Number(id)),
+        features: selectedFeature.map((id) => Number(id)),
       }),
       // ...(isCottage                && { cottage:   "1" }),
       // ...(isApartment              && { apartment: "1" }),
@@ -219,10 +206,11 @@ export default function Sidebar({
     selectedAmenities,
     selectedKitchen,
     selectedFeature,
-    isCottage,
-    isApartment,
+    // isCottage,
+    // isApartment,
     metro,
     district,
+    propertyType,
     // callbacks
     onPriceChange: setPriceRange,
     onRoomSelect: onRoomSelect,
@@ -234,8 +222,9 @@ export default function Sidebar({
     onAmenityToggle: toggleAmenity,
     toggleKitchen: toggleKitchen,
     onFeatureSelect: onFeatureSelect,
-    onCottageToggle: () => setIsCottage((p) => !p),
-    onApartmentToggle: () => setIsApartment((p) => !p),
+    onPropertyTypeSelect: onPropertyTypeSelect,
+    // onCottageToggle: () => setIsCottage((p) => !p),
+    // onApartmentToggle: () => setIsApartment((p) => !p),
   };
 
   /* -------------- RENDER -------------- */

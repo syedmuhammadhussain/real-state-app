@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 export const ConfirmEditDialog = ({ 
   handleSubmit, 
   handlePopDown,
   title='Подтвердите изменения',
   description='Вы уверены, что хотите обновить ваши персональные данные?' ,
-  buttonText= 'Подтвердите изменения'
+  buttonText= 'Подтвердите изменения',
+  loading = false
 }) => (
       <div className="fixed inset-0 z-50 bg-black/70 flex items-end sm:items-center justify-center">
         <div className="bg-white w-full sm:max-w-md mx-auto rounded-t-2xl sm:rounded-xl p-6 shadow-lg animate-slide-up">
@@ -19,13 +21,29 @@ export const ConfirmEditDialog = ({
             >
               Отмена
             </Button>
-            <Button
+            {/* <Button
               size="md"
               variant="primary"
               onClick={handleSubmit}
               >
              {buttonText}
-            </Button>
+            </Button> */}
+
+          <Button
+          onClick={handleSubmit}
+          variant="primary"
+          size="md"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {buttonText}
+            </>
+          ) : (
+            'Сохранить '
+          )}
+        </Button>
           </div>
         </div>
       </div>

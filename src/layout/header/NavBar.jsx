@@ -1,22 +1,18 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, User, LogOut, Star, UserRound } from 'lucide-react';
-import Image from 'next/image';
+import { ChevronDown, User, LogOut, UserRound, Menu } from 'lucide-react';
 import MenuOpen from './MenuOpen';
-import SearchProduct from './SearchProduct';
 import { usePathname } from 'next/navigation';
 import NextLink from '@/components/ui/NextLink';
 import { links  } from '@/constants/data';
 import { useAuth } from '../../../context/AuthContext';
+import { StrapiImage } from '@/components/ui/StrapiImage';
 
 export default function Navbar() {
-  
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const avatarRef = useRef(null);
+  const menuRef = useRef(null);
   const pathname = usePathname(); 
 
   // get user  and logout and success
@@ -24,25 +20,21 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
-        setIsAvatarMenuOpen(false);
-      }
-    };
+      if (avatarRef.current && !avatarRef.current.contains(event.target)) setIsAvatarMenuOpen(false);
+     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen);
-    setIsCartOpen(false);
-  };
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) setIsMenuOpen(false);
+     }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-    setIsSearchOpen(false);
-  };
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const handleLogout =  async () => await logout()
 
   // Hide Navbar on auth and checkout pages
@@ -66,14 +58,6 @@ export default function Navbar() {
           <div className='hidden sm:flex items-center' >
             <NextLink href="/" >
                <span className="text-2xl font-semibold" > KVKEY</span>   
-              {/* <Image
-                src="/images/logo-icon.svg"
-                alt="Brand Logo"
-                width={50}
-                height={50}
-                className="object-cover transform hover:scale-105 transition-transform duration-300"
-                priority
-              /> */}
             </NextLink>
           </div>
 
@@ -84,30 +68,8 @@ export default function Navbar() {
                   className="md:hidden flex items-center gap-2 group"
                   aria-label="User menu"
                 >
-                  <div className="relative">
-                    <Image
-                      src="/images/logo-icon.svg" //avatar user
-                      alt="User avatar"
-                      width={42}
-                      height={42}
-                      className="rounded-full border-2 border-transparent group-hover:border-primary-dark transition-all"
-                    />
-                           {/* <span className="text-2xl font-semibold" > KVKEY</span>    */}
-                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity" />
-                  </div>
-                  <ChevronDown
-                    className={`text-primary-dark transition-transform ${
-                      isMenuOpen ? 'rotate-180' : ''
-                    }`}
-                    size={18}
-                  />
-                </button>
-                {/* <button
-                  onClick={toggleMenu}
-                  className="md:hidden text-primary-dark hover:text-primary-hover transition-all"
-                >
-                  <Menu size={24} />
-                </button> */}
+                  <Menu size={25} />
+            </button>
             <nav className="md:flex items-center space-x-6 hidden">
               <ul className="flex gap-4 md:gap-6">
                 {links.map((link, index) => (
@@ -125,49 +87,37 @@ export default function Navbar() {
 
           {/* Right side - Search and Avatar */}
           <div className="flex items-center gap-4">
-            <SearchProduct
-              isSearchOpen={isSearchOpen}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              toggleSearch={toggleSearch}
-              toggleCart={toggleCart}
-            />
-
             { success ? (
               <div className="relative" ref={avatarRef}>
                 <button
-                  onClick={() => setIsAvatarMenuOpen(!isAvatarMenuOpen)}
-                  className="flex items-center gap-2 group"
+                  onClick={() => setIsAvatarMenuOpen(prev => !prev)}
+                  className="flex flex-col items-center group"
                   aria-label="User menu"
                 >
-                  <div className="relative">
-                    <Image
-                      src="/images/logo-icon.svg" //avatar user
-                      alt="User avatar"
-                      width={42}
-                      height={42}
-                      className="rounded-full border-2 border-transparent group-hover:border-primary-dark transition-all"
-                    />
-                           {/* <span className="text-2xl font-semibold" > KVKEY</span>    */}
-                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 rounded-full transition-opacity" />
+                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
+                <StrapiImage
+                      src={user?.image.url}
+                      alt={`Превью `}
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"/>
                   </div>
                   <ChevronDown
                     className={`text-primary-dark transition-transform ${
                       isAvatarMenuOpen ? 'rotate-180' : ''
                     }`}
-                    size={18}
+                    size={10}
                   />
                 </button>
 
                 {/* Dropdown Menu */}
                 <div
-                  className={`absolute right-0 mt-2 w-56 origin-top-right transition-all duration-200 ${
+                  className={`absolute right-[-14px]  w-56 origin-top-right transition-all duration-200 ${
                     isAvatarMenuOpen
                       ? 'opacity-100 scale-100'
                       : 'opacity-0 scale-95 pointer-events-none'
                   }`}
                 >
-                  <div className="bg-white rounded-xl shadow-xl ring-1 ring-black/5 py-2">
+                  <div className="bg-white rounded-b-xl shadow-xl  ring-black/5 py-2">
                     <div className="px-4 py-3 border-b border-gray-100">
                       <p className="text-sm font-medium text-gray-900">{user?.username}</p>
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
@@ -179,28 +129,14 @@ export default function Navbar() {
                         className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
                         onClick={() => setIsAvatarMenuOpen(false)}
                       >
-                        <User className="w-5 h-5 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                        <User className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
                         Профиль
                       </NextLink>
-                      <NextLink
-                        href="/premium"
-                        className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
-                        onClick={() => setIsAvatarMenuOpen(false)}
-                      >
-                        <Star className="w-5 h-5 mr-3  text-yellow-500 group-hover:text-yellow-600" />
-                        <span className="flex items-center text-sm gap-2">
-                         Премиум
-                          <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
-                            PRO
-                          </span>
-                        </span>
-                      </NextLink>
-
                       <button
                         onClick={handleLogout}
                         className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-gray-50 group border-t border-gray-100"
                       >
-                        <LogOut className="w-5 h-5 mr-3 text-red-500 group-hover:text-red-600" />
+                        <LogOut className="w-4 h-4 mr-3 text-red-500 group-hover:text-red-600" />
                         Выйти
                       </button>
                     </div>
@@ -218,9 +154,9 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <MenuOpen
-            links={links}
             setIsMenuOpen={setIsMenuOpen}
             isMenuOpen={isMenuOpen}
+             menuRef={menuRef}
           />
         )}
       </div>
