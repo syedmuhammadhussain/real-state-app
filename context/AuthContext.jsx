@@ -195,25 +195,33 @@ export function AuthProvider({ children }) {
   // editUser editUser 
   const editUser = async (data) => {
     debugger
-    
-    const token = localStorage.getItem('authToken'); 
-
       try { 
+          if(data.image  === null ) {
+           toast({
+            variant: 'destructive',
+            title: 'вам следует добавить изображение',
+            description: 'Не удалось сохранить изменения профиля'
+          });
+          return 
+          }
+          //  if (typeof data.image  === 'string' ){
+          //  toast({
+          //   variant: 'destructive',
+          //   title: 'Ошибка обновления  string string string ',
+          //   description: 'Не удалось сохранить изменения профиля'
+          // });
+          // return 
+          // }
           // Step 1: Upload images if any
             let uploadedImages = [];
-            if (data.image.length > 0) {
+            if (data.image.length  > 0 && typeof data.image  !== 'string' ) {
               uploadedImages = await uploadImages(data.image);
             }
             const preparedData = {
               ...data,
-              image: uploadedImages.map((img) => img.id)[0],
+              image: user?.image.url === data.image ?  user?.image.id   :  uploadedImages.map((img) => img.id)[0],
             };
            await api.put(`${apiUrl}/user/me`,preparedData, {
-            // headers: {
-            //   Authorization: `Bearer ${token}`,
-            //   "Content-Type": "application/json",
-            // },
-            // body: JSON.stringify(preparedData),
           });
           setSuccess(true);
           initializeAuth()

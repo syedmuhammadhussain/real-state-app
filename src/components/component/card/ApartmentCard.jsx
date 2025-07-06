@@ -170,7 +170,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
             </div>
 
             {/* Core parameters grid */}
-            {!isMobile && (
+            {(
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <Param icon={ apartment.apartmentParameters.apartmentType === 'APARTMENT'  ? Building :  House} label={apartment.apartmentParameters.apartmentType || "Apartment"} />
                 <Param icon={Users} label={`Up to ${data.bedrooms * 2 } `} />
@@ -205,8 +205,8 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
             {/* Price & CTA */}
             <div className="flex flex-row items-center justify-between border-t border-gray-100 pt-2 mb-2 ">
               <div>
-                <p className="text-3xl font-bold text-primary-dark !mb-0">
-                  {data.price} <span className="text-base font-normal text-primary-dark">₽ / сутки</span>
+                <p className=" text-base md:text-lg font-bold text-primary-dark !mb-0">
+                  {data.price} <span className="text-sm md:text-base font-normal text-primary-dark">₽ / сутки</span>
                 </p>
               </div>
               <NextLink
