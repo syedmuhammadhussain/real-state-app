@@ -4,11 +4,11 @@ import { Home, Search, Shield, Phone, MapPin, Send } from 'lucide-react';
 import Image from 'next/image';
 
 export const metadata = {
-  title: 'Контакты - XRAL State',
+  title: 'Контакты - kvkey',
   description: 'Свяжитесь с нами для консультации по недвижимости, подбора объекта и юридической поддержки',
   keywords: 'контакты риелтора, подбор недвижимости, юридическая поддержка, консультация по недвижимости',
   openGraph: {
-    title: 'Контакты - XRAL State',
+    title: 'Контакты - kvkey',
     description: 'Профессиональные консультации по недвижимости',
     images: [{ url: '/images/contact-bg.jpg' }],
   },
@@ -30,12 +30,11 @@ export default function ContactUs() {
         />
         <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center text-3xl px-4">
-            <span className="text-primary-dark text-5xl">XRAL State</span> — 
-            Нужна консультация по недвижимости? Наши эксперты готовы помочь 
+            <span className="text-primary-dark text-5xl">kvkey</span> — 
+          Консультация по недвижимости
           </h1>
           <p className="text-white text-center px-4 text-xl max-w-6xl">
-          test test test testesttestt test test test test test test test test test test test test test test test test 
-          test test test testesttestt test test test test test test test test test test test test test test test test 
+        ваш надежный партнер на рынке недвижимости. Наши эксперты с многолетним опытом готовы предоставить комплексные консультации по покупке
           </p>
         </div>
       </section>

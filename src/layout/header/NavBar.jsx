@@ -59,19 +59,19 @@ export default function Navbar() {
   return (
 <header 
   className={`
-    max-w-[400px]
-    fixed 
-    top-2
-    left-1/2          /* Start from horizontal center */
-    -translate-x-1/2  /* Adjust to true center */
-    w-full           /* Full width */
-    md:max-w-7xl        /* Maximum width */
-    rounded-xl 
-    bg-background-default 
-    opacity-95 
-    shadow-md  border border-primary-light
-    z-50 
-    transition-all
+      max-w-[400px]
+      fixed 
+      top-2
+      left-1/2          
+      -translate-x-1/2  
+      w-full           
+      md:max-w-7xl        
+      rounded-xl 
+      bg-background-default 
+      opacity-95 
+      shadow-md  border border-primary-light
+      z-50 
+      transition-all
     ${hidden ? '-translate-y-full' : 'translate-y-0 shadow-md'}
   `}
 >
@@ -110,8 +110,8 @@ export default function Navbar() {
                 >
                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
                 <StrapiImage
-                      src={user?.image !== null ? user?.image.url :  '/images/avat.webp'}
-                      alt={`Превью `}
+                      src={ user  === null || user?.image === null  ? '/images/avat.webp' : user?.image.url  } 
+                      alt={`Превью `} 
                       className="object-cover"
                       sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"/>
                   </div>
