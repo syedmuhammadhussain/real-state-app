@@ -1,17 +1,10 @@
 "use server";
-
-/**
- * CityPage.jsx – Server Component (JavaScript)
- * Fetch apartments for a given city from Strapi CMS with advanced filters.
- */
 import "server-only";
-
+import qs from "qs";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, ListOrdered } from "lucide-react";
 import { notFound } from "next/navigation";
-import qs from "qs";
-
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
 import PageLink from "./_related/PageLink";
@@ -39,6 +32,7 @@ const getRussianCity = (slug) =>
  * @param {Object} params.filters – various optional filters from query‑string
  * @returns {string} fully‑qualified URL
  */
+
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   // base query object
   const queryObj = {
@@ -84,8 +78,7 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
       queryObj.filters[k].$eq = Number(filters[k]);
     }
   });
-  // if (filters.cottage) queryObj.filters.propertyType.$eq = "cottage";
-  // if (filters.apartment) queryObj.filters.propertyType.$eq = "apartment";
+
   if (filters.propertyType)
     queryObj.filters.propertyType.$eq = filters.propertyType;
 
@@ -169,8 +162,6 @@ export default async function CityPage({ params, searchParams = {} }) {
     kitchens: searchParams.kitchens?.split(",") ?? [],
     features: searchParams.features?.split(",") ?? [],
     propertyType: searchParams.propertyType,
-    // cottage: searchParams.cottage,
-    // apartment: searchParams.apartment,
   };
 
   /* ───── fetch data ───── */
@@ -209,9 +200,9 @@ export default async function CityPage({ params, searchParams = {} }) {
 
   /* ------------------------------ RENDER ------------------------- */
   return (
-    <div>
+    <div className="mt-20 lg:mt-0">
       {/* Hero (desktop) */}
-      <section className="hidden md:block relative h-[260px] lg:h-[320px]">
+      <section className=" hidden md:block relative h-[260px] lg:h-[320px]">
         <Image
           src="/images/aboutUs.jpg"
           alt="Недвижимость премиум‑класса"
@@ -219,8 +210,8 @@ export default async function CityPage({ params, searchParams = {} }) {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-primary-dark/80 flex flex-col items-center justify-center text-center px-2">
-          <h1 className="font-bold text-white text-2xl lg:text-3xl max-w-4xl">
+        <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
+          <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">
             Квартиры посуточно в {cityRussian.ru}
           </h1>
           <p className="text-white mt-2 max-w-3xl">
@@ -239,7 +230,7 @@ export default async function CityPage({ params, searchParams = {} }) {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 lg:w-3/4 px-4 lg:px-8 pt-4 pb-10">
+        <main className="flex-1 px-4 lg:px-0 pt-4 pb-10">
           <div className="mb-6 flex flex-row items-center justify-between gap-4">
             <Breadcrumbs
               items={[

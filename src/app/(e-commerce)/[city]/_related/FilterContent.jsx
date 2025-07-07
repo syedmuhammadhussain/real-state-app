@@ -254,8 +254,8 @@ export function FilterContent({
               className="flex h-10 w-full rounded-xl border px-3 py-2 text-sm ring-offset-background focus:outline-primary-light"
             >
               <option value="">Выберите станцию</option>
-              <option value="VILLA">VILLA</option>
-              <option value="APARTMENT">APARTMENT</option>
+              <option value="VILLA">Коттедж</option>
+              <option value="APARTMENT">Квартиры</option>
             </select>
           </div>
         </div>

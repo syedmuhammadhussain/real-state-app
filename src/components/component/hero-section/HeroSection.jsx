@@ -20,7 +20,7 @@ const HeroSection = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-900/30 to-transparent" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl w-full space-y-8">
+            <div className=" max-w-5xl  w-full space-y-8">
               <h1 className=" text-4xl md:text-6xl text-white drop-shadow-xl"> 
                  {/* ПОСУТОЧНАЯ АРЕНДА ЖИЛЬЯ<br/> В ГОРОДАХ РОССИИ  */}
                  kvkey.com — ключ в один клик

@@ -18,17 +18,19 @@ export const ApartmentHeader = ({ product }) =>{
         
             {/* addresss  */}
            <div className="flex items-center flex-wrap gap-4 mb-6">
-            <div className="flex  items-center gap-1 text-primary-dark">
+            <div className=" gap-1 text-primary-dark flex md:items-center">
               <MapPin className="w-5 h-5 text-primary-dark " />
-                {product.city?.area?.name || "Unknown Region"}, {product.city.name ??''}, 
+              <span className='text-sm md:text-md'>
+                  {product.city?.area?.name || "Unknown Region"}, {product.city.name ??''}, 
                 {product.district ?  product?.district.name  : '' },   
                 {product.metro_station ?  product?.metro_station.name  : '' },   
                 { product.address ??''}
+              </span>
             </div>
             <div className="flex items-center gap-1">
               <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-              <span className="font-semibold text-primary-dark">4.8</span>
-              <span className="text-primary-light ">(124 отзыва)</span>
+              <span className="text-sm md:text-md font-semibold text-primary-dark">4.8</span>
+              <span className=" text-sm md:text-md text-primary-dark ">(124 отзыва)</span>
             </div>
           </div>
 

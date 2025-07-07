@@ -11,20 +11,11 @@ import { useAuth } from "../../../../../context/AuthContext";
 const ApartmentOwnerComponenet = () => {
   const { user } = useAuth();
   const router = useRouter();
-
-  const {
-    apartmentsForOwner,
-    loading,
-    error,
-    deleteApartment,
-    fetchApartmentsByOwner,
-    setApartmentForEdit,
-    setEditMode,
-  } = useApartment();
+  const {apartmentsForOwner,deleteApartment,fetchApartmentsByOwner,setApartmentForEdit} = useApartment();
 
   // handle not not exist user
   useEffect(() => {
-    if (user?.id && apartmentsForOwner.length === 0)
+    if (user?.id )
       fetchApartmentsByOwner(user.id);
   }, [user?.id]);
 
@@ -38,14 +29,11 @@ const ApartmentOwnerComponenet = () => {
   // handle edit
   const handleDelete = async (id) => await deleteApartment(id);
 
-  if (loading || loading === null) return <LoadingState />;
-  // if (error || apartmentsForOwner.length === 0) return <EmptyState/>;
-
-
   return (
     <div className="mt-4 grid gap-4">
-      {loading ? (
-        <LoadingState />
+      {apartmentsForOwner  === null &&   <LoadingState />}
+      {apartmentsForOwner && apartmentsForOwner?.length === 0  ? (
+        <EmptyState />
       ) : (
         apartmentsForOwner?.map((apartment, index) => (
           <ApartmentCard

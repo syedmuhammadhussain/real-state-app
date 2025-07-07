@@ -5,13 +5,7 @@ import qs from "qs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FilterContent } from "./FilterContent";
 import { useApartment } from "../../../../../context/ApartmentContext";
 import { normalizeIds } from "@/lib/utils";
@@ -19,14 +13,11 @@ import { normalizeIds } from "@/lib/utils";
 export default function Sidebar({
   citySlug,
   defaultValues = {},
-  // metro = [],
-  // district = [],
 }) {
   /* --------------------------------------------------------------------- */
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const isMobile = useIsMobile();
   const { cities } = useApartment();
 
   /* -------------------- local state (mirrors filter UI) ----------------- */
@@ -62,9 +53,6 @@ export default function Sidebar({
     defaultValues.propertyType ?? ""
   );
 
-  // const [isCottage, setIsCottage] = useState(!!defaultValues.cottage);
-  // const [isApartment, setIsApartment] = useState(!!defaultValues.apartment);
-
   /* ---------- keep local state in-sync when URL-driven defaults change --- */
   useEffect(() => {
     setPriceRange([
@@ -80,9 +68,6 @@ export default function Sidebar({
     setSelectedAmenities(normalizeIds(defaultValues.amenities) ?? []);
     setSelectedFeature(normalizeIds(defaultValues.features) ?? []);
     setSelectedKitchen(normalizeIds(defaultValues.kitchens) ?? []);
-    // setIsCottage(!!defaultValues.cottage);
-    // setIsApartment(!!defaultValues.apartment);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(defaultValues)]);
 
@@ -143,9 +128,6 @@ export default function Sidebar({
       ...(selectedFeature && {
         features: selectedFeature.map((id) => Number(id)),
       }),
-      // ...(isCottage                && { cottage:   "1" }),
-      // ...(isApartment              && { apartment: "1" }),
-      // Note: no `page` key → pagination resets to 1
     };
 
     const qsString = qs.stringify(params, {
@@ -172,8 +154,7 @@ export default function Sidebar({
     setSelectedAmenities("");
     setSelectedKitchen("");
     setSelectedFeature("");
-    setIsCottage(false);
-    setIsApartment(false);
+    setPropertyType("")
   };
 
   const metro = cities.find((c) => c.slug === citySlug)?.metro_stations ?? [];
@@ -206,8 +187,6 @@ export default function Sidebar({
     selectedAmenities,
     selectedKitchen,
     selectedFeature,
-    // isCottage,
-    // isApartment,
     metro,
     district,
     propertyType,
@@ -223,8 +202,6 @@ export default function Sidebar({
     toggleKitchen: toggleKitchen,
     onFeatureSelect: onFeatureSelect,
     onPropertyTypeSelect: onPropertyTypeSelect,
-    // onCottageToggle: () => setIsCottage((p) => !p),
-    // onApartmentToggle: () => setIsApartment((p) => !p),
   };
 
   /* -------------- RENDER -------------- */

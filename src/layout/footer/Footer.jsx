@@ -27,7 +27,6 @@ export default function Footer() {
     pathname.startsWith('/login') ||
     pathname.startsWith('/register') ||
     pathname.startsWith('/forgot-password') ||
-    pathname.startsWith('/checkout') ||
     pathname.startsWith('/add-apartment')  || 
     pathname.startsWith('/edit-apartment')  || 
     pathname.startsWith('/profile') 

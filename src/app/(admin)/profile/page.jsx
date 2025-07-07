@@ -13,20 +13,21 @@ import ProfileInfo from "./_related/ProfileInfo";
 import ApartmentOwnerComponenet from "./_related/ApartmentOwnerComponenet";
 import { StrapiImage } from '@/components/ui/StrapiImage';
 
+
 export default function ProfilePage() {
   
   const [selectedTab, setSelectedTab] = useState("properties");
   const { user } = useAuth();
   const router = useRouter();
  
-  const { apartmentsForOwner,  notifications, handleNotification ,fetchApartmentsByOwner,  setEditMode } = useApartment();
+  const {   notifications, handleNotification ,fetchApartmentsByOwner,  setEditMode } = useApartment();
   
   
   // console.log('user?.id',user )
 
   // handle not not exist user
   useEffect(() => {
-    if (user?.id &&  apartmentsForOwner.length === 0 ) fetchApartmentsByOwner(user.id)
+    if (user?.id  ) fetchApartmentsByOwner(user.id)
       setTimeout(() => {
       }, 3000);
   }, []); 

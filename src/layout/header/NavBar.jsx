@@ -1,23 +1,38 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown, User, LogOut, UserRound, Menu } from 'lucide-react';
-import MenuOpen from './MenuOpen';
+import { ChevronDown, User, LogOut, UserRound, Headset, Newspaper, Star, BookmarkCheck} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import NextLink from '@/components/ui/NextLink';
 import { links  } from '@/constants/data';
 import { useAuth } from '../../../context/AuthContext';
 import { StrapiImage } from '@/components/ui/StrapiImage';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function Navbar() {
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const avatarRef = useRef(null);
-  const menuRef = useRef(null);
-  const pathname = usePathname(); 
+  const pathname = usePathname();
+  const isMobile = useIsMobile() 
+  const [hidden, setHidden] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+ // handle show and hide nav bar 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const visible = prevScrollPos > currentScrollPos || currentScrollPos < 10;
+      setHidden(!visible);
+      setPrevScrollPos(currentScrollPos);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
 
   // get user  and logout and success
   const { logout , user ,success} = useAuth()
 
+  // close menu when 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (avatarRef.current && !avatarRef.current.contains(event.target)) setIsAvatarMenuOpen(false);
@@ -26,15 +41,6 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) setIsMenuOpen(false);
-     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const handleLogout =  async () => await logout()
 
   // Hide Navbar on auth and checkout pages
@@ -42,42 +48,48 @@ export default function Navbar() {
     pathname.startsWith('/login') ||
     pathname.startsWith('/register') ||
     pathname.startsWith('/forgot-password') ||
-    pathname.startsWith('/checkout') ||
     pathname.startsWith('/add-apartment')  || 
-    pathname.startsWith('/edit-apartment')  
+    pathname.startsWith('/edit-apartment') 
   ) {
     return null;
   }
 
-
   return (
-    <header className="fixed top-0 left-0 w-full bg-background-default opacity-95 shadow-md z-50">
+<header 
+  className={`
+    max-w-[400px]
+    fixed 
+    top-2
+    left-1/2          /* Start from horizontal center */
+    -translate-x-1/2  /* Adjust to true center */
+    w-full           /* Full width */
+    md:max-w-7xl        /* Maximum width */
+    rounded-xl 
+    bg-background-default 
+    opacity-95 
+    shadow-md  border border-primary-light
+    z-50 
+    transition-all
+    ${hidden ? '-translate-y-full' : 'translate-y-0 shadow-md'}
+  `}
+>
       <div className="px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14">
           {/* Left side - Logo and menu */}
-          <div className='hidden sm:flex items-center' >
+          <div className='flex items-center'>
             <NextLink href="/" >
-               <span className="text-2xl font-semibold" > KVKEY</span>   
+               <span className="text-2xl font-semibold text-primary-dark"> KVKEY </span>   
             </NextLink>
           </div>
 
           {/* Middle - Navigation links */}
           <div className="flex items-center gap-4">
-             <button
-                  onClick={toggleMenu}
-                  className="md:hidden flex items-center gap-2 group"
-                  aria-label="User menu"
-                >
-                  <Menu size={25} />
-            </button>
             <nav className="md:flex items-center space-x-6 hidden">
               <ul className="flex gap-4 md:gap-6">
                 {links.map((link, index) => (
-                  <li key={index} className='responsive-appbar-button text-primary-dark text-base  transition-all cursor-pointer'>
-                    <NextLink
-                      href={link.link}
-                    >
-                      {link.name}
+                  <li key={index} className='responsive-appbar-button'>
+                    <NextLink href={link.link}>
+                      <span className='text-primary-dark text-sm font-semibold'>{link.name}</span>
                     </NextLink>
                   </li>
                 ))}
@@ -94,7 +106,7 @@ export default function Navbar() {
                   className="flex flex-col items-center group"
                   aria-label="User menu"
                 >
-                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
+                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
                 <StrapiImage
                       src={user?.image.url}
                       alt={`Превью `}
@@ -132,6 +144,47 @@ export default function Navbar() {
                         <User className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
                         Профиль
                       </NextLink>
+                      {isMobile  && 
+                      <>
+                        <NextLink
+                          href="/about"
+                          className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                            onClick={() => setIsAvatarMenuOpen(false)}
+                        >
+                          <Newspaper className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                          О нас
+                        </NextLink>
+                        <NextLink
+                          href="/contact"
+                          className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                          onClick={() => setIsAvatarMenuOpen(false)}
+                        >
+                        <Headset  className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                          Контакт
+                        </NextLink>
+                        <NextLink
+                          href="/premium"
+                          className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                          onClick={() => setIsAvatarMenuOpen(false)}
+                        >
+                          <Star className="w-4 h-4 mr-3  text-yellow-500 group-hover:text-yellow-600" />
+                          <span className="flex items-center text-sm gap-2">
+                          Премиум
+                            <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                              PRO
+                            </span>
+                          </span>
+                        </NextLink>
+                        <NextLink
+                            href="/faq"
+                            className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                            onClick={() => setIsAvatarMenuOpen(false)}
+                            >
+                            <BookmarkCheck    className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                              Вопросы
+                        </NextLink>
+                      </>
+                      }
                       <button
                         onClick={handleLogout}
                         className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-gray-50 group border-t border-gray-100"
@@ -150,15 +203,6 @@ export default function Navbar() {
             )}
           </div>
         </div>
-
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <MenuOpen
-            setIsMenuOpen={setIsMenuOpen}
-            isMenuOpen={isMenuOpen}
-             menuRef={menuRef}
-          />
-        )}
       </div>
     </header>
   );

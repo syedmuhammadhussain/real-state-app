@@ -8,7 +8,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "w-full px-4 py-2 bg-primary-dark text-white rounded-xl hover:bg-gradient-to-br from-black/80  hover:animate-pulse",
+          "w-full px-4 py-2 bg-primary-dark text-white rounded-xl hover:bg-gradient-to-br from-black/80  hover:animate-pulse  ",
         secondary:
           "bg-secondary-default text-white shadow-md hover:bg-secondary-hover hover:scale-105",
         outline:

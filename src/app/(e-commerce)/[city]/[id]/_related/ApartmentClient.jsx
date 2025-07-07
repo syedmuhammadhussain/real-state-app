@@ -8,7 +8,7 @@ import { ApartmentTabs } from './ApartmentTabs';
 
 export default function ApartmentClient({ apartment }) {
   return (
-    <div className="mt-5 min-h-screen max-w-7xl mx-auto px-4 space-y-10">
+    <div className="px-4 lg:px-0  mt-24 min-h-screen max-w-7xl mx-auto  space-y-10">
       <Breadcrumbs
         items={[
           { label: 'Главная', href: '/' },
