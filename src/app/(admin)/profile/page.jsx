@@ -52,9 +52,9 @@ export default function ProfilePage() {
         {/* Header */}
         <div className="mb-8 flex flex-wrap items-end justify-between rounded-xl bg-white p-6 shadow">
           <div className="flex items-center gap-6">
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
+            <div className="flex h-24 w-24 items-center justify-center rounded-full  border border-primary-default shadow-lg overflow-hidden">
               <StrapiImage
-                src={user?.image.url}
+                src={user?.image !== null  ? user?.image.url :  '/images/avat.webp'}
                 alt={`Превью `}
                 className="object-cover"
                 sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"/>

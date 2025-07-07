@@ -8,11 +8,11 @@ import { useAuth } from '../../../../../context/AuthContext';
 
 
 const HandleProfileImage = ({image, setImage}) => {
-const MAX_FILE_SIZE = 5 * 1024 * 1024; 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; 
+  const {user} = useAuth()
+  const[error, setError] = useState(null)
 
-const {user} = useAuth()
-const[error, setError] = useState(null)
-
+  useEffect(()=>{ if(user.image && user.image !== null)  setImage(user.image.url) },[])
 
   const handleImageChange = useCallback(
     (e) => {
@@ -55,14 +55,9 @@ const[error, setError] = useState(null)
     // }
   };
 
-  useEffect(()=>{
- if(user.image) setImage(user.image.url)
-  },[])
-  console.log('image',typeof image)
   return (
     <div>
         <Uploader handleImageChange = {handleImageChange} multiple={false}/>
-        
            {error && (
           <div className="mt-2 rounded-xl bg-red-50 p-2 text-sm font-medium text-red-600">
             {error}

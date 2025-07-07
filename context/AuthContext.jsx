@@ -204,25 +204,22 @@ export function AuthProvider({ children }) {
           });
           return 
           }
-          //  if (typeof data.image  === 'string' ){
-          //  toast({
-          //   variant: 'destructive',
-          //   title: 'Ошибка обновления  string string string ',
-          //   description: 'Не удалось сохранить изменения профиля'
-          // });
-          // return 
-          // }
-          // Step 1: Upload images if any
             let uploadedImages = [];
             if (data.image.length  > 0 && typeof data.image  !== 'string' ) {
               uploadedImages = await uploadImages(data.image);
             }
+            let idOfUploadedImage =  uploadedImages.map((img) => img.id)
+            
+            console.log(' data image ' , data.image)
+            console.log(' idOfUploadedImage' , idOfUploadedImage)
             const preparedData = {
               ...data,
-              image: user?.image.url === data.image ?  user?.image.id   :  uploadedImages.map((img) => img.id)[0],
+              image: user?.image.url === data.image ?  user?.image.id   : idOfUploadedImage[0],
             };
-           await api.put(`${apiUrl}/user/me`,preparedData, {
-          });
+            console.log('preparedData preparedData ' , preparedData)
+           const taa = await api.put(`${apiUrl}/user/me`,preparedData);
+           console.log(taa)
+          
           setSuccess(true);
           initializeAuth()
           toast({

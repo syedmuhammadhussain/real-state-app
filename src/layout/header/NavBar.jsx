@@ -17,6 +17,9 @@ export default function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
 
+  // get user  and logout and success
+  const { logout , user ,success} = useAuth()
+
  // handle show and hide nav bar 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,8 +32,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos]);
 
-  // get user  and logout and success
-  const { logout , user ,success} = useAuth()
+
 
   // close menu when 
   useEffect(() => {
@@ -99,7 +101,7 @@ export default function Navbar() {
 
           {/* Right side - Search and Avatar */}
           <div className="flex items-center gap-4">
-            { success ? (
+            {  (
               <div className="relative" ref={avatarRef}>
                 <button
                   onClick={() => setIsAvatarMenuOpen(prev => !prev)}
@@ -108,7 +110,7 @@ export default function Navbar() {
                 >
                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
                 <StrapiImage
-                      src={user?.image.url}
+                      src={user?.image !== null ? user?.image.url :  '/images/avat.webp'}
                       alt={`Превью `}
                       className="object-cover"
                       sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"/>
@@ -130,12 +132,17 @@ export default function Navbar() {
                   }`}
                 >
                   <div className="bg-white rounded-b-xl shadow-xl  ring-black/5 py-2">
-                    <div className="px-4 py-3 border-b border-gray-100">
+
+                  {user && 
+                   <div className="px-4 py-3 border-b border-gray-100">
                       <p className="text-sm font-medium text-gray-900">{user?.username}</p>
                       <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                     </div>
+                  }
+                   
 
                     <div className="space-y-1">
+                      {success ?    
                       <NextLink
                         href="/profile"
                         className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
@@ -143,7 +150,19 @@ export default function Navbar() {
                       >
                         <User className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
                         Профиль
-                      </NextLink>
+                      </NextLink> 
+                      :
+                       <NextLink
+                          href="/login"
+                          className="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 group"
+                            onClick={() => setIsAvatarMenuOpen(false)}
+                        >
+                          <User className="w-4 h-4 mr-3 text-gray-400 group-hover:text-primary-dark" />
+                          Вход
+                        </NextLink>
+                      }
+
+                     
                       {isMobile  && 
                       <>
                         <NextLink
@@ -185,22 +204,20 @@ export default function Navbar() {
                         </NextLink>
                       </>
                       }
+                      {success &&   
                       <button
                         onClick={handleLogout}
                         className="w-full flex items-center px-4 py-2.5 text-sm text-red-600 hover:bg-gray-50 group border-t border-gray-100"
                       >
                         <LogOut className="w-4 h-4 mr-3 text-red-500 group-hover:text-red-600" />
                         Выйти
-                      </button>
+                      </button>}
+                     
                     </div>
                   </div>
                 </div>
               </div>
-            ) : (
-                <NextLink href="/login" aria-label='login page' className="text-gray-800 hover:text-primary-hover  transition-colors duration-300">
-                  <UserRound size={20} />
-                </NextLink> 
-            )}
+            ) }
           </div>
         </div>
       </div>

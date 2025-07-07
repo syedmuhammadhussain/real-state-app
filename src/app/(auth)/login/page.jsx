@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const { login, error: authError, loading } = useAuth();
+  const { login, error: authError, loading , authLoading} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,9 +63,9 @@ export default function LoginPage() {
               type="submit"
               size="md"
               variant="primary"
-              disabled={loading}
+              disabled={authLoading}
             >
-              {loading ? 'Обработка...' : 'Войти'}
+              {authLoading ? 'Обработка...' : 'Войти'}
             </Button>
           </div>
         </form>
