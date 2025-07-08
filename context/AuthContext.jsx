@@ -20,7 +20,6 @@ export function AuthProvider({ children }) {
   // const token = localStorage.getItem('authToken') ?? ''
   const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-
   // initialize
   const initializeAuth = () => {
     return new Promise(async (resolve, reject) => {
@@ -220,28 +219,25 @@ export function AuthProvider({ children }) {
         return;
       }
 
+      let endPoint;
+      if (user?.image === null) {
+        endPoint = "/upload";
+      } else if (user?.image?.id) {
+        endPoint = `/upload?id=${user?.image?.id}`;
+      }
       
-
-      let endPoint 
-      if(user?.image === null )  {
-        endPoint = '/upload'
-      } else if( user?.image?.id ){
-        endPoint  = `/upload?id=${user?.image?.id}` 
-      } 
-
       let uploadedImages = [];
 
       if (data.image.length > 0 && typeof data.image !== "string") {
         uploadedImages = await uploadImages(data.image, endPoint);
       }
 
-      // console.log('data.image' , data.image)
       const getIdFromUploadedImages = (uploadedImages) => {
-          if (!uploadedImages) return undefined;
-          return Array.isArray(uploadedImages) 
-            ? uploadedImages[0]?.id 
-            : uploadedImages.id;
-        };
+        if (!uploadedImages) return undefined;
+        return Array.isArray(uploadedImages)
+          ? uploadedImages[0]?.id
+          : uploadedImages.id;
+      };
 
       // let idOfUploadedImage = typeof uploadedImages == 'Array ' ?  uploadedImages.map((img) => img.id)[0] : uploadedImages.id ;
 
@@ -252,11 +248,6 @@ export function AuthProvider({ children }) {
             ? user?.image.id
             : getIdFromUploadedImages(uploadedImages),
       };
-
-      if (data.ok === 200) {
-        console.log("delete image");
-      }
-
 
       await api.put(`${apiUrl}/user/me`, preparedData);
 
