@@ -39,7 +39,7 @@ const FramerSelectShadcn = () => {
   const router = useRouter()
   
   return (
-    <div className="flex flex-row justify-center items-center gap-1  w-full ">
+    <div className="flex flex-row justify-center items-center gap-1  w-full px-4 md:px-0">
       <SelectFramer />
       {isDisabled  ? 
        <Button
