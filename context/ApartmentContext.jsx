@@ -337,7 +337,6 @@ export const ApartmentProvider = ({ children }) => {
 
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
-    // debugger;
     setLoading(true);
     try {
       // Step 1: Upload images if any

@@ -177,7 +177,6 @@ export default async function CityPage({ params, searchParams }) {
     });
 
     if (!res.ok) throw new Error(`API error ${res.status}`);
-    // debugger
 
     const json = await res.json();
     apartments = json.data ?? [];
