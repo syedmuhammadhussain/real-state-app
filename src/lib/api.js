@@ -38,16 +38,16 @@ const url = `${apiUrl}/products/${id}?populate[images][populate]=*&populate[owne
 // uploader image endPoint 
 
   // handle uploading image
-  export const uploadImages = async (images) => {
+  export const uploadImages = async (images, endPoint = '/upload' ) => {
     if (!images || images.length === 0) return [];
 
     const formData = new FormData();
     images.forEach((image) => {
-      formData.append("files", image); // Use the correct key expected by your backend
+      formData.append("files", image);
     });
 
     try {
-      const response = await api.post(`${apiUrl}/upload`, formData, {
+      const response = await api.post(`${apiUrl}${endPoint}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           // Optionally show progress

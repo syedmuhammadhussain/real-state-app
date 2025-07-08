@@ -141,7 +141,7 @@ const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
 /* ------------------------------------------------------------------
  * Server Component – runs on every request
  * -----------------------------------------------------------------*/
-export default async function CityPage({ params, searchParams = {} }) {
+export default async function CityPage({ params, searchParams }) {
   const citySlug = params?.city ?? "";
   const city = cityOptions.find((c) => c.key === citySlug.toLowerCase());
   if (!city) notFound();
