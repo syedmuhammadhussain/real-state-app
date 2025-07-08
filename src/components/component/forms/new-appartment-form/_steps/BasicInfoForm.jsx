@@ -15,7 +15,6 @@ export default function BasicInfoForm({
   const { cities = [] } = useApartment();
   const [isEditingApartment, setIsEditingApartment] = useState(false);
 
-  console.log("apartment", apartment);
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsEditingApartment(Boolean(localStorage.getItem("apartmentForEdit")));

@@ -1,17 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const api = axios.create({
   baseURL: apiUrl,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    "Content-Type": "application/json",
+  },
 });
 
 // Automatically attach Bearer token from localStorage before each request
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken'); // Replace 'authToken' if you're using a different key
+    const token = localStorage.getItem("authToken"); // Replace 'authToken' if you're using a different key
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -22,67 +22,48 @@ api.interceptors.request.use(
 
 export { api };
 
-
 // get single apartment finction
 export async function getApartment(id) {
+  const url = `${apiUrl}/products/${id}?populate[images][populate]=*&populate[owner][populate]=*&populate[district][populate]=*&populate[city][populate][area][fields][0]=name&populate[location][populate]=*&populate[features][populate]=*&populate[kitchens]    [populate]=*&populate[amenities][populate]=*&populate[infrastructures][populate]=*`;
 
-const url = `${apiUrl}/products/${id}?populate[images][populate]=*&populate[owner][populate]=*&populate[district][populate]=*&populate[city][populate][area][fields][0]=name&populate[location][populate]=*&populate[features][populate]=*&populate[kitchens]    [populate]=*&populate[amenities][populate]=*&populate[infrastructures][populate]=*`;
-
-  const res = await fetch(url, { cache: 'no-store' },
-  );  
+  const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) return null;
   const { data } = await res.json();
   return data;
-} 
+}
 
-// uploader image endPoint 
+// uploader image endPoint
 
-  // handle uploading image
-  export const uploadImages = async (images) => {
-    if (!images || images.length === 0) return [];
+// handle uploading image
+export const uploadImages = async (images, endPoint = "/upload") => {
+  if (!images || images.length === 0) return [];
 
-    const formData = new FormData();
-    images.forEach((image) => {
-      formData.append("files", image); // Use the correct key expected by your backend
+  const formData = new FormData();
+  images.forEach((image) => {
+    formData.append("files", image);
+  });
+
+  try {
+    const response = await api.post(`${apiUrl}${endPoint}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      // onUploadProgress: (progressEvent) => {},
     });
 
-    try {
-      const response = await api.post(`${apiUrl}/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        onUploadProgress: (progressEvent) => {
-          // Optionally show progress
-          console.log(
-            `Upload progress: ${
-              (progressEvent.loaded / progressEvent.total) * 100
-            }%`
-          );
-        },
-      });
-
-      console.log("Uploaded media:", response.data);
-      return response.data; 
-    } catch (error) {
-      console.error("Upload failed:", error);
-      throw new Error("Image upload failed.");
-    }
-  };
-
-
+    return response.data;
+  } catch (error) {
+    console.error("Upload failed:", error);
+    throw new Error("Image upload failed.");
+  }
+};
 
 // lib/strapi-utils.ts
 
-const API_BASE =
-  "https://lovely-growth-c72512e849.strapiapp.com";
+const API_BASE = "https://lovely-growth-c72512e849.strapiapp.com";
 
 export const ITEMS_PER_PAGE = 10;
 
-
-// build endpoit 
-export function buildEndpoint({
-  citySlug,
-  page = 1,
-  filters = {},
-}) {
+// build endpoit
+export function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   const url = new URL("/api/products", API_BASE);
 
   url.searchParams.set("filters[city][name][$eq]", citySlug);
@@ -98,7 +79,7 @@ export function buildEndpoint({
   url.searchParams.set("populate[location][populate][fields]", "name");
 
   ["features", "kitchens", "amenities", "infrastructures"].forEach((rel) =>
-    url.searchParams.set(`populate[${rel}][populate][fields]`, "name"),
+    url.searchParams.set(`populate[${rel}][populate][fields]`, "name")
   );
 
   // filters
@@ -130,8 +111,7 @@ export function buildEndpoint({
   if (district) url.searchParams.set("filters[district][$eq]", district);
   if (amenities?.length)
     url.searchParams.set("filters[amenities][name][$in]", amenities.join(","));
-  if (cottage)
-    url.searchParams.set("filters[propertyType][$eq]", "cottage");
+  if (cottage) url.searchParams.set("filters[propertyType][$eq]", "cottage");
 
   return url.toString();
 }

@@ -44,9 +44,6 @@ export function FilterContent({
   /* pull amenity / feature lists from global context */
   const { amenities, features, kitchens } = useApartment();
 
-  console.log("selectedktchen", selectedKitchen);
-  console.log("selectedAmenities", selectedAmenities);
-  console.log("selectedFeature", selectedFeature);
   return (
     <div className="space-y-6 ">
       {/* -------- Price -------- */}

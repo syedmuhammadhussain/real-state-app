@@ -28,9 +28,8 @@ export const ApartmentProvider = ({ children }) => {
   const [editMode, setEditMode] = useState(false);
   const [position, setPosition] = useState(null);
 
-  // console.log('features', features)
   // hero section and select Option City selector
-  const [selectedCityKey, setSelectedCityKey] = useState('');
+  const [selectedCityKey, setSelectedCityKey] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const selectedCity = cities?.find((city) => city.slug === selectedCityKey);
 
@@ -80,7 +79,6 @@ export const ApartmentProvider = ({ children }) => {
         `${apiUrl}/positions?filters[city][id][$eq]=${id}`
       );
       const data = await response.data.data;
-      console.log("position", data);
       setPosition(data);
       setError(null);
     } catch (err) {
@@ -282,8 +280,6 @@ export const ApartmentProvider = ({ children }) => {
     setCurrentApartment(null);
   };
 
-
-
   // create new
   const createApartment = async (apartmentData, toUpload = []) => {
     setLoading(true);
@@ -293,7 +289,6 @@ export const ApartmentProvider = ({ children }) => {
       if (toUpload.length > 0) {
         uploadedImages = await uploadImages(toUpload);
       }
-      // console.log('uploadedImages', uploadedImages)
       // Step 2: Integrate uploaded image info into apartmentData
       const preparedData = {
         ...apartmentData,
@@ -342,7 +337,6 @@ export const ApartmentProvider = ({ children }) => {
 
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
-    // debugger;
     setLoading(true);
     try {
       // Step 1: Upload images if any
@@ -366,7 +360,8 @@ export const ApartmentProvider = ({ children }) => {
             ? apartmentData.district?.id
             : apartmentData.district,
         metro_station:
-          apartmentData.metro_station && typeof apartmentData.metro_station === "object"
+          apartmentData.metro_station &&
+          typeof apartmentData.metro_station === "object"
             ? apartmentData.metro_station?.id
             : apartmentData.metro_station,
         city:
@@ -400,7 +395,6 @@ export const ApartmentProvider = ({ children }) => {
           body: JSON.stringify({ data: preparedData }),
         }
       );
-      // console.log('preparedData', preparedData)
 
       if (!response.ok) throw new Error("Не удалось обновить квартиру");
       const updatedApartment = await response.json();

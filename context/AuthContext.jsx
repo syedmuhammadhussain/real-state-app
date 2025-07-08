@@ -93,7 +93,6 @@ export function AuthProvider({ children }) {
 
   // registration
   const register = async (firstName, lastName, email, password, phone) => {
-    // debugger
     setAuthLoading(true);
     setError(null);
     try {
@@ -207,7 +206,6 @@ export function AuthProvider({ children }) {
 
   // editUser editUser
   const editUser = async (data) => {
-    debugger;
     try {
       if (data.image === null) {
         toast({
@@ -222,7 +220,6 @@ export function AuthProvider({ children }) {
         uploadedImages = await uploadImages(data.image);
       }
       let idOfUploadedImage = uploadedImages.map((img) => img.id);
-
       const preparedData = {
         ...data,
         image:
@@ -230,12 +227,9 @@ export function AuthProvider({ children }) {
             ? user?.image.id
             : idOfUploadedImage[0],
       };
-
-      if (data.ok === 200) {
-        console.log("delete image");
-      }
-
+      
       await api.put(`${apiUrl}/user/me`, preparedData);
+      await api.delete(`upload/files/${user?.image?.id}`);
 
       setSuccess(true);
       initializeAuth();
