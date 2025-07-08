@@ -145,22 +145,23 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
           <button
             onClick={scrollPrev}
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
+              
+              "group absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
               isFullscreen ? "left-6" : "left-2"
             )}
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-6 h-6 text-primary-dark hover:text-white" />
+            <ChevronLeft className="w-6 h-6 text-primary-dark group-hover:text-white" />
           </button>
           <button
             onClick={scrollNext}
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
+              "group absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
               isFullscreen ? "right-6" : "right-2"
             )}
             aria-label="Next slide"
           >
-            <ChevronRight className="w-6 h-6 text-primary-dark hover:text-white" />
+            <ChevronRight className="w-6 h-6 text-primary-dark group-hover:text-white" />
           </button>
         </>
       )}
