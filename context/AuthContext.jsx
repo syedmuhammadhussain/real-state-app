@@ -208,7 +208,6 @@ export function AuthProvider({ children }) {
   // editUser editUser
   const editUser = async (data) => {
     debugger;
-
     try {
       if (data.image === null) {
         toast({
@@ -218,38 +217,21 @@ export function AuthProvider({ children }) {
         });
         return;
       }
-
-      let endPoint;
-      if (user?.image === null) {
-        endPoint = "/upload";
-      } else if (user?.image?.id) {
-        endPoint = `/upload?id=${user?.image?.id}`;
-      }
-      
       let uploadedImages = [];
-
       if (data.image.length > 0 && typeof data.image !== "string") {
-        uploadedImages = await uploadImages(data.image, endPoint);
+        uploadedImages = await uploadImages(data.image);
       }
-
-      const getIdFromUploadedImages = (uploadedImages) => {
-        if (!uploadedImages) return undefined;
-        return Array.isArray(uploadedImages)
-          ? uploadedImages[0]?.id
-          : uploadedImages.id;
-      };
-
-      // let idOfUploadedImage = typeof uploadedImages == 'Array ' ?  uploadedImages.map((img) => img.id)[0] : uploadedImages.id ;
-
+      let idOfUploadedImage = uploadedImages.map((img) => img.id);
       const preparedData = {
         ...data,
         image:
           user?.image?.url === data.image
             ? user?.image.id
-            : getIdFromUploadedImages(uploadedImages),
+            : idOfUploadedImage[0],
       };
-
+      
       await api.put(`${apiUrl}/user/me`, preparedData);
+      await api.delete(`upload/files/${user?.image?.id}`);
 
       setSuccess(true);
       initializeAuth();
