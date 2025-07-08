@@ -14,7 +14,7 @@ const ApartmentContext = createContext();
 export const ApartmentProvider = ({ children }) => {
   const [cities, setCities] = useState([]);
   const [apartments, setApartments] = useState([]);
-  const [apartmentsForOwner, setApartmentsForOwner] = useState([]);
+  const [apartmentsForOwner, setApartmentsForOwner] = useState(null);
   const [features, setFeature] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [infrastructures, setInfrastructures] = useState([]);
@@ -22,7 +22,7 @@ export const ApartmentProvider = ({ children }) => {
   const [currentApartment, setCurrentApartment] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadingPosition, setLoadingPosition] = useState(false);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState(null);
   const [error, setError] = useState(null);
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -30,9 +30,9 @@ export const ApartmentProvider = ({ children }) => {
 
   // console.log('features', features)
   // hero section and select Option City selector
-  const [selectedCityKey, setSelectedCityKey] = useState(cityOptions[0].ru);
+  const [selectedCityKey, setSelectedCityKey] = useState('');
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const selectedCity = cityOptions.find((city) => city.ru === selectedCityKey);
+  const selectedCity = cities?.find((city) => city.slug === selectedCityKey);
 
   // City selection
   const handleCitySelect = (cityKey) => {

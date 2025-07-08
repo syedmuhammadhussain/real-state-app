@@ -6,12 +6,13 @@ import { validateEmail, validatePassword } from '@/constants/utils';
 import Input from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../../../../context/AuthContext';
+import NextLink from '@/components/ui/NextLink';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
-  const { login, error: authError, loading } = useAuth();
+  const { login, error: authError, loading , authLoading} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,9 +26,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen px-3 flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Вход</h1>
+        <div className='flex items-center justify-center mb-6'>
+            <NextLink href="/" >
+               <span className="text-2xl font-semibold text-primary-dark"> Вход в KVKEY </span>   
+            </NextLink>
+          </div>
+        {/* <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Вход</h1> */}
 
         {errors.server && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">
@@ -63,9 +69,9 @@ export default function LoginPage() {
               type="submit"
               size="md"
               variant="primary"
-              disabled={loading}
+              disabled={authLoading}
             >
-              {loading ? 'Обработка...' : 'Войти'}
+              {authLoading ? 'Обработка...' : 'Войти'}
             </Button>
           </div>
         </form>

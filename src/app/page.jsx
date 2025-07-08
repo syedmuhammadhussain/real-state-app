@@ -9,7 +9,7 @@ export default function ProductPage() {
   return (
     <>
       <HeroSection/>
-      <div className = "max-w-7xl px-3 lg:px-4 mx-auto">
+      <div className = " px-4 lg:px-0 max-w-7xl  mx-auto">
         <KvkeyHowItWorks/>
         <Categories/>
         <RentalSection/>

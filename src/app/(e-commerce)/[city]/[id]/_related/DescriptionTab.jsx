@@ -13,16 +13,16 @@ propertyType */}
         <div className="flex  flex-col justify-center h-auto gap-2 ">
           <div className="flex items-center gap-2">
             <Building2 className="w-5 h-5 text-primary-dark " />
-            <span className=' text-primary-dark'>{params.propertyType}</span>
+            <span className='text-sm md:text-md text-primary-dark'>{params.propertyType}</span>
           </div>
           <div className="flex items-center gap-2 text-primary-dark">
             <Bath className="w-5 h-5  text-primary-dark"  />
-            <span className=' text-primary-dark'>{params.bathroom}</span>
+            <span className='text-sm md:text-md text-primary-dark'>{params.bathroom}</span>
           </div>
           {params.bedrooms  && (
             <div className="flex items-center gap-2">
               <Bed className="w-5 h-5  text-primary-dark" />
-              <span className=' text-primary-dark'>{params.bedrooms}</span>
+              <span className='text-sm md:text-md text-primary-dark'>{params.bedrooms}</span>
             </div>
           )}
         </div>

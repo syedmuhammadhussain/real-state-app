@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { cn, formatDate } from "@/lib/utils";
 import { useApartment } from "../../../../../context/ApartmentContext";
-import { LoadingState } from "@/components/component/handle-event-loading/HandleEvents";
+import { LoadingState,EmptyState } from "@/components/component/handle-event-loading/HandleEvents";
 
 const Notification = () => {
   const { notifications ,setNotifications , loading } = useApartment();
@@ -35,6 +35,7 @@ const Notification = () => {
     setExpandedId(prev => prev === id ? null : id);
   };
 
+
   return (
     <div className="">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
@@ -44,14 +45,15 @@ const Notification = () => {
           variant="outline" 
           size="md"
           onClick={markAllAsRead}
-          disabled={notifications.length === 0}
+          disabled={ notifications?.length === 0 ||  notifications }
           className="transition-colors hover:bg-accent text-primary-dark"
         >
           Пометить все как прочитанные
         </Button>
       </div>
 
-      {loading? ( <LoadingState/> ) 
+      {notifications  === null &&   <LoadingState />}
+      {notifications && notifications?.length === 0 ? ( <EmptyState/> ) 
       : (
         <div className="space-y-4">
           {notifications?.map(notification => (

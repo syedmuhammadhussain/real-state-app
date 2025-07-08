@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function CommerceLayout({ children }) {
   return (
-      <div className="mx-auto mt-10 py-6">
+      <div className="mx-auto ">
           <main>
             {children}
           </main>

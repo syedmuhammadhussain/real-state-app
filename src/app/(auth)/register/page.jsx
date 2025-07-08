@@ -2,13 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import {
-  validateEmail,
-  validateFirstName,
-  validateLastName,
-  validatePassword,
-  validateTelephone
-} from '@/constants/utils';
+import { validateEmail, validateFirstName, validateLastName, validatePassword, validateTelephone } from '@/constants/utils';
 import Input from '@/components/ui/input';
 import { useAuth } from '../../../../context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -28,7 +22,7 @@ export default function RegisterPage() {
     lastName: ''
   });
 
-  const { register, error: authError, loading, success } = useAuth();
+  const { register, authLoading } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,19 +44,7 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Зарегистрироваться</h1>
-
-        {success && (
-          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
-            Регистрация прошла успешно!
-          </div>
-        )}
-
-        {authError && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
-            {authError}
-          </div>
-        )}
+        <h1 className="text-2xl font-bold text-center text-primary-dark mb-6">Зарегистрироваться</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
@@ -151,8 +133,8 @@ export default function RegisterPage() {
           />
 
           <div>
-            <Button type="submit" size="md" variant="primary" disabled={loading}>
-              {loading ? 'Регистрация...' : 'Зарегистрироваться'}
+            <Button type="submit" size="md" variant="primary" disabled={authLoading}>
+              {authLoading ? 'Регистрация...' : 'Зарегистрироваться'}
             </Button>
           </div>
         </form>

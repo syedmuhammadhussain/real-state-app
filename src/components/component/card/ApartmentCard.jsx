@@ -106,7 +106,7 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
 
   /* ---------------------------------- JSX ---------------------------------- */
   return (
-    <div className="relative w-full  bg-white border border-primary-light/50 rounded-xl shadow-lg hover:shadow-md transition-shadow duration-300">
+    <div className="relative w-full  bg-white border  border-primary-light rounded-xl shadow-lg hover:shadow-md transition-shadow duration-300">
       
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
@@ -169,10 +169,14 @@ export default function ApartmentCard({ data, onEdit,  showButtonEdit = false , 
               </div>
             </div>
 
-            {/* Core parameters grid */}
+            {/* Core parameters grid // Коттедж
+// Квартиры/ */}
             {(
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <Param icon={ apartment.apartmentParameters.apartmentType === 'APARTMENT'  ? Building :  House} label={apartment.apartmentParameters.apartmentType || "Apartment"} />
+                <Param icon={ apartment.apartmentParameters.apartmentType === 'APARTMENT'  ? Building :  House} 
+                label={apartment.apartmentParameters.apartmentType === "APARTMENT" ?  "Квартиры" :  "Коттедж"} /> 
+
+
                 <Param icon={Users} label={`Up to ${data.bedrooms * 2 } `} />
                 <Param icon={BedDouble} label={`${ data.bedrooms} спальни`} />
                 <Param icon={Bath} label={`${data.bathrooms} ванные комнаты`} />
