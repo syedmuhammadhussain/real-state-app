@@ -58,7 +58,7 @@ export const uploadImages = async (images, endPoint = "/upload") => {
 
 // lib/strapi-utils.ts
 
-const API_BASE = "https://lovely-growth-c72512e849.strapiapp.com";
+const API_BASE = "http://localhost:1337";
 
 export const ITEMS_PER_PAGE = 10;
 

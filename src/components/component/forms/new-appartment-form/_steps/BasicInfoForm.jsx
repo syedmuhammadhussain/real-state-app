@@ -5,6 +5,7 @@ import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { useApartment } from "../../../../../../context/ApartmentContext";
+import { api } from "@/lib/api";
 
 export default function BasicInfoForm({
   apartment,
@@ -12,7 +13,7 @@ export default function BasicInfoForm({
   errors = {},
   handleSubmit,
 }) {
-  const { cities = [] } = useApartment();
+  const { cities = [], setCities, area = [] } = useApartment();
   const [isEditingApartment, setIsEditingApartment] = useState(false);
 
   useEffect(() => {
@@ -41,6 +42,9 @@ export default function BasicInfoForm({
     normalizeOption
   );
 
+  console.log(selectedCity)
+  console.log(districtOptions)
+
   const handleChange = (field) => (e) => {
     const value = ["rooms", "district", "metro_station", "price"].includes(
       field
@@ -48,6 +52,23 @@ export default function BasicInfoForm({
       ? +e.target.value
       : e.target.value;
     setApartment({ ...apartment, [field]: value });
+  };
+
+  const handleAreaChange = (e) => {
+    setApartment({
+      ...apartment,
+      area: +e.target.value,
+    });
+
+    fetchCitiesByAreaId(e.target.value);
+  };
+
+  const fetchCitiesByAreaId = async (id) => {
+    const response = await api.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/cities?filters[area][id][$eq]=${id}&populate=districts&populate=metro_stations`
+    );
+    const data = await response.data.data;
+    setCities(data);
   };
 
   const handleCityChange = (e) => {
@@ -151,6 +172,36 @@ export default function BasicInfoForm({
       />
 
       <div>
+        <label htmlFor="area" className="block text-sm text-primary-dark mb-1">
+          Area
+        </label>
+        <select
+          id="area"
+          className="w-full p-2 rounded-xl border px-4 py-2 text-textColor-dark bg-background-default focus:ring-2 focus:ring-primary-default focus:outline-none transition-all duration-300 ease-in-out"
+          value={
+            isEditingApartment
+              ? apartment?.area ?? apartment.city?.area?.id
+              : apartment.area || ""
+          }
+          onChange={handleAreaChange}
+          required
+        >
+          <option value="" disabled>
+            Area
+          </option>
+          {area &&
+            area.map((c, idx) => (
+              <option key={c.name || idx} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+        </select>
+        {errors.area && (
+          <p className="text-sm text-destructive">{errors.area}</p>
+        )}
+      </div>
+
+      <div>
         <label htmlFor="city" className="block text-sm text-primary-dark mb-1">
           Город
         </label>
@@ -161,9 +212,7 @@ export default function BasicInfoForm({
           onChange={handleCityChange}
           required
         >
-          <option value="" disabled>
-            Выберите город
-          </option>
+          <option value="">Выберите город</option>
           {cities.map((c, idx) => (
             <option key={c.name || idx} value={c.id}>
               {c.name}
