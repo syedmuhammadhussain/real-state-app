@@ -1,16 +1,14 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { Bell, Send, Instagram, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import NextLink from "@/components/ui/NextLink";
 
 const VKIcon = ({ className }) => (
-
-
   <svg
     className={className}
     viewBox="0 0 24 24"
@@ -22,15 +20,15 @@ const VKIcon = ({ className }) => (
 );
 
 export default function Footer() {
-  const pathname = usePathname(); 
-  
- if (
-    pathname.startsWith('/login') ||
-    pathname.startsWith('/register') ||
-    pathname.startsWith('/forgot-password') ||
-    pathname.startsWith('/add-apartment')  || 
-    pathname.startsWith('/edit-apartment')  || 
-    pathname.startsWith('/profile') 
+  const pathname = usePathname();
+
+  if (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/add-apartment") ||
+    pathname.startsWith("/edit-apartment") ||
+    pathname.startsWith("/profile")
   ) {
     return null;
   }
@@ -73,23 +71,27 @@ export default function Footer() {
         {/* Top Section */}
         <div className="flex flex-col md:flex-row   justify-between border-b border-gray-700 pb-8">
           <div className="text-center md:text-left">
-            <NextLink href="/" className=''>
-              <span className="text-2xl font-semibold text-white">
-                {" "}
-                KVKEY{" "}
-              </span>
+            <NextLink href="/" className="">
+              <span className="text-2xl font-semibold text-white"> KVKEY </span>
             </NextLink>
             <p className="text-gray-400 text-sm max-w-sm mt-6">
-              X Real Estate — платформа для аренды недвижимости в России. Посуточно, напрямую, без посредников.
+              X Real Estate — платформа для аренды недвижимости в России.
+              Посуточно, напрямую, без посредников.
             </p>
           </div>
-           <p  className='text-sm  text-gray-400' >Индивидуальный предприниматель Шевелёва Татьяна Николаевна
-            <br/>ОГРНИП: 324723200031395, ИНН: 860235365698, 
-            <br/>адрес регистрации: 628004, Тюменская обл., г. Тюмень, ул. Кольцевая, д.392
-               <p  className='mt-4 text-sm  text-gray-400' >  почта : email </p>
-               <p  className='mt-4 text-sm  text-gray-400' >  Telephone : Telephone </p>
+          <p className="text-sm  text-gray-400">
+            Индивидуальный предприниматель Шевелёва Татьяна Николаевна
+            <br />
+            ОГРНИП: 324723200031395, ИНН: 860235365698,
+            <br />
+            адрес регистрации: 628004, Тюменская обл., г. Тюмень, ул. Кольцевая,
+            д.392
+            {/* <p className="mt-4 text-sm  text-gray-400"> почта : email </p>
+            <p className="mt-4 text-sm  text-gray-400">
+              {" "}
+              Telephone : Telephone{" "}
+            </p> */}
           </p>
-      
         </div>
 
         {/* Middle Section */}
@@ -130,7 +132,9 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-semibold  rounded-xl mb-4">Подпишитесь</h3>
+            <h3 className="text-lg font-semibold  rounded-xl mb-4">
+              Подпишитесь
+            </h3>
             <p className="text-sm text-gray-400 mb-4">
               Получайте новости, предложения и советы напрямую на почту.
             </p>
@@ -149,21 +153,21 @@ export default function Footer() {
                 <Bell size={20} className="mr-1 group-hover:animate-pulse" /> Подписаться
               </Button>
             </form> */}
-          <div className="mt-6 md:mt-0 flex justify-center md:justify-start space-x-4">
-            {socialMedia.map((social, index) => (
-              <a
-                key={index}
-                href={social.href}
-                className="p-3 rounded-full bg-primary-default hover:bg-gradient-to-r from-secondary-light to-accent-default text-white transition-all duration-300"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {social.icon}
-              </a>
-            ))}
-          </div>
-           <p  className=' mt-4 text-sm  text-gray-400' >  почта : email </p>
-           {/* <p  className=' text-sm  text-gray-400' >  Telephone : email </p> */}
+            <div className="mt-6 md:mt-0 flex justify-center md:justify-start space-x-4">
+              {socialMedia.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  className="p-3 rounded-full bg-primary-default hover:bg-gradient-to-r from-secondary-light to-accent-default text-white transition-all duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+            <p className=" mt-4 text-sm  text-gray-400"> почта : email </p>
+            {/* <p  className=' text-sm  text-gray-400' >  Telephone : email </p> */}
           </div>
         </div>
 

@@ -15,7 +15,7 @@ import Sidebar from "./_related/SideBar";
 const ITEMS_PER_PAGE = 10;
 const API_BASE =
   process.env.NEXT_PUBLIC_STRAPI_URL ||
-  "http://localhost:1337";
+  "https://popular-growth-9576b7bb6d.strapiapp.com";
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
