@@ -79,7 +79,7 @@ export function FilterContent({
         />
       </div>
       {/* -------- Rooms / Beds / Bedrooms / Bathrooms -------- */}
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-3">
         {/* Apartment type (rooms) */}
         <div className="space-y-2">
           <p className="text-sm lg:text-base font-semibold text-primary-dark">
@@ -257,7 +257,10 @@ export function FilterContent({
           </div>
         </div>
       )}
-      {/* -------- Feature (single select) -------- */}
+
+
+<div className="grid gap-4 lg:grid-cols-3">
+   {/* -------- Feature (single select) -------- */}
       {features.length > 0 && (
         <div className="space-y-2">
           <label className="text-sm lg:text-base font-semibold text-primary-dark">
@@ -278,8 +281,9 @@ export function FilterContent({
           {/* </select> */}
         </div>
       )}
+      
       {/* -------- Amenities (checkbox grid) -------- */}
-      <div>
+      <div >
         <label className="text-sm lg:text-base font-semibold text-primary-dark">
           Удобства
         </label>
@@ -297,6 +301,12 @@ export function FilterContent({
             </label>
           ))}
         </div>
+      </div>
+
+      <div>
+          <label className="text-sm lg:text-base font-semibold text-primary-dark">
+          Kitchen
+        </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {kitchens.map((am) => (
             <label
@@ -312,6 +322,8 @@ export function FilterContent({
           ))}
         </div>
       </div>
+</div>
+   
     </div>
   );
 }

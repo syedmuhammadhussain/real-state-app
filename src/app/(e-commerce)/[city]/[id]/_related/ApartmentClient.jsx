@@ -25,13 +25,16 @@ export default function ApartmentClient({ apartment }) {
           <ApartmentHeader product={apartment} className="lg:sticky lg:top-6" />
         </div>
       </div>
-
-      <ApartmentTabs
-        product={apartment}
-        description={apartment.description}
-        amenities={apartment.amenities}
-        infrastructure={apartment.infrastructures}
-      />
+      
+      <div className='mb-9'> 
+        <ApartmentTabs
+          product={apartment}
+          description={apartment.description}
+          amenities={apartment.amenities}
+          infrastructure={apartment.infrastructures}
+        />
+      </div>
     </div>
+
   );
 }

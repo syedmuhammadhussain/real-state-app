@@ -7,6 +7,7 @@ import Input from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../../../../context/AuthContext';
 import NextLink from '@/components/ui/NextLink';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -26,7 +27,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen px-3 flex items-center justify-center bg-gray-100">
+    <>
+       <Breadcrumbs
+        items={[
+          { key: "home", label: "Главная >", href: "/" },
+          // { key: "city", label: cityRussian.ru },
+        ]}
+      />
+      <div className="min-h-screen px-3 flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <div className='flex items-center justify-center mb-6'>
             <NextLink href="/" >
@@ -92,5 +100,7 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    </>
+ 
   );
 }

@@ -163,6 +163,20 @@ export default async function CityPage({ params, searchParams }) {
     features: searchParams.features?.split(",") ?? [],
     propertyType: searchParams.propertyType,
   };
+  //   const filters = {
+  //   priceMin: searchParams ?searchParams.priceMin : priceMin ,
+  //   priceMax: searchParams ? searchParams?.priceMax :priceMax ,
+  //   rooms: searchParams ? searchParams?.rooms : rooms,
+  //   bedrooms:searchParams ?  searchParams?.bedrooms : bedrooms,
+  //   bathrooms: searchParams ? searchParams?.bathrooms  : bathrooms,
+  //   metro:searchParams ? searchParams?.metro :metro  ,
+  //   district:searchParams ?  searchParams?.district : district,
+  //   amenities:searchParams ?  searchParams.amenities?.split(",") : amenities,
+  //   kitchens: searchParams ? searchParams?.kitchens?.split(",") : kitchens,
+  //   features:searchParams ? searchParams?.features?.split(",") : features,
+  //   propertyType:  searchParams ? searchParams?.propertyType : propertyType,
+  // };
+
 
   /* ───── fetch data ───── */
   const endpoint = buildEndpoint({ citySlug, page: currentPage, filters });

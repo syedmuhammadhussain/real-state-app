@@ -6,6 +6,7 @@ import { Bell, Send, Instagram, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { usePathname } from 'next/navigation';
+import NextLink from "@/components/ui/NextLink";
 
 const VKIcon = ({ className }) => (
 
@@ -67,27 +68,26 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-background-dark text-white py-10 ">
+    <footer className="bg-background-dark text-white py-10 px-4 md:px-0">
       <div className="  max-w-7xl mx-auto">
         {/* Top Section */}
-        <div className="flex flex-col md:flex-row items-end justify-between border-b border-gray-700 pb-8">
+        <div className="flex flex-col md:flex-row   justify-between border-b border-gray-700 pb-8">
           <div className="text-center md:text-left">
-            <Link href="/" aria-label="Главная страница">
-              <Image
-                src="/images/logo-icon.svg"
-                alt="X Real Estate"
-                width={50}
-                height={50}
-                className="object-cover mb-4 hover:scale-105 transition-transform duration-300"
-              />
-            </Link>
-            <p className="text-gray-400 text-sm max-w-sm">
+            <NextLink href="/" className=''>
+              <span className="text-2xl font-semibold text-white">
+                {" "}
+                KVKEY{" "}
+              </span>
+            </NextLink>
+            <p className="text-gray-400 text-sm max-w-sm mt-6">
               X Real Estate — платформа для аренды недвижимости в России. Посуточно, напрямую, без посредников.
             </p>
           </div>
            <p  className='text-sm  text-gray-400' >Индивидуальный предприниматель Шевелёва Татьяна Николаевна
             <br/>ОГРНИП: 324723200031395, ИНН: 860235365698, 
             <br/>адрес регистрации: 628004, Тюменская обл., г. Тюмень, ул. Кольцевая, д.392
+               <p  className='mt-4 text-sm  text-gray-400' >  почта : email </p>
+               <p  className='mt-4 text-sm  text-gray-400' >  Telephone : Telephone </p>
           </p>
       
         </div>
@@ -149,7 +149,7 @@ export default function Footer() {
                 <Bell size={20} className="mr-1 group-hover:animate-pulse" /> Подписаться
               </Button>
             </form> */}
-          <div className="mt-6 md:mt-0 flex space-x-4">
+          <div className="mt-6 md:mt-0 flex justify-center md:justify-start space-x-4">
             {socialMedia.map((social, index) => (
               <a
                 key={index}
@@ -162,7 +162,7 @@ export default function Footer() {
               </a>
             ))}
           </div>
-           <p  className='mt-4 text-sm  text-gray-400' >  почта : email </p>
+           <p  className=' mt-4 text-sm  text-gray-400' >  почта : email </p>
            {/* <p  className=' text-sm  text-gray-400' >  Telephone : email </p> */}
           </div>
         </div>
