@@ -83,7 +83,7 @@ export default function NewApartmentForm() {
                   reached ? 'bg-primary-default text-white' : 'bg-gray-300 text-primary-dark'
                 }`}
               >
-                {step > current ? <CheckCircle size={18} className="text-green-400" /> : null}
+                {/* {step > current ? <CheckCircle size={18} className="text-green-400" /> : null} */}
                 {current}. {isMobile ? 'шаг' : label }  
               </span>
             );

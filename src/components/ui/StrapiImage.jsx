@@ -13,7 +13,7 @@ export function StrapiImage({ src, alt, height, width, className }) {
 
   return (
     <img
-      src={imageUrl}
+      src={`http://localhost:1337${imageUrl}`}
       alt={alt}
     //   fill
     //   height={height}
