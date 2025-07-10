@@ -1,4 +1,5 @@
 'use client';
+
 import { StrapiImage } from "@/components/ui/StrapiImage";
 import { cn } from "@/lib/utils";
 import useEmblaCarousel from "embla-carousel-react";
@@ -11,6 +12,7 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hoveredImage, setHoveredImage] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
   const domain = process.env.NEXT_PUBLIC_STRAPI_URL;
 
   // Navigation controls
@@ -38,11 +40,15 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
   };
 
   return (
+
+
+
     <div className={cn(
       `relative rounded-xl md:rounded-l-xl overflow-hidden  ${auto ?  'h-[340px]  md:h-[500px]'  : 'max-h-[320px]'  } ${isFullscreen && 'min-h-screen'} mx-auto `,
        isFullscreen ? "fixed inset-0 z-50 bg-black rounded-none" : ""
     )}>
       
+
       {/* Fullscreen toggle button */}
        {!!auto &&   
        <button
@@ -86,6 +92,7 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
                 !!auto ? "aspect-square " : "aspect-square",
                 isFullscreen ? "h-screen flex justify-center  max-w-[500px]  md:max-w-7xl  " : ""
               )}>
+
                 <StrapiImage
                   src={image.url}
                   alt={image.url}
@@ -96,6 +103,7 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
                   )}
                   sizes="(max-width: 768px) 100vw, 80vw"
                 />
+                
                 {/* { images.length > 1 && !!isFullscreen && (
                   <div className={cn(
                     "absolute top-4 left-1/2 transform -translate-x-1/2  bg-white flex  gap-2 transition-all duration-300",
@@ -145,22 +153,23 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
           <button
             onClick={scrollPrev}
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
+              
+              "group absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
               isFullscreen ? "left-6" : "left-2"
             )}
             aria-label="Previous slide"
           >
-            <ChevronLeft className="w-6 h-6 text-primary-dark hover:text-white" />
+            <ChevronLeft className="w-6 h-6 text-primary-dark group-hover:text-white" />
           </button>
           <button
             onClick={scrollNext}
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
+              "group absolute top-1/2 -translate-y-1/2 bg-white/90 hover:bg-primary-dark p-3 rounded-full shadow-md transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white z-10",
               isFullscreen ? "right-6" : "right-2"
             )}
             aria-label="Next slide"
           >
-            <ChevronRight className="w-6 h-6 text-primary-dark hover:text-white" />
+            <ChevronRight className="w-6 h-6 text-primary-dark group-hover:text-white" />
           </button>
         </>
       )}

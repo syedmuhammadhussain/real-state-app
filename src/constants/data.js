@@ -254,6 +254,7 @@ export const initialApartmentData = {
   address:null,
   district:null,
   metro_station:null,
+  area: null,
   city: null,
   amenities: [],
   infrastructures: [],

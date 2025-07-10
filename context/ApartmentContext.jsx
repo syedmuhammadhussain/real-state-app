@@ -27,6 +27,7 @@ export const ApartmentProvider = ({ children }) => {
   const [selectedApartment, setSelectedApartment] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [position, setPosition] = useState(null);
+  const [area, setArea] = useState(null);
 
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState("");
@@ -57,6 +58,7 @@ export const ApartmentProvider = ({ children }) => {
     location: null,
     features: [],
     city: null,
+    area: null,
     amenities: [],
     infrastructures: [],
     kitchens: [],
@@ -69,6 +71,7 @@ export const ApartmentProvider = ({ children }) => {
     fetchInfrastructures();
     fetchKitchen();
     fetchCities();
+    fetchArea();
   }, []);
 
   // Получить все FEATURE
@@ -100,6 +103,26 @@ export const ApartmentProvider = ({ children }) => {
       const response = await api.get(`${apiUrl}/features`);
       const data = await response.data.data;
       setFeature(data);
+      setError(null);
+    } catch (err) {
+      console.error("Ошибка при загрузке:", err);
+      // setError('Не удалось загрузить список квартир');
+      // toast({
+      //   variant: 'destructive',
+      //   title: 'Ошибка загрузки',
+      //   description: 'Не удалось получить список квартир.'
+      // });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchArea = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get(`${apiUrl}/areas`);
+      const data = await response.data.data;
+      setArea(data);
       setError(null);
     } catch (err) {
       console.error("Ошибка при загрузке:", err);
@@ -302,6 +325,8 @@ export const ApartmentProvider = ({ children }) => {
         images: uploadedImages.map((img) => img.id),
       };
 
+      delete preparedData.area
+
       // Step 3: Send create request
       const response = await fetch(`${apiUrl}/products`, {
         method: "POST",
@@ -382,6 +407,7 @@ export const ApartmentProvider = ({ children }) => {
       delete preparedData.publishedAt;
       delete preparedData.createdAt;
       delete preparedData.updatedAt;
+      delete preparedData.area
 
       // Step 3: Send create request
       const response = await fetch(
@@ -398,11 +424,11 @@ export const ApartmentProvider = ({ children }) => {
 
       if (!response.ok) throw new Error("Не удалось обновить квартиру");
       const updatedApartment = await response.json();
-      setApartmentsForOwner((prev) =>
-        prev.map((apt) =>
-          apt.documentId === apartmentData.documentId ? updatedApartment : apt
-        )
-      );
+      // setApartmentsForOwner((prev) =>
+      //   prev.map((apt) =>
+      //     apt.documentId === apartmentData.documentId ? updatedApartment : apt
+      //   )
+      // );
       if (user?.id) await fetchApartmentsByOwner(user?.id);
       localStorage.removeItem("apartmentForEdit");
       // setCurrentApartment(updatedApartment);
@@ -504,6 +530,8 @@ export const ApartmentProvider = ({ children }) => {
         amenities,
         infrastructures,
         kitchens,
+        area,
+        setCities,
         cities,
         selectedApartment,
         editMode,

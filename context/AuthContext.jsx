@@ -93,6 +93,7 @@ export function AuthProvider({ children }) {
 
   // registration
   const register = async (firstName, lastName, email, password, phone) => {
+    // debugger
     setAuthLoading(true);
     setError(null);
     try {
@@ -206,6 +207,7 @@ export function AuthProvider({ children }) {
 
   // editUser editUser
   const editUser = async (data) => {
+    debugger;
     try {
       if (data.image === null) {
         toast({
