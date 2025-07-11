@@ -45,6 +45,7 @@ export default function KvkeyBenefits() {
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             priority
+            //  loading = "lazy"
           />
 
           {/* Overlay badge */}

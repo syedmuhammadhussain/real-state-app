@@ -119,8 +119,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setIsAvatarMenuOpen((prev) => !prev)}
                   className="flex flex-col items-center group"
-                  aria-label="User menu"
-                >
+                  aria-label="User menu">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
                     <StrapiImage
                       src={

@@ -26,7 +26,8 @@ export default function ContactUs() {
           alt="Недвижимость премиум-класса"
           fill
           className="object-cover"
-          priority
+          // priority
+           loading = "lazy"
         />
         <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center text-3xl px-4">

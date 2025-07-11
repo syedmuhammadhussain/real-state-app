@@ -14,8 +14,8 @@ import Sidebar from "./_related/SideBar";
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
 const API_BASE =
-  process.env.NEXT_PUBLIC_STRAPI_URL ||
-  "http://localhost:1337";
+  process.env.NEXT_PUBLIC_STRAPI_URL || "https://popular-growth-9576b7bb6d.strapiapp.com"
+  // "http://localhost:1337";
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
@@ -222,7 +222,8 @@ export default async function CityPage({ params, searchParams }) {
           alt="Недвижимость премиум‑класса"
           fill
           className="object-cover"
-          priority
+          // priority
+          loading = "lazy"
         />
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">
