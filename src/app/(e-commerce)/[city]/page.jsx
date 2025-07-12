@@ -13,9 +13,7 @@ import Sidebar from "./_related/SideBar";
 
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
-const API_BASE =
-  process.env.NEXT_PUBLIC_STRAPI_URL || "https://popular-growth-9576b7bb6d.strapiapp.com"
-  // "http://localhost:1337";
+const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "https://popular-growth-9576b7bb6d.strapiapp.com"
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
@@ -163,20 +161,6 @@ export default async function CityPage({ params, searchParams }) {
     features: searchParams.features?.split(",") ?? [],
     propertyType: searchParams.propertyType,
   };
-  //   const filters = {
-  //   priceMin: searchParams ?searchParams.priceMin : priceMin ,
-  //   priceMax: searchParams ? searchParams?.priceMax :priceMax ,
-  //   rooms: searchParams ? searchParams?.rooms : rooms,
-  //   bedrooms:searchParams ?  searchParams?.bedrooms : bedrooms,
-  //   bathrooms: searchParams ? searchParams?.bathrooms  : bathrooms,
-  //   metro:searchParams ? searchParams?.metro :metro  ,
-  //   district:searchParams ?  searchParams?.district : district,
-  //   amenities:searchParams ?  searchParams.amenities?.split(",") : amenities,
-  //   kitchens: searchParams ? searchParams?.kitchens?.split(",") : kitchens,
-  //   features:searchParams ? searchParams?.features?.split(",") : features,
-  //   propertyType:  searchParams ? searchParams?.propertyType : propertyType,
-  // };
-
 
   /* ───── fetch data ───── */
   const endpoint = buildEndpoint({ citySlug, page: currentPage, filters });
@@ -191,7 +175,6 @@ export default async function CityPage({ params, searchParams }) {
     });
 
     if (!res.ok) throw new Error(`API error ${res.status}`);
-    // debugger
 
     const json = await res.json();
     apartments = json.data ?? [];

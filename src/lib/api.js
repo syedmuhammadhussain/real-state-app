@@ -32,8 +32,6 @@ export async function getApartment(id) {
   return data;
 }
 
-// uploader image endPoint
-
 // handle uploading image
 export const uploadImages = async (images, endPoint = "/upload") => {
   if (!images || images.length === 0) return [];
@@ -56,13 +54,7 @@ export const uploadImages = async (images, endPoint = "/upload") => {
   }
 };
 
-// lib/strapi-utils.ts
-
-<<<<<<< HEAD
-const API_BASE = "https://popular-growth-9576b7bb6d.strapiapp.com/";
-=======
 const API_BASE = "https://popular-growth-9576b7bb6d.strapiapp.com";
->>>>>>> b15a8529269237244d22c2a1fce7becb5502ebe0
 
 export const ITEMS_PER_PAGE = 10;
 

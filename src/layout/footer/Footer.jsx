@@ -79,26 +79,9 @@ export default function Footer() {
               Посуточно, напрямую, без посредников.
             </p>
           </div>
-<<<<<<< HEAD
-           <p  className='text-sm  text-gray-400' >Индивидуальный предприниматель Шевелёва Татьяна Николаевна
+           <p className='text-sm  text-gray-400' >Индивидуальный предприниматель Шевелёва Татьяна Николаевна
             <br/>ОГРНИП: 324723200031395, ИНН: 860235365698, 
             <br/>адрес регистрации: 628004, Тюменская обл., г. Тюмень, ул. Кольцевая, д.392
-               {/* <p  className='mt-4 text-sm  text-gray-400' >  почта : email </p>
-               <p  className='mt-4 text-sm  text-gray-400' >  Telephone : Telephone </p> */}
-=======
-          <p className="text-sm  text-gray-400">
-            Индивидуальный предприниматель Шевелёва Татьяна Николаевна
-            <br />
-            ОГРНИП: 324723200031395, ИНН: 860235365698,
-            <br />
-            адрес регистрации: 628004, Тюменская обл., г. Тюмень, ул. Кольцевая,
-            д.392
-            {/* <p className="mt-4 text-sm  text-gray-400"> почта : email </p>
-            <p className="mt-4 text-sm  text-gray-400">
-              {" "}
-              Telephone : Telephone{" "}
-            </p> */}
->>>>>>> b15a8529269237244d22c2a1fce7becb5502ebe0
           </p>
         </div>
 

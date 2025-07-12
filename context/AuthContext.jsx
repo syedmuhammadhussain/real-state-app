@@ -1,10 +1,10 @@
 "use client";
+
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api, uploadImages } from "@/lib/api";
 import { ToastProvider } from "@/components/ui/toast";
 import { toast } from "@/hooks/use-toast";
-import { usePathname } from "next/navigation";
 
 const AuthContext = createContext(undefined);
 
@@ -14,7 +14,6 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const pathname = usePathname();
   const router = useRouter();
 
   // const token = localStorage.getItem('authToken') ?? ''
@@ -77,14 +76,6 @@ export function AuthProvider({ children }) {
         variant: "destructive",
         title: "Ошибка входа",
         description: "Неверный email или пароль",
-        // action: (
-        //   <button
-        //     onClick={() => router.push('/login')}
-        //     className="text-white underline"
-        //   >
-        //     Relogin
-        //   </button>
-        // )
       });
     } finally {
       setAuthLoading(false);
@@ -93,7 +84,6 @@ export function AuthProvider({ children }) {
 
   // registration
   const register = async (firstName, lastName, email, password, phone) => {
-    // debugger
     setAuthLoading(true);
     setError(null);
     try {
@@ -207,7 +197,6 @@ export function AuthProvider({ children }) {
 
   // editUser editUser
   const editUser = async (data) => {
-    debugger;
     try {
       if (data.image === null) {
         toast({
@@ -231,7 +220,7 @@ export function AuthProvider({ children }) {
       };
       
       await api.put(`${apiUrl}/user/me`, preparedData);
-      await api.delete(`upload/files/${user?.image?.id}`);
+      if(user?.image) await api.delete(`upload/files/${user?.image?.id}`);
 
       setSuccess(true);
       initializeAuth();

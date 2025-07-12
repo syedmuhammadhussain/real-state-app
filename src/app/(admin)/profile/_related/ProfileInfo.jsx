@@ -54,6 +54,8 @@ export default function ProfileInfo() {
     }
   };
 
+  console.log("ProfileInfo user:", user);
+
   return (
     <section className="space-y-6">
       <h2 className="flex items-center text-2xl font-bold text-primary-dark">
