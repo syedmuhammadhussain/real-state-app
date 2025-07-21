@@ -3,13 +3,29 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata = {
-  title: 'О компании kvkey',
-  description: 'Профессиональные риелторские услуги премиум-класса',
+  title: 'О компании | KVKEY',
+  description: 'KVKEY — современная платформа для краткосрочной аренды недвижимости. Узнайте, кто мы и почему нам доверяют.',
+  keywords: [
+    'о компании KVKEY',
+    'арендная платформа',
+    'кто такие KVKEY',
+    'аренда Россия',
+    'платформа по аренде',
+  ],
   openGraph: {
-    images: [{ url: '/images/og-about.jpg' }]
+    title: 'О KVKEY',
+    description: 'Мы — команда, которая упрощает аренду жилья по всей России. Платформа, которой доверяют.',
+    url: 'https://kvkey.com/about',
+    images: [
+      {
+        url: '/aboutUs.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'О платформе KVKEY',
+      },
+    ],
   },
 };
-
 export default function AboutUs() {
   return (
     <div className="">

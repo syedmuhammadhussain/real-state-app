@@ -11,6 +11,34 @@ import PageLink from "./_related/PageLink";
 import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
 
+export async function generateMetadata({ params }) {
+  const city = decodeURIComponent(params.city);
+
+  return {
+    title: `${city} — аренда квартир и домов | KVKEY`,
+    description: `Посуточная аренда квартир и коттеджей в городе ${city}. Простое бронирование, честные условия.`,
+    keywords: [
+      `аренда квартир в ${city}`,
+      `снять жилье в ${city}`,
+      `посуточная аренда ${city}`,
+      `${city} квартиры дома`,
+    ],
+    openGraph: {
+      title: `Аренда в ${city} | KVKEY`,
+      description: `Лучшие варианты аренды жилья в городе ${city}. Удобный поиск и прямая аренда.`,
+      url: `https://kvkey.com/${params.city}`,
+      images: [
+        {
+          url: '/og-cover.jpg',
+          width: 1200,
+          height: 630,
+          alt: `KVKEY — аренда в ${city}`,
+        },
+      ],
+    },
+  };
+}
+
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
 const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "https://popular-growth-9576b7bb6d.strapiapp.com"

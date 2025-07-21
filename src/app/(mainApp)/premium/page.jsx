@@ -1,6 +1,25 @@
 import { Button } from '@/components/ui/button';
 import { Check, Crown, Home, Shield, Star, BoxSelect } from 'lucide-react'; // Fixed i
 
+export const metadata = {
+  title: 'Премиум объявления | KVKEY',
+  description: 'Поднимите своё объявление в выдаче! Получите больше просмотров и бронирований с премиум-размещением.',
+  keywords: ['премиум аренда', 'повысить объявление', 'продвижение KVKEY', 'платное размещение'],
+  openGraph: {
+    title: 'Премиум-размещение на KVKEY',
+    description: 'Больше просмотров, больше бронирований — премиум-объявления от KVKEY.',
+    url: 'https://kvkey.com/premium',
+    images: [
+      {
+        url: '/og-cover.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Премиум объявления на KVKEY',
+      },
+    ],
+  },
+};
+
 const PremiumPage = () => {
   const plans = [
     {
