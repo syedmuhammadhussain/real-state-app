@@ -11,11 +11,37 @@ import PageLink from "./_related/PageLink";
 import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
 
+export async function generateMetadata({ params }) {
+  const city = decodeURIComponent(params.city);
+
+  return {
+    title: `${city} — аренда квартир и домов | KVKEY`,
+    description: `Посуточная аренда квартир и коттеджей в городе ${city}. Простое бронирование, честные условия.`,
+    keywords: [
+      `аренда квартир в ${city}`,
+      `снять жилье в ${city}`,
+      `посуточная аренда ${city}`,
+      `${city} квартиры дома`,
+    ],
+    openGraph: {
+      title: `Аренда в ${city} | KVKEY`,
+      description: `Лучшие варианты аренды жилья в городе ${city}. Удобный поиск и прямая аренда.`,
+      url: `https://kvkey.com/${params.city}`,
+      images: [
+        {
+          url: '/og-cover.jpg',
+          width: 1200,
+          height: 630,
+          alt: `KVKEY — аренда в ${city}`,
+        },
+      ],
+    },
+  };
+}
+
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
-const API_BASE =
-  process.env.NEXT_PUBLIC_STRAPI_URL ||
-  "https://popular-growth-9576b7bb6d.strapiapp.com";
+const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "https://popular-growth-9576b7bb6d.strapiapp.com"
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
@@ -163,20 +189,6 @@ export default async function CityPage({ params, searchParams }) {
     features: searchParams.features?.split(",") ?? [],
     propertyType: searchParams.propertyType,
   };
-  //   const filters = {
-  //   priceMin: searchParams ?searchParams.priceMin : priceMin ,
-  //   priceMax: searchParams ? searchParams?.priceMax :priceMax ,
-  //   rooms: searchParams ? searchParams?.rooms : rooms,
-  //   bedrooms:searchParams ?  searchParams?.bedrooms : bedrooms,
-  //   bathrooms: searchParams ? searchParams?.bathrooms  : bathrooms,
-  //   metro:searchParams ? searchParams?.metro :metro  ,
-  //   district:searchParams ?  searchParams?.district : district,
-  //   amenities:searchParams ?  searchParams.amenities?.split(",") : amenities,
-  //   kitchens: searchParams ? searchParams?.kitchens?.split(",") : kitchens,
-  //   features:searchParams ? searchParams?.features?.split(",") : features,
-  //   propertyType:  searchParams ? searchParams?.propertyType : propertyType,
-  // };
-
 
   /* ───── fetch data ───── */
   const endpoint = buildEndpoint({ citySlug, page: currentPage, filters });
@@ -191,7 +203,6 @@ export default async function CityPage({ params, searchParams }) {
     });
 
     if (!res.ok) throw new Error(`API error ${res.status}`);
-    // debugger
 
     const json = await res.json();
     apartments = json.data ?? [];
@@ -222,7 +233,8 @@ export default async function CityPage({ params, searchParams }) {
           alt="Недвижимость премиум‑класса"
           fill
           className="object-cover"
-          priority
+          // priority
+          loading = "lazy"
         />
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">

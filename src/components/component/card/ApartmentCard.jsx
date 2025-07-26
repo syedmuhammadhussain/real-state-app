@@ -1,31 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Wifi,
-  Wind,
-  BedDouble,
-  Users,
-  MapPin,
-  Building,
-  Pen,
-  Trash2,
-  WashingMachine,
-  Bath,
-  Car,
-  Info,
-  UtensilsCrossed,
-  Coffee,
-  Tv,
-  Fan,
-  Snowflake,
-  Star,
-  StarIcon,
-  House,
-  SquareDashedBottom,
-  RulerDimensionLine,
-  Radius,
-} from "lucide-react";
+import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, Star, StarIcon, House, SquareDashedBottom, Radius, RailSymbol } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
@@ -35,14 +11,12 @@ import { DeleteDialog } from "../dialog-popups/DeleteDialog";
 import { useApartment } from "../../../../context/ApartmentContext";
 import { ImageCarousel } from "./ImageCarousel";
 import { Param } from "@/components/ui/Param";
+import AdvertismentDialog from "../dialog-popups/AdvertismentDialog";
 
-export default function ApartmentCard({
-  data,
-  onEdit,
-  showButtonEdit = false,
-  city = "",
-}) {
+export default function ApartmentCard({ data, onEdit, showButtonEdit = false, city = "" }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenR, setIsOpenR] = useState(false);
+
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const isMobile = useIsMobile();
@@ -142,20 +116,27 @@ export default function ApartmentCard({
   /* ---------------------------------- JSX ---------------------------------- */
   return (
     <div className="relative w-full  bg-white border  border-primary-light rounded-xl shadow-lg hover:shadow-md transition-shadow duration-300">
+
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
         <div className="absolute top-2 right-2 z-10">
-          <div className="w-full flex gap-2 center">
+          <div className="w-full flex gap-2 center ">
+               <Button variant="outline" size="md" onClick={()=>setIsOpenR(true)} className="group ">
+              <RailSymbol className="h-4 w-4 text-black group-hover:text-black" />
+              <span className="hidden  md:flex items-center text-sm  gap-2">
+                 Поднимать
+              </span>
+            </Button>
             <Button
               variant="outline"
               size="md"
-              className="group"
+              className="group bg-black" 
               onClick={handlePosition}
             >
-              <StarIcon className="w-4 h-4 text-yellow-500 group-hover:text-primary-dark" />
+              <StarIcon className="group w-4 h-4 text-yellow-500 group-hover:text-primary-dark" />
               {!isMobile && (
                 <>
-                  <span className="hidden  md:flex items-center text-sm text-yellow-500 group-hover:text-primary-dark  gap-2">
+                  <span className="hidden  md:flex items-center text-sm text-yellow-500 group-hover:text-yellow-500  gap-2">
                     Рекламировать
                     <span className="hidden  md:block px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full gropup-hover:border-black/80 group-hover:animate-bounce ">
                       PRO
@@ -164,8 +145,8 @@ export default function ApartmentCard({
                 </>
               )}
             </Button>
-            <Button variant="outline" size="md" onClick={onEdit}>
-              <Pen className="h-4 w-4 text-white md:text-primary-dark" />
+            <Button variant="outline" size="md" onClick={onEdit} className="group bg-black">
+              <Pen className="h-4 w-4 text-white group-hover:text-black" />
             </Button>
             <Button
               variant="destructive"
@@ -179,12 +160,12 @@ export default function ApartmentCard({
       ) : (
         data?.sequence_order && (
           <Button
-            size="sm"
+            size="md"
             variant="outline"
             // onClick={() => setIsLiked((prev) => !prev)}
-            className="group absolute top-2 right-2 p-2   rounded-full shadow transition-colors"
+            className="group bg-white absolute top-2 right-2 p-2 z-10  rounded-full shadow transition-colors"
           >
-            <Star className={`w-6 h-6 " text-base text-secondary-dark `} />
+            <Star className={`w-6 h-6 " text-base text-yellow-700 animate-pulse`} />
           </Button>
         )
       )}
@@ -222,9 +203,9 @@ export default function ApartmentCard({
               </div>
             </div>
 
-            {/* Core parameters grid // Коттедж
-// Квартиры/ */}
+            {/* Core parameters grid // Коттедж // Квартиры/ */}
             {
+              !isMobile && (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <Param
                   icon={
@@ -238,13 +219,13 @@ export default function ApartmentCard({
                       : "Коттедж"
                   }
                 />
-
                 <Param icon={Users} label={`Up to ${data.bedrooms * 2} `} />
                 <Param icon={BedDouble} label={`${data.bedrooms} спальни`} />
                 <Param icon={Bath} label={`${data.bathrooms} ванные комнаты`} />
                 <Param icon={Radius} label={`${data.size} m²`} />
                 <Param icon={SquareDashedBottom} label={data.rooms} />
               </div>
+              )
             }
 
             {/* Features / Kitchen list */}
@@ -295,6 +276,8 @@ export default function ApartmentCard({
         </div>
       </div>
       <ReklamaPaymentDialog isOpen={isOpen} setIsOpen={setIsOpen} data={data} />
+      <AdvertismentDialog isOpen={isOpenR} setIsOpen={setIsOpenR} data={data} />
+
       <DeleteDialog
         isOpenDelete={isOpenDelete}
         setIsOpenDelete={setIsOpenDelete}
@@ -305,12 +288,4 @@ export default function ApartmentCard({
   );
 }
 
-/* ----------------------------- SMALL COMPONENT ---------------------------- */
-// export function Param({ icon: Icon, label }) {
-//   return (
-//     <div className="flex items-center gap-1 text-xs sm:text-sm text-primary-dark truncate">
-//       {Icon && <Icon className="w-4 h-4 shrink-0 text-primary-dark" />}
-//       <span className="text-xs sm:text-sm">{label}</span>
-//     </div>
-//   );
-// }
+

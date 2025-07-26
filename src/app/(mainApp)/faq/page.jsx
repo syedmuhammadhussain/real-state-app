@@ -1,13 +1,11 @@
 'use client';
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from '@/components/ui/accordion';
 import { HelpCircle } from 'lucide-react';
-
+// export const metadata = {
+//   title: 'Вопросы и ответы | KVKEY',
+//   description: 'Ответы на часто задаваемые вопросы об аренде, размещении и использовании платформы KVKEY.',
+// };
 const faqItems = [
   {
     question: 'Как я могу связаться со службой поддержки?',

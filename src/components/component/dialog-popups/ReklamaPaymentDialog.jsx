@@ -26,11 +26,6 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {/* <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)}>Open Dialog</Button>
-      </DialogTrigger> */}
-      {/* <DialogTitle> hamad yel3a </DialogTitle> */}
-
       <DialogContent className="max-h-[80vh] rounded-xl bg-white max-w-4xl overflow-auto">
         <DialogHeader className="text-xl text-primary-dark ">
           <DialogTitle className="text-3xl">Рекламировать </DialogTitle>
@@ -108,10 +103,10 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
             <div className="mt-4">
               <h2 className="text-lg font-bold mb-2">Payment Details</h2>
               <p className="text-sm text-gray-600">
-                You are now in the payment section.
+                Сейчас вы находитесь в разделе оплаты.
               </p>
               <Button className="mt-4" onClick={() => setIsOpen(false)}>
-                Complete Payment & Close
+                Завершить оплату и закрыть
               </Button>
             </div>
           </TabsContent>

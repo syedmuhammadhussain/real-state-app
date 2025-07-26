@@ -88,10 +88,11 @@ const EmblaCarousel = ({ slides }) => {
                     src={slide.img}
                     alt={`${slide.ru} - ${slide.description}`}
                     fill
-                    priority
+                    // priority
                     quality={100}
                     className="object-cover transition-transform duration-500 hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                     loading = "lazy"
                   />
 
                   {/* OVERLAY - shows on desktop hover or first tap on mobile */}

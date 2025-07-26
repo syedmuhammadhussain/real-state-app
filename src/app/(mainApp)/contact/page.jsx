@@ -1,18 +1,28 @@
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
-import { Home, Search, Shield, Phone, MapPin, Send } from 'lucide-react';
+import { Home, Search, Shield, Phone, Send } from 'lucide-react';
 import Image from 'next/image';
 
+
 export const metadata = {
-  title: 'Контакты - kvkey',
-  description: 'Свяжитесь с нами для консультации по недвижимости, подбора объекта и юридической поддержки',
-  keywords: 'контакты риелтора, подбор недвижимости, юридическая поддержка, консультация по недвижимости',
+  title: 'Контакты | KVKEY',
+  description: 'Свяжитесь с нами по вопросам партнёрства, размещения объявлений или технической поддержки.',
+  keywords: ['контакты KVKEY', 'связаться KVKEY', 'поддержка аренды', 'техподдержка KVKEY'],
   openGraph: {
-    title: 'Контакты - kvkey',
-    description: 'Профессиональные консультации по недвижимости',
-    images: [{ url: '/images/contact-bg.jpg' }],
+    title: 'Контакты KVKEY',
+    description: 'Наша команда на связи. Напишите нам по любому вопросу!',
+    url: 'https://kvkey.com/contact',
+    images: [
+      {
+        url: '/public/hero/contactUs.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Контакты платформы KVKEY',
+      },
+    ],
   },
 };
+
 
 export default function ContactUs() {
   return (
@@ -26,7 +36,8 @@ export default function ContactUs() {
           alt="Недвижимость премиум-класса"
           fill
           className="object-cover"
-          priority
+          // priority
+           loading = "lazy"
         />
         <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center text-3xl px-4">

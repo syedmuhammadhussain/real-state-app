@@ -28,12 +28,14 @@ export default function LoginPage() {
 
   return (
     <>
-       <Breadcrumbs
+    <div className='px-2 mt-5 mb-5'>
+     <Breadcrumbs
         items={[
           { key: "home", label: "Главная >", href: "/" },
-          // { key: "city", label: cityRussian.ru },
         ]}
       />
+    </div>
+  
       <div className="min-h-screen px-3 flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <div className='flex items-center justify-center mb-6'>
