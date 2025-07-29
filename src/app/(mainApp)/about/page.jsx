@@ -76,11 +76,12 @@ export default function AboutUs() {
           
           <div className="grid md:grid-cols-2 gap-8">
             <div className="relative aspect-square rounded-xl overflow-hidden">
-              <video
-                src="/images/vv.mp4"
-                autoPlay
+              <Image
+                src="/images/cities/chelyabinsk.jpg"
+                fill
+                // autoPlay
                 alt="Наши ценности"
-                className="object-contain "
+                className="object-contain"
               />
             </div>
 

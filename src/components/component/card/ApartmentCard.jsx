@@ -104,7 +104,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
   const images =
     apartment.images.length > 0
       ? apartment.images
-      : [{ url: "/default-apartment.jpg", caption: "Apartment preview" }];
+      : [{ url: "/images/trveller.jpg", caption: "Apartment preview" }];
 
   const handlePosition = async () => {
     await setIsOpen(true);

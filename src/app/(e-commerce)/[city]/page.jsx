@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
 
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
-const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "https://popular-growth-9576b7bb6d.strapiapp.com"
+const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.kvkey.ru"
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.

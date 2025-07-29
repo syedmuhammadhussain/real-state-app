@@ -54,7 +54,7 @@ export const uploadImages = async (images, endPoint = "/upload") => {
   }
 };
 
-const API_BASE = "https://popular-growth-9576b7bb6d.strapiapp.com";
+const API_BASE = "https://admin.kvkey.ru";
 
 export const ITEMS_PER_PAGE = 10;
 
