@@ -4,13 +4,13 @@ import { Star, StarHalf, StarOff } from "lucide-react";
   export const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) return 'Требуется электронной почты';
-    if (!regex.test(email)) return 'Invalid email format';
+    if (!regex.test(email)) return 'Неверный формат электронной почты';
     return '';
     };
 
     export const validatePassword = (password) => {
       if (!password) return 'Требуется пароль';
-      if (password.length < 8) return 'Password must contain at least 8 characters';
+      if (password.length < 8) return 'Пароль должен содержать не менее 8 символов.';
       return '';
     };
     
