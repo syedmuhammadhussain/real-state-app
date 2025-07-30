@@ -15,7 +15,7 @@ export const metadata = {
   openGraph: {
     title: 'О KVKEY',
     description: 'Мы — команда, которая упрощает аренду жилья по всей России. Платформа, которой доверяют.',
-    url: 'https://kvkey.com/about',
+    url: 'https://kvkey.ru/about',
     images: [
       {
         url: '/aboutUs.jpg',

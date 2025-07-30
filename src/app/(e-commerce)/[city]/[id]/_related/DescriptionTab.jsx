@@ -1,7 +1,7 @@
 import { Building2, Bath, Home, CalendarDays, Dog, Bed } from 'lucide-react'
 
 export const DescriptionTab = ({ description, params, conditions }) => (
-  <div className="flex flex-col justify-center h-auto">
+  <div className="flex flex-col justify-center h-auto mb-2">
     
     <div className="w-full mt-6  grid grid-cols-2 gap-6">
       <div className="">

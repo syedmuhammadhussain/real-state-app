@@ -8,7 +8,7 @@ export const metadata = {
   openGraph: {
     title: 'Премиум-размещение на KVKEY',
     description: 'Больше просмотров, больше бронирований — премиум-объявления от KVKEY.',
-    url: 'https://kvkey.com/premium',
+    url: 'https://kvkey.ru/premium',
     images: [
       {
         url: '/og-cover.jpg',

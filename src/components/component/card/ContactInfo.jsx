@@ -41,9 +41,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
     >
       {/* flex-col md:flex-row */}
       <div className="flex   justify-between items-center gap-2 mb-2 ">
-        <span className="text-base md:text-lg font-bold text-primary-dark">
-         Связаться :
-        </span>
+        <span className="hidden md:block text-base md:text-lg font-bold text-primary-dark">Связаться :</span>
 
         {/* ↓ asChild убирает внешний <button>, человек кликает по обычному <div> */}
         <CollapsibleTrigger asChild>

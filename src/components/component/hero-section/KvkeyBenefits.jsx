@@ -11,7 +11,7 @@ export default function KvkeyBenefits() {
         {/* Left: Heading + Cards */}
         <div className="flex flex-col">
           <h5 className="text-2xl md:text-4xl font-bold text-primary-dark mb-5">
-            Почему выбирают <span className="text-primary">kvkey.com?</span>
+            Почему выбирают <span className="text-primary">kvkey.ru?</span>
           </h5>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -41,7 +41,7 @@ export default function KvkeyBenefits() {
           {/* Background image */}
           <Image
             src="/images/hero/contactUs.jpg"
-            alt="Пользователи выбирают kvkey.com"
+            alt="Пользователи выбирают kvkey.ru"
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             priority

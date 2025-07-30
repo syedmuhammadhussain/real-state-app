@@ -75,7 +75,7 @@ export default function Footer() {
               <span className="text-2xl font-semibold text-white"> KVKEY </span>
             </NextLink>
             <p className="text-gray-400 text-sm max-w-sm mt-6">
-              X Real Estate — платформа для аренды недвижимости в России.
+              KVKEY — платформа для аренды недвижимости в России.
               Посуточно, напрямую, без посредников.
             </p>
           </div>
@@ -165,7 +165,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-gray-700 mt-8 pt-6 text-center">
           <p className="text-sm text-gray-400">
-            &copy; {new Date().getFullYear()} X Real Estate. Все права защищены.
+            &copy; {new Date().getFullYear()} KVKEY. Все права защищены.
           </p>
         </div>
       </div>

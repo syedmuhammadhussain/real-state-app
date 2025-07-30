@@ -11,7 +11,7 @@ export const metadata = {
   openGraph: {
     title: 'Контакты KVKEY',
     description: 'Наша команда на связи. Напишите нам по любому вопросу!',
-    url: 'https://kvkey.com/contact',
+    url: 'https://kvkey.ru/contact',
     images: [
       {
         url: '/public/hero/contactUs.jpg',

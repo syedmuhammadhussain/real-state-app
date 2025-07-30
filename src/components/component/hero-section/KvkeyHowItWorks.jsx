@@ -34,7 +34,7 @@ export default function KvkeyHowItWorks() {
           {/* Replace the src with your real image */}
           <Image
             src="/images/aboutUs.jpg"
-            alt="Счастливая пара снимает квартиру через kvkey.com"
+            alt="Счастливая пара снимает квартиру через kvkey.ru"
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             priority
@@ -68,7 +68,7 @@ export default function KvkeyHowItWorks() {
         <div className="flex flex-col gap-8">
           <header>
             <h2 className="text-3xl md:text-7xl font-semibold text-primary-dark mb-4">
-              Как работает <span className="text-primary">kvkey.com?</span>
+              Как работает <span className="text-primary">kvkey.ru?</span>
             </h2>
             <p className="text-primary-dark text-base md:text-lg leading-relaxed max-w-prose">
               Мы предлагаем владельцам недвижимости простой способ размещать

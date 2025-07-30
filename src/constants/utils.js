@@ -22,7 +22,7 @@ import { Star, StarHalf, StarOff } from "lucide-react";
      */
     export const validateConfirmationPassword = (originalPassword, confirmationPassword) => {
       if (originalPassword !== confirmationPassword) {
-        return 'Passwords do not match';
+        return 'Пароли не совпадают';
       }
       return '';
     };

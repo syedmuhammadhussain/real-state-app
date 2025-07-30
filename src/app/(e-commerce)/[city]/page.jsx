@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `Аренда в ${city} | KVKEY`,
       description: `Лучшие варианты аренды жилья в городе ${city}. Удобный поиск и прямая аренда.`,
-      url: `https://kvkey.com/${params.city}`,
+      url: `https://kvkey.ru/${params.city}`,
       images: [
         {
           url: '/og-cover.jpg',

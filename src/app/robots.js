@@ -8,6 +8,6 @@ export default function robots() {
         // disallow: ["/terms-conditions", "/risks-benefits"],
       },
     ],
-    sitemap:'https://kvkey.com/sitemap.xml',
+    sitemap:'https://kvkey.ru/sitemap.xml',
   };
 }

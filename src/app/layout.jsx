@@ -29,11 +29,11 @@ export const metadata = {
     'найти квартиру',
     'снять дом',
   ],
-  metadataBase: new URL('https://kvkey.com'),
+  metadataBase: new URL('https://kvkey.ru'),
   openGraph: {
     title: 'KVKEY — ключ в один клик',
     description: 'Поиск и бронирование посуточного жилья по всей России. Квартиры, дома, коттеджи — легко, быстро, надёжно.',
-    url: 'https://kvkey.com',
+    url: 'https://kvkey.ru',
     siteName: 'KVKEY',
     type: 'website',
     locale: 'ru_RU',

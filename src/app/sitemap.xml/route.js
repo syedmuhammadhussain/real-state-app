@@ -1,5 +1,5 @@
 export async function GET() {
-  const baseUrl = 'https://kvkey.com';
+  const baseUrl = 'https://kvkey.ru';
 
   // You can fetch this from DB or filesystem in real app
   const staticPages = ['', '/about', '/contact', '/premium', '/faq'];

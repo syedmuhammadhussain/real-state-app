@@ -23,7 +23,7 @@ const HeroSection = () => {
             <div className=" max-w-5xl flex flex-col justify-center items-center gap-1 w-full  ">
               <h1 className=" text-4xl md:text-6xl text-white drop-shadow-xl"> 
                  {/* ПОСУТОЧНАЯ АРЕНДА ЖИЛЬЯ<br/> В ГОРОДАХ РОССИИ  */}
-                 kvkey.com — ключ в один клик
+                 kvkey.ru — ключ в один клик
                  </h1>
                 <p className="mt-4 md:mt-6 text-md max-w-4xl  md:text-xl text-gray-100  mx-auto leading-relaxed "> 
                     {/* Просторные планировки — престижные районы — привлекательные цены  */}
