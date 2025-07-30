@@ -54,7 +54,7 @@ export const uploadImages = async (images, endPoint = "/upload") => {
   }
 };
 
-const API_BASE = "https://admin.kvkey.ru";
+const API_BASE = "http://localhost:1337";
 
 export const ITEMS_PER_PAGE = 10;
 

@@ -45,7 +45,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-primary-dark mb-6">Зарегистрироваться</h1>
+        {/* <h1 className="text-2xl font-bold text-center text-primary-dark mb-6">Зарегистрироваться</h1> */}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
@@ -102,7 +102,7 @@ export default function RegisterPage() {
           <Input
             label="Телефон"
             type="tel"
-            id="phone"
+            id="telephone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             onBlur={() =>
