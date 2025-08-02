@@ -54,7 +54,6 @@ export default function ProfileInfo() {
     }
   };
 
-  console.log("ProfileInfo user:", user);
 
   return (
     <section className="space-y-6">

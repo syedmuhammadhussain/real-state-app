@@ -7,7 +7,6 @@ import { api, uploadImages } from "../src/lib/api";
 import { toast } from "../src/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useAuth } from "./AuthContext";
-import { cityOptions } from "../src/constants/data";
 
 const ApartmentContext = createContext();
 
@@ -32,6 +31,7 @@ export const ApartmentProvider = ({ children }) => {
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState("");
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
   const selectedCity = cities?.find((city) => city.slug === selectedCityKey);
 
   // City selection

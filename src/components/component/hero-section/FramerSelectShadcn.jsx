@@ -34,7 +34,13 @@ import { useApartment } from "../../../../context/ApartmentContext";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 const FramerSelectShadcn = () => {
+
+  
   const { selectedCity } = useApartment();
+
+  console.log("Selected City:", selectedCity);
+
+
   const isDisabled = !selectedCity?.slug;
   const router = useRouter()
   

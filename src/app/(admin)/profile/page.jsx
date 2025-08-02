@@ -28,7 +28,7 @@ export default function ProfilePage() {
   // handle not not exist user
   useEffect(() => {
     if (user?.id) fetchApartmentsByOwner(user.id);
-    setTimeout(() => {}, 3000);
+    
   }, []);
 
   // handle navigate add

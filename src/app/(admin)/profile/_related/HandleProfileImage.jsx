@@ -30,24 +30,6 @@ const HandleProfileImage = ({ image, setImage }) => {
     setImage(files);
   }, []);
 
-  const handleRemoveImage = async (index) => {
-    setImage(null);
-    // server removal only in edit mode
-    // const isEditMode = localStorage.getItem('apartmentForEdit') !== null;
-    // const idToDelete = target instanceof File ? (target).id ?? null : null;
-
-    // if (isEditMode && idToDelete) {
-    //   try {
-    //     await api.delete(`upload/files/${idToDelete}`);
-    //   } catch {
-    //     toast({
-    //       title: 'Не удалось удалить файл на сервере',
-    //       description: 'Файл удалён только локально.',
-    //       variant: 'destructive',
-    //     });
-    //   }
-    // }
-  };
 
   useEffect(() => {
     if (user.image) setImage(user?.image?.formats?.small?.url);

@@ -8,6 +8,10 @@ import { LoadingState } from "../handle-event-loading/HandleEvents"
 
 export function SelectFramer() {
   const { cities, selectedCityKey, isPopoverOpen, setIsPopoverOpen, selectedCity, handleCitySelect } = useApartment()
+
+
+  console.log("selectedCityKey:", selectedCityKey);
+  
   return (
     <Popover className=""
       open={isPopoverOpen} 
@@ -51,7 +55,7 @@ export function SelectFramer() {
               <CommandItem
                 key={city.name}
                 value={city.name}
-                onSelect={() => handleCitySelect(city.name)}
+                onSelect={() => handleCitySelect(city.slug)}
                 className="group px-4 py-3 rounded-xl aria-selected:bg-gray-50/50 transition-colors"
               >
                 <Check

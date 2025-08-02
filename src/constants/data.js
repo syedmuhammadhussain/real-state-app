@@ -40,9 +40,9 @@ export  const links = [
 
 
 export const cityOptions = [  
-  { en: "Moscow",
+  { en: "moscow",
     ru: "Москва",
-    key: "moscow",
+    key: "moskva",
     description: 'Сердце России: элитная недвижимость у Кремля и престижные новостройки с видом на парки',
     link: '/moscow',
     img: '/images/cities/moscow.jpg',
@@ -67,7 +67,7 @@ export const cityOptions = [
     { 
       en: "Yekaterinburg",
       ru: "Екатеринбург",
-      key: "yekaterinburg",
+      key: "ekaterinburg",
       description: 'Город на границе Европы и Азии: лофты в стиле хай-тек и виды на Уральские горы',
       link: '/yekaterinburg',
       img: '/images/cities/yekaterinburg.jpg',

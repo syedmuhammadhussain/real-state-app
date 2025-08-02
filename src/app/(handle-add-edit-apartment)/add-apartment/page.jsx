@@ -4,11 +4,13 @@ import NewApartmentForm from '@/components/component/forms/new-appartment-form/N
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useAuth } from '../../../../context/AuthContext';
 import { notFound } from 'next/navigation';
+import { useEffect } from 'react';
 
 const AddApartmentModal = () => {
   
   const { user } = useAuth()
-    if(user == null || user === undefined  ) return notFound()
+
+    // if(user == null || user === undefined  ) return notFound()
     return (
       <div className = 'min-h-screen  mt-10 max-w-7xl mx-auto px-4 md:px-0'>
         <Breadcrumbs
