@@ -363,6 +363,7 @@ export const ApartmentProvider = ({ children }) => {
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
     setLoading(true);
+    debugger
     try {
       // Step 1: Upload images if any
       let uploadedImages = [];
@@ -371,7 +372,13 @@ export const ApartmentProvider = ({ children }) => {
       }
 
       const newImages = uploadedImages.map((img) => img.id);
-      const oldImages = apartmentData.images.map((img) => img.id);
+     const oldImages = apartmentData.images
+        .map((img) => {
+          if (img.id !== undefined && img.id !== null) {
+            return img.id;
+          }
+        })
+        .filter((id) => id !== undefined || null ); // remove any undefined values
 
       // Step 2: Integrate uploaded image info into apartmentData
       const preparedData = {
@@ -400,7 +407,7 @@ export const ApartmentProvider = ({ children }) => {
         ),
         images: toUpload.length > 0 ? [...newImages, ...oldImages] : oldImages,
       };
-
+console.log("preparedData", [...newImages, ...oldImages]);
       delete preparedData.id;
       delete preparedData.documentId;
       delete preparedData.sequence_order;

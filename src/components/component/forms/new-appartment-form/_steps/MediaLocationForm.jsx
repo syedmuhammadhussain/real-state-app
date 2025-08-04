@@ -10,7 +10,7 @@ import { api } from '@/lib/api';
 import { extractUrl } from '@/lib/utils';
 import Uploader from '@/components/ui/Uploader';
 
-const MAX_FILE_SIZE = 20 * 1024 * 1024; 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
 export default function MediaLocationForm({ apartment, setApartment, handleSubmit,}) {
   const [previewUrls, setPreviewUrls] = useState([]);
@@ -52,7 +52,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
       setApartment((prev) => ({ ...prev, images: ready }));
     };
 
-  useEffect(() => {  void convertExistingImages();  }, []);
+  useEffect(() => {  apartment.images.length == 0  && void convertExistingImages()  }, []);
 
   /**
    * 2️⃣  Build preview URLs *every* time the images array changes.
@@ -176,6 +176,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
                   className="group relative aspect-square overflow-hidden rounded-xl border shadow-sm transition-transform hover:shadow-md"
                 >
                   <StrapiImage
+                    needUrl={apartment.images.length == 0  ? false : true}
                     src={url}
                     alt={`Превью ${idx + 1}`}
                     className="object-cover"

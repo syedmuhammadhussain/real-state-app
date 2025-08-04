@@ -63,7 +63,7 @@ function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   // base query object
   const queryObj = {
     filters: {
-      city: { name: { $eq: citySlug } },
+      city: { slug: { $eq: citySlug } },
       price: {},
       rooms: {},
       bedrooms: {},
@@ -197,6 +197,7 @@ export default async function CityPage({ params, searchParams }) {
   let meta = { pagination: { pageCount: 1 } };
   let error = "";
   try {
+    // debugger
     const res = await fetch(endpoint, {
       cache: "no-store",
       next: { revalidate: 60 },

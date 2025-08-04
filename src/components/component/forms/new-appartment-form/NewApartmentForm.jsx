@@ -58,6 +58,8 @@ export default function NewApartmentForm() {
   };
 
   const handleMediaLocationSubmit = (e) => {
+
+    // debugger
     e.preventDefault();
     let payload  = {...apartment, owner:user.id}
     if (localStorage.getItem('apartmentForEdit')){ 

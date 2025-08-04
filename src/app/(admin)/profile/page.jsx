@@ -26,10 +26,7 @@ export default function ProfilePage() {
   } = useApartment();
 
   // handle not not exist user
-  useEffect(() => {
-    if (user?.id) fetchApartmentsByOwner(user.id);
-    
-  }, []);
+  useEffect(() => {  if (user?.id) fetchApartmentsByOwner(user.id) }, []);
 
   // handle navigate add
   const handleNavigate = async () => {
@@ -54,9 +51,10 @@ export default function ProfilePage() {
           <div className="flex items-center gap-6">
             <div className="flex h-24 w-24 items-center justify-center rounded-full  border border-primary-default shadow-lg overflow-hidden">
               <StrapiImage
+                needUrl={false}
                 src={
                   user?.image !== null
-                    ? user?.image?.formats?.thumbnail?.url
+                    ?   `https://admin.kvkey.ru${user?.image?.formats?.thumbnail?.url}`
                     : "/images/avat.webp"
                 }
                 alt={`Превью `}

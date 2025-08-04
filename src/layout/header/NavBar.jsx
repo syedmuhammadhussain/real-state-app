@@ -122,11 +122,12 @@ export default function Navbar() {
                   className="flex flex-col items-center group"
                   aria-label="User menu">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
-                    <img
+                    <StrapiImage
+                      needUrl={false}
                       src={
                         user === null || user?.image === null
-                          ? "/images/avat.webp"
-                          : user?.image?.formats?.thumbnail?.url
+                          ? "/images/avat.webp"  
+                          : `https://admin.kvkey.ru${user?.image?.formats?.thumbnail?.url}`
                       }
                       alt={`Превью `}
                       className="object-cover"

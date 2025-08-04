@@ -6,14 +6,11 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, ZoomIn, Maximize } from "lucide-react";
 import React, { useCallback, useEffect, useState } from 'react';
 
-
 export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, auto = false }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [hoveredImage, setHoveredImage] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  const domain = process.env.NEXT_PUBLIC_STRAPI_URL;
 
   // Navigation controls
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -40,15 +37,11 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
   };
 
   return (
-
-
-
     <div className={cn(
       `relative rounded-xl md:rounded-l-xl overflow-hidden  ${auto ?  'h-[340px]  md:h-[500px]'  : 'max-h-[320px]'  } ${isFullscreen && 'min-h-screen'} mx-auto `,
        isFullscreen ? "fixed inset-0 z-50 bg-black rounded-none" : ""
     )}>
       
-
       {/* Fullscreen toggle button */}
        {!!auto &&   
        <button
@@ -67,7 +60,6 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
         )}
       </button>}
       
-
       {/* Carousel Container */}
       <div 
         className={cn(
@@ -90,46 +82,22 @@ export const ImageCarousel = ({ images, apartment = null, mainAmenities = null, 
               <div className={cn(
                 "relative w-full h-full transition-all duration-300 mx-auto ",
                 !!auto ? "aspect-square " : "aspect-square",
-                isFullscreen ? "h-screen flex justify-center  max-w-[500px]  md:max-w-7xl  " : ""
+                isFullscreen ? "h-screen flex justify-center  max-w-[500px]  md:max-w-7xl" : ""
               )}>
 
                 <StrapiImage
+                  // needUrl={true}
                   src={image.url}
                   alt={image.url}
                   fill
                   className={cn(
-                    "object-contain transition-transform duration-500",
+
+                     " w-full h-full object-cover transition-transform duration-500",
                      hoveredImage === idx && !isFullscreen ? "scale-105" : "scale-100"
                   )}
                   sizes="(max-width: 768px) 100vw, 80vw"
                 />
                 
-                {/* { images.length > 1 && !!isFullscreen && (
-                  <div className={cn(
-                    "absolute top-4 left-1/2 transform -translate-x-1/2  bg-white flex  gap-2 transition-all duration-300",
-                    isFullscreen ? "opacity-0" : "opacity-100"
-                  )}>
-                    {images.map((image, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => scrollTo(idx)}
-                        className={cn(
-                          "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 hover:border-white focus:outline-none",
-                          idx === selectedIndex ? "border-white scale-110" : "border-transparent"
-                        )}
-                        aria-label={`Go to slide ${idx + 1}`}
-                      >
-                        <StrapiImage
-                          src={image.url}
-                          alt={`Thumbnail ${idx + 1}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )} */}
-
                 {/* Zoom overlay */}
                 {hoveredImage === idx && !isFullscreen &&  !!auto && (
                   <div 

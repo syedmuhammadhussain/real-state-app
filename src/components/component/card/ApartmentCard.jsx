@@ -66,7 +66,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
       hiddenPhone: "+9••• •••••••",
     },
     images: (data.images || []).map((img) => ({
-      url: img.formats?.medium?.url || img.formats?.small?.url || img.url,
+      url: img.formats?.medium?.url || img.formats?.small?.url || img.formats?.thumbnail?.url  || img.url,
       caption: img.name,
     })) || [{ url: "/default-villa.jpg", caption: "Villa preview" }],
   };
@@ -119,7 +119,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
 
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
-        <div className="absolute top-2 right-2 z-10">
+        <div className="absolute top-0 right-2 z-10">
           <div className="w-full flex gap-2 center ">
                <Button variant="outline" size="md" onClick={()=>setIsOpenR(true)} className="group ">
               <RailSymbol className="h-4 w-4 text-black group-hover:text-black" />
@@ -185,11 +185,14 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
           <div className="w-full pt-2 px-2 lg:pt-4 lg:px-4 flex flex-col justify-between md:gap-2">
             {/* Title & Address */}
             <div className="mb-2">
-              <h2 className="text-lg md:text-xl font-semibold text-primary-dark mb-1 truncate">
+              <h2 className="text-lg md:text-xl max-w-sm font-semibold text-primary-dark mb-1 truncate">
                 {data.title}
               </h2>
-              <div className="flex items-center text-primary-default gap-1.5">
-                <MapPin className="w-4 h-4" />
+              <div className="flex items-start text-primary-default gap-1.5">
+                <div className="w-5 h-5">
+                <MapPin className="w-4 h-4 mt-1" />
+
+                </div>
                 <span className="text-sm md:text-base text-primary-dark  ">
                   {" "}
                   {`${data.city?.area?.name || "Unknown Region"}, `}{" "}
@@ -231,7 +234,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
             {/* Features / Kitchen list */}
             {!isMobile && apartment.extras.length > 0 && (
               <ul className="flex flex-wrap gap-2 text-xs mt-2">
-                {apartment.extras.slice(0, 8).map((item, idx) => {
+                {apartment.extras.slice(0, 4).map((item, idx) => {
                   const IconCmp = getExtraIcon(item);
                   return (
                     <li
@@ -243,9 +246,9 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
                     </li>
                   );
                 })}
-                {apartment.extras.length > 8 && (
+                {apartment.extras.length > 4 && (
                   <li className="text-primary-dark">
-                    +{apartment.extras.length - 8} more
+                    +{apartment.extras.length - 4} более
                   </li>
                 )}
               </ul>

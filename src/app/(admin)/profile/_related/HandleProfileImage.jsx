@@ -56,6 +56,7 @@ const HandleProfileImage = ({ image, setImage }) => {
             <div className="group relative aspect-square overflow-hidden rounded-xl border shadow-sm transition-transform hover:shadow-md">
               {image !== null && (
                 <StrapiImage
+                needUrl={false}
                   src={
                     typeof image === "object"
                       ? URL.createObjectURL(image[0])
