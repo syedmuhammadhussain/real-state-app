@@ -119,7 +119,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
 
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
-        <div className="absolute top-0 right-2 z-10">
+        <div className="absolute top-2 right-2 z-10">
           <div className="w-full flex gap-2 center ">
                <Button variant="outline" size="md" onClick={()=>setIsOpenR(true)} className="group ">
               <RailSymbol className="h-4 w-4 text-black group-hover:text-black" />
