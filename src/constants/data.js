@@ -246,7 +246,7 @@ export const initialApartmentData = {
   price: 0,
   bedrooms: 1,
   bathrooms: 1,
-  size: 0,
+  size: '',
   propertyType: 'APARTMENT',
   images: [],
   rooms: 0,

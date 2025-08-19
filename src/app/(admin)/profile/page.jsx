@@ -26,7 +26,9 @@ export default function ProfilePage() {
   } = useApartment();
 
   // handle not not exist user
-  useEffect(() => {  if (user?.id) fetchApartmentsByOwner(user.id) }, []);
+  useEffect(() => {
+    if (user?.id) fetchApartmentsByOwner(user.id);
+  }, []);
 
   // handle navigate add
   const handleNavigate = async () => {
@@ -54,7 +56,7 @@ export default function ProfilePage() {
                 needUrl={false}
                 src={
                   user?.image !== null
-                    ?   `https://admin.kvkey.ru${user?.image?.formats?.thumbnail?.url}`
+                    ? `${user?.image?.formats?.thumbnail?.url}`
                     : "/images/avat.webp"
                 }
                 alt={`Превью `}

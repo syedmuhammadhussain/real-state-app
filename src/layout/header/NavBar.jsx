@@ -127,7 +127,7 @@ export default function Navbar() {
                       src={
                         user === null || user?.image === null
                           ? "/images/avat.webp"  
-                          : `https://admin.kvkey.ru${user?.image?.formats?.thumbnail?.url}`
+                          : `${user?.image?.formats?.thumbnail?.url}`
                       }
                       alt={`Превью `}
                       className="object-cover"

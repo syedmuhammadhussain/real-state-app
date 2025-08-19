@@ -67,10 +67,8 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-
         {/* Tabs */}
-        Accept payment && Approve 
-        
+        Accept payment && Approve
       </div>
     </div>
   );

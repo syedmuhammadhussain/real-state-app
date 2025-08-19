@@ -10,7 +10,7 @@ export function SelectFramer() {
   const { cities, selectedCityKey, isPopoverOpen, setIsPopoverOpen, selectedCity, handleCitySelect } = useApartment()
 
 
-  console.log("selectedCityKey:", selectedCityKey);
+  // console.log("selectedCityKey:", selectedCityKey);
   
   return (
     <Popover className=""
@@ -51,9 +51,9 @@ export function SelectFramer() {
             < LoadingState/> 
           </CommandEmpty>
           <CommandGroup>
-            {cities.map((city) => (
+            {cities.map((city, index) => (
               <CommandItem
-                key={city.name}
+                key={index}
                 value={city.name}
                 onSelect={() => handleCitySelect(city.slug)}
                 className="group px-4 py-3 rounded-xl aria-selected:bg-gray-50/50 transition-colors"

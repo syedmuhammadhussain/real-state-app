@@ -38,7 +38,7 @@ const FramerSelectShadcn = () => {
   
   const { selectedCity } = useApartment();
 
-  console.log("Selected City:", selectedCity);
+  // console.log("Selected City:", selectedCity);
 
 
   const isDisabled = !selectedCity?.slug;
