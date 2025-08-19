@@ -228,7 +228,7 @@ export const ApartmentProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get(
-        `${apiUrl}/cities?populate=districts&populate=metro_stations`
+        `${apiUrl}/cities?populate=districts&populate=metro_stations&pagination[page]=1&pagination[pageSize]=1000`
       );
       const data = await response.data.data;
       setCities(data);
@@ -251,7 +251,7 @@ export const ApartmentProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get(
-        `${apiUrl}/products?filters[owner][id][$eq]=${userId}&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[metro_station][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10`
+        `${apiUrl}/products?filters[owner][id][$eq]=${userId}&sort[0]=createdAt:desc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[metro_station][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10`
       );
       const data = await response.data.data;
       setApartmentsForOwner(data);
@@ -309,9 +309,9 @@ export const ApartmentProvider = ({ children }) => {
     try {
       // Step 1: Upload images if any
       let uploadedImages = [];
-      if (toUpload.length > 0) {
-        uploadedImages = await uploadImages(toUpload);
-      }
+      // if (toUpload.length > 0) {
+      //   uploadedImages = await uploadImages(toUpload);
+      // }
       // Step 2: Integrate uploaded image info into apartmentData
       const preparedData = {
         ...apartmentData,
@@ -325,7 +325,8 @@ export const ApartmentProvider = ({ children }) => {
         images: uploadedImages.map((img) => img.id),
       };
 
-      delete preparedData.area
+      delete preparedData.area;
+      if (preparedData.metro_station === NaN) delete preparedData.metro_station;
 
       // Step 3: Send create request
       const response = await fetch(`${apiUrl}/products`, {
@@ -337,7 +338,8 @@ export const ApartmentProvider = ({ children }) => {
         body: JSON.stringify({ data: preparedData }),
       });
       if (!response.ok) throw new Error("Не удалось создать квартиру");
-      const newApartment = await response.data;
+      await response.data;
+      // const newApartment = await response.data;
       // setApartmentsForOwner((prev) => [...prev, newApartment]);
       if (user?.id) await fetchApartmentsByOwner(user?.id);
       toast({
@@ -363,7 +365,6 @@ export const ApartmentProvider = ({ children }) => {
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
     setLoading(true);
-    debugger
     try {
       // Step 1: Upload images if any
       let uploadedImages = [];
@@ -372,13 +373,13 @@ export const ApartmentProvider = ({ children }) => {
       }
 
       const newImages = uploadedImages.map((img) => img.id);
-     const oldImages = apartmentData.images
+      const oldImages = apartmentData.images
         .map((img) => {
           if (img.id !== undefined && img.id !== null) {
             return img.id;
           }
         })
-        .filter((id) => id !== undefined || null ); // remove any undefined values
+        .filter((id) => id !== undefined || null); // remove any undefined values
 
       // Step 2: Integrate uploaded image info into apartmentData
       const preparedData = {
@@ -407,14 +408,14 @@ export const ApartmentProvider = ({ children }) => {
         ),
         images: toUpload.length > 0 ? [...newImages, ...oldImages] : oldImages,
       };
-console.log("preparedData", [...newImages, ...oldImages]);
+      // console.log("preparedData", [...newImages, ...oldImages]);
       delete preparedData.id;
       delete preparedData.documentId;
       delete preparedData.sequence_order;
       delete preparedData.publishedAt;
       delete preparedData.createdAt;
       delete preparedData.updatedAt;
-      delete preparedData.area
+      delete preparedData.area;
 
       // Step 3: Send create request
       const response = await fetch(
@@ -566,7 +567,6 @@ console.log("preparedData", [...newImages, ...oldImages]);
         fetchInfrastructures,
         fetchKitchen,
         fetchCities,
-        createApartment,
       }}
     >
       {children}

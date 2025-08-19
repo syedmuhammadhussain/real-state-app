@@ -42,8 +42,8 @@ export default function BasicInfoForm({
     normalizeOption
   );
 
-  console.log(selectedCity)
-  console.log(districtOptions)
+  // console.log(selectedCity)
+  // console.log(districtOptions)
 
   const handleChange = (field) => (e) => {
     const value = ["rooms", "district", "metro_station", "price"].includes(
@@ -173,7 +173,7 @@ export default function BasicInfoForm({
 
       <div>
         <label htmlFor="area" className="block text-sm text-primary-dark mb-1">
-          Area
+          Область
         </label>
         <select
           id="area"
@@ -187,7 +187,7 @@ export default function BasicInfoForm({
           required
         >
           <option value="" disabled>
-            Area
+            Область
           </option>
           {area &&
             area.map((c, idx) => (
@@ -214,7 +214,7 @@ export default function BasicInfoForm({
         >
           <option value="">Выберите город</option>
           {cities.map((c, idx) => (
-            <option key={c.name || idx} value={c.id}>
+            <option key={idx} value={c.id}>
               {c.name}
             </option>
           ))}
