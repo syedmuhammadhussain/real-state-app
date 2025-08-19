@@ -1,20 +1,24 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { ImagePlus, Loader2, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useApartment } from '../../../../../../context/ApartmentContext';
-import { useToast } from '@/hooks/use-toast';
-import { StrapiImage } from '@/components/ui/StrapiImage';
-import { api } from '@/lib/api';
-import { extractUrl } from '@/lib/utils';
-import Uploader from '@/components/ui/Uploader';
+import { useState, useEffect, useCallback } from "react";
+import { ImagePlus, Loader2, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useApartment } from "../../../../../../context/ApartmentContext";
+import { useToast } from "@/hooks/use-toast";
+import { StrapiImage } from "@/components/ui/StrapiImage";
+import { api } from "@/lib/api";
+import { extractUrl } from "@/lib/utils";
+import Uploader from "@/components/ui/Uploader";
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; 
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
-export default function MediaLocationForm({ apartment, setApartment, handleSubmit,}) {
+export default function MediaLocationForm({
+  apartment,
+  setApartment,
+  handleSubmit,
+}) {
   const [previewUrls, setPreviewUrls] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { loading } = useApartment();
   const { toast } = useToast();
   /**
@@ -22,37 +26,41 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
    *     so the component can treat *all* images the same way.
    *     We preserve the Strapi `id` on the File object so we can delete later.
    */
-   const convertExistingImages = async () => {
-      if (!Array.isArray(apartment.images) || !apartment.images.length) return;
+  const convertExistingImages = async () => {
+    if (!Array.isArray(apartment.images) || !apartment.images.length) return;
 
-      const converted = await Promise.all(
-        apartment.images.map(async (img) => {
-          if (img instanceof File) return img; // already a File
+    const converted = await Promise.all(
+      apartment.images.map(async (img) => {
+        if (img instanceof File) return img; // already a File
 
-          const url = extractUrl(img);
-          if (!url) return null;
+        const url = extractUrl(img);
+        if (!url) return null;
 
-          try {
-            const res = await fetch(url);
-            const blob = await res.blob();
-            const filename = url.split('/').pop()?.split('?')[0] ?? 'image.jpg';
-            const file = new File([blob], filename, { type: blob.type });
+        try {
+          const res = await fetch(url);
+          const blob = await res.blob();
+          const filename = url.split("/").pop()?.split("?")[0] ?? "image.jpg";
+          const file = new File([blob], filename, { type: blob.type });
 
-            if (typeof img === 'object' && 'id' in img) {
-              Object.assign(file, { id: (img).id });
-            }
-            return file;
-          } catch {
-            return null;
+          if (typeof img === "object" && "id" in img) {
+            Object.assign(file, { id: img.id });
           }
-        })
-      );
+          return file;
+        } catch {
+          return null;
+        }
+      })
+    );
 
-      const ready = converted.filter(Boolean);
-      setApartment((prev) => ({ ...prev, images: ready }));
-    };
+    const ready = converted.filter(Boolean);
+    setApartment((prev) => ({ ...prev, images: ready }));
+  };
 
-  useEffect(() => {  apartment.images.length == 0  && void convertExistingImages()  }, []);
+  useEffect(() => {
+    apartment.images &&
+      apartment.images.length == 0 &&
+      void convertExistingImages();
+  }, []);
 
   /**
    * 2️⃣  Build preview URLs *every* time the images array changes.
@@ -62,19 +70,19 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
     if (!Array.isArray(apartment.images)) return;
 
     // Revoke previous blob URLs to avoid leaks
-    previewUrls.forEach((u) => u.startsWith('blob:') && URL.revokeObjectURL(u));
+    previewUrls.forEach((u) => u.startsWith("blob:") && URL.revokeObjectURL(u));
 
     const urls = apartment.images
       .map((img) => {
         if (img instanceof File) return URL.createObjectURL(img);
         return extractUrl(img);
       })
-      .filter(Boolean) 
+      .filter(Boolean);
 
     setPreviewUrls(urls);
 
     return () => {
-      urls.forEach((u) => u.startsWith('blob:') && URL.revokeObjectURL(u));
+      urls.forEach((u) => u.startsWith("blob:") && URL.revokeObjectURL(u));
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apartment.images]);
@@ -91,18 +99,32 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
         setError(
           `Некоторые файлы превышают 20 МБ: ${oversized
             .map((f) => f.name)
-            .join(', ')}`
+            .join(", ")}`
         );
         toast({
-          title: 'Ошибка загрузки',
-          description: 'Максимальный размер файла — 20 МБ.',
-          variant: 'destructive',
+          title: "Ошибка загрузки",
+          description: "Максимальный размер файла — 20 МБ.",
+          variant: "destructive",
         });
         return;
       }
 
-      setError('');
-      setApartment((prev) => ({ ...prev, images: [...prev.images, ...files] }));
+      setError("");
+      // Safely merge into existing images array (guard if prev.images is missing)
+      setApartment((prev) => {
+        const existing = Array.isArray(prev?.images) ? prev.images : [];
+        const next = [...existing, ...files];
+        // persist local edit state if you need
+        try {
+          localStorage.setItem(
+            "apartmentForEdit",
+            JSON.stringify({ ...prev, images: next })
+          );
+        } catch {
+          // ignore localStorage errors
+        }
+        return { ...prev, images: next };
+      });
     },
     [setApartment, toast]
   );
@@ -115,24 +137,24 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
       const next = [...prev.images];
       next.splice(index, 1);
       localStorage.setItem(
-        'apartmentForEdit',
+        "apartmentForEdit",
         JSON.stringify({ ...prev, images: next })
       );
       return { ...prev, images: next };
     });
 
     // server removal only in edit mode
-    const isEditMode = localStorage.getItem('apartmentForEdit') !== null;
-    const idToDelete = target instanceof File ? (target).id ?? null : null;
+    const isEditMode = localStorage.getItem("apartmentForEdit") !== null;
+    const idToDelete = target instanceof File ? target.id ?? null : null;
 
     if (isEditMode && idToDelete) {
       try {
         await api.delete(`upload/files/${idToDelete}`);
       } catch {
         toast({
-          title: 'Не удалось удалить файл на сервере',
-          description: 'Файл удалён только локально.',
-          variant: 'destructive',
+          title: "Не удалось удалить файл на сервере",
+          description: "Файл удалён только локально.",
+          variant: "destructive",
         });
       }
     }
@@ -150,7 +172,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
           Загрузка фотографий
         </h2>
 
-        <Uploader handleImageChange = {handleImageChange}/>
+        <Uploader handleImageChange={handleImageChange} />
 
         {/* -------------------- error -------------------- */}
         {error && (
@@ -163,7 +185,9 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
         {previewUrls.length > 0 && (
           <div className="mt-4">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-primary-dark">Предпросмотр</h3>
+              <h3 className="text-lg font-bold text-primary-dark">
+                Предпросмотр
+              </h3>
               <span className="text-sm text-primary-dark">
                 {previewUrls.length} изображений
               </span>
@@ -176,7 +200,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
                   className="group relative aspect-square overflow-hidden rounded-xl border shadow-sm transition-transform hover:shadow-md"
                 >
                   <StrapiImage
-                    needUrl={apartment.images.length == 0  ? false : true}
+                    needUrl={apartment.images.length == 0 ? false : true}
                     src={url}
                     alt={`Превью ${idx + 1}`}
                     className="object-cover"
@@ -191,7 +215,9 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
                     <X className="h-4 w-4" />
                   </button>
                   <div className="absolute bottom-0 left-0 right-0 truncate bg-gradient-to-t from-black/80 to-transparent p-2 text-xs text-white">
-                    {idx < apartment.images.length ? `Изображение ${idx + 1}` : 'Новая'}
+                    {idx < apartment.images.length
+                      ? `Изображение ${idx + 1}`
+                      : "Новая"}
                   </div>
                 </div>
               ))}
@@ -213,7 +239,7 @@ export default function MediaLocationForm({ apartment, setApartment, handleSubmi
               Сохранение…
             </>
           ) : (
-            'Сохранить и продолжить'
+            "Сохранить и продолжить"
           )}
         </Button>
       </div>
