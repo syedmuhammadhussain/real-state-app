@@ -9,6 +9,7 @@ import { StrapiImage } from "@/components/ui/StrapiImage";
 import { api } from "@/lib/api";
 import { extractUrl } from "@/lib/utils";
 import Uploader from "@/components/ui/Uploader";
+import { usePathname } from "next/navigation";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
@@ -21,6 +22,10 @@ export default function MediaLocationForm({
   const [error, setError] = useState("");
   const { loading } = useApartment();
   const { toast } = useToast();
+  const pathname = usePathname() ?? "/";
+  const segment =
+    pathname.replace(/\/+$/, "").split("/").filter(Boolean).pop() ?? "";
+
   /**
    *    Convert images that already live on Strapi into `File` objects once,
    *     so the component can treat *all* images the same way.
@@ -90,6 +95,7 @@ export default function MediaLocationForm({
   // -------- actions --------------------------------------------------------
   const handleImageChange = useCallback(
     (e) => {
+      ;
       const files = Array.from(e.target.files || []);
       if (!files.length) return;
 
@@ -115,11 +121,14 @@ export default function MediaLocationForm({
         const existing = Array.isArray(prev?.images) ? prev.images : [];
         const next = [...existing, ...files];
         // persist local edit state if you need
+
         try {
-          localStorage.setItem(
-            "apartmentForEdit",
-            JSON.stringify({ ...prev, images: next })
-          );
+          if (segment === "edit-apartment") {
+            localStorage.setItem(
+              "apartmentForEdit",
+              JSON.stringify({ ...prev, images: next })
+            );
+          }
         } catch {
           // ignore localStorage errors
         }
@@ -130,16 +139,19 @@ export default function MediaLocationForm({
   );
 
   const handleRemoveImage = async (index) => {
+    ;
     const target = apartment.images[index];
 
     // remove locally (also covers UI)
     setApartment((prev) => {
       const next = [...prev.images];
       next.splice(index, 1);
-      localStorage.setItem(
-        "apartmentForEdit",
-        JSON.stringify({ ...prev, images: next })
-      );
+      if (segment === "edit-apartment") {
+        localStorage.setItem(
+          "apartmentForEdit",
+          JSON.stringify({ ...prev, images: next })
+        );
+      }
       return { ...prev, images: next };
     });
 

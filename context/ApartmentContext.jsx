@@ -305,14 +305,14 @@ export const ApartmentProvider = ({ children }) => {
 
   // create new
   const createApartment = async (apartmentData, toUpload = []) => {
-    debugger
+    
     setLoading(true);
     try {
       // Step 1: Upload images if any
       let uploadedImages = [];
-      // if (toUpload.length > 0) {
-      //   uploadedImages = await uploadImages(toUpload);
-      // }
+      if (toUpload.length > 0) {
+        uploadedImages = await uploadImages(toUpload);
+      }
       // Step 2: Integrate uploaded image info into apartmentData
       const preparedData = {
         ...apartmentData,
@@ -365,7 +365,7 @@ export const ApartmentProvider = ({ children }) => {
 
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
-    debugger
+    
     setLoading(true);
     try {
       // Step 1: Upload images if any

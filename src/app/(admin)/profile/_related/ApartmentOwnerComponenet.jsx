@@ -21,6 +21,7 @@ const ApartmentOwnerComponenet = () => {
 
   // Handlers edit
   const handleEdit = async (apartment) => {
+    
     setApartmentForEdit(apartment);
     router.push("/edit-apartment/");
     await localStorage.setItem("apartmentForEdit", JSON.stringify(apartment));

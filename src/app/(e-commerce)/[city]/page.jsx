@@ -197,7 +197,7 @@ export default async function CityPage({ params, searchParams }) {
   let meta = { pagination: { pageCount: 1 } };
   let error = "";
   try {
-    // debugger
+    // 
     const res = await fetch(endpoint, {
       cache: "no-store",
       next: { revalidate: 60 },

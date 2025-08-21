@@ -5,7 +5,6 @@ import {
   ChevronDown,
   User,
   LogOut,
-  UserRound,
   Headset,
   Newspaper,
   Star,
@@ -17,7 +16,6 @@ import { links } from "@/constants/data";
 import { useAuth } from "../../../context/AuthContext";
 import { StrapiImage } from "@/components/ui/StrapiImage";
 import { useIsMobile } from "@/hooks/use-mobile";
-import Image from "next/image";
 
 export default function Navbar() {
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
@@ -120,13 +118,14 @@ export default function Navbar() {
                 <button
                   onClick={() => setIsAvatarMenuOpen((prev) => !prev)}
                   className="flex flex-col items-center group"
-                  aria-label="User menu">
+                  aria-label="User menu"
+                >
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 overflow-hidden">
                     <StrapiImage
                       needUrl={false}
                       src={
                         user === null || user?.image === null
-                          ? "/images/avat.webp"  
+                          ? "/images/avat.webp"
                           : `${user?.image?.formats?.thumbnail?.url}`
                       }
                       alt={`Превью `}
