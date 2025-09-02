@@ -7,7 +7,6 @@ import { MapPin, ListOrdered } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
-import { useApartment } from "../../../../context/ApartmentContext"
 import PageLink from "./_related/PageLink";
 import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
@@ -63,8 +62,6 @@ const getRussianCity = (slug) =>
 
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   // base query object
-  debugger
-
   const queryObj = {
     filters: {
       city: { slug: { $eq: citySlug } },
@@ -172,8 +169,6 @@ const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
  * Server Component – runs on every request
  * -----------------------------------------------------------------*/
 export default async function CityPage({ params, searchParams }) {
-  const { cities, selectedCity } = useApartment()
-  debugger
   const { city } = await params;
   const citySlug = city ?? "";
   const singleCity = cityOptions.find((c) => c.key === citySlug.toLowerCase());
