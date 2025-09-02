@@ -15,7 +15,7 @@ export function StrapiImage({ src, alt, className }) {
     if (segment === "add-apartment") {
       setImageUrl(src);
     } else if (src && src?.includes("/uploads/")) {
-      setImageUrl(getStrapiMedia(`https://admin.kvkey.ru${src}`));
+      setImageUrl(getStrapiMedia(`http://localhost:1337${src}`));
     } else setImageUrl(src);
   }, [segment]);
 

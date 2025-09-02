@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { api, uploadImages } from "@/lib/api";
 import { ToastProvider } from "@/components/ui/toast";
 import { toast } from "@/hooks/use-toast";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext(undefined);
 
@@ -57,6 +58,9 @@ export function AuthProvider({ children }) {
       const { data } = await api.post(`${apiUrl}/auth/local`, {
         identifier: email,
         password,
+      });
+      Cookies.set("authToken", data.jwt, {
+        expires: 30,
       });
       localStorage.setItem("authToken", data.jwt);
       initializeAuth();
@@ -185,6 +189,8 @@ export function AuthProvider({ children }) {
   // logout
   const logout = () => {
     localStorage.removeItem("authToken");
+    Cookies.remove('authToken');
+    Cookies.remove('jwtToken');
     delete api.defaults.headers.common["Authorization"];
     setUser(null);
     window.location.href = "/login";
@@ -218,9 +224,9 @@ export function AuthProvider({ children }) {
             ? user?.image.id
             : idOfUploadedImage[0],
       };
-      
+
       await api.put(`${apiUrl}/user/me`, preparedData);
-      if(user?.image) await api.delete(`upload/files/${user?.image?.id}`);
+      if (user?.image) await api.delete(`upload/files/${user?.image?.id}`);
 
       setSuccess(true);
       initializeAuth();

@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/app/api/payment/success/route.js", "src/app/api/payment/status/route.js", "src/app/api/payment/notify/route.js", "src/app/api/payment/init/route.js", "src/app/api/payment/fail/route.js"  ],
   "exclude": [
     "node_modules"
   ]

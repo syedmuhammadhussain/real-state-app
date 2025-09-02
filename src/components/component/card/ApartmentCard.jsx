@@ -1,7 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { Wifi, Wind, BedDouble, Users, MapPin, Building, Pen, Trash2, WashingMachine, Bath, Car, Info, UtensilsCrossed, Coffee, Tv, Fan, Snowflake, Star, StarIcon, House, SquareDashedBottom, Radius, RailSymbol } from "lucide-react";
+import {
+  Wifi,
+  Wind,
+  BedDouble,
+  Users,
+  MapPin,
+  Building,
+  Pen,
+  Trash2,
+  WashingMachine,
+  Bath,
+  Car,
+  Info,
+  UtensilsCrossed,
+  Coffee,
+  Tv,
+  Fan,
+  Snowflake,
+  Star,
+  StarIcon,
+  House,
+  SquareDashedBottom,
+  Radius,
+  RailSymbol,
+  CheckIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactInfo } from "./ContactInfo";
 import NextLink from "@/components/ui/NextLink";
@@ -13,7 +38,12 @@ import { ImageCarousel } from "./ImageCarousel";
 import { Param } from "@/components/ui/Param";
 import AdvertismentDialog from "../dialog-popups/AdvertismentDialog";
 
-export default function ApartmentCard({ data, onEdit, showButtonEdit = false, city = "" }) {
+export default function ApartmentCard({
+  data,
+  onEdit,
+  showButtonEdit = false,
+  city = "",
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenR, setIsOpenR] = useState(false);
 
@@ -21,7 +51,8 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
 
   const isMobile = useIsMobile();
 
-  const { loading, deleteApartment, handlePositionByCity } = useApartment();
+  const { loading, deleteApartment, handlePositionByCity, setApartmentId } =
+    useApartment();
 
   const openDeleteDialog = () => setIsOpenDelete(true);
 
@@ -66,7 +97,11 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
       hiddenPhone: "+9••• •••••••",
     },
     images: (data.images || []).map((img) => ({
-      url: img.formats?.medium?.url || img.formats?.small?.url || img.formats?.thumbnail?.url  || img.url,
+      url:
+        img.formats?.medium?.url ||
+        img.formats?.small?.url ||
+        img.formats?.thumbnail?.url ||
+        img.url,
       caption: img.name,
     })) || [{ url: "/default-villa.jpg", caption: "Villa preview" }],
   };
@@ -107,45 +142,105 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
       : [{ url: "/images/trveller.jpg", caption: "Apartment preview" }];
 
   const handlePosition = async () => {
+    setApartmentId(data?.id);
     await setIsOpen(true);
     // alert (data?.city.id)
     await handlePositionByCity(data?.city.id);
     // await handlePositionByCity(data?.city.id)
   };
 
+  const handleAdvertisement = async () => {
+    setApartmentId(data?.id);
+    await setIsOpenR(true);
+    await handlePositionByCity(data?.city.id);
+  };
+
   /* ---------------------------------- JSX ---------------------------------- */
   return (
     <div className="relative w-full  bg-white border  border-primary-light rounded-xl shadow-lg hover:shadow-md transition-shadow duration-300">
-
       {/* EDIT / LIKE BUTTONS */}
       {showButtonEdit ? (
         <div className="absolute top-2 right-2 z-10">
           <div className="w-full flex gap-2 center ">
-               <Button variant="outline" size="md" onClick={()=>setIsOpenR(true)} className="group ">
-              <RailSymbol className="h-4 w-4 text-black group-hover:text-black" />
-              <span className="hidden  md:flex items-center text-sm  gap-2">
-                 Поднимать
-              </span>
-            </Button>
+            {data?.sequence_order === null ? (
+              <>
+                <Button
+                  variant="outline"
+                  size="md"
+                  onClick={handleAdvertisement}
+                  // onClick={() => setIsOpenR(true)}
+                  className="group "
+                >
+                  <RailSymbol className="h-4 w-4 text-black group-hover:text-black" />
+                  <span className="hidden  md:flex items-center text-sm  gap-2">
+                    Поднимать
+                  </span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="md"
+                  className="group bg-black"
+                  onClick={handlePosition}
+                >
+                  <StarIcon className="group w-4 h-4 text-yellow-500 group-hover:text-primary-dark" />
+                  {!isMobile && (
+                    <>
+                      <span className="hidden  md:flex items-center text-sm text-yellow-500 group-hover:text-yellow-500  gap-2">
+                        Рекламировать
+                        <span className="hidden  md:block px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full gropup-hover:border-black/80 group-hover:animate-bounce ">
+                          PRO
+                        </span>
+                      </span>
+                    </>
+                  )}
+                </Button>
+              </>
+            ) : data?.agent_subscription?.subscription_type === "Position" ||
+              data?.agent_subscription?.subscription_type ===
+                "Advertisement" ? (
+              <Button
+                variant="outline"
+                size="md"
+                className="group bg-green-600 hover:bg-green-700 text-white cursor-default"
+              >
+                <CheckIcon className="w-4 h-4 text-white" />
+                {!isMobile && (
+                  <span className="hidden md:flex items-center text-sm gap-2">
+                    {`позиция (${data.sequence_order})`}
+                    {data?.agent_subscription?.subscription_type ===
+                      "Position" && (
+                      <span className="px-2 py-1 text-xs font-medium bg-white text-green-700 rounded-full border border-green-700">
+                        PRO
+                      </span>
+                    )}
+                  </span>
+                )}
+              </Button>
+            ) : // : data?.agent_subscription?.subscription_type ===
+            //   "advertisement" ? (
+            //   <Button
+            //     variant="outline"
+            //     size="md"
+            //     className="group bg-orange-600 hover:bg-orange-700 text-white cursor-default"
+            //   >
+            //     <CheckIcon className="w-4 h-4 text-white" />
+            //     {!isMobile && (
+            //       <span className="hidden md:flex items-center text-sm gap-2">
+            //         {`позиция (${data.sequence_order})`}
+            //         <span className="px-2 py-1 text-xs font-medium bg-white text-orange-700 rounded-full border border-orange-700">
+            //           PRO
+            //         </span>
+            //       </span>
+            //     )}
+            //   </Button>
+            // )
+            null}
             <Button
               variant="outline"
               size="md"
-              className="group bg-black" 
-              onClick={handlePosition}
+              onClick={onEdit}
+              className="group bg-black"
             >
-              <StarIcon className="group w-4 h-4 text-yellow-500 group-hover:text-primary-dark" />
-              {!isMobile && (
-                <>
-                  <span className="hidden  md:flex items-center text-sm text-yellow-500 group-hover:text-yellow-500  gap-2">
-                    Рекламировать
-                    <span className="hidden  md:block px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full gropup-hover:border-black/80 group-hover:animate-bounce ">
-                      PRO
-                    </span>
-                  </span>
-                </>
-              )}
-            </Button>
-            <Button variant="outline" size="md" onClick={onEdit} className="group bg-black">
               <Pen className="h-4 w-4 text-white group-hover:text-black" />
             </Button>
             <Button
@@ -165,7 +260,9 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
             // onClick={() => setIsLiked((prev) => !prev)}
             className="group bg-white absolute top-2 right-2 p-2 z-10  rounded-full shadow transition-colors"
           >
-            <Star className={`w-6 h-6 " text-base text-yellow-700 animate-pulse`} />
+            <Star
+              className={`w-6 h-6 " text-base text-yellow-700 animate-pulse`}
+            />
           </Button>
         )
       )}
@@ -190,8 +287,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
               </h2>
               <div className="flex items-start text-primary-default gap-1.5">
                 <div className="w-5 h-5">
-                <MapPin className="w-4 h-4 mt-1" />
-
+                  <MapPin className="w-4 h-4 mt-1" />
                 </div>
                 <span className="text-sm md:text-base text-primary-dark  ">
                   {" "}
@@ -207,8 +303,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
             </div>
 
             {/* Core parameters grid // Коттедж // Квартиры/ */}
-            {
-              !isMobile && (
+            {!isMobile && (
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <Param
                   icon={
@@ -228,8 +323,7 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
                 <Param icon={Radius} label={`${data.size} m²`} />
                 <Param icon={SquareDashedBottom} label={data.rooms} />
               </div>
-              )
-            }
+            )}
 
             {/* Features / Kitchen list */}
             {!isMobile && apartment.extras.length > 0 && (
@@ -290,5 +384,3 @@ export default function ApartmentCard({ data, onEdit, showButtonEdit = false, ci
     </div>
   );
 }
-
-

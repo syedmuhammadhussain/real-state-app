@@ -7,12 +7,14 @@ import { MapPin, ListOrdered } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
+import { useApartment } from "../../../../context/ApartmentContext"
 import PageLink from "./_related/PageLink";
 import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
 
 export async function generateMetadata({ params }) {
-  const city = decodeURIComponent(params.city);
+  const data = await params;
+  const city = decodeURIComponent(data.city);
 
   return {
     title: `${city} — аренда квартир и домов | KVKEY`,
@@ -26,10 +28,10 @@ export async function generateMetadata({ params }) {
     openGraph: {
       title: `Аренда в ${city} | KVKEY`,
       description: `Лучшие варианты аренды жилья в городе ${city}. Удобный поиск и прямая аренда.`,
-      url: `https://kvkey.ru/${params.city}`,
+      url: `https://kvkey.ru/${data.city}`,
       images: [
         {
-          url: '/og-cover.jpg',
+          url: "/og-cover.jpg",
           width: 1200,
           height: 630,
           alt: `KVKEY — аренда в ${city}`,
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }) {
 
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
-const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "https://admin.kvkey.ru"
+const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
@@ -61,6 +63,8 @@ const getRussianCity = (slug) =>
 
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   // base query object
+  debugger
+
   const queryObj = {
     filters: {
       city: { slug: { $eq: citySlug } },
@@ -168,9 +172,12 @@ const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
  * Server Component – runs on every request
  * -----------------------------------------------------------------*/
 export default async function CityPage({ params, searchParams }) {
-  const citySlug = params?.city ?? "";
-  const city = cityOptions.find((c) => c.key === citySlug.toLowerCase());
-  if (!city) notFound();
+  const { cities, selectedCity } = useApartment()
+  debugger
+  const { city } = await params;
+  const citySlug = city ?? "";
+  const singleCity = cityOptions.find((c) => c.key === citySlug.toLowerCase());
+  if (!singleCity) notFound();
 
   /* ───── derive state from URL ───── */
   const currentPage = parseInt(searchParams.page ?? "1", 10);
@@ -197,7 +204,7 @@ export default async function CityPage({ params, searchParams }) {
   let meta = { pagination: { pageCount: 1 } };
   let error = "";
   try {
-    // 
+    //
     const res = await fetch(endpoint, {
       cache: "no-store",
       next: { revalidate: 60 },
@@ -235,7 +242,7 @@ export default async function CityPage({ params, searchParams }) {
           fill
           className="object-cover"
           // priority
-          loading = "lazy"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">

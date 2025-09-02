@@ -27,6 +27,7 @@ export const ApartmentProvider = ({ children }) => {
   const [editMode, setEditMode] = useState(false);
   const [position, setPosition] = useState(null);
   const [area, setArea] = useState(null);
+  const [apartmentId, setApartmentId] = useState(null);
 
   // hero section and select Option City selector
   const [selectedCityKey, setSelectedCityKey] = useState("");
@@ -251,7 +252,7 @@ export const ApartmentProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await api.get(
-        `${apiUrl}/products?filters[owner][id][$eq]=${userId}&sort[0]=createdAt:desc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[metro_station][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&pagination[page]=1&pagination[pageSize]=10`
+        `${apiUrl}/products?filters[owner][id][$eq]=${userId}&sort[0]=createdAt:desc&populate[images][fields]=formats&populate[owner][populate]=role&populate[district][populate][fields]=name&populate[metro_station][populate][fields]=name&populate[city][populate][area][fields]=name&populate[location][populate][fields]=name&populate[features][populate][fields]=name&populate[kitchens][populate][fields]=name&populate[amenities][populate][fields]=name&populate[infrastructures][populate][fields]=name&populate[agent_subscription][fields]=subscription_type&pagination[page]=1&pagination[pageSize]=10`
       );
       const data = await response.data.data;
       setApartmentsForOwner(data);
@@ -305,7 +306,6 @@ export const ApartmentProvider = ({ children }) => {
 
   // create new
   const createApartment = async (apartmentData, toUpload = []) => {
-    
     setLoading(true);
     try {
       // Step 1: Upload images if any
@@ -365,7 +365,6 @@ export const ApartmentProvider = ({ children }) => {
 
   // edit apartment
   const updateApartment = async (apartmentData, toUpload) => {
-    
     setLoading(true);
     try {
       // Step 1: Upload images if any
@@ -569,6 +568,8 @@ export const ApartmentProvider = ({ children }) => {
         fetchInfrastructures,
         fetchKitchen,
         fetchCities,
+        apartmentId,
+        setApartmentId,
       }}
     >
       {children}
