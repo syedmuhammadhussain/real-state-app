@@ -43,6 +43,7 @@ export async function generateMetadata({ params }) {
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
 const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
@@ -165,14 +166,23 @@ const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
   return `/${citySlug}?${q.toString()}`;
 };
 
+// ** Fetch cities
+const fetchCities = async (citySlug) => {
+  const response = await fetch(
+    `${apiUrl}/cities?filters[slug][$eq]=${citySlug}`
+  );
+  const json = await response.json();
+  return json.data;
+};
+
 /* ------------------------------------------------------------------
  * Server Component – runs on every request
  * -----------------------------------------------------------------*/
 export default async function CityPage({ params, searchParams }) {
   const { city } = await params;
   const citySlug = city ?? "";
-  const singleCity = cityOptions.find((c) => c.key === citySlug.toLowerCase());
-  if (!singleCity) notFound();
+  const data = await fetchCities(citySlug);
+  if (!data  && data.length) notFound();
 
   /* ───── derive state from URL ───── */
   const currentPage = parseInt(searchParams.page ?? "1", 10);

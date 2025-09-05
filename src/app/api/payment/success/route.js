@@ -27,7 +27,6 @@ async function strapiFetch(
 }
 
 export async function GET(req) {
-  // debugger;
   const cookieStore = await cookies();
   const authToken = cookieStore.get("authToken")?.value;
 
