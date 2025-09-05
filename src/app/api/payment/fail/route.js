@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { getPaymentId } from "@/lib/payment-utils";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const STRAPI_ADMIN_TOKEN = process.env.STRAPI_ADMIN_TOKEN;
+const NEXT_PUBLIC_STRAPI_ADMIN_TOKEN = process.env.NEXT_PUBLIC_STRAPI_ADMIN_TOKEN;
 const NEXT_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 /**
@@ -12,7 +12,7 @@ const NEXT_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // safe strapiFetch (drop into your fail route file, replacing old function)
 async function strapiFetch(
   path,
-  { method = "GET", token = STRAPI_ADMIN_TOKEN, body, headers = {} } = {}
+  { method = "GET", token = NEXT_PUBLIC_STRAPI_ADMIN_TOKEN, body, headers = {} } = {}
 ) {
   // debugger
   try {
@@ -94,7 +94,7 @@ export async function GET(req) {
           `/payments?filters[paymentId][$eq]=${paymentId}`,
           {
             method: "GET",
-            token: STRAPI_ADMIN_TOKEN,
+            token: NEXT_PUBLIC_STRAPI_ADMIN_TOKEN,
           }
         );
 
@@ -115,7 +115,7 @@ export async function GET(req) {
             const { status: updateStatus, body: updateBody } =
               await strapiFetch(`/payments/${docId}`, {
                 method: "PUT",
-                token: STRAPI_ADMIN_TOKEN,
+                token: NEXT_PUBLIC_STRAPI_ADMIN_TOKEN,
                 body: payload,
               });
 

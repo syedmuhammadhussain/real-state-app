@@ -1,7 +1,7 @@
 // src/lib/payment-utils.js
 import crypto from "crypto";
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const STRAPI_TOKEN = process.env.STRAPI_ADMIN_TOKEN;
+const STRAPI_TOKEN = process.env.NEXT_PUBLIC_STRAPI_ADMIN_TOKEN;
 
 /**
  * Safe raw body parsing — read text once and try JSON, urlencoded, fallback
@@ -77,9 +77,9 @@ export function computeToken(payload, password) {
 export async function checkProviderStatus({ orderId, paymentId }) {
   try {
     const STATUS_URL =
-      process.env.TBANK_STATUS_ENDPOINT || process.env.TBANK_GETSTATE_ENDPOINT;
-    const TERMINAL_KEY = process.env.TBANK_TERMINAL_KEY;
-    const PASSWORD = process.env.TBANK_PASSWORD;
+      process.env.NEXT_PUBLIC_TBANK_STATUS_ENDPOINT || process.env.TBANK_GETSTATE_ENDPOINT;
+    const TERMINAL_KEY = process.env.NEXT_PUBLIC_TBANK_TERMINAL_KEY;
+    const PASSWORD = process.env.NEXT_PUBLIC_TBANK_PASSWORD;
 
     if (!STATUS_URL || !TERMINAL_KEY || !PASSWORD) {
       return { status: "UNKNOWN", raw: { error: "provider config missing" } };

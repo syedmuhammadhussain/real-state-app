@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 const NEXT_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const STRAPI_ADMIN_TOKEN = process.env.STRAPI_ADMIN_TOKEN;
+const NEXT_PUBLIC_STRAPI_ADMIN_TOKEN = process.env.NEXT_PUBLIC_STRAPI_ADMIN_TOKEN;
 
 async function strapiFetch(
   path,
@@ -84,7 +84,7 @@ export async function GET(req) {
           `/agent-subscriptions/${subscriptionsId}/approve`,
           {
             method: "GET",
-            token: STRAPI_ADMIN_TOKEN,
+            token: NEXT_PUBLIC_STRAPI_ADMIN_TOKEN,
           }
         );
 

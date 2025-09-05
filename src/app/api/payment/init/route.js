@@ -68,9 +68,9 @@ export async function POST(req) {
       email
     )}&type=${encodeURIComponent(type)}`;
 
-    const TERMINAL_KEY = process.env.TBANK_TERMINAL_KEY;
-    const PASSWORD = process.env.TBANK_PASSWORD;
-    const INIT_URL = process.env.TBANK_INIT_ENDPOINT;
+    const TERMINAL_KEY = process.env.NEXT_PUBLIC_TBANK_TERMINAL_KEY;
+    const PASSWORD = process.env.NEXT_PUBLIC_TBANK_PASSWORD;
+    const INIT_URL = process.env.NEXT_PUBLIC_TBANK_INIT_ENDPOINT;
 
     if (!TERMINAL_KEY || !PASSWORD) {
       return NextResponse.json(
