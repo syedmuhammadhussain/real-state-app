@@ -49,11 +49,6 @@ export async function POST(req) {
       }
     }
 
-    // const NotificationURL = `${base}api/payment/notify?orderId=${encodeURIComponent(
-    //   orderId
-    // )}&userId=${encodeURIComponent(userId)}&cid=${encodeURIComponent(
-    //   correlationId
-    // )}`;
     const SuccessURL = `${base}api/payment/success?orderId=${encodeURIComponent(
       orderId
     )}&userId=${encodeURIComponent(userId)}&position=${encodeURIComponent(
