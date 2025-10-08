@@ -225,7 +225,7 @@ export const ApartmentProvider = ({ children }) => {
   };
 
   // Получить все city
-  const fetchCities = async () => {
+   const fetchCities = async () => {
     setLoading(true);
     try {
       const response = await api.get(

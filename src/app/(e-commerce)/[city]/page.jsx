@@ -3,12 +3,12 @@ import "server-only";
 import qs from "qs";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, ListOrdered } from "lucide-react";
-import { notFound } from "next/navigation";
+// import { MapPin, ListOrdered } from "lucide-react";
+// import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
 import PageLink from "./_related/PageLink";
-import { cityOptions } from "@/constants/data";
+// import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
 
 export async function generateMetadata({ params }) {
@@ -42,16 +42,21 @@ export async function generateMetadata({ params }) {
 
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
-const API_BASE = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+const API_BASE = "https://admin.kvkey.ru";
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
-const getRussianCity = (slug) =>
-  cityOptions.find(
-    (c) => c.key.toLowerCase() === decodeURIComponent(slug).toLowerCase()
-  ) ?? { key: slug, name: `Unknown City (${slug})`, ru: slug };
+const getRussianCity = async (slug) =>{
+  try {
+    const response = await api.get(
+        `https://admin.kvkey.ru/api/cities?filters[slug][$eq]=${slug}`
+      );
+      console.log("CITY RESPONSE", response);
+      return response.name
 
+  }catch{} }
+  
 /**
  * Build a Strapi collection endpoint with filters / pagination.
  * @param {Object} params
@@ -60,6 +65,7 @@ const getRussianCity = (slug) =>
  * @param {Object} params.filters – various optional filters from query‑string
  * @returns {string} fully‑qualified URL
  */
+
 
 function buildEndpoint({ citySlug, page = 1, filters = {} }) {
   // base query object
@@ -160,29 +166,31 @@ const copyParamsSafe = (obj) => {
 /**
  * Build a link switching between list / map view without losing params.
  */
-const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
-  const q = copyParamsSafe(currentSearchParams);
-  q.set("view", nextView);
-  return `/${citySlug}?${q.toString()}`;
-};
+// const buildViewLink = ({ citySlug, currentSearchParams, nextView }) => {
+//   const q = copyParamsSafe(currentSearchParams);
+//   q.set("view", nextView);
+//   return `/${citySlug}?${q.toString()}`;
+// };
 
 // ** Fetch cities
-const fetchCities = async (citySlug) => {
-  const response = await fetch(
-    `${apiUrl}/cities?filters[slug][$eq]=${citySlug}`
-  );
-  const json = await response.json();
-  return json.data;
-};
+// const fetchCities = async (citySlug) => {
+//   const response = await fetch(
+//     `${apiUrl}/cities?filters[slug][$eq]=${citySlug}`
+//   );
+//   const json = await response.json();
+//   return json.data;
+// };
 
 /* ------------------------------------------------------------------
  * Server Component – runs on every request
  * -----------------------------------------------------------------*/
 export default async function CityPage({ params, searchParams }) {
+  // debugger
   const { city } = await params;
   const citySlug = city ?? "";
-  const data = await fetchCities(citySlug);
-  if (!data  && data.length) notFound();
+  // debugger;
+  // const data = await fetchCities(citySlug);
+  // if (!data  && data.length) notFound();
 
   /* ───── derive state from URL ───── */
   const currentPage = parseInt(searchParams.page ?? "1", 10);
@@ -232,7 +240,6 @@ export default async function CityPage({ params, searchParams }) {
     page === 1 ? q.delete("page") : q.set("page", String(page));
     return `/${citySlug}?${q.toString()}`;
   };
-
   const totalPages = meta.pagination.pageCount ?? 1;
   const cityRussian = getRussianCity(citySlug);
 
@@ -251,7 +258,8 @@ export default async function CityPage({ params, searchParams }) {
         />
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">
-            Квартиры посуточно в {cityRussian.ru}
+            Квартиры посуточно в {citySlug} 
+            {cityRussian.ru}
           </h1>
           <p className="text-white mt-2 max-w-3xl">
             На нашем сайте вы можете найти подходящий вариант посуточной аренды
@@ -278,7 +286,7 @@ export default async function CityPage({ params, searchParams }) {
               ]}
             />
             <div className="flex items-center gap-2">
-              <Link
+              {/* <Link
                 href={buildViewLink({
                   citySlug,
                   currentSearchParams: searchParams,
@@ -292,8 +300,8 @@ export default async function CityPage({ params, searchParams }) {
               >
                 <ListOrdered className="h-4 w-4" />
                 <span className="hidden md:block text-sm ">Список</span>
-              </Link>
-              <Link
+              </Link> */}
+              {/* <Link
                 href={buildViewLink({
                   citySlug,
                   currentSearchParams: searchParams,
@@ -307,7 +315,7 @@ export default async function CityPage({ params, searchParams }) {
               >
                 <MapPin className="h-4 w-4" />
                 <span className="hidden md:block text-sm ">Карта</span>
-              </Link>
+              </Link> */}
             </div>
           </div>
 
