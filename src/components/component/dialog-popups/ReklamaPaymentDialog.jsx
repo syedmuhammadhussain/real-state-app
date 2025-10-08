@@ -174,6 +174,11 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
     }
   };
 
+  let sortedPositions = [];
+  if (positions && positions.length) {
+    sortedPositions = [...positions].sort((a, b) => a.order - b.order);
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-h-[80vh] rounded-xl bg-white max-w-4xl overflow-auto">
@@ -248,16 +253,16 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
                                       strokeLinecap="round"
                                     />
                                   </svg>
-                                  Processing...
+                                  Обработка...
                                 </span>
                               ) : (
-                                "Buy"
+                                "Купить"
                               )}
                             </Button>
                           ) : null}
                           {item.is_booked ? (
                             <Button variant="secondary" size="sm">
-                              Look
+                              Смотреть
                             </Button>
                           ) : null}
                         </td>

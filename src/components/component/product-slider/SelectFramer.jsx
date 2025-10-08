@@ -60,7 +60,7 @@ export function SelectFramer() {
         avoidCollisions={false}
         className="w-[var(--radix-popover-trigger-width)] p-0 overflow-hidden rounded-xl shadow-md bg-white/95 backdrop-blur-sm border border-gray-100"
       >
-        <pre>{JSON.stringify(cities.length)}</pre>
+        {/* <pre>{JSON.stringify(cities.length)}</pre> */}
         <Command className="[&_[cmdk-group]]:px-2 [&_[cmdk-group]]:py-3">
           <CommandInput
             placeholder="Поиск городов..."

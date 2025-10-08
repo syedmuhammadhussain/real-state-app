@@ -24,7 +24,7 @@ const PremiumPage = () => {
   const plans = [
     {
       name: 'Золотой Тариф',
-      price: '₽14900',
+      price: '₽1000',
       features: [
         'Премиум-размещение объявлений',
         'Приоритет в поисковой выдаче',
@@ -94,7 +94,7 @@ const PremiumPage = () => {
                   </li>
                 ))}
               </ul>
-              <Button
+              {/* <Button
               // onClick ={ (()=>{
               //   // if(user) 1 -registragtion if use not exist  
 
@@ -103,7 +103,7 @@ const PremiumPage = () => {
               variant="primary"
               className="font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-all">  
                Подключить Тариф
-            </Button>
+            </Button> */}
             </div>
           ))}
         </div>

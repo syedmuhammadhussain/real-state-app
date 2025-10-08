@@ -41,7 +41,7 @@ export default function AboutUs() {
         <div className="absolute inset-0 bg-black/20 flex  flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center px-4 text-3xl">
             <span className="text-primary-dark text-5xl">kvkey</span> — 
-            Ваш эксперт в мире элитной недвижимости
+            Ваш эксперт в мире недвижимости
           </h1>
           <p className="text-white text-center px-4 text-xl max-w-6xl">
         Поможем приобрести квартиру или дом вашей мечты
@@ -55,7 +55,7 @@ export default function AboutUs() {
           {[
             { number: '13+', label: 'Лет на рынке' },
             { number: '50K+', label: 'Успешных сделок' },
-            { number: '15', label: 'Городов присутствия' },
+            { number: '150+', label: 'Городов присутствия' },
             { number: '98%', label: 'Довольных клиентов' }
           ].map((stat, index) => (
             <div key={index} className="bg-white p-6 rounded-xl shadow-lg text-center">
@@ -111,7 +111,7 @@ export default function AboutUs() {
         </section>
 
         {/* Team Section */}
-        <section className="mb-20">
+        {/* <section className="mb-20">
           <h2 className="text-3xl font-bold text-center mb-12 text-primary-dark">
             <Users className=" w-12 h-12  inline-block mr-3 text-primary-default" />
             Наша команда
@@ -121,7 +121,6 @@ export default function AboutUs() {
             {[1,2,3,4].map((_, index) => (
               <div key={index} className="group relative overflow-hidden rounded-xl">
                 <div className="aspect-square bg-gray-200 animate-pulse">
-                  {/* Заменить на реальные изображения */}
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent p-6 flex flex-col justify-end">
                   <h3 className="text-white text-xl font-bold mb-2">Иван Петров</h3>
@@ -130,7 +129,7 @@ export default function AboutUs() {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
         <section className="bg-primary-default/10 rounded-xl p-8 md:p-16 text-center">

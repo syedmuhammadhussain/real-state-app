@@ -292,7 +292,7 @@ export default function ApartmentCard({
                 <span className="text-sm md:text-base text-primary-dark  ">
                   {" "}
                   {`${data.city?.area?.name || "Unknown Region"}, `}{" "}
-                  {`${data.city.name}, `}
+                  {`${data.city?.name}, `}
                   {data.district ? data.district.name : ""}
                   {/* {apartment.district !== null && ',' } */}
                   {data.metro_station ? data.metro_station.name : ""}
@@ -359,7 +359,7 @@ export default function ApartmentCard({
                 </p>
               </div>
               <NextLink
-                href={`/${data.city.slug}/${data.documentId}`}
+                href={`/${data.city?.slug}/${data.documentId}`}
                 className="group flex items-center gap-1 bg-primary-dark hover:bg-gradient-to-br from-black/80 shadow-primary-dark/20 text-white px-5 py-2 rounded-xl font-medium transition-colors duration-300 w-max"
               >
                 <span className="text-sm md:text-base">Подробнее..</span>

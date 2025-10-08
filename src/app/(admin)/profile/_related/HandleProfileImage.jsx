@@ -1,8 +1,9 @@
 "use client";
+
 import { StrapiImage } from "@/components/ui/StrapiImage";
 import Uploader from "@/components/ui/Uploader";
 import { toast } from "@/hooks/use-toast";
-import { X } from "lucide-react";
+import { AlertCircle, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../../../../context/AuthContext";
 
@@ -34,6 +35,13 @@ const HandleProfileImage = ({ image, setImage }) => {
   useEffect(() => {
     if (user.image) setImage(user?.image?.formats?.small?.url);
   }, []);
+
+
+  const handleRemoveImage = async () => {
+    setImage('');
+    }
+
+
   return (
     <div>
       <Uploader handleImageChange={handleImageChange} multiple={false} />

@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
 /* --------------------------------- CONSTS ----------------------- */
 const ITEMS_PER_PAGE = 10;
 const API_BASE = "https://admin.kvkey.ru";
-const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+// const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
@@ -52,9 +52,7 @@ const getRussianCity = async (slug) =>{
     const response = await api.get(
         `https://admin.kvkey.ru/api/cities?filters[slug][$eq]=${slug}`
       );
-      console.log("CITY RESPONSE", response);
-      return response.name
-
+      return response.data.name
   }catch{} }
   
 /**
@@ -258,12 +256,13 @@ export default async function CityPage({ params, searchParams }) {
         />
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">
-            Квартиры посуточно в {citySlug} 
-            {/* {cityRussian.ru} */}
+            Квартиры посуточно в {citySlug}
+             {/* {citySlug}  */}
+            {cityRussian}
           </h1>
           <p className="text-white mt-2 max-w-3xl">
             На нашем сайте вы можете найти подходящий вариант посуточной аренды
-            квартиры в городе {cityRussian.ru}. Мы публикуем объявления от
+            квартиры в городе {citySlug} {cityRussian}. Мы публикуем объявления от
             собственников, что позволяет выбрать нужную вам квартиру по выгодной
             цене.
           </p>
@@ -282,7 +281,9 @@ export default async function CityPage({ params, searchParams }) {
             <Breadcrumbs
               items={[
                 { key: "home", label: "Главная", href: "/" },
-                { key: "city", label: cityRussian.ru },
+                { key: "city", label: citySlug //cityRussian
+
+                 },
               ]}
             />
             <div className="flex items-center gap-2">

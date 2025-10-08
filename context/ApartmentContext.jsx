@@ -121,7 +121,7 @@ export const ApartmentProvider = ({ children }) => {
   const fetchArea = async () => {
     setLoading(true);
     try {
-      const response = await api.get(`${apiUrl}/areas`);
+      const response = await api.get(`${apiUrl}/areas?pagination[page]=1&pagination[pageSize]=1000`);
       const data = await response.data.data;
       setArea(data);
       setError(null);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle } from "lucide-react";
+// import { CheckCircle } from "lucide-react";
 import BasicInfoForm from "./_steps/BasicInfoForm";
 import ParametersForm from "./_steps/ParametersForm";
 import MediaLocationForm from "./_steps/MediaLocationForm";

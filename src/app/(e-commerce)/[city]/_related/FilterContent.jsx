@@ -53,7 +53,8 @@ export function FilterContent({
         </p>
         <div className="flex items-center  gap-3">
           <Input
-            label="from (₽)"
+            label="
+от (₽)"
             type="number"
             value={priceRange[0]}
             onChange={(e) => onPriceChange([+e.target.value, priceRange[1]])}
@@ -62,7 +63,8 @@ export function FilterContent({
           />
           <span className="text-muted-foreground">–</span>
           <Input
-            label="to (₽)"
+            label="
+до (₽)"
             type="number"
             value={priceRange[1]}
             onChange={(e) => onPriceChange([priceRange[0], +e.target.value])}
