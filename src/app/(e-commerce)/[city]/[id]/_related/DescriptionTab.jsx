@@ -29,9 +29,9 @@ propertyType */}
       </div>
 
       <div className="">
-        <h3 className="text-lg font-semibold text-primary-dark">Правила</h3>
+        {/* <h3 className="text-lg font-semibold text-primary-dark">Правила</h3> */}
 
-        sooon
+        {/* sooon */}
         {/* <div className="space-y-2">
           <div className="flex items-center gap-2">
             <CalendarDays className="w-5 h-5" />

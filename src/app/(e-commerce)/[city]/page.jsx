@@ -259,7 +259,7 @@ export default async function CityPage({ params, searchParams }) {
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">
             Квартиры посуточно в {citySlug} 
-            {cityRussian.ru}
+            {/* {cityRussian.ru} */}
           </h1>
           <p className="text-white mt-2 max-w-3xl">
             На нашем сайте вы можете найти подходящий вариант посуточной аренды
