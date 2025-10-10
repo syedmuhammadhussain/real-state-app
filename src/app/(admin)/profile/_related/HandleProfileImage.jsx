@@ -3,7 +3,7 @@
 import { StrapiImage } from "@/components/ui/StrapiImage";
 import Uploader from "@/components/ui/Uploader";
 import { toast } from "@/hooks/use-toast";
-import { AlertCircle, X } from "lucide-react";
+import {  X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "../../../../../context/AuthContext";
 
@@ -30,7 +30,6 @@ const HandleProfileImage = ({ image, setImage }) => {
     // if(image.length  > 1   ) setError(`Некоторые файлы превышают 1:`);
     setImage(files);
   }, []);
-
 
   useEffect(() => {
     if (user.image) setImage(user?.image?.formats?.small?.url);
