@@ -307,7 +307,7 @@ export function FilterContent({
 
       <div>
           <label className="text-sm lg:text-base font-semibold text-primary-dark">
-          Kitchen
+          Кухня
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {kitchens.map((am) => (

@@ -10,6 +10,7 @@ import ApartmentCard from "@/components/component/card/ApartmentCard";
 import PageLink from "./_related/PageLink";
 // import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
+import RussianCity from "./RussianCity";
 
 export async function generateMetadata({ params }) {
   const data = await params;
@@ -47,13 +48,13 @@ const API_BASE = "https://admin.kvkey.ru";
 
 /* --------------------------------- HELPERS ---------------------- */
 // find Russian title for breadcrumb etc.
-const getRussianCity = async (slug) =>{
-  try {
-    const response = await api.get(
-        `https://admin.kvkey.ru/api/cities?filters[slug][$eq]=${slug}`
-      );
-      return response.data.name
-  }catch{} }
+// const getRussianCity = async (slug) =>{
+//   try {
+//     const response = await api.get(
+//         `https://admin.kvkey.ru/api/cities?filters[slug][$eq]=${slug}`
+//       );
+//       return response.data.name
+//   }catch{} }
   
 /**
  * Build a Strapi collection endpoint with filters / pagination.
@@ -239,13 +240,16 @@ export default async function CityPage({ params, searchParams }) {
     return `/${citySlug}?${q.toString()}`;
   };
   const totalPages = meta.pagination.pageCount ?? 1;
-  const cityRussian = getRussianCity(citySlug);
+  // const cityRussian = getRussianCity(citySlug);
 
   /* ------------------------------ RENDER ------------------------- */
+
+  // const ahmed = GetRussianName(citySlug)
+  
   return (
     <div className="mt-20 lg:mt-0">
       {/* Hero (desktop) */}
-      <section className=" hidden md:block relative h-[260px] lg:h-[320px]">
+      {/* <section className=" hidden md:block relative h-[260px] lg:h-[320px]">
         <Image
           src="/images/aboutUs.jpg"
           alt="Недвижимость премиум‑класса"
@@ -257,7 +261,7 @@ export default async function CityPage({ params, searchParams }) {
         <div className="absolute inset-0 bg-primary-dark/65 flex flex-col items-center justify-center text-center px-2">
           <h1 className=" mt-12 font-bold text-white text-2xl lg:text-3xl max-w-4xl">
             Квартиры посуточно в {citySlug}
-             {/* {citySlug}  */}
+             
             {cityRussian}
           </h1>
           <p className="text-white mt-2 max-w-3xl">
@@ -267,8 +271,8 @@ export default async function CityPage({ params, searchParams }) {
             цене.
           </p>
         </div>
-      </section>
-
+      </section> */}
+      <RussianCity citySlug={citySlug}/> 
       <div className="relative flex min-h-screen max-w-7xl mx-auto flex-col lg:flex-row">
         {/* Sidebar */}
         <aside className="overflow-y-auto">
@@ -278,14 +282,14 @@ export default async function CityPage({ params, searchParams }) {
         {/* Main content */}
         <main className="flex-1 px-4 lg:px-0 pt-4 pb-10">
           <div className="mb-6 flex flex-row items-center justify-between gap-4">
-            <Breadcrumbs
+            {/* <Breadcrumbs
               items={[
                 { key: "home", label: "Главная", href: "/" },
-                { key: "city", label: citySlug //cityRussian
+                { key: "city", label:  citySlug  //cityRussian
 
                  },
               ]}
-            />
+            /> */}
             <div className="flex items-center gap-2">
               {/* <Link
                 href={buildViewLink({

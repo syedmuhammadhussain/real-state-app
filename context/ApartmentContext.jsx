@@ -246,6 +246,8 @@ export const ApartmentProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  
+ 
 
   // Получить квартиры по ID города
   const fetchApartmentsByOwner = async (userId) => {
@@ -570,6 +572,7 @@ export const ApartmentProvider = ({ children }) => {
         fetchCities,
         apartmentId,
         setApartmentId,
+        // GetRussianName,
       }}
     >
       {children}

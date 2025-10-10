@@ -42,10 +42,11 @@ export const ApartmentHeader = ({ product }) =>{
 
       {/* <KeyFeatures params={product.apartmentParameters} /> */}
       <div className=" grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
-          <Param icon={ product.propertyType === 'APARTMENT'  ? Building :  House} label={product.propertyType} />
-          <Param icon={Users} label={`Up to ${product.bedrooms * 2}`} />
-          <Param icon={BedDouble} label={`${product.bedrooms} bedrooms`} />
-          <Param icon={Bath} label={`${product.bathrooms} bathrooms`} />
+          <Param icon={ product.propertyType === 'APARTMENT'  ? Building :  House} label={product.propertyType === 'APARTMENT'     ? "Квартиры"
+                      : "Коттедж"}  />
+          <Param icon={Users} label={`До ${product.bedrooms * 2}`} />
+          <Param icon={BedDouble} label={`${product.bedrooms} Спальни`} />
+          <Param icon={Bath} label={`${product.bathrooms} Ванные комнаты`} />
           <Param  icon = {Radius} label={`${product?.size} m²`} />
           <Param icon={SquareDashedBottom} label={product?.rooms} />
       </div>

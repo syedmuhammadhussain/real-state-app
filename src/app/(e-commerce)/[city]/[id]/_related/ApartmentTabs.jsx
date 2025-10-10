@@ -9,7 +9,7 @@ export const ApartmentTabs = ({ product, description }) => (
     <TabsList className="grid grid-cols-3 w-full ">
       <TabsTrigger value="description">Описание</TabsTrigger>
       <TabsTrigger value="amenities">Удобства</TabsTrigger>
-      <TabsTrigger value="location">Локация</TabsTrigger>
+      <TabsTrigger value="location">Рядом есть</TabsTrigger>
       {/* <TabsTrigger value="reviews">Отзывы</TabsTrigger> */}
     </TabsList>
 

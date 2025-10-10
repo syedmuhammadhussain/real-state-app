@@ -1,6 +1,15 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { api } from "./api";
+import { useApartment } from "../../context/ApartmentContext";
+
+ export const GetRussianName = ( cityo ) => {
+  const { cities } = useApartment();
+    const city = cities?.find(( c ) => c.slug === cityo);
+    return <>{city ? city.name : ''}</>;
+     
+  }
+
 
 export const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -56,3 +65,6 @@ export const normalizeIds = (arr) => {
     typeof item === "object" && item.id != null ? String(item.id) : String(item)
   );
 };
+
+
+

@@ -59,7 +59,7 @@ export default function ProfilePage() {
                     ? `${user?.image?.formats?.thumbnail?.url}`
                     : "/images/avat.webp"
                 }
-                alt={`Превью `}
+                alt={`Превью профиля`}
                 className="object-cover"
                 sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
               />
@@ -69,7 +69,8 @@ export default function ProfilePage() {
                 {user?.username ?? "Неизвестно"}
               </h1>
               <p className="text-muted-primary">
-                {user?.role?.name ?? "Неизвестно"}
+                {/* {user?.role?.name ?? "Неизвестно"}  */}
+                Агентство
               </p>
             </div>
           </div>

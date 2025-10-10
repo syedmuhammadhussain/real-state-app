@@ -33,6 +33,18 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
     }
   };
 
+  // simplest: if starts with 8 → +7...
+const toPlus7 = (s) => {
+  const t = String(s || '').trim();
+  if (t.startsWith('8'))  return '+7' + t.slice(1);
+  return t;
+};
+
+
+const toWaMe = (s) => toPlus7(s).replace(/^\+/, '');
+
+// wa.me must NOT have the '+'
+
   return (
     <Collapsible
       open={isOpen}
@@ -60,7 +72,7 @@ export const ContactInfo = ({ contact, initialOpen = false }) => {
                 <Button
                   variant="outline"
                   size="md"
-                  onClick={() => router.push(`https://wa.me/${contact.whatsapp}`)}
+                  onClick={() => router.push(`https://wa.me/${toWaMe(contact.whatsapp)}`)}
                   // className="bg-transparent p-0 m-0 "
                 >
                   {/* <Image
