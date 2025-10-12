@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 // import { MapPin, ListOrdered } from "lucide-react";
 // import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import ApartmentCard from "@/components/component/card/ApartmentCard";
 import PageLink from "./_related/PageLink";
 // import { cityOptions } from "@/constants/data";
 import Sidebar from "./_related/SideBar";
 import RussianCity from "./RussianCity";
+import Helper from "./Helper";
 
 export async function generateMetadata({ params }) {
   const data = await params;
@@ -282,14 +282,7 @@ export default async function CityPage({ params, searchParams }) {
         {/* Main content */}
         <main className="flex-1 px-4 lg:px-0 pt-4 pb-10">
           <div className="mb-6 flex flex-row items-center justify-between gap-4">
-            {/* <Breadcrumbs
-              items={[
-                { key: "home", label: "Главная", href: "/" },
-                { key: "city", label:  citySlug  //cityRussian
-
-                 },
-              ]}
-            /> */}
+            <Helper citySlug={citySlug} />
             <div className="flex items-center gap-2">
               {/* <Link
                 href={buildViewLink({

@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
-import SocialLinks from "@/components/component/social-links/SocialLinks";
+// import SocialLinks from "@/components/component/social-links/SocialLinks";
 import { AuthProvider } from "../../context/AuthContext";
 import { ApartmentProvider } from "../../context/ApartmentContext";
 import "./globals.css";

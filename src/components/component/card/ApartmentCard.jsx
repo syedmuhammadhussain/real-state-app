@@ -168,7 +168,6 @@ export default function ApartmentCard({
                   variant="outline"
                   size="md"
                   onClick={handleAdvertisement}
-                  // onClick={() => setIsOpenR(true)}
                   className="group "
                 >
                   <RailSymbol className="h-4 w-4 text-black group-hover:text-black" />

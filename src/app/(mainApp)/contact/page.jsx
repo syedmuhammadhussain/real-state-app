@@ -60,19 +60,19 @@ export default function ContactUs() {
             icon: <Home className="w-8 h-8 mx-auto text-primary-default" />, 
             title: "Консультация", 
             text: "Персональный подбор недвижимости", 
-            email: "info@xralstate.ru" 
+            email: "info@kvkey.ru" 
           },
           { 
             icon: <Search className="w-8 h-8 mx-auto text-primary-default" />, 
             title: "Подбор объекта", 
             text: "Найдем идеальный вариант по вашим критериям", 
-            email: "select@xralstate.ru" 
+            email: "support@kvkey.ru" 
           },
           { 
             icon: <Shield className="w-8 h-8 mx-auto text-primary-default" />, 
             title: "Юридическая поддержка", 
             text: "Полное сопровождение сделок", 
-            email: "legal@xralstate.ru" 
+            email: "support@kvkey.ru" 
           },
         ].map((item, index) => (
           <div key={index} className="bg-white p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300">
