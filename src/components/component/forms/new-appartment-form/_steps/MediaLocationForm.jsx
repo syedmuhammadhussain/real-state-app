@@ -139,7 +139,7 @@ export default function MediaLocationForm({
   );
 
   const handleRemoveImage = async (index) => {
-    ;
+
     const target = apartment.images[index];
 
     // remove locally (also covers UI)
