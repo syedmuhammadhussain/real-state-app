@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
-import { Home, Search, Shield, Phone, Send } from 'lucide-react';
 import Image from 'next/image';
-
+import { Home, Search, Shield, Phone, Send, Mail, MessageCircle } from 'lucide-react';
 
 export const metadata = {
   title: 'Контакты | KVKEY',
@@ -52,9 +51,63 @@ export default function ContactUs() {
      
       {/* Введение */}
      
+{/* Каналы связи */}
+<section className="max-w-7xl mx-auto px-3 lg:px-4 mb-12">
+  {/* <h2 className="text-2xl font-bold mb-6 text-primary-default flex items-center">
+    <Phone className="w-6 h-6 mr-2 text-primary-dark" />
+    Каналы связи
+  </h2> */}
 
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {[
+      {
+        label: 'Связь через Telegram',
+        value: '@kvkeyru',
+        href: 'https://t.me/kvkeyru',
+        icon: <Send className="w-7 h-7 text-primary-default" />,
+        cta: 'Открыть Telegram',
+      },
+      {
+        label: 'Связь через WhatsApp',
+        value: '+7(909)181-11-14',
+        // WhatsApp expects digits only with country code
+        href: 'https://wa.me/79091811114',
+        icon: <MessageCircle className="w-7 h-7 text-primary-default" />,
+        cta: 'Написать в WhatsApp',
+      },
+      {
+        label: 'Связь через Gmail почту',
+        value: 'kvkey.ru@gmail.com',
+        href: 'mailto:kvkey.ru@gmail.com',
+        icon: <Mail className="w-7 h-7 text-primary-default" />,
+        cta: 'Написать на почту',
+      },
+    ].map((item) => (
+      <div
+        key={item.label}
+        className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 flex flex-col"
+      >
+        <div className="flex items-start gap-4">
+          {item.icon}
+          <div>
+            <p className="text-sm text-primary-dark/80">{item.label}</p>
+            <p className="text-lg font-semibold text-primary-dark">{item.value}</p>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <a href={item.href} target="_blank" rel="noopener noreferrer">
+            <Button variant="primary" className="w-full">
+              {item.cta}
+            </Button>
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
       {/* Способы связи */}
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 px-3 lg:px-4 max-w-7xl mx-auto">
+      {/* <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 px-3 lg:px-4 max-w-7xl mx-auto">
         {[
           { 
             icon: <Home className="w-8 h-8 mx-auto text-primary-default" />, 
@@ -87,7 +140,7 @@ export default function ContactUs() {
             </a>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Форма обратной связи */}
       <section className="mb-12">

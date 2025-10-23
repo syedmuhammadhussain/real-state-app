@@ -157,7 +157,7 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-            <p className=" mt-4 text-sm  text-gray-400"> почта : email </p>
+            <p className=" mt-4 text-sm  text-gray-400"> почта : kvkey.ru@gmail.com </p>
             {/* <p  className=' text-sm  text-gray-400' >  Telephone : email </p> */}
           </div>
         </div>

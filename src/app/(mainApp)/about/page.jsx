@@ -41,10 +41,12 @@ export default function AboutUs() {
         <div className="absolute inset-0 bg-black/20 flex  flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center px-4 text-3xl">
             <span className="text-primary-dark text-5xl">kvkey</span> — 
-            Ваш эксперт в мире недвижимости
+           Ваш эксперт в мире недвижимости
+Поможем найти квартиру под ваши цели
           </h1>
           <p className="text-white text-center px-4 text-xl max-w-6xl">
-        Поможем приобрести квартиру или дом вашей мечты
+       Добро пожаловать на уникальную доску объявлений по посуточной аренде квартир и коттеджей в любом городе России. Здесь вы найдете идеальное жильё для отдыха, деловых поездок или кратковременного проживания. Всё просто и удобно: никаких комиссий, посредников и сложных правил бронирования.
+Только прямые контакты хозяев недвижимости и честные цены.
           </p>
         </div>
       </section>
@@ -87,14 +89,14 @@ export default function AboutUs() {
 
             <div className="grid grid-cols-1 gap-6">
               {[
-                { icon: <Shield size={32} />, title: "Полная безопасность", 
-                  text: "Юридическое сопровождение каждой сделки" },
-                { icon: <Users size={32} />, title: "Индивидуальный подход",
-                  text: "Персональный менеджер для каждого клиента" },
-                { icon: <Building size={32} />, title: "Экспертная оценка",
-                  text: "Анализ рынка и прогнозирование стоимости" },
-                { icon: <Heart size={32} />, title: "Конфиденциальность",
-                  text: "Гарантия приватности всех условий сделки" }
+                { icon: <Shield size={32} />, title: "Отсутствие скрытых платежей", 
+                  text: "наши гости ничего не оплачивают дополнительно — стоимость указывается сразу и окончательно." },
+                { icon: <Users size={32} />, title: "Полная безопасность",
+                  text: "Пюридическое сопровождение каждой сделки." },
+                { icon: <Building size={32} />, title: "Индивидуальный подход",
+                  text: "персональный менеджер для каждого клиента." },
+                { icon: <Heart size={32} />, title: "Экспертная оценка",
+                  text: "анализ рынка и прогнозирование стоимости." }
               ].map((value, index) => (
                 <div key={index} className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow">
                   <div className="flex items-start gap-4">
@@ -134,11 +136,11 @@ export default function AboutUs() {
         {/* CTA Section */}
         <section className="bg-primary-default/10 rounded-xl p-8 md:p-16 text-center">
           <h2 className="text-3xl font-bold mb-6  text-primary-dark">
-            Готовы найти свой идеальный дом?
+            Готовы найти свой идеальный дом?По вопросам рекламы и работы сайта воспользуйтесь способами связи.
+
           </h2>
           <p className=" text-primary-dark mb-8 max-w-2xl mx-auto">
-            Оставьте заявку и получите персональную подборку объектов 
-            уже через 24 часа
+           Связаться с нами
           </p>
           <Link
             href="/contact"
