@@ -70,7 +70,7 @@ export default function AdvertismentDialog({ isOpen, setIsOpen, data }) {
 
   useEffect(() => {
     if (position && position.length) {
-      let filteredPositions = position.find((p) => p.title === "Advertisement");
+      let filteredPositions = position.find((p) => p.order === 26);
       if (filteredPositions) setPositions(filteredPositions);
     }
   }, [position]);
@@ -166,8 +166,6 @@ export default function AdvertismentDialog({ isOpen, setIsOpen, data }) {
       });
     }
   };
-
-  
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
