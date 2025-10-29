@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Image from 'next/image';
-import { Home, Search, Shield, Phone, Send, Mail, MessageCircle } from 'lucide-react';
+import { Phone, Send, Mail } from 'lucide-react';
+import vk from '../../../../public/vk.png';
+import wp from '../../../../public/whats.png';
 
 export const metadata = {
   title: 'Контакты | KVKEY',
@@ -40,8 +42,8 @@ export default function ContactUs() {
         />
         <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center text-3xl px-4">
-            <span className="text-primary-dark text-5xl">kvkey</span> — 
-          Консультация по недвижимости
+            {/* <span className="text-primary-dark text-5xl">kvkey</span> —  */}
+     Связаться с администрацией  
           </h1>
           <p className="text-white text-center px-4 text-xl max-w-6xl">
         ваш надежный партнер на рынке недвижимости. Наши эксперты с многолетним опытом готовы предоставить комплексные консультации по покупке
@@ -64,7 +66,9 @@ export default function ContactUs() {
         label: 'Связь через Telegram',
         value: '@kvkeyru',
         href: 'https://t.me/kvkeyru',
-        icon: <Send className="w-7 h-7 text-primary-default" />,
+        // icon: <Send className="w-7 h-7 text-primary-default" />,
+      icon:   <Image alt="whats icon" src={vk} width={100} height={100} className="rounded-full" />,
+
         cta: 'Открыть Telegram',
       },
       {
@@ -72,14 +76,16 @@ export default function ContactUs() {
         value: '+7(909)181-11-14',
         // WhatsApp expects digits only with country code
         href: 'https://wa.me/79091811114',
-        icon: <MessageCircle className="w-7 h-7 text-primary-default" />,
+        // icon: <MessageCircle className="w-7 h-7 text-primary-default" />,
+      icon:   <Image alt="whats icon" src={wp} width={100} height={100} className="rounded-full" />,
+
         cta: 'Написать в WhatsApp',
       },
       {
         label: 'Связь через Gmail почту',
         value: 'kvkey.ru@gmail.com',
         href: 'mailto:kvkey.ru@gmail.com',
-        icon: <Mail className="w-7 h-7 text-primary-default" />,
+        icon: <Mail className="w-24 h-24 text-primary-default" size={100} />,
         cta: 'Написать на почту',
       },
     ].map((item) => (

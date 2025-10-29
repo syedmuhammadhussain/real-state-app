@@ -20,8 +20,8 @@ const HeroSection = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-900/30 to-transparent" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <div className=" max-w-5xl flex flex-col justify-center items-center gap-1 w-full  ">
-              <h1 className=" text-4xl md:text-6xl text-white drop-shadow-xl"> 
+            <div className=" max-w-7xl flex flex-col justify-center items-center gap-1 w-full  ">
+              <h1 className=" text-4xl text-white drop-shadow-xl"> 
                  {/* ПОСУТОЧНАЯ АРЕНДА ЖИЛЬЯ<br/> В ГОРОДАХ РОССИИ  */}
                  ПОСУТОЧНАЯ АРЕНДА ЖИЛЬЯ В ГОРОДАХ РОССИИ
                  </h1>

@@ -1,4 +1,4 @@
-import { Home, Heart, Shield, Users, Building, BadgeCheck } from 'lucide-react';
+import { Home, Heart, Shield, Users, Building, BadgeCheck, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -40,13 +40,15 @@ export default function AboutUs() {
         />
         <div className="absolute inset-0 bg-black/20 flex  flex-col items-center justify-center">
           <h1 className="font-bold text-white text-center px-4 text-3xl">
-            <span className="text-primary-dark text-5xl">kvkey</span> — 
-           Ваш эксперт в мире недвижимости
-Поможем найти квартиру под ваши цели
+            {/* <span className="text-primary-dark text-5xl">kvkey</span> —  */}
+              Ваш помощник в мире недвижимости, Поможем найти квартиру под ваши цели  
+              Поможем приобрести квартиру или дом вашей мечты    
           </h1>
           <p className="text-white text-center px-4 text-xl max-w-6xl">
-       Добро пожаловать на уникальную доску объявлений по посуточной аренде квартир и коттеджей в любом городе России. Здесь вы найдете идеальное жильё для отдыха, деловых поездок или кратковременного проживания. Всё просто и удобно: никаких комиссий, посредников и сложных правил бронирования.
-Только прямые контакты хозяев недвижимости и честные цены.
+            Добро пожаловать на уникальную доску объявлений по посуточной аренде квартир и коттеджей в любом городе России.  
+            Здесь вы найдёте идеальное жильё для отдыха, деловых поездок или кратковременного проживания.  
+            Всё просто и удобно: никаких комиссий, посредников и сложных правил бронирования.  
+            Только прямые контакты хозяев недвижимости и честные цены.
           </p>
         </div>
       </section>
@@ -89,14 +91,26 @@ export default function AboutUs() {
 
             <div className="grid grid-cols-1 gap-6">
               {[
-                { icon: <Shield size={32} />, title: "Отсутствие скрытых платежей", 
-                  text: "наши гости ничего не оплачивают дополнительно — стоимость указывается сразу и окончательно." },
-                { icon: <Users size={32} />, title: "Полная безопасность",
-                  text: "Пюридическое сопровождение каждой сделки." },
-                { icon: <Building size={32} />, title: "Индивидуальный подход",
-                  text: "персональный менеджер для каждого клиента." },
-                { icon: <Heart size={32} />, title: "Экспертная оценка",
-                  text: "анализ рынка и прогнозирование стоимости." }
+                {
+                  icon: <Shield size={32} />,
+                  title: "Отсутствие скрытых платежей ",
+                  text: "наши гости ничего не оплачивают дополнительно — стоимость указывается сразу и окончательно."
+                },
+                {
+                  icon: <Users size={32} />,
+                  title: "Удобство выбора",
+                  text: "легко искать объекты по карте, фильтруя нужные районы, цену и категорию жилья."
+                },
+                {
+                  icon: <Building size={32} />,
+                  title: "Свобода переговоров",
+                  text: "звоните владельцу напрямую, договаривайтесь о скидках и особых условиях."
+                },
+                {
+                  icon: <BarChart3 size={32} />,
+                  title: "Широкий выбор вариантов",
+                  text: "квартиры-студии, просторные коттеджи, комнаты и целые жилые комплексы — всё доступно в одном месте."
+                }
               ].map((value, index) => (
                 <div key={index} className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow">
                   <div className="flex items-start gap-4">
@@ -135,19 +149,14 @@ export default function AboutUs() {
 
         {/* CTA Section */}
         <section className="bg-primary-default/10 rounded-xl p-8 md:p-16 text-center">
-          <h2 className="text-3xl font-bold mb-6  text-primary-dark">
-            Готовы найти свой идеальный дом?По вопросам рекламы и работы сайта воспользуйтесь способами связи.
-
-          </h2>
-          <p className=" text-primary-dark mb-8 max-w-2xl mx-auto">
-           Связаться с нами
-          </p>
+          <h2 className="text-3xl font-bold mb-6  text-primary-dark">Связаться с администрацией </h2>
+          <p className=" text-primary-dark mb-8 max-w-2xl mx-auto">По вопросам рекламы и работы сайта воспользуйтесь способами связи.  </p>
           <Link
             href="/contact"
             className="bg-primary-default text-white px-4 py-2 rounded-xl hover:bg-primary-hover transition-all text-lg font-medium inline-flex items-center gap-2"
           >
             <Home className="w-4 h-4" />
-            Получить консультацию
+              СВЯЗАТЬСЯ С НАМИ
           </Link>
         </section>
       </div>

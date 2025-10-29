@@ -1,23 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { Bell, Send, Instagram, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Input from "@/components/ui/input";
+import { Send, MessageCircle } from "lucide-react";
+
 import { usePathname } from "next/navigation";
 import NextLink from "@/components/ui/NextLink";
+import Image from "next/image";
+import vk from '../../../public/vk.png'
+import wp from '../../../public/whats.png'
 
-const VKIcon = ({ className }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M12.374 17.943h1.606c.485 0 .654-.348.9-.715.252-.373.63-.883 1.265-.883h1.209c.475 0 .701-.09.845-.444.13-.323.018-.588-.248-.904l-.464-.55a10.922 10.922 0 0 1-1.028-1.419c-.214-.38-.016-.557.328-.557h.987c.387 0 .533-.124.592-.435.064-.328-.047-.573-.271-.888l-.452-.604c-.598-.788-1.221-1.603-2.022-1.603h-1.156c-.364 0-.529.174-.634.452-.204.537-.47 1.09-.72 1.559-.11.21-.227.418-.36.613-.134.196-.282.386-.472.375-.19-.01-.294-.201-.369-.383a8.414 8.414 0 0 1-.506-1.574c-.093-.392-.24-.508-.658-.508H9.209c-.331 0-.538.154-.538.452 0 .421.622 3.44 2.909 5.441.398.337.79.489.794.785.004.24-.185.282-.44.282h-.727c-.411 0-.723-.048-1.067-.17-.345-.123-.465-.12-.605.207-.136.317-.503 1.046-.702 1.466-.215.451-.048.735.457.735h2.09z" />
-  </svg>
-);
+
 
 export default function Footer() {
   const pathname = usePathname();
@@ -48,19 +40,20 @@ export default function Footer() {
 
   const socialMedia = [
     {
-      icon: <MessageCircle size={20} />,
+      // icon: <MessageCircle size={20} />,
+      icon:   <Image alt="whats icon" src={wp} width={20} height={20} className="rounded-full" />,
       href: "https://wa.me/79091818242",
     },
     {
       icon: <Send size={20} />,
       href: "https://t.me/your_telegram_username",
     },
+    // {
+    //   icon: <Instagram size={20} />,
+    //   href: "https://instagram.com/your_profile",
+    // },
     {
-      icon: <Instagram size={20} />,
-      href: "https://instagram.com/your_profile",
-    },
-    {
-      icon: <VKIcon className="w-5 h-5" />,
+      icon:  <Image alt="vk icon" src={vk} width={20} height={20} className="rounded-full" />,
       href: "https://vk.com/id1024184393",
     },
   ];

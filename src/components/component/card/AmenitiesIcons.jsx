@@ -15,7 +15,7 @@ export const ApartmentParameters = ({ params, isMobile }) =>
   !isMobile && (
   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
     <ParameterItem icon={Icons.building} label={params.apartmentType || "Apartment"} />
-    <ParameterItem icon={Icons.users} label={`Up to ${params.maxGuests || 1} guests`} />
+    <ParameterItem icon={Icons.users} label={`До ${params.maxGuests || 1} Количество гостей`} />
     <ParameterItem icon={Icons.bedDouble} label={`${params.doubleBeds || 0} double beds`} />
     <ParameterItem icon="🛏" label={`${params.singleBeds || 0} single beds`} />
     <ParameterItem icon="📏" label={`${params.area?.total || 0} m²`} />
