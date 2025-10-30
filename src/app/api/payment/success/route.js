@@ -3,19 +3,15 @@ import { NextResponse } from "next/server";
 import { getPaymentId } from "@/lib/payment-utils";
 import { cookies } from "next/headers";
 
-const STRAPI_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_STRAPI_URL;
-const STRAPI_API_TOKEN =
-  process.env.STRAPI_API_TOKEN || process.env.NEXT_PUBLIC_STRAPI_ADMIN_TOKEN; // fallback for now
-const STRAPI_ADMIN_TOKEN =
-  process.env.STRAPI_ADMIN_TOKEN || process.env.NEXT_PUBLIC_STRAPI_ADMIN_TOKEN;
-const NEXT_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "/";
+const STRAPI_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const STRAPI_ADMIN_TOKEN = process.env.STRAPI_ADMIN_TOKEN;
+const NEXT_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 async function strapiFetch(
   path,
   { method = "GET", token, body, headers = {} } = {}
 ) {
-  const usedToken = token ?? STRAPI_API_TOKEN;
+  const usedToken = token;
   if (!STRAPI_URL) throw new Error("STRAPI_URL is not configured");
   const url = `${STRAPI_URL}${path}`;
   const res = await fetch(url, {
@@ -37,7 +33,6 @@ export async function GET(req) {
     // Safe debug info
     console.log("[payment/success] invoked", {
       STRAPI_URL_set: !!STRAPI_URL,
-      STRAPI_API_TOKEN_set: !!STRAPI_API_TOKEN,
       STRAPI_ADMIN_TOKEN_set: !!STRAPI_ADMIN_TOKEN,
       NEXT_BASE_URL: !!NEXT_BASE_URL,
     });
@@ -88,7 +83,7 @@ export async function GET(req) {
 
     const idempotencyKey =
       paymentId || `order:${orderId}` || `notify:${Date.now()}`;
-    const tokenToUse = authToken || STRAPI_API_TOKEN;
+    const tokenToUse = authToken;
 
     // Build payload
     const payloadBase = {
