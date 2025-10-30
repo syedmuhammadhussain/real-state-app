@@ -315,8 +315,9 @@ export default function ApartmentCard({
                       ? "Квартиры"
                       : "Коттедж"
                   }
+                  // `До ${params.maxGuests || 1} Количество гостей`
                 />
-                <Param icon={Users} label={`Up to ${data.bedrooms * 2} `} />
+                <Param icon={Users} label={`До ${data.bedrooms * 2} Количество гостей`} />
                 <Param icon={BedDouble} label={`${data.bedrooms} спальни`} />
                 <Param icon={Bath} label={`${data.bathrooms} ванные комнаты`} />
                 <Param icon={Radius} label={`${data.size} m²`} />
