@@ -1,7 +1,7 @@
 // src/lib/payment-utils.js
 import crypto from "crypto";
 const STRAPI_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const STRAPI_TOKEN = process.env.NEXT_PUBLIC_STRAPI_ADMIN_TOKEN;
+const STRAPI_TOKEN = process.env.STRAPI_ADMIN_TOKEN;
 
 /**
  * Safe raw body parsing — read text once and try JSON, urlencoded, fallback
