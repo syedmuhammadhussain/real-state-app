@@ -145,5 +145,6 @@ export async function getPaymentId(orderId) {
     }
   );
   const json = await respons.json().catch(() => null);
+  console.log("Payment Id ************* ", json?.data?.[0].paymentId)
   return json?.data?.[0]?.paymentId || null;
 }
