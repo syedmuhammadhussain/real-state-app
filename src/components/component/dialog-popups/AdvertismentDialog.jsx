@@ -100,7 +100,20 @@ export default function AdvertismentDialog({ isOpen, setIsOpen, data }) {
     const orderId = Date.now();
     setCurrentOrderId(orderId);
     setLoading(true);
-    // debugger;
+    debugger;
+    let payload = {
+      amount: positions?.price ?? 50,
+      orderId,
+      description: `Ad slot Advertisement`,
+      // positionId: item.id,
+      positionId: positions?.id,
+      userId: user.id,
+      position: positions?.order ?? 26,
+      productId: apartmentId,
+      email: user?.email,
+      phone: user?.phone,
+      type: "Advertisement",
+    };
 
     try {
       const res = await fetch("/api/payment/init", {
@@ -110,18 +123,7 @@ export default function AdvertismentDialog({ isOpen, setIsOpen, data }) {
           Accept: "application/json",
           Authorization: `Bearer ${user?.jwt}`,
         },
-        body: JSON.stringify({
-          amount: positions?.price ?? 50,
-          orderId,
-          description: `Ad slot Advertisement`,
-          // positionId: item.id,
-          positionId: positions?.id,
-          userId: user.id,
-          position: positions?.order ?? 26,
-          productId: apartmentId,
-          email: user?.email,
-          type: "Advertisement",
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();

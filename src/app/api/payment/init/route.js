@@ -20,6 +20,7 @@ export async function POST(req) {
     const userId = body.userId;
     const position = body.position;
     const productId = body.productId;
+    const phone = body.phone;
     const email = body.email;
     const type = body.type;
     if (!orderId || !amount || !positionId) {
@@ -86,7 +87,27 @@ export async function POST(req) {
       SuccessURL,
       FailURL,
       // NotificationURL,
-      DATA: { ...(body.data || {}), orderId, correlationId },
+      DATA: {
+        ...(body.data || {}),
+        orderId,
+        correlationId,
+        Phone: phone,
+        Email: email,
+      },
+      Receipt: {
+        Phone: phone,
+        Email: email,
+        Texation: "osn",
+        Items: [
+          {
+            Name: "Rent Apartment",
+            Price: amount * 100,
+            Quantity: 1,
+            Amount: amount * 100,
+            Tax: "vat10",
+          },
+        ],
+      },
     };
 
     const { token } = computeTokenForPayload(initPayload, PASSWORD);

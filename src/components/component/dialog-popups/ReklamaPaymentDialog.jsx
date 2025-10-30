@@ -123,6 +123,7 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
           position: item.order,
           productId: apartmentId,
           email: user?.email,
+          phone: user?.phone,
           type: "Position",
         }),
       });
@@ -178,7 +179,6 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
   if (positions && positions.length) {
     sortedPositions = [...positions].sort((a, b) => a.order - b.order);
   }
-  
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -219,10 +219,11 @@ export default function ReklamaPaymentDialog({ isOpen, setIsOpen, data }) {
                           {item.title}
                         </td>
                         <td className="px-4 py-2 text-center border">
-                          {item.price}{"p"} - {""}
+                          {item.price}
+                          {"p"} - {""}
                           {item.is_booked === null
                             ? ""
-                            : `${item.is_booked ? 'Занят' : 'Свободен' }`}  
+                            : `${item.is_booked ? "Занят" : "Свободен"}`}
                         </td>
                         <td className="px-4 py-2 text-center border">
                           {item.is_booked === false ? (
