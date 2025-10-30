@@ -3,6 +3,11 @@
 .tmp/
 .cache/
 .git/
+.gitignore
+npm-debug.log
+yarn-error.log
+.DS_Store
+docker-compose.override.yml
 build/
 node_modules/
 .env
