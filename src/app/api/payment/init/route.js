@@ -84,9 +84,9 @@ export async function POST(req) {
       TerminalKey: TERMINAL_KEY,
       Amount: amount * 100,
       OrderId: orderId,
+      Description: "Apartment Rent Payment",
       SuccessURL,
       FailURL,
-      // NotificationURL,
       DATA: {
         ...(body.data || {}),
         orderId,
@@ -97,7 +97,7 @@ export async function POST(req) {
       Receipt: {
         Phone: phone,
         Email: email,
-        Texation: "osn",
+        Taxation: "osn",
         Items: [
           {
             Name: "Rent Apartment",
