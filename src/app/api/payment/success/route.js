@@ -155,7 +155,7 @@ export async function GET(req) {
           body: { data: payload },
         }
       );
-      console.log("Auth Token ****:::::", authToken)
+      console.log("Auth Token ****:::::", authToken);
       console.log("Status *****:::::: ", status);
 
       // let subscriptionsId = body?.data?.id || body?.id;
@@ -167,6 +167,10 @@ export async function GET(req) {
           { status: 302 }
         );
       }
+
+      return NextResponse.redirect(`${NEXT_BASE_URL}processing/failed`, {
+        status: 302,
+      });
 
       return NextResponse.json(
         { ok: false, note: "advertise purchase failed", details: body },
