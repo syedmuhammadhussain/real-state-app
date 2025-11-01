@@ -29,6 +29,7 @@ async function strapiFetch(
 }
 
 export async function GET(req) {
+  debugger;
   try {
     // Safe debug info
     console.log("[payment/success] invoked", {
@@ -83,7 +84,6 @@ export async function GET(req) {
 
     const idempotencyKey =
       paymentId || `order:${orderId}` || `notify:${Date.now()}`;
-    const tokenToUse = authToken;
 
     // Build payload
     const payloadBase = {
@@ -105,13 +105,13 @@ export async function GET(req) {
         `/agent-subscriptions/purchase`,
         {
           method: "POST",
-          token: tokenToUse,
+          token: authToken,
           headers: { "Idempotency-Key": idempotencyKey },
           body: { data: payload },
         }
       );
 
-      const subscriptionsId = body?.data?.id || body?.id;
+      let subscriptionsId = body?.data?.id || body?.id;
       if ([200, 201].includes(status)) {
         // approve with admin token
         const { status: approveStatus } = await strapiFetch(
@@ -145,17 +145,20 @@ export async function GET(req) {
 
     if (type === "Advertisement") {
       const payload = { ...payloadBase }; // advertisement does not need position/label
+      console.log("Payload *****: ", payload);
       const { status, body } = await strapiFetch(
         `/agent-subscriptions/advertise`,
         {
           method: "POST",
-          token: tokenToUse,
+          token: authToken,
           headers: { "Idempotency-Key": idempotencyKey },
           body: { data: payload },
         }
       );
+      console.log("Auth Token ****:::::", authToken)
+      console.log("Status *****:::::: ", status);
 
-      const subscriptionsId = body?.data?.id || body?.id;
+      // let subscriptionsId = body?.data?.id || body?.id;
       if ([200, 201].includes(status)) {
         return NextResponse.redirect(
           `${NEXT_BASE_URL}payment/processing?orderId=${encodeURIComponent(
